@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Menu, Provider,DataTable, DefaultTheme } from 'react-native-paper';
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faMinusCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const theme = {
     ...DefaultTheme,
@@ -25,12 +26,12 @@ export default function CreateIndent({ navigation }) {
 
     const [user_id, setUserId] = useState();
     const [orderId, setOrderId] = useState("Choose Order");
-
-    const [vendor_id, setVendorId] = useState("Choose Vendor");
+    const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:''}]);
+    const [vendor_id, setVendorId] = useState("");
+    const [vendor_email, setVendorEmail] = useState("Choose Vendor");
     const [user, setUser] = useState();
     const [user2, setUser2] = useState();
-    const [margin, setMargin] = useState("");    
-    const [items, setItems] = useState();
+    const [margin, setMargin] = useState("");
     const [order, setOrder] = useState();
     const [host, setHost] = useState("");
 
@@ -57,6 +58,19 @@ export default function CreateIndent({ navigation }) {
         .then(user2 => setUser2(user2));
     }, [user,host]);
     
+    const ItemChange = (index, fieldname, fieldvalue, itemId,unit) => {
+        const values = [...items];
+        if (fieldname === "item") {
+            values[index].itemId = itemId;
+            values[index].itemName = fieldvalue;
+            values[index].itemUnit=unit;
+        }
+        else{
+            values[index].quantity = fieldvalue;
+        }
+        setItems(values);
+    };
+
     function chooseOrder(id) {
         setOrderId(id)
         fetch(`http://localhost:5000/retrive_order/${id}`, {
@@ -68,17 +82,23 @@ export default function CreateIndent({ navigation }) {
         console.log(items);
         closeMenu1();
     }
-    function chooseVendor(id){
+
+    function chooseVendor(id, email){
         setVendorId(id)
+        setVendorEmail(email);
         fetch(`http://localhost:5000/retrive_vendor/${id}`, {
             method: 'GET'
         })        
         .then(res => res.json())
         .catch(error => console.log(error))
-
         closeMenu2();
     }
 
+    const handleRemoveFields = index => {
+        const values = [...items];
+        values.splice(index, 1);
+        setItems(values);
+    };
 
     function submitForm(){
         fetch('http://localhost:5000/newindent', {
@@ -110,16 +130,6 @@ export default function CreateIndent({ navigation }) {
                 <Card style={styles.card}>
                     <Card.Title title="CREATE INDENT"/>
                     <Card.Content>
-                    {/* <CheckBox
-                    style={{flex: 1, padding: 10}}
-                    onClick={()=>{
-                    this.setState({
-                        isChecked:!this.state.isChecked
-                    })
-                    }}
-                    isChecked={this.state.isChecked}
-                    leftText={"CheckBox"}
-                /> */}
                     <Menu
                     visible={visible1}
                     onDismiss={closeMenu1}
@@ -127,7 +137,7 @@ export default function CreateIndent({ navigation }) {
                         {user ?
                             user.map((item)=>{
                                 return (
-                                    <Menu.Item title={item.name + item.address + item._id } onPress={()=>chooseOrder(item._id)} />
+                                    <Menu.Item title={item.name + " ("+ item._id +")"} onPress={()=>chooseOrder(item._id)} />
                                 )
                             })
                             :
@@ -138,37 +148,35 @@ export default function CreateIndent({ navigation }) {
                     <Menu
                     visible={visible2}
                     onDismiss={closeMenu2}
-                    anchor={<Button style={styles.input} mode="outlined"  onPress={openMenu2}>{vendor_id} </Button>}>
+                    anchor={<Button style={styles.input} mode="outlined"  onPress={openMenu2}>{vendor_email} </Button>}>
                         {user2 ?
                             user2.map((item)=>{
                                 return (
-                                    <Menu.Item title={item._id } onPress={()=>chooseVendor(item._id)} />
+                                    <Menu.Item title={item.full_name+" ("+item.email+")" } onPress={()=>chooseVendor(item._id, item.email)} />
                                 )
                             })
                             :
                             <Menu.Item title="No Vendor Available" />
                         }
                     </Menu>
-                    {items && 
-                    <DataTable>
-                        <DataTable.Header style={styles.tableheader} >
-                        <DataTable.Title >Select Box</DataTable.Title>
-                        <DataTable.Title >Item Name </DataTable.Title>
-                        <DataTable.Title >Quantity</DataTable.Title>
-                        </DataTable.Header>
-                        {items && 
-                            items.map((item)=>{
-                                return (
-                                    <DataTable.Row key={item.itemName}> 
-                                        <DataTable.Cell  onChangeText={items => setItems(item.itemName)}  >check box </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.itemName)}  >{item.itemName} </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.quantity)} >{item.quantity} </DataTable.Cell>
-                                    </DataTable.Row>
-                                )
-                            })
-                        }
-                    </DataTable>
-                    }
+                    {items &&
+                    items.map((it, index) => (
+                        <View>
+                            <TextInput mode="outlined" label="Item Name" value={it.itemName} />
+                            <TextInput mode="outlined" label="Unit" value={it.itemUnit} />
+                            <TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} />
+                            <View style={{flexDirection: 'row'}}>
+                                {Platform.OS=="android" ?
+                                    <>
+                                        <FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30} onPress={() => handleRemoveFields(index)}/>
+                                    </>
+                                    :
+                                    <>
+                                        <Button onPress={() => handleRemoveFields(index)} mode="outlined"><FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30}/></Button>                                    </>
+                                }
+                            </View>
+                        </View>
+                    ))}
                     <TextInput style={styles.input} value={margin} onChangeText={margin => setMargin(margin)} mode="outlined"  label="Margin" />
                     <Button mode="contained" onPress ={()=> submitForm() } style={styles.button}>Create Indent</Button>
                     </Card.Content>
