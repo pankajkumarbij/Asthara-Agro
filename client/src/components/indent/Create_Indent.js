@@ -159,13 +159,14 @@ export default function CreateIndent({ navigation }) {
                             <Menu.Item title="No Vendor Available" />
                         }
                     </Menu>
-                    {items &&
-                    items.map((it, index) => (
-                        <View>
-                            <TextInput mode="outlined" label="Item Name" value={it.itemName} />
-                            <TextInput mode="outlined" label="Unit" value={it.itemUnit} />
-                            <TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} />
-                            <View style={{flexDirection: 'row'}}>
+                    {items[0].name!=='Choose Item' &&
+                    <DataTable style={styles.datatable}>
+                    {items.map((it, index) => (
+                        <DataTable.Row>
+                            <DataTable.Cell><TextInput mode="outlined" label="Item Name" value={it.itemName} /></DataTable.Cell>
+                            <DataTable.Cell><TextInput mode="outlined" label="Unit" value={it.itemUnit} /></DataTable.Cell>
+                            <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} /></DataTable.Cell>
+                            <DataTable.Cell><View style={{flexDirection: 'row'}}>
                                 {Platform.OS=="android" ?
                                     <>
                                         <FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30} onPress={() => handleRemoveFields(index)}/>
@@ -174,9 +175,11 @@ export default function CreateIndent({ navigation }) {
                                     <>
                                         <Button onPress={() => handleRemoveFields(index)} mode="outlined"><FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30}/></Button>                                    </>
                                 }
-                            </View>
-                        </View>
+                            </View></DataTable.Cell>
+                        </DataTable.Row>
                     ))}
+                    </DataTable>
+                    }
                     <TextInput style={styles.input} value={margin} onChangeText={margin => setMargin(margin)} mode="outlined"  label="Margin" />
                     <Button mode="contained" onPress ={()=> submitForm() } style={styles.button}>Create Indent</Button>
                     </Card.Content>

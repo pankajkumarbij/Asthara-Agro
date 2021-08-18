@@ -57,8 +57,8 @@ export default function AllIndents({ navigation }) {
 
                     <DataTable.Header>
                         <DataTable.Title>Indent ID</DataTable.Title>
-                        <DataTable.Title numeric>Status</DataTable.Title>
-                        <DataTable.Title numeric>Action</DataTable.Title>
+                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                                                                                                                                                                                                                         
                 {allIndents ?
@@ -68,8 +68,8 @@ export default function AllIndents({ navigation }) {
                         return (
                               <DataTable.Row>
                                 <DataTable.Cell>{indent._id}</DataTable.Cell>
-                                {/* <DataTable.Cell>{item.grade}</DataTable.Cell>*/}
-                                <DataTable.Cell numeric> 
+                                <DataTable.Cell>{indent.status}</DataTable.Cell>
+                                <DataTable.Cell> 
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Indent', {indentId: indent._id})}}>Details</Button>
                                         :
