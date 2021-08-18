@@ -92,7 +92,7 @@ export default function Edit_Indent(props, {route}) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Edit Indent"/>
+                    <Card.Title title="Indent Details"/>
                     <Card.Content>
                     
                     {orderId &&
@@ -106,17 +106,17 @@ export default function Edit_Indent(props, {route}) {
                     {orderId && 
                     <DataTable>
                         <DataTable.Header style={styles.tableheader} >
-                        <DataTable.Title >Select Box</DataTable.Title>
                         <DataTable.Title >Item Name </DataTable.Title>
                         <DataTable.Title >Quantity</DataTable.Title>
+                        <DataTable.Title >Unit</DataTable.Title>
                         </DataTable.Header>
                         {items && 
                             items.map((item)=>{
                                 return (
                                     <DataTable.Row key={item.itemName}> 
-                                        <DataTable.Cell  onChangeText={items => setItems(item.itemName)}  >check box </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.itemName)}  >{item.itemName} </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.quantity)} >{item.quantity} </DataTable.Cell>
+                                        <DataTable.Cell>{item.itemName} </DataTable.Cell>
+                                        <DataTable.Cell>{item.quantity} </DataTable.Cell>
+                                        <DataTable.Cell>{item.unit} </DataTable.Cell>
                                     </DataTable.Row>
                                 )
                             })
@@ -124,8 +124,8 @@ export default function Edit_Indent(props, {route}) {
                     </DataTable>
                     }                   
                     <TextInput style={styles.input} mode="outlined" value={margin}  label="Margin"  onChangeText={margin => setMargin(margin)}/>
-                    <Button mode="contained" onPress={()=>submitForm()} style={styles.button}>Update Indent</Button>
-                    <Button mode="contained" color="red" style={styles.button}>Delete Indent</Button>
+                    {/* <Button mode="contained" onPress={()=>submitForm()} style={styles.button}>Update Indent</Button>
+                    <Button mode="contained" color="red" style={styles.button}>Delete Indent</Button> */}
                     </Card.Content>
                 </Card>
             </View>
