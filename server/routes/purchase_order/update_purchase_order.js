@@ -24,4 +24,25 @@ router.put('/update_purchase_order/:id',(req, res) =>{
     })
 });
 
+router.put('/update_purchase_status/:id',(req, res) =>{
+    var purchase_update = {
+        status: req.body.status,
+    }
+    PurchaseOrder.findOneAndUpdate({'_id':req.params.id}, purchase_update)
+    .then((purchase) => {
+        if(purchase){
+            var message = { message: "Status sucessfully updated" };
+            res.json(message);
+        }else{
+            var message = { message: "Purchase Order not found" };
+            res.json(message);
+        }
+    }).catch(err => {
+        console.log(err);
+        var message = { message:"something went wrong!",success: false, err: err };
+        res.json(message);
+    })
+});
+
+
 module.exports = router;

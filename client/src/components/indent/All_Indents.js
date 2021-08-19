@@ -98,14 +98,14 @@ export default function AllIndents({ navigation }) {
                         return (
                               <DataTable.Row>
                                 <DataTable.Cell>{indent._id}</DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                     <Menu visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{indent.status}</Button>}>
                                     <Menu.Item title="Approve" onPress={()=>StatusChange("Approve", indent._id, index)}/>
                                     <Menu.Item title="Reject" onPress={()=>StatusChange("Reject", indent._id, index)}/>
                                     <Menu.Item title="Pending" onPress={()=>StatusChange("Pending",  indent._id, index)}/>
                                     </Menu>
                                 </DataTable.Cell>
-                                <DataTable.Cell> 
+                                <DataTable.Cell numeric> 
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Indent', {indentId: indent._id})}}>Details</Button>
                                         :
