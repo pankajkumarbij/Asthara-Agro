@@ -135,25 +135,18 @@ export default function Edit_Purchase_Order(props, {route}) {
                     {indent_id && 
                     <DataTable>
                         <DataTable.Header style={styles.tableheader} >
-                        <DataTable.Title ><input type="checkbox" ></input>
-                                         Select All </DataTable.Title>
                         <DataTable.Title >Item Name </DataTable.Title>
+                        <DataTable.Title >Unit</DataTable.Title>
                         <DataTable.Title >Quantity</DataTable.Title>
+
                         </DataTable.Header>
                         {items && 
                             items.map((item)=>{
                                 return (
                                     <DataTable.Row key={item.itemName}> 
-                                        <DataTable.Cell    > 
-                                        <input type="checkbox" 
-                                        name={item.itemName}    
-                                        checked={item?.isChecked || false } 
-                                        onChange={handleCheckbox} />
-                                       
-
-                                         </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.itemName)}  >{item.itemName} </DataTable.Cell>
-                                        <DataTable.Cell  onChangeText={items => setItems(item.quantity)} >{item.quantity} </DataTable.Cell>
+                                        <DataTable.Cell>{item.itemName} </DataTable.Cell>
+                                        <DataTable.Cell>{item.itemUnit} </DataTable.Cell>
+                                        <DataTable.Cell>{item.quantity} </DataTable.Cell>
                                     </DataTable.Row>
                                 )
                             })
@@ -161,8 +154,26 @@ export default function Edit_Purchase_Order(props, {route}) {
                     </DataTable>
                     }                   
                     
-                    <Button mode="contained" onPress={()=>submitForm()} style={styles.button}>Update Purchase Order</Button>
-                    <Button mode="contained" color="red" style={styles.button}>Delete Purchase Order</Button>
+                    {/* {indent_id && 
+                    <DataTable>
+                        <DataTable.Header style={styles.tableheader} >
+                        <DataTable.Title >Item Name </DataTable.Title>
+                        <DataTable.Title >Quantity</DataTable.Title>
+                        <DataTable.Title >Unit</DataTable.Title>
+                        </DataTable.Header>
+                        {items && 
+                            items.map((item)=>{
+                                return (
+                                    <DataTable.Row key={item.itemName}> 
+                                        <DataTable.Cell>{item.itemName} </DataTable.Cell>
+                                        <DataTable.Cell>{item.quantity} </DataTable.Cell>
+                                        <DataTable.Cell>{item.unit} </DataTable.Cell>
+                                    </DataTable.Row>
+                                )
+                            })
+                        }
+                    </DataTable>
+                    }                   */}
                     </Card.Content>
                 </Card>
             </View>

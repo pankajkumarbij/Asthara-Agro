@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
-import { TextInput, Card, Button, Menu, Provider,DataTable, DefaultTheme } from 'react-native-paper';
+import { TextInput, Card, Button, Menu, Provider, DataTable, DefaultTheme } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMinusCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 

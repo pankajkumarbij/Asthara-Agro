@@ -67,6 +67,7 @@ export default function All_Purchase_Orders({ navigation }) {
                          return (
                               <DataTable.Row>
                                 <DataTable.Cell>{purchaseOrder._id}</DataTable.Cell>
+                                <DataTable.Cell numeric>{purchaseOrder.status}</DataTable.Cell>
                                 <DataTable.Cell numeric> 
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Details</Button>

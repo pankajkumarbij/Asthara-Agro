@@ -124,8 +124,6 @@ export default function Edit_Indent(props, {route}) {
                     </DataTable>
                     }                   
                     <TextInput style={styles.input} mode="outlined" value={margin}  label="Margin"  onChangeText={margin => setMargin(margin)}/>
-                    {/* <Button mode="contained" onPress={()=>submitForm()} style={styles.button}>Update Indent</Button>
-                    <Button mode="contained" color="red" style={styles.button}>Delete Indent</Button> */}
                     </Card.Content>
                 </Card>
             </View>
