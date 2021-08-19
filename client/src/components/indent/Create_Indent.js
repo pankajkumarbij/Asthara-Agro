@@ -34,6 +34,7 @@ export default function CreateIndent({ navigation }) {
     const [margin, setMargin] = useState("");
     const [order, setOrder] = useState();
     const [host, setHost] = useState("");
+    const [flag, setFlag] = useState(false);
 
     useEffect(() => {
         if(Platform.OS=="android"){
@@ -78,7 +79,10 @@ export default function CreateIndent({ navigation }) {
         })
         .then(res => res.json())
         .catch(error => console.log(error))
-        .then(order => setItems(order[0].items));
+        .then(order => {
+            setItems(order[0].items);
+            setFlag(true);
+        });
         console.log(items);
         closeMenu1();
     }
@@ -156,7 +160,7 @@ export default function CreateIndent({ navigation }) {
                             <Menu.Item title="No Vendor Available" />
                         }
                     </Menu>
-                    {items &&
+                    {items && flag &&
                     <DataTable style={styles.datatable}>
                     {items.map((it, index) => (
                         <DataTable.Row>
