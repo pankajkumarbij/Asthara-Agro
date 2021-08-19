@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator  } from 'react-native';
-import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
+import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +21,7 @@ export default function AllIndents({ navigation }) {
     const [allIndents, setAllIndents] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
+    const [visible, setVisible] = useState([]);
 
     useEffect(() => {
         if(Platform.OS=="android"){
@@ -37,6 +38,35 @@ export default function AllIndents({ navigation }) {
         .then(allIndents => setAllIndents(allIndents));
     }, [allIndents, host]);
 
+    const openMenu = (index) => {
+        const values = [...visible];
+        values[index]=true;
+        setVisible(values);
+    };
+    const closeMenu = (index) => {
+        const values = [...visible];
+        values[index]=false;
+        setVisible(values);
+    };
+
+    const StatusChange = (s, id, index) => {
+        fetch(`http://${host}:5000/update_indent_status/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: s,
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+            console.log(data);
+        });
+        closeMenu(index);
+    };
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -62,14 +92,20 @@ export default function AllIndents({ navigation }) {
                     </DataTable.Header>
                                                                                                                                                                                                                         
                 {allIndents ?
-                    allIndents.map((indent)=>{
+                    allIndents.map((indent,index)=>{
                          if(indent._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                        
                         return (
                               <DataTable.Row>
                                 <DataTable.Cell>{indent._id}</DataTable.Cell>
-                                <DataTable.Cell numeric>{indent.status}</DataTable.Cell>
-                                <DataTable.Cell numeric> 
+                                <DataTable.Cell>
+                                    <Menu visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{indent.status}</Button>}>
+                                    <Menu.Item title="Approve" onPress={()=>StatusChange("Approve", indent._id, index)}/>
+                                    <Menu.Item title="Reject" onPress={()=>StatusChange("Reject", indent._id, index)}/>
+                                    <Menu.Item title="Pending" onPress={()=>StatusChange("Pending",  indent._id, index)}/>
+                                    </Menu>
+                                </DataTable.Cell>
+                                <DataTable.Cell> 
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Indent', {indentId: indent._id})}}>Details</Button>
                                         :

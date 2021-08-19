@@ -26,7 +26,7 @@ const indentSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        default:0,
+        default:"pending",
     },
     remark:{
         type:String,
