@@ -17,8 +17,9 @@ router.post('/create_purchase_order', (req, res)=>{
 
     })
     newPurchaseOrder.save()
-    .then(purchase_order => {
-        res.json(purchase_order);
+    .then(post => {
+        var message={message:"successfully Purchase Order Created"};
+        res.json(message);
     })
     .catch(err => res.json(err));
 });

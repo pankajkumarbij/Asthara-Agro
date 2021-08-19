@@ -28,12 +28,11 @@ export default function Create_Purchase_Order({ navigation }) {
     const [user_id, setUserId] = useState();
     const [user, setUser] = useState();
     const [user2, setUser2] = useState();
-    // const [items, setItems] = useState();
     const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:''}]);
-
     const [purchase, setPurchase] = useState();
     const [host, setHost] = useState("");
-    
+    const [flag, setFlag] = useState(false);
+
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -71,7 +70,11 @@ export default function Create_Purchase_Order({ navigation }) {
         })        
         .then(res => res.json())
         .catch(error => console.log(error))
-        .then(order => setItems(order[0].items));
+        // .then(order => setItems(order[0].items));
+        .then(order => {
+            setItems(order[0].items);
+            setFlag(true);
+        });
         console.log(items);  
         closeMenu1();
     }
@@ -103,6 +106,7 @@ export default function Create_Purchase_Order({ navigation }) {
         }).then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
+             alert(data.message);
             console.log(data);
             setIndentId("Choose Indent");
             setItems("");
@@ -132,7 +136,7 @@ export default function Create_Purchase_Order({ navigation }) {
                             <Menu.Item title="No Indent Available" />
                         }
                     </Menu>
-                    {items[0].name!=='Choose Item' &&
+                    {items && flag &&
                     <DataTable style={styles.datatable}>
                     {items.map((it, index) => (
                         <DataTable.Row>
@@ -153,6 +157,27 @@ export default function Create_Purchase_Order({ navigation }) {
                     ))}
                     </DataTable>
                     }
+                    {/* {items[0].name!=='Choose Item' &&
+                    <DataTable style={styles.datatable}>
+                    {items.map((it, index) => (
+                        <DataTable.Row>
+                            <DataTable.Cell><TextInput mode="outlined" label="Item Name" value={it.itemName} /></DataTable.Cell>
+                            <DataTable.Cell><TextInput mode="outlined" label="Unit" value={it.itemUnit} /></DataTable.Cell>
+                            <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} /></DataTable.Cell>
+                            <DataTable.Cell><View style={{flexDirection: 'row'}}>
+                                {Platform.OS=="android" ?
+                                    <>
+                                        <FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30} onPress={() => handleRemoveFields(index)}/>
+                                    </>
+                                    :
+                                    <>
+                                        <Button onPress={() => handleRemoveFields(index)} mode="outlined"><FontAwesomeIcon icon={ faMinusCircle } color={ 'red' } size={30}/></Button>                                    </>
+                                }
+                            </View></DataTable.Cell>
+                        </DataTable.Row>
+                    ))}
+                    </DataTable>
+                    } */}
                     {/* {items && 
                         <DataTable>
                             <DataTable.Header style={styles.tableheader} >
