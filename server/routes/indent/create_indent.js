@@ -5,7 +5,6 @@ const Indent=require('../../models/indent/indent')
 router.post('/newindent',(req,res)=>{
     var newPost = new Indent({
         requestedBy:req.body.userId,
-        
         orderId:req.body.orderId,
         items:req.body.items,
         user_id:req.body.user_id,
@@ -15,8 +14,8 @@ router.post('/newindent',(req,res)=>{
     })
     newPost.save()
     .then(post => {
-        res.json(post);
-        console.log("save in data base"+Indent);
+        var message={message:"successfully indent created"};
+        res.json(message);
     })
     .catch(err => res.json(err))
 });

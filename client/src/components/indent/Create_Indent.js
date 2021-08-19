@@ -116,11 +116,8 @@ export default function CreateIndent({ navigation }) {
         }).then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
+            alert(data.message);
             console.log(data);
-            setOrderId("Choose Order");
-            setVendorId("Choose Vendor");
-            setItems("");
-            setMargin("");
         }); 
     }
 
@@ -159,7 +156,7 @@ export default function CreateIndent({ navigation }) {
                             <Menu.Item title="No Vendor Available" />
                         }
                     </Menu>
-                    {items[0].name!=='Choose Item' &&
+                    {items &&
                     <DataTable style={styles.datatable}>
                     {items.map((it, index) => (
                         <DataTable.Row>
