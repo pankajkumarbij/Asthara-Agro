@@ -285,7 +285,7 @@ export default function CreateOrder({ navigation }) {
                                         if(item.item_name.toUpperCase().search(searchQuery1.toUpperCase())!=-1){
                                         return (
                                             <>
-                                            <Menu.Item title={item.item_name+" ("+item.grade+") "} onPress={()=>ItemChange(index, "item", item.item_name, item._id,item.unit)}/>
+                                            <Menu.Item title={item.item_name+" ("+item.grade+") "} onPress={()=>ItemChange(index, "item", item.item_name, item._id,item.unit_name)}/>
                                             </>
                                         )
                                         }
