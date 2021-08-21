@@ -14,9 +14,9 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define all item components
 export default function AllItems({ navigation }) {
-
+    //initialize the all states variables
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
@@ -87,7 +87,7 @@ export default function AllItems({ navigation }) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     view: {
         ...Platform.select({

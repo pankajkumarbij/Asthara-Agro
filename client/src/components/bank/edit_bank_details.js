@@ -11,7 +11,7 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define edit bank details component
 export default function EditBankDetails(props, {route}) {
 
     var bankid = "";
@@ -22,7 +22,7 @@ export default function EditBankDetails(props, {route}) {
     else{
        bankid = props.match.params.bankid;
     }
-
+    //initialize all required state variables
     const [bankId,setBankId]=useState("");
     const [userId, setUserId] = useState('');
     const [bankName, setBankName] = useState("");
@@ -31,7 +31,7 @@ export default function EditBankDetails(props, {route}) {
     const [accountHolderName, setAccountHolderName] = useState("");
     const [ifsccode, setIfsccode] = useState("");
     const [host, setHost] = useState("");
-
+    //fetch corresponding the bank details data for edit
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -58,7 +58,7 @@ export default function EditBankDetails(props, {route}) {
             });
         }
     }, [host,id,bankId,bankid]);
-
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/update_bank/${bankId}`, {
             method: 'PUT',
@@ -86,7 +86,7 @@ export default function EditBankDetails(props, {route}) {
             setIfsccode("");
         }); 
     }
-
+    //define all the required input fields
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
@@ -105,7 +105,7 @@ export default function EditBankDetails(props, {route}) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

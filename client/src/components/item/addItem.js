@@ -14,9 +14,9 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define add items component
 export default function AddItem({ navigation }) {
-
+    //initialize all required state variables
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
@@ -43,7 +43,7 @@ export default function AddItem({ navigation }) {
     const [itemDescription, setDescription,] = useState("");
     const [unit,setUnit]=useState("Select unit of each item");
     const [host, setHost] = useState("");
-
+    //fetch all required item categories, units, grades
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -90,7 +90,7 @@ export default function AddItem({ navigation }) {
         setUnit(name);
         closeMenu3();
     }
-    
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/create_item`, {
             method: 'POST',
@@ -220,7 +220,7 @@ export default function AddItem({ navigation }) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

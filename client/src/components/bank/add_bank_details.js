@@ -12,9 +12,9 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define add bank details component
 export default function AddBankDetails({ navigation }) {
-
+    //initialize all required state variables
     const [userId, setUserId] = useState('');
     const [bankName, setBankName] = useState("");
     const [branchName, setBranchName] = useState("");
@@ -22,7 +22,7 @@ export default function AddBankDetails({ navigation }) {
     const [accountHolderName, setAccountHolderName] = useState("");
     const [ifsccode, setIfsccode] = useState("");
     const [host, setHost] = useState("");
-
+    //fetch login user information for store corresponding the bank details data
     useEffect(() => {
         async function fetchData() {
             await AsyncStorage.getItem('loginuserid')
@@ -38,7 +38,7 @@ export default function AddBankDetails({ navigation }) {
             setHost("localhost");
         }
     }, [host]);
-
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/create_bank`, {
             method: 'POST',
@@ -66,7 +66,7 @@ export default function AddBankDetails({ navigation }) {
             setIfsccode("");
         }); 
     }
-
+    //define all the required input fields
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
@@ -85,7 +85,7 @@ export default function AddBankDetails({ navigation }) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

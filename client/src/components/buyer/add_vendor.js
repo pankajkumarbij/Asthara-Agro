@@ -11,9 +11,9 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define add vendor component
 export default function Buyer_add_vendor(){
-
+    //initialize all required state variables
     const [fullname,setFullname] = useState("");
     const [email,setEmail] = useState("");
     const [mobile_no,SetMobile_no] = useState("");
@@ -22,7 +22,7 @@ export default function Buyer_add_vendor(){
     const [confirm_password,setConfirm_password] = useState("");
     const [category,setCategory] = useState("");
     const [role,setRole]=useState("");
-
+    //fetch vendor category information
     useEffect(() => {
         fetch('http://localhost:5000/retrive_user_category_type/vendor', {
             method: 'GET'
@@ -33,7 +33,7 @@ export default function Buyer_add_vendor(){
             setRole(data[0].category_name);
         });
     }, []);
-
+    //define a function for sending the data in corresponding database
     function submitForm(){
         fetch('http://localhost:5000/create_user/', {
             method: 'POST',
@@ -60,7 +60,7 @@ export default function Buyer_add_vendor(){
         setPassword("");
         setConfirm_password("");
     }
-
+    //define all the required input fields
     return (
         <Provider theme={theme}>
             <ScrollView keyboardDismissMode="interactive" >
@@ -82,6 +82,7 @@ export default function Buyer_add_vendor(){
         </Provider>
     );
 };
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',
