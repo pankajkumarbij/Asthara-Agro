@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Address = require('../../models/address/address');
-
+//Define route for create address
 router.post('/create_address', (req, res)=>{
     var newAddress = new Address({
         userId: req.body.userId,

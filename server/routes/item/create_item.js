@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Item = require('../../models/item/item');
-
+//Define Route to create the item
 router.post('/create_item', (req, res)=>{
     var newItem = new Item({
         category: req.body.category,

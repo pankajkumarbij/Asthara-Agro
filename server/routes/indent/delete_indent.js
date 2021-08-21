@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+/* Required Model for store in database*/
 const Indent=require('../../models/indent/indent')
-
+//Define Route to delete indent by indent_id
 router.get('/deleteindent/:id',(req, res) =>{ 
     Indent.findOneAndRemove({'_id':req.params.id})
     .then((indent) => {

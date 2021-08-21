@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+/* Required Model for store in database*/
 const inventoryType = require('../../models/inventoryType/inventoryType');
-
+//Deffine Route to update the  inventory type by id
 router.put('/update_inventory_type/:id',(req, res) =>{ 
     var newupdate = {
         inventory_type: req.body.inventory_type,

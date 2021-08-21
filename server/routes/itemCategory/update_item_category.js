@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const ItemCategory = require('../../models/itemCategory/item_category');
-
+//DEfine Route to update item category by id
 router.put('/update_item_category/:id',(req, res) =>{
     var category_update = {
         category_name: req.body.category_name,

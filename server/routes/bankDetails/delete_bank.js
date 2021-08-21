@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Bank = require('../../models/bankDetails/bank');
-
+//Define route to delete bank details
 router.get('/delete_bank/:id',(req, res) =>{ 
     Bank.findOneAndRemove({'_id':req.params.id})
     .then((bank) => {
