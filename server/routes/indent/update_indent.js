@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+/* Required Model for store in database*/
 const Indent=require('../../models/indent/indent')
-
+//DEfine route to update indent by indent id
 router.put('/updateindent/:id',(req, res) =>{ 
     var newupdate = {
         userId:req.params.userId,
@@ -27,6 +28,7 @@ router.put('/updateindent/:id',(req, res) =>{
         res.json(message);
     })
 });
+//DEfine Route to update status of indent 
 router.put('/update_indent_status/:id',(req, res) =>{
     var order_update = {
         status: req.body.status,

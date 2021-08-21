@@ -122,6 +122,10 @@ export default function CreateIndent({ navigation }) {
         .then(data => {
             alert(data.message);
             console.log(data);
+            setOrderId("Choose Order");
+            setVendorEmail("Choose Vendor");
+            setItems("");
+            setMargin("");
         }); 
     }
 

@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+/* Required Model for store in database*/
 const Grn=require('../../models/grn/grn')
-
+//DEfine route to create GRN
 router.post('/newgrn',(req,res)=>{
     var newPost = new Grn({
         userId:req.body.userId,

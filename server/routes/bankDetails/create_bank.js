@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Bank = require('../../models/bankDetails/bank');
-
+//Define Route to create Bank details
 router.post('/create_bank', (req, res)=>{
     var newBank = new Bank({
         userId: req.body.userId,

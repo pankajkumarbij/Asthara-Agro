@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const ItemCategory = require('../../models/itemCategory/item_category');
-
+//Define ROute to delete the item category by id
 router.get('/delete_item_category/:id',(req, res) =>{ 
     ItemCategory.findOneAndRemove({'_id':req.params.id})
     .then((category) => {

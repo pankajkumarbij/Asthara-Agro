@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Delivery_assignment = require('../../models/delivery_assignment/delivery_assignment');
-
+//DEfine ROute to save delivery assignment
 router.post('/delivery_assignment', (req, res)=>{
     var newDelivery = new Delivery_assignment({
         

@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const User = require('../../models/user/user');
 const bcrypt = require('bcrypt');
 
-
+//DEfien route to reset password
 router.put('/reset_password/',(req, res) =>{
     bcrypt.hash(req.body.password, 12, function(err, hash){
     var user_update = {

@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+/* Required Model for store in database*/
 const Grn=require('../../models/grn/grn')
-
+//DEfine ROute to update GRN by id
 router.put('/updategrn/:id',(req, res) =>{ 
     var newupdate = {
         userId:req.params.userId,

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Address = require('../../models/address/address');
-
+//Define route to delete the address by Id
 router.get('/delete_address/:id',(req, res) =>{ 
     Address.findOneAndRemove({'_id':req.params.id})
     .then((address) => {

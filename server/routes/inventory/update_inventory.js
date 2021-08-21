@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const UpdateInventory = require('../../models/inventory/inventory');
-
+//DEfine the Route to update inventory
 router.post('/update_inventory', (req, res)=>{
     var newInventory = new UpdateInventory({
         
