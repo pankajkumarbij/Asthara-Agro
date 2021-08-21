@@ -14,13 +14,13 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define show vendor details component
 export default function Vendor_details({ navigation }) {
 
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
-
+    //fetch all vendor details from the database
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -37,7 +37,7 @@ export default function Vendor_details({ navigation }) {
     }, [allItems, host]);
 
     const onChangeSearch = query => setSearchQuery(query);
-
+    //show all the vendor details in datatable with search bar
     return (
         <Provider theme={theme}>
         <SafeAreaView>
@@ -87,7 +87,7 @@ export default function Vendor_details({ navigation }) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     view: {
         ...Platform.select({

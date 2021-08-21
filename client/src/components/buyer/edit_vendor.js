@@ -12,9 +12,9 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define edit vendor component
 export default function EditVendor(props,{route}) {
-
+    //fetch corresponding vendor id for edit the data
     var vendorid = "";
     var id="";
     if(Platform.OS=="android"){
@@ -23,13 +23,14 @@ export default function EditVendor(props,{route}) {
     else{
         vendorid = props.match.params.vendorid;
     }
-
+    //initialize all required state variables
     const [vendorId, setVendorId] = useState("");
     const [full_name, setFull_name] = useState("");
     const [email, setEmail] = useState("");
     const [gst, setGst] = useState("");
     const [mobile_no, setMobile_no] = useState("");
     const [host, setHost] = useState("");
+    //fetch corresponding vendor details for edit
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -53,9 +54,7 @@ export default function EditVendor(props,{route}) {
             });
         }
     }, [host,vendorId,id,vendorid]);
-
-    
-
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/update_vendor/${vendorId}`, {
             method: 'PUT',
@@ -77,7 +76,7 @@ export default function EditVendor(props,{route}) {
             console.log(data);
         }); 
     }
-
+    //define all the required input fields
     return (
         <Provider theme={theme}>
             <ScrollView keyboardDismissMode="interactive" >
@@ -97,6 +96,7 @@ export default function EditVendor(props,{route}) {
         </Provider>
     );
 };
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

@@ -12,8 +12,9 @@ const theme = {
     },
 };
 
+//define edit address component
 export default function EditAddress(props, {route}) {
-
+    //fetch address id for edit the address
     var addressid = "";
     var id="";
     if(Platform.OS=="android"){
@@ -23,6 +24,7 @@ export default function EditAddress(props, {route}) {
         addressid = props.match.params.addressid;
     }
 
+    //initialize all required state variables
     const [addressId,setAddressId]=useState("");
     const [userId, setUserId] = useState('');
     const [address, setAddress] = useState('');
@@ -32,7 +34,7 @@ export default function EditAddress(props, {route}) {
     const [country, setCountry] = useState('');
     const [pincode, setPincode] = useState('');
     const [host, setHost] = useState('');
-
+    //fetch already stored address details for edit details 
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -59,7 +61,7 @@ export default function EditAddress(props, {route}) {
             });
         }
     }, [host,id,addressId,addressid]);
-
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/update_address/${addressId}`, {
             method: 'PUT',
@@ -83,7 +85,7 @@ export default function EditAddress(props, {route}) {
             console.log(data);
         }); 
     }
-
+    //define all the required input fields for edit corresponding data
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
@@ -103,7 +105,7 @@ export default function EditAddress(props, {route}) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

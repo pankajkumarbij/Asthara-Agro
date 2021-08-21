@@ -13,8 +13,9 @@ const theme = {
     },
 };
 
+//define add address component
 export default function AddAddress({ navigation }) {
-
+    //initialize all required state variables
     const [userId, setUserId] = useState('');
     const [address, setAddress] = useState('');
     const [landmark, setLandmark] = useState('');
@@ -23,7 +24,7 @@ export default function AddAddress({ navigation }) {
     const [country, setCountry] = useState('');
     const [pincode, setPincode] = useState('');
     const [host, setHost] = useState('');
-
+    //fetch login user information for store corresponding the address data
     useEffect(() => {
         async function fetchData() {
             await AsyncStorage.getItem('loginuserid')
@@ -39,7 +40,7 @@ export default function AddAddress({ navigation }) {
             setHost("localhost");
         }
     }, [host, userId]);
-
+    //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/create_address`, {
             method: 'POST',
@@ -69,7 +70,7 @@ export default function AddAddress({ navigation }) {
             setPincode("");
         }); 
     }
-
+    //define all the required input fields
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
@@ -89,7 +90,7 @@ export default function AddAddress({ navigation }) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',

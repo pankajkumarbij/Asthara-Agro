@@ -14,7 +14,7 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define edit item component
 export default function EditItem(props,{route}) {
 
     var itemid = "";
@@ -25,7 +25,7 @@ export default function EditItem(props,{route}) {
     else{
         itemid = props.match.params.itemid;
     }
-
+    //define state variables
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const [visible3, setVisible3] = useState(false);
@@ -133,7 +133,7 @@ export default function EditItem(props,{route}) {
         setUnit(name);
         closeMenu3();
     }
-
+    //define submit function for sending the data into database
     function submitForm() {
         fetch(`http://${host}:5000/update_item/${itemId}`, {
             method: 'PUT',
@@ -255,7 +255,7 @@ export default function EditItem(props,{route}) {
         </Provider>
     );
 }
-
+//define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
         alignSelf: 'center',
