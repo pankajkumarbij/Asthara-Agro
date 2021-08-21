@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const ItemUnit = require('../../models/itemUnit/item_unit');
-
+//Define ROute to delete the item unit by id
 router.get('/delete_item_unit/:id',(req, res) =>{ 
     ItemUnit.findOneAndRemove({'_id':req.params.id})
     .then((unit) => {

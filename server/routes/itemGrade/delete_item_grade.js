@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const ItemGrade = require('../../models/itemGrade/item_grade');
-
+//Define Route delete item Grade
 router.get('/delete_item_grade/:id',(req, res) =>{ 
     ItemGrade.findOneAndRemove({'_id':req.params.id})
     .then((grade) => {

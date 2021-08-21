@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Order = require('../../models/order/order');
-
+//Define Route to create order 
 router.post('/create_order', (req, res)=>{
     var newOrder = new Order({
         name: req.body.name,

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Order = require('../../models/order/order');
-
+//Define ROute to  retrive all orders 
 router.get('/retrive_all_order',(req, res)=>{
     Order.find({}, function(err, orders){
         if(err){

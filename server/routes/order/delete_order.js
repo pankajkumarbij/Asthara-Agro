@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Order = require('../../models/order/order');
-
+//Define Route to delte order by id
 router.get('/delete_order/:id',(req, res) =>{ 
     Order.findOneAndRemove({'_id':req.params.id})
     .then((order) => {

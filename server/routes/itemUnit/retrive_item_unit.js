@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const ItemUnit = require('../../models/itemUnit/item_unit');
-
+//Define route to retrive all item units
 router.get('/retrive_all_item_unit',(req, res)=>{
     ItemUnit.find({}, function(err, units){
         if(err){

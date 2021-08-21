@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+/* Required Model for store in database*/
 const Order = require('../../models/order/order');
-
+//Define Route update order by id
 router.put('/update_order/:id',(req, res) =>{
     var order_update = {
         name: req.body.name,
@@ -30,7 +31,7 @@ router.put('/update_order/:id',(req, res) =>{
         res.json(message);
     })
 });
-
+//define route update to status by id
 router.put('/update_status/:id',(req, res) =>{
     var order_update = {
         status: req.body.status,
