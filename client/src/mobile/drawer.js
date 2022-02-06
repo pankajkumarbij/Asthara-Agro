@@ -20,6 +20,8 @@ const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({navigation}) {
 
+    const [visible6, setVisible6] = useState(false);
+    const [visible2, setVisible2] = useState(false);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [roleas, setRoleas] = useState("");
@@ -41,7 +43,7 @@ function CustomDrawerContent({navigation}) {
             }
         }
         fetchData();
-    }, [email, role, flag]);
+    }, [flag]);
 
     function changeRole(r){
         setRoleas(r);
@@ -56,10 +58,10 @@ function CustomDrawerContent({navigation}) {
         console.log("Logout Success");
     }
 
-    const [visible6, setVisible6] = useState(false);
-
     const openMenu6 = () => setVisible6(true);
     const closeMenu6 = () => setVisible6(false);
+    const openMenu2 = () => setVisible2(true);
+    const closeMenu2 = () => setVisible2(false);
 
     return (
         <Provider theme={theme}> 
