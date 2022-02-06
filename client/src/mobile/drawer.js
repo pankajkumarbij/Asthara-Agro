@@ -56,23 +56,8 @@ function CustomDrawerContent({navigation}) {
         console.log("Logout Success");
     }
 
-    const [visible1, setVisible1] = useState(false);
-    const [visible2, setVisible2] = useState(false);
-    const [visible3, setVisible3] = useState(false);
-    const [visible4, setVisible4] = useState(false);
-    const [visible5, setVisible5] = useState(false);
     const [visible6, setVisible6] = useState(false);
 
-    const openMenu1 = () => setVisible1(true);
-    const closeMenu1 = () => setVisible1(false);
-    const openMenu2 = () => setVisible2(true);
-    const closeMenu2 = () => setVisible2(false);
-    const openMenu3 = () => setVisible3(true);
-    const closeMenu3 = () => setVisible3(false);
-    const openMenu4 = () => setVisible4(true);
-    const closeMenu4 = () => setVisible4(false);
-    const openMenu5 = () => setVisible5(true);
-    const closeMenu5 = () => setVisible5(false);
     const openMenu6 = () => setVisible6(true);
     const closeMenu6 = () => setVisible6(false);
 
@@ -117,85 +102,7 @@ function CustomDrawerContent({navigation}) {
             visible={visible2}
             onDismiss={closeMenu2}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu2}>Dashboard</Button>}>
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager") &&
                 <Menu.Item title="Add Item" onPress={() => {navigation.navigate('AddItem')}} />
-            }
-                <Menu.Item title="All Items" onPress={() => {navigation.navigate('AllItems')}} />
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager") &&
-                <Menu.Item title="Add Item Category" onPress={() => {navigation.navigate('AddItemCategory')}} />
-            }
-            <Menu.Item title="All Item Category" onPress={() => {navigation.navigate('AllItemCategories')}} />
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager") &&
-                <Menu.Item title="Add Item Unit" onPress={() => {navigation.navigate('AddItemUnit')}} />
-            }
-            <Menu.Item title="All Item Unit" onPress={() => {navigation.navigate('AllItemUnits')}} />
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager") &&
-                <Menu.Item title="Add Item Grade" onPress={() => {navigation.navigate('AddItemGrade')}} />
-            }
-            <Menu.Item title="All Item Grade" onPress={() => {navigation.navigate('AllItemGrades')}} />
-            {(roleas=="sales" || roleas=="manager") &&
-                <Menu.Item title="Create Order" onPress={() => {navigation.navigate('CreateOrder')}} />
-            }
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager" || roleas=="accountant") &&
-                <Menu.Item title="All Orders" onPress={() => {navigation.navigate('AllOrders')}} />
-            }
-            {(roleas=="buyer" || roleas=="manager") &&
-            <>
-                <Menu.Item title="Create Indent" onPress={() => {navigation.navigate('Create_Indent')}} />
-                <Menu.Item title="All Indents" onPress={() => {navigation.navigate('All_Indents')}} />
-                <Menu.Item title="Create Purchase Order" onPress={() => {navigation.navigate('Create_Purchase_Order')}} />
-                {/* <Menu.Item title="All Purchase Orders" onPress={() => {navigation.navigate('All_Purchase_Orders')}} /> */}
-            </>
-            }
-            {(roleas=="vendor" || roleas=="buyer" || roleas=="manager" || roleas=="accountant") &&
-                <Menu.Item title="All Purchase Orders" onPress={() => {navigation.navigate('All_Purchase_Orders')}} />
-            }
-            </Menu>
-            <Menu
-            visible={visible1}
-            onDismiss={closeMenu1}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu1}>User Management</Button>}>
-            {roleas=="manager" &&
-            <>
-                <Menu.Item title="Add User" onPress={() => {navigation.navigate('Register')}} />
-                <Menu.Item title="All Users" onPress={() => {navigation.navigate('AllUsers')}} />
-                <Menu.Item title="Add User Category" onPress={() => {navigation.navigate('AddUserCategory')}} />
-                <Menu.Item title="All User Category" onPress={() => {navigation.navigate('AllUserCategories')}} />
-            </>
-            }
-            {(roleas=="sales" || roleas=="buyer" || roleas=="manager") &&
-            <>
-                <Menu.Item title="Add Vendor" onPress={() => {navigation.navigate('AddVendor')}} />
-                <Menu.Item title="All Vendors" onPress={() => {navigation.navigate('AllVendors')}} />
-            </>
-            }
-            {(roleas=="sales" || roleas=="manager") &&
-            <>
-                <Menu.Item title="Add Customer" onPress={() => {navigation.navigate('AddCustomer')}} />
-                <Menu.Item title="All Customers" onPress={() => {navigation.navigate('AllCustomers')}} />
-            </>
-            }
-            </Menu>
-            <Menu
-            visible={visible5}
-            onDismiss={closeMenu5}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu5}>Reports</Button>}>
-                <Menu.Item title="Items" onPress={() => {navigation.navigate('AddItem')}} />
-                <Menu.Item title="Sales Order" onPress={() => {navigation.navigate('AllItems')}} />
-            </Menu>
-            <Menu
-            visible={visible4}
-            onDismiss={closeMenu4}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu4}>Inventory</Button>}>
-                <Menu.Item title="Show Inventory" onPress={() => {navigation.navigate('AddItem')}} />
-                <Menu.Item title="All Inventories" onPress={() => {navigation.navigate('Home')}} />
-            </Menu>
-            <Menu
-            visible={visible3}
-            onDismiss={closeMenu3}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu3}>Assignments</Button>}>
-                <Menu.Item title="Delivery" onPress={() => {navigation.navigate('AddItem')}} />
-                <Menu.Item title="Show All Delivery" onPress={() => {navigation.navigate('Home')}} />
             </Menu>
         </Provider> 
     );
