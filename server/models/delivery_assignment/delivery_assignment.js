@@ -16,7 +16,7 @@ const delivery_assignmentSchema = new mongoose.Schema({
 
     vendor_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Vendor'
+        ref:'User'
     },
     invoice_id:{
         type:mongoose.Schema.Types.ObjectId,

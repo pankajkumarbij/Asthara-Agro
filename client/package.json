@@ -20,9 +20,12 @@
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
-    "axios": "^0.21.1",
+    "@sweetalert/with-react": "^0.1.1",
+    "axios": "^0.21.4",
     "bootstrap": "^5.0.2",
     "chokidar": "^2.1.8",
+    "emailjs-com": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "react": "17.0.1",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
@@ -37,7 +40,8 @@
     "react-native-svg": "^12.1.1",
     "react-native-web": "^0.17.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "@babel/core": "7.14.6",

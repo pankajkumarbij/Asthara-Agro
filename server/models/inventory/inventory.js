@@ -2,62 +2,45 @@ const mongoose = require('mongoose');
 require('@mongoosejs/double');
 const inventorySchema = new mongoose.Schema({
     
-    // inventory_date:{
-    //     type: timestamp,
-        
-    // },
-    // inventory_time:{
-    //     type: timestamp,
-    // },
     inventory_type:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'InventoryCategory',
     },
-
-    // griding:{
-    //     type: String,
-    // },// 1=grid1, 2=grid2, 3=grid3, 4=grid4
-    // item_id:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Item',
-    // },
-
-
-    item_description:[{
-        itemId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Item',
-        },
-        quantity:{
-            type:Number,
-            default:0,
-        },
-        griding:{
-            type: String,
-        },
-        unit_of_measurement:{
-            type:String,
-        },
-        price:{
-            type: mongoose.Schema.Types.Double,
-            required:true,
-        },
-    }],
+    items:{
+        type:mongoose.Schema.Types.Mixed,
+        ref:'items'
+    },
     purchase_order_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'PurchaseOrder',
     },
+    purchase_order_confirm_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PurchaseOrderConfirm',
+    },
     emp_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
+        ref: 'User',
     },
     indent_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Indent',
     },
+    order_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+    },
     vendor_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vendor',
+        ref: 'User',
+    },
+    buyer_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    pickupAssignId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PickupAssignConfirm',
     },
     remark: {
         type: String,
@@ -67,6 +50,8 @@ const inventorySchema = new mongoose.Schema({
         type: String,
         default:"",
     }
+    }, {
+    timestamps: true
 });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);

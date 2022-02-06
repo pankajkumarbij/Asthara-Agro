@@ -41,7 +41,7 @@ export default function Create_Purchase_Order({ navigation }) {
             setHost("localhost");
         }
 
-        fetch(`http://${host}:5000/displayindent`, {
+        fetch(`http://${host}:5000/displayindent_approved`, {
             method: 'GET'
         })
         .then(res => res.json())
@@ -59,6 +59,18 @@ export default function Create_Purchase_Order({ navigation }) {
         }
         else{
             values[index].quantity = fieldvalue;
+        }
+        setItems(values);
+    };
+    const ItemChange2 = (index, fieldname, fieldvalue, itemId,unit) => {
+        const values = [...items];
+        if (fieldname === "item") {
+            values[index].itemId = itemId;
+            values[index].itemName = fieldvalue;
+            values[index].itemUnit=unit;
+        }
+        else{
+            values[index].itemPrice = fieldvalue;
         }
         setItems(values);
     };
@@ -143,6 +155,7 @@ export default function Create_Purchase_Order({ navigation }) {
                             <DataTable.Cell><TextInput mode="outlined" label="Item Name" value={it.itemName} /></DataTable.Cell>
                             <DataTable.Cell><TextInput mode="outlined" label="Unit" value={it.itemUnit} /></DataTable.Cell>
                             <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} /></DataTable.Cell>
+                            <TextInput  keyboardType='numeric' mode="outlined" label="Price" value={it.itemPrice} onChangeText={(text)=>ItemChange2(index, "itemPrice", text, '')} />
                             <DataTable.Cell><View style={{flexDirection: 'row'}}>
                                 {Platform.OS=="android" ?
                                     <>

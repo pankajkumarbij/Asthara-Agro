@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'react-native-paper';
-import { Link } from "react-router-dom";
+import { Link , useHistory} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { user_category } from '../../services/user_api';
 
 const theme = {
     ...DefaultTheme,
@@ -20,21 +22,25 @@ export default function AllUserCategories({ navigation }) {
     const [allUserCategories, setAllUserCategories] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
+    const [token,setToken]=useState();
+    let history = useHistory();
 
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
+        async function fetchData() {
+            await AsyncStorage.getItem('token')
+            .then((token) => {
+                setToken(token);
+            })
         }
-        else{
-            setHost("localhost");
-        }
-        fetch(`http://${host}:5000/retrive_all_User_category`, {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(categories => setAllUserCategories(categories));
-    }, [allUserCategories, host]);
+        fetchData();
+        //retrieve all user category
+        user_category()
+        .then(function(result) {
+            setAllUserCategories(result);
+            console.log(result)
+        });
+        
+    }, [allUserCategories, host,token, history]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

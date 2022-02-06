@@ -15,6 +15,7 @@ const theme = {
 export default function Sales_add_customer(){
 
     const [fullname,setFullname] = useState("");
+    const [nickname,setNickname] = useState("");
     const [email,setEmail] = useState("");
     const [mobile_no,SetMobile_no] = useState("");
     const [gst_no,setGst_no] = useState("");
@@ -44,6 +45,7 @@ export default function Sales_add_customer(){
             body: JSON.stringify({
                 category:category,
                 full_name:fullname,
+                nick_name:nickname,
                 email:email,
                 mobile_no:mobile_no,
                 gst_no:gst_no,
@@ -55,6 +57,7 @@ export default function Sales_add_customer(){
         .then(res => res.json())
         .then(data => console.log(data)); 
         setFullname("");
+        setNickname("");
         setEmail("");
         SetMobile_no("");
         setGst_no("");
@@ -70,6 +73,7 @@ export default function Sales_add_customer(){
                         <Card.Title title="ADD CUSTOMER"/>
                         <Card.Content>
                             <TextInput style={styles.input} mode="outlined" type="text" label="Enter full name" value={fullname} onChangeText={fullname=>setFullname(fullname)} />
+                            <TextInput style={styles.input} mode="outlined" type="text" label="Enter nick name" value={nickname} onChangeText={nickname=>setNickname(nickname)} />
                             <TextInput style={styles.input} mode="outlined" type="email" label="Enter email" value={email} onChangeText={email=>setEmail(email)} />
                             <TextInput style={styles.input} mode="outlined" type="number" label="enter mobile number" value={mobile_no} onChangeText={mobile_no=>SetMobile_no(mobile_no)} />
                             <TextInput style={styles.input} mode="outlined" label="enter GST number" type="text" value={gst_no} onChangeText={gst_no=>setGst_no(gst_no)} />

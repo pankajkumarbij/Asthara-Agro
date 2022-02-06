@@ -15,6 +15,7 @@ const theme = {
 export default function Buyer_add_vendor(){
     //initialize all required state variables
     const [fullname,setFullname] = useState("");
+    const [nickname,setNickname] = useState("");
     const [email,setEmail] = useState("");
     const [mobile_no,SetMobile_no] = useState("");
     const [gst_no,setGst_no] = useState("");
@@ -35,7 +36,7 @@ export default function Buyer_add_vendor(){
     }, []);
     //define a function for sending the data in corresponding database
     function submitForm(){
-        fetch('http://localhost:5000/create_user/', {
+        fetch(`http://localhost:5000/create_user/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,6 +44,7 @@ export default function Buyer_add_vendor(){
             body: JSON.stringify({
                 category:category,
                 full_name:fullname,
+                nick_name:nickname,
                 email:email,
                 mobile_no:mobile_no,
                 gst_no:gst_no,
@@ -54,6 +56,7 @@ export default function Buyer_add_vendor(){
         .then(res => res.json())
         .then(data => console.log(data)); 
         setFullname("");
+        setNickname("");
         setEmail("");
         SetMobile_no("");
         setGst_no("");
@@ -69,6 +72,7 @@ export default function Buyer_add_vendor(){
                         <Card.Title title="ADD VENDOR"/>
                         <Card.Content>
                             <TextInput style={styles.input} mode="outlined" type="text" label="Enter your full name" value={fullname} onChangeText={fullname=>setFullname(fullname)} />
+                            <TextInput style={styles.input} mode="outlined" type="text" label="Enter your nick name" value={nickname} onChangeText={nickname=>setNickname(nickname)} />
                             <TextInput style={styles.input} mode="outlined" type="email" label="Enter email" value={email} onChangeText={email=>setEmail(email)} />
                             <TextInput style={styles.input} mode="outlined" type="number" label="enter mobile number" value={mobile_no} onChangeText={mobile_no=>SetMobile_no(mobile_no)} />
                             <TextInput style={styles.input} mode="outlined" label="enter GST number" type="text" value={gst_no} onChangeText={gst_no=>setGst_no(gst_no)} />

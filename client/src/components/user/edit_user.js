@@ -4,6 +4,9 @@ import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { users_by_id, user_category} from '../../services/user_api';
+import axios from 'axios';
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -38,6 +41,7 @@ export default function EditUser(props, {route}) {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [mobileNo, setMobileNo] = useState("");
+    const [gstNo, setGstNo] = useState("");
     const [host, setHost] = useState("");
     const [flag, setFlag] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -53,30 +57,25 @@ export default function EditUser(props, {route}) {
         }
 
         if(flag){
-            fetch('http://localhost:5000/retrive_all_user_category', {
-                method: 'GET'
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(userCategory => {
+            //Retrieve all user category
+            user_category(host)
+            .then(function(result) {
                 setUserCategory(userCategory);
                 setFlag(false);
-            });
+            })
         }
 
         if(userId){
-            fetch(`http://${host}:5000/retrive_user/${userId}`, {
-                method: 'GET'
+            //Retrieve user by userId
+            users_by_id(userId)
+            .then(function(result) {
+                setFullName(result[0].full_name);
+                setEmail(result[0].email);
+                setMobileNo(result[0].mobile_no);
+                setGstNo(result[0].gst_no);
+                setCategory(result[0].role);
+                setCategoryId(result[0].category);
             })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(user => {
-                setFullName(user[0].full_name);
-                setEmail(user[0].email);
-                setMobileNo(user[0].mobile_no);
-                setCategory(user[0].role);
-                setCategoryId(user[0].category);
-            });
         }
     }, [host,userId,id,userid,userCategory,flag]);
 
@@ -87,26 +86,34 @@ export default function EditUser(props, {route}) {
     }
 
     function submitForm() {
-        fetch(`http://${host}:5000/update_user/${userId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                category: categoryId,
-                role: category,
-                full_name: fullName,
-                email: email,
-                mobile_no: mobileNo,
-            })
+        axios.put(url + '/update_user/'+userId, {
+            category: categoryId,
+            role: category,
+            full_name: fullName,
+            email: email,
+            mobile_no: mobileNo,
+            gst_no: gstNo,
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
-        }); 
+        .then(function (response) {
+            console.log(response.data);
+            alert(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+         }); 
     }
+     const StatusChange = (s) => {
+        axios.put(url + '/disabled_user/'+userId, {
+            status: s,
+        })
+        .then(function (response) {
+            console.log(response.data);
+            alert(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+         });
+    }; 
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -142,8 +149,14 @@ export default function EditUser(props, {route}) {
                     <TextInput style={styles.input} mode="outlined" label="Full Name" value={fullName} onChangeText={fullName => setFullName(fullName)} />
                     <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                     <TextInput style={styles.input} mode="outlined" label="Mobile No" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
+                    {(category=="vendor" || category=="customer") &&
+                        <TextInput style={styles.input} mode="outlined" label="GST No" value={gstNo} onChangeText={gstNo => setGstNo(gstNo)} />
+                    }
+                    {/* <TextInput style={styles.input} mode="outlined" label="Gst No" value={gstNo} onChangeText={gstNo => setGstNo(gstNo)} /> */}
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update User</Button>
-                    <Button mode="contained" style={styles.button} color='red'>Disable User</Button>
+                       <Button mode="contained" style={styles.button} color='red' 
+                    onPress={()=>StatusChange("disabled")}
+                    >Disable User</Button>
                     </Card.Content>
                 </Card>
                 :
@@ -170,7 +183,9 @@ const styles = StyleSheet.create({
             },
             default: {
                 marginTop: '4%',
-                width: '50%',
+                width: '75%',
+                border: '1px solid gray',
+                boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })
     },

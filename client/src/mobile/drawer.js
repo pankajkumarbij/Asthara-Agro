@@ -144,8 +144,11 @@ function CustomDrawerContent({navigation}) {
                 <Menu.Item title="Create Indent" onPress={() => {navigation.navigate('Create_Indent')}} />
                 <Menu.Item title="All Indents" onPress={() => {navigation.navigate('All_Indents')}} />
                 <Menu.Item title="Create Purchase Order" onPress={() => {navigation.navigate('Create_Purchase_Order')}} />
-                <Menu.Item title="All Purchase Orders" onPress={() => {navigation.navigate('All_Purchase_Orders')}} />
+                {/* <Menu.Item title="All Purchase Orders" onPress={() => {navigation.navigate('All_Purchase_Orders')}} /> */}
             </>
+            }
+            {(roleas=="vendor" || roleas=="buyer" || roleas=="manager" || roleas=="accountant") &&
+                <Menu.Item title="All Purchase Orders" onPress={() => {navigation.navigate('All_Purchase_Orders')}} />
             }
             </Menu>
             <Menu

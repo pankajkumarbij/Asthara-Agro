@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+import axios from 'axios';
+import {url} from '../../utils/url';
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -21,6 +23,8 @@ export default function Login({ navigation }) {
 
     const [host, setHost] = useState("");
 
+    let history = useHistory();
+
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -31,39 +35,35 @@ export default function Login({ navigation }) {
     }, [host]);
 
     function submitForm() {
-        fetch(`http://${host}:5000/login_user`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email:email,
-                password:password,
-            })
-        })
-        .then(res => res.json())
-        .catch(error =>{
-            alert(error);
-            console.log(error);
-        })
-        .then(data => {
-            console.log(data.message);
-            alert(data.message);
-            if(data.token){
-                AsyncStorage.setItem('token', data.token);
-                AsyncStorage.setItem('loginuserid', data.user_id);
-                AsyncStorage.setItem('loginemail', data.email);
-                AsyncStorage.setItem('role', data.role);
+        axios.post(url + '/login_user', {
+            email:email,
+            password:password,
+          })
+          .then(function (response) {
+            console.log(response.data);
+            alert(response.data.message);
+            if(response.data.token){
+                AsyncStorage.setItem('token', response.data.token);
+                AsyncStorage.setItem('loginuserid', response.data.user_id);
+                AsyncStorage.setItem('loginemail', response.data.email);
+                AsyncStorage.setItem('nick_name', response.data.nick_name);
+                AsyncStorage.setItem('role', response.data.role);
                 setEmail("");
                 setPassword("");
                 if(Platform.OS=='android'){
                     navigation.navigate('Home');
+                    window.location.reload(false);
                 }
                 else{
-                    <Redirect to="/"/>
+                    
+                    history.push('/');
+                    window.location.reload(false);
                 }
             }
-        }); 
+          })
+          .catch(function (error) {
+            console.log(error);
+         });
     }
 
     return (
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

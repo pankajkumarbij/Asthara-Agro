@@ -64,17 +64,37 @@ export default function EditUserCategory(props,{route}) {
             console.log(data);
         }); 
     }
+       const StatusChange = (s) => {
+        fetch(`http://${host}:5000/disabled_user_category/${userCategoryId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: s,
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+            console.log(data);
+        });
+        // closeMenu(index);
+    }; 
 
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 {userCategoryName ?
                 <Card style={styles.card}>
-                    <Card.Title title="EDIT User CATEGORY"/>
+                    <Card.Title title="Edit User Category"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="User Category Name" value={userCategoryName} onChangeText={userCategoryName => setUserCategoryName(userCategoryName)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update User Category </Button>
-                    <Button mode="contained" style={styles.button} color='red'>Disable User</Button>
+                    <Button mode="contained" style={styles.button} color='red' 
+                    onPress={()=>StatusChange("disabled")}
+                    >Disable User Category</Button>
                     </Card.Content>
                 </Card>
                 :

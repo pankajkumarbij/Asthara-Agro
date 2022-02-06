@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, CheckBox } from 'react-native';
-import { TextInput, Card, Button, Menu, Provider, DefaultTheme,DataTable } from 'react-native-paper';
+import { View, StyleSheet, Platform } from 'react-native';
+import { TextInput, Card, Button, Provider, DefaultTheme,DataTable } from 'react-native-paper';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from 'react-router-dom';
 
 const theme = {
     ...DefaultTheme,
@@ -14,7 +17,6 @@ const theme = {
 
 export default function Edit_Purchase_Order(props, {route}) {
 
-    
     var id="";
     var purchaseid = ""; 
     if(Platform.OS=="android"){
@@ -24,35 +26,29 @@ export default function Edit_Purchase_Order(props, {route}) {
         purchaseid = props.match.params.purchaseid;
     }
 
-
-    const [visible1, setVisible1] = useState(false);
-    const [visible2, setVisible2] = useState(false);
-    const [isSelected, setSelection] = useState(false);
-
-    const openMenu1 = () => setVisible1(true);
-    const closeMenu1 = () => setVisible1(false);
-    const openMenu2 = () => setVisible2(true);
-    const closeMenu2 = () => setVisible2(false);
-
     const [purchaseId, setPurchaseId] = useState("");
-    const [order_id, setOrderId] = useState("");
-    const [indent_id, setIndentId] = useState("Choose Indent");
+    const [order_id, setOrder_Id] = useState("");
     const [vendor_id,setVendorId] = useState("Choose Vendor");
     const [status,setStatus] = useState("");
-    
-    const [items, setItems] = useState("");
-    
+    const [items, setItems] = useState();
     const [host, setHost] = useState("");
+    const [flag, setFlag] = useState(true);
+    const [flag2, setFlag2] = useState(true);
+    const [flag3, setFlag3] = useState(true);
+    const [quantity, setQuantity] = useState();
+    const [actualQuantity, setActualQuantity] = useState();
+    const [vendorsid, setVendorsid] = useState([]);
+    const [orderId, setOrderId] = useState("");
+    const [custom_orderId, setCustomId] = useState("");
+    const [custom_vendorId, setCustomVendorId] = useState();
+    const [vendorPoolId, setVendorPoolId] = useState("");
+    const [customerPoolId, setCustomerPoolId] = useState("");
+    const [managerPoolId, setManagerPoolId] = useState("");
 
-    function chooseIndent(i_id) {
-        setIndentId(i_id);
-        closeMenu1();
-    }
-    function chooseVendor(vendorId) {
-        setVendorId(vendorId);
-        closeMenu2();
-    }
+    let history = useHistory();
+
     useEffect(() => {
+
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
             setPurchaseId(id);
@@ -61,33 +57,86 @@ export default function Edit_Purchase_Order(props, {route}) {
             setHost("localhost");
             setPurchaseId(purchaseid);
         }
-        if(purchaseId){
-       
+
+        if(flag && purchaseId){
             fetch(`http://${host}:5000/retrive_purchase_order/${purchaseid}`, {
                 method: 'GET'
             })
             .then(res => res.json())
             .catch(error => console.log(error))
             .then(item => {
-                setIndentId(item[0].indent_id);
-                setOrderId(item[0].order_id)
+                setOrder_Id(item[0].order_id)
                 setItems(item[0].items);
                 setVendorId(item[0].vendor_id);
                 setStatus(item[0].status);
+                setFlag(false);
+                setQuantity(item[0].items.quantity);
+                setCustomId(item[0].custom_orderId);
+                setOrderId(item[0].orderId);
+                setCustomVendorId(item[0].custom_vendorId);
+                setVendorPoolId(item[0].vendorPoolId);
+                setCustomerPoolId(item[0].customerPoolId);
+                setManagerPoolId(item[0].managerPoolId);
             });
+        }
 
-       }
+        if(flag3 && order_id){
+            fetch(`http://${host}:5000/retrive_order_item_summary_quantity/${order_id}`, {
+                method: 'GET'
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(item => {
+                setActualQuantity(item.quantity);
+                setVendorsid(item.vendor_rejected);
+                setFlag3(false);
+            });
+        }
+        if(vendorsid == null) {
+            setVendorsid([]);
+        }
 
-    }, [host,purchaseId,purchaseid,id]);
+    }, [host, purchaseId, purchaseid, id, items, order_id, vendor_id, status, flag,vendorsid,actualQuantity,flag2,flag3]);
 
     function submitForm() {
+
+        const values2 = items;
+        values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity)-parseInt(quantity);
+        setItems(values2);
+    
+        if(items.quantity!=0){
+            const values3 = vendorsid;
+            values3.push(vendor_id);
+            setVendorsid(values3);
+        }
+
+        //for splitted orders remaining quantity purchase order creation process
+        fetch(`http://${host}:5000/update_quantity_order_item_summary/${order_id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item:items,
+                status:"Splitted by Vendor",
+                vendor_rejected:vendorsid,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+        }); 
+
+        const values = items;
+        values.quantity = quantity;
+        setItems(values);
+        
         fetch(`http://${host}:5000/update_purchase_order/${purchaseid}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                indent_id:indent_id,
                 order_id:order_id,
                 items:items,   
                 vendor_id:vendor_id, 
@@ -97,83 +146,119 @@ export default function Edit_Purchase_Order(props, {route}) {
         .then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
-            alert(data.message);
-            console.log(data);
-        }); 
+            // alert(data.message);
+        });   
+
+        // for create Purchase Receipt
+        fetch(`http://${host}:5000/create_purchase_confirm`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                purchaseId:purchaseId,
+                order_id:order_id,
+                orderId:orderId,
+                custom_orderId:custom_orderId,
+                custom_vendorId:custom_vendorId,
+                items:items,   
+                vendor_id:vendor_id, 
+                status:status,
+                vendorPoolId: vendorPoolId,
+                customerPoolId: customerPoolId,
+                managerPoolId:managerPoolId,
+            })
+        }) 
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+            history.push('/All_Pending_Purchase_Order_Confirm');
+        });   
+
+        //for change the status
+        fetch(`http://${host}:5000/update_purchase_status/${purchaseid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: "Vendor Accepted",
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+        });
+
+        alert("Accepted Available Quantity");
     }
 
-    const handleCheckbox=(event)=>{
-        const {itemName,checked} = event.target;
-        let tempItems = items.map((item) => 
-            items.itemName === itemName ? {...item, isChecked : checked} : item);
-        setItems(tempItems);
-     }; 
+    function submitForm2() {
+        
+        const values2 = items;
+        values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity);
+        setItems(values2);
+
+        const values3 = vendorsid;
+        values3.push(vendor_id);
+        setVendorsid(values3);
+
+        //for splitted orders remaining quantity purchase order creation process
+        fetch(`http://${host}:5000/update_quantity_order_item_summary/${order_id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item:items,
+                status:"Rejected by Vendor",
+                vendor_reject:vendorsid,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+        }); 
+
+        //for change the status
+        fetch(`http://${host}:5000/update_purchase_status/${purchaseid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: "Vendor Rejected",
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+        });
+
+        alert("Purchase Order Rejected Successfully");
+    }
+
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
                     <Card.Title title="Edit Purchase Order"/>
                     <Card.Content>
-                    
-                    {vendor_id &&
-                    <Menu 
-                    visible={visible2}
-                    onDismiss={closeMenu2}
-                    anchor={<Button style={styles.input} mode="outlined" onPress={openMenu2}>{vendor_id}</Button>}>
-                        <Menu.Item title="${pId}" onPress={()=>chooseVendor(vendor_id)} />
-                    </Menu>
-                    }
-
-                    {indent_id &&
-                    <Menu 
-                    visible={visible1}
-                    onDismiss={closeMenu1}
-                    anchor={<Button style={styles.input} mode="outlined" onPress={openMenu1}>{indent_id}</Button>}>
-                        <Menu.Item title="${indentId}" onPress={()=>chooseIndent(indent_id)} />
-                    </Menu>
-                    }
-                    {indent_id && 
-                    <DataTable>
-                        <DataTable.Header style={styles.tableheader} >
-                        <DataTable.Title >Item Name </DataTable.Title>
-                        <DataTable.Title >Unit</DataTable.Title>
-                        <DataTable.Title >Quantity</DataTable.Title>
-
-                        </DataTable.Header>
-                        {items && 
-                            items.map((item)=>{
-                                return (
-                                    <DataTable.Row key={item.itemName}> 
-                                        <DataTable.Cell>{item.itemName} </DataTable.Cell>
-                                        <DataTable.Cell>{item.itemUnit} </DataTable.Cell>
-                                        <DataTable.Cell>{item.quantity} </DataTable.Cell>
-                                    </DataTable.Row>
-                                )
-                            })
-                        }
-                    </DataTable>
-                    }                   
-                    
-                    {/* {indent_id && 
-                    <DataTable>
-                        <DataTable.Header style={styles.tableheader} >
-                        <DataTable.Title >Item Name </DataTable.Title>
-                        <DataTable.Title >Quantity</DataTable.Title>
-                        <DataTable.Title >Unit</DataTable.Title>
-                        </DataTable.Header>
-                        {items && 
-                            items.map((item)=>{
-                                return (
-                                    <DataTable.Row key={item.itemName}> 
-                                        <DataTable.Cell>{item.itemName} </DataTable.Cell>
-                                        <DataTable.Cell>{item.quantity} </DataTable.Cell>
-                                        <DataTable.Cell>{item.unit} </DataTable.Cell>
-                                    </DataTable.Row>
-                                )
-                            })
-                        }
-                    </DataTable>
-                    }                   */}
+                        {items &&
+                            <DataTable style={styles.datatable}>
+                                <DataTable.Row>
+                                    <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
+                                    <DataTable.Cell><TextInput mode="outlined" label="Unit" value={items.itemUnit} /></DataTable.Cell>
+                                    <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={quantity} onChangeText={(text)=>setQuantity(text)} /></DataTable.Cell>
+                                    <TextInput  keyboardType='numeric' mode="outlined" label="Price" value={items.itemPrice} />
+                                </DataTable.Row>
+                            </DataTable>
+                        }   
+                        <Button  mode="contained" icon={() => <FontAwesomeIcon icon={ faEdit } />} style={styles.button} onPress={()=>submitForm()} >Accept Available Quantity</Button>
+                        <Button  mode="contained" icon={() => <FontAwesomeIcon icon={ faTrash } />} style={styles.button} onPress={()=>submitForm2()} color="red" >Reject The Purchase Order</Button>
                     </Card.Content>
                 </Card>
             </View>
@@ -194,8 +279,10 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '60%',
-                marginTop: '2%',
+                boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
+                marginTop: '4%',
+                marginBottom: '4%',
+                width: '75%',
             }
         })
     },

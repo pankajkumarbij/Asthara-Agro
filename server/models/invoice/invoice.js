@@ -29,27 +29,9 @@ const invoiceSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Indent',
     },
-    item_description:[{
-        itemId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Item',
-        },
-        // categoryId:{
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     reef:'Category'
-        // },
-        quantity:{
-            type:Number,
-            default:0,
-        },
-        unit_of_measurement:{
-            type:String,
-        },
-        price:{
-            type: mongoose.Schema.Types.Double,
-            required:true,
-        },
-    }],
+    items: {
+        type: mongoose.Schema.Types.Mixed,
+    },
     date_of_issue:{
         type:Date,
         default: Date.now,

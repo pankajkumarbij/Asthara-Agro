@@ -4,6 +4,7 @@ import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'reac
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { item_unit } from '../../services/item_api';
 
 const theme = {
     ...DefaultTheme,
@@ -15,26 +16,20 @@ const theme = {
     },
 };
 
-export default function AllItemUnits({ navigation }) {
+export default function AllItemUnits(props,{ navigation }) {
 
     const [allItemUnit, setAllItemUnit] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-        fetch(`http://${host}:5000/retrive_all_item_unit`, {
-            method: 'GET'
+
+        //Retrieve all item Unit
+        item_unit()
+        .then(result => {
+            setAllItemUnit(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(unit => setAllItemUnit(unit));
-    }, [allItemUnit, host]);
+
+    }, [allItemUnit]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -44,38 +39,40 @@ export default function AllItemUnits({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title>All Item Units</Title>
+                    <Title style={{marginBottom: '20px'}}>All Item Units</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Item Unit</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                {allItemUnit ?
-                    allItemUnit.map((item)=>{
-                        if(item.unit_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                        return (
-                            <DataTable.Row>
-                                <DataTable.Cell>{item.unit_name}</DataTable.Cell>
-                                <DataTable.Cell numeric>
-                                    {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
-                                        :
-                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/edititemunit/"+item._id}>Details</Link></Button>
-                                    }
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        )
-                        }
-                    })
-                    :
-                    <ActivityIndicator color="#794BC4" size={60}/>
-                }
+
+                    {allItemUnit ?
+                        allItemUnit.map((item)=>{
+                            if(item.unit_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
+                            return (
+                                <DataTable.Row>
+                                    <DataTable.Cell>{item.unit_name}</DataTable.Cell>
+                                    <DataTable.Cell numeric>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
+                                            :
+                                            <Button mode="contained" style={{width: '100%'}}><Link to={"/edititemunit/"+item._id}>Details</Link></Button>
+                                        }
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )
+                            }
+                        })
+                        :
+                        <ActivityIndicator color="#794BC4" size={60}/>
+                    }
                 </DataTable>
             </View>
         </ScrollView>
@@ -125,9 +122,8 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '50%',
+                width: '75%',
                 border: '1px solid gray',
-                borderRadius: '2%',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })

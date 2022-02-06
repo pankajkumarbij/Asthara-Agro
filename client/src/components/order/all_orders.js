@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
-import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu } from 'react-native-paper';
+import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { allOrder } from '../../services/order_api';
+import { manager_pool_by_id } from '../../services/pool';
+import { users_by_id } from '../../services/user_api';
+import { role, userId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -15,68 +19,35 @@ const theme = {
     },
 };
 
-export default function AllOrders({ navigation }) {
+export default function AllOrders(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
-    const [visible, setVisible] = useState([]);
-    const [host, setHost] = useState("");
-    const [flag, setFlag] = useState(false);
+    const [managerPoolId, setManagerPoolId] = useState('');
+    const [managerPinCodes, setManagerPinCodes] = useState('');
 
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-        fetch(`http://${host}:5000/retrive_all_order`, {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(orders => {
-            setAllOrders(orders);
-        });
-        if(flag && AllOrders.length > 0){
-            for(let i = 0; i < AllOrders.length; i++){
-                const values = [...visible];
-                values[i]=true;
-                setVisible(values);
-            }
-            setFlag(true);
-        }
-    }, [allOrders, host, visible, flag]);
-
-    const openMenu = (index) => {
-        const values = [...visible];
-        values[index]=true;
-        setVisible(values);
-    };
-    const closeMenu = (index) => {
-        const values = [...visible];
-        values[index]=false;
-        setVisible(values);
-    };
-
-    const StatusChange = (s, id, index) => {
-        fetch(`http://${host}:5000/update_status/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                status: s,
+        
+        if(role=='manager' && userId){
+            users_by_id(userId)
+            .then(result=>{
+                setManagerPoolId(result[0].pool_id);
             })
+        }
+
+        if(managerPoolId){
+            manager_pool_by_id(managerPoolId)
+            .then(result=>{
+                setManagerPinCodes(result[0].postal_code);
+            })
+        }
+
+        allOrder()
+        .then(result=> {
+            setAllOrders(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
-        });
-        closeMenu(index);
-    };
+
+    }, [allOrders, managerPoolId, managerPinCodes]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -84,56 +55,77 @@ export default function AllOrders({ navigation }) {
         <Provider theme={theme}>
         <SafeAreaView>
         <ScrollView>
-            <View style={styles.view}>
+            <View>
                 <DataTable style={styles.datatable}>
-                    <Title>All Orders</Title>
+                    <Title style={{marginBottom: '20px'}}>All Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Email</DataTable.Title>
-                        {Platform.OS !== "android" &&
-                        <DataTable.Title>Full Name</DataTable.Title>
-                        }
+                        <DataTable.Title>Order ID</DataTable.Title>
+                        <DataTable.Title>Customer Name</DataTable.Title>
                         <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {allOrders ?
+
+                    {(role=="sales"  && allOrders) &&
                         allOrders.map((item, index)=>{
+                            if(item.userId==userId)
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                            return (
-                                <DataTable.Row>
-                                    <DataTable.Cell>{item.email}</DataTable.Cell>
-                                    {Platform.OS !== "android" &&
-                                    <DataTable.Cell>{item.name}</DataTable.Cell>
-                                    }
-                                    <DataTable.Cell>
-                                    <Menu
-                                        visible={visible[index]}
-                                        onDismiss={()=>closeMenu(index)}
-                                        anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{item.status}</Button>}>
-                                            <Menu.Item title="Approve" onPress={()=>StatusChange("Approve", item._id, index)}/>
-                                            <Menu.Item title="Reject" onPress={()=>StatusChange("Reject", item._id, index)}/>
-                                            <Menu.Item title="Pending" onPress={()=>StatusChange("Pending",  item._id, index)}/>
-                                    </Menu>
-                                    </DataTable.Cell>
-                                    <DataTable.Cell>
-                                        {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
-                                            :
-                                            <Link to={"/editorder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
-                                        }
-                                    </DataTable.Cell>
-                                </DataTable.Row>
-                            )
+                                var date=item.order_date.substring(0,10);
+                                var d=new Date(item.order_date);
+                                d.toTimeString();
+                                d=String(d);
+                                var hour=d.substring(16,18);
+                                var custom_orderId=item.nick_name+"_"+item.postal_code+"_"+date+"_"+hour;
+                                return (
+                                    <DataTable.Row>
+                                        <DataTable.Cell>{custom_orderId}</DataTable.Cell>
+                                        <DataTable.Cell>{item.name}</DataTable.Cell>
+                                        <DataTable.Cell>{item.status}</DataTable.Cell>
+                                        <DataTable.Cell numeric>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                :
+                                                <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            }
+                                        </DataTable.Cell>
+                                    </DataTable.Row>
+                                )
                             }
                         })
-                        :
-                        <ActivityIndicator color="#794BC4" size={60}/>
+                    }
+                    {(role=="manager"  && allOrders && managerPinCodes) &&
+                        allOrders.map((item, index)=>{
+                            if(managerPinCodes.includes(String(item.postal_code)))
+                            if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
+                                var date=item.order_date.substring(0,10);
+                                var d=new Date(item.order_date);
+                                d.toTimeString();
+                                d=String(d);
+                                var hour=d.substring(16,18);
+                                var custom_orderId=item.nick_name+"_"+item.postal_code+"_"+date+"_"+hour;
+                                return (
+                                    <DataTable.Row>
+                                        <DataTable.Cell>{custom_orderId}</DataTable.Cell>
+                                        <DataTable.Cell>{item.name}</DataTable.Cell>
+                                        <DataTable.Cell>{item.status}</DataTable.Cell>
+                                        <DataTable.Cell numeric>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                :
+                                                <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            }
+                                        </DataTable.Cell>
+                                    </DataTable.Row>
+                                )
+                            }
+                        })
                     }
                 </DataTable>
             </View>
@@ -144,18 +136,6 @@ export default function AllOrders({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    view: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-            },
-            default: {
-                
-            }
-        })
-    },
     card: {
         margin: '2%',
         alignSelf: 'center',
@@ -184,9 +164,8 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '50%',
+                width: '75%',
                 border: '1px solid gray',
-                borderRadius: '2%',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })

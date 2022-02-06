@@ -4,7 +4,7 @@ const router = express.Router();
 const Item = require('../../models/item/item');
 //DEfine Route to retrive all items
 router.get('/retrive_all_item',(req, res)=>{
-    Item.find({}, function(err, items){
+    Item.find({status:"enabled"}, function(err, items){
         if(err){
             console.log(err);
         }
@@ -24,5 +24,14 @@ router.get('/retrive_item/:id',(req, res)=>{
         }
     });
 });
-
+router.get('/retrive_all_disabled_items',(req, res)=>{
+    Item.find({ status: "disabled"}, function(err, items){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(items);
+        }
+    });
+});
 module.exports = router;

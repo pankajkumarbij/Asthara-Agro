@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView} from 'react-native';
+import { View, StyleSheet, Platform, ActivityIndicator } from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
-
+import { item_grade_by_grade_id } from '../../services/item_api';
+import axios from 'axios';
+import {url} from '../../utils/url';
+import {useHistory} from "react-router-dom";
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -16,55 +19,61 @@ export default function EditItemGrade(props,{route}) {
 
     var itemGradeid = "";
     var id="";
+    let history=useHistory();
     if(Platform.OS=="android"){
-        id = route.params.itemGradeId;
+        itemGradeid = route.params.itemGradeId;
     }
     else{
         itemGradeid = props.match.params.itemGradeid;
     }
-
-    const [itemGradeId, setItemGradeId] = useState("");
     const [itemGradeName, setItemGradeName] = useState("");
     const [host, setHost] = useState("");
+    
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-            setItemGradeId(id);
-        }
-        else{
-            setHost("localhost");
-            setItemGradeId(itemGradeid);
+
+        if(itemGradeid){
+            //Retrieve item grade by ItemGradeid
+            item_grade_by_grade_id(itemGradeid)
+            .then(result => {
+                setItemGradeName(result[0].grade_name);
+            })
         }
 
-        if(itemGradeId){
-            fetch(`http://${host}:5000/retrive_item_grade/${itemGradeId}`, {
-                method: 'GET'
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(item => {
-                setItemGradeName(item[0].grade_name);
-            });
-        }
-    }, [host,itemGradeId,id,itemGradeid]);
+    }, [itemGradeid]);
 
     function submitForm() {
-        fetch(`http://${host}:5000/update_item_grade/${itemGradeId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                grade_name: itemGradeName,
-            })
+        axios.put(url + '/update_item_grade/'+itemGradeid, {
+            grade_name: itemGradeName,
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
-        }); 
+          .then(function (response) {
+            //console.log(response);
+            alert(response.data.message);
+            if(response)
+              {
+                  history.push('/allitemgrades');
+              }
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
     }
+       
+    const StatusChange = (s) => {
+        axios.put(url + '/enabled_item_grade/'+itemGradeid, {
+            status: s,
+        })
+          .then(function (response) {
+              console.log(response);
+            alert(response.data.message);
+            if(response){
+                history.push('/disabled_all_item_grade');
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }; 
 
     return (
         <Provider theme={theme}>
@@ -73,9 +82,9 @@ export default function EditItemGrade(props,{route}) {
                 <Card style={styles.card}>
                     <Card.Title title="EDIT ITEM GRADE"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Item Grade Name" value={itemGradeName} onChangeText={itemGradeName => setItemGradeName(itemGradeName)} />
-                    <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Item Grade </Button>
-                    <Button mode="contained" style={styles.button} color='red'>Disable Item Grade</Button>
+                        <TextInput style={styles.input} mode="outlined" label="Item Grade Name" value={itemGradeName} onChangeText={itemGradeName => setItemGradeName(itemGradeName)} />
+                        <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Item Grade </Button>
+                        <Button mode="contained" style={styles.button} color='red' onPress={()=>StatusChange("disabled")}>Disable Item Grade</Button>
                     </Card.Content>
                 </Card>
                 :
@@ -102,7 +111,9 @@ const styles = StyleSheet.create({
             },
             default: {
                 marginTop: '4%',
-                width: '50%',
+                width: '75%',
+                border: '1px solid gray',
+                boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })
     },

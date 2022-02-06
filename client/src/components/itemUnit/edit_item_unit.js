@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView} from 'react-native';
+import { View, StyleSheet, Platform, ActivityIndicator } from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
-
+import { item_unit_by_unitid } from '../../services/item_api';
+import axios from 'axios';
+import {url} from '../../utils/url';
+import { useHistory } from 'react-router-dom';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -15,56 +18,59 @@ const theme = {
 export default function EditItemUnit(props,{route}) {
 
     var itemUnitid = "";
-    var id="";
+    let history = useHistory();
     if(Platform.OS=="android"){
-        id = route.params.itemUnitId;
+        itemUnitid = route.params.itemUnitId;
     }
     else{
         itemUnitid = props.match.params.itemUnitid;
     }
-
-    const [itemUnitId, setItemUnitId] = useState("");
     const [itemUnitName, setItemUnitName] = useState("");
-    const [host, setHost] = useState("");
+
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-            setItemUnitId(id);
-        }
-        else{
-            setHost("localhost");
-            setItemUnitId(itemUnitid);
+
+        if(itemUnitid){
+            //Retrieve item Unit by itemUnitId
+            item_unit_by_unitid(itemUnitid)
+            .then(result => {
+                setItemUnitName(result[0].unit_name);
+            })
         }
 
-        if(itemUnitId){
-            fetch(`http://${host}:5000/retrive_item_unit/${itemUnitId}`, {
-                method: 'GET'
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(item => {
-                setItemUnitName(item[0].unit_name);
-            });
-        }
-    }, [host,itemUnitId,id,itemUnitid]);
+    }, [itemUnitid]);
 
     function submitForm() {
-        fetch(`http://${host}:5000/update_item_unit/${itemUnitId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                unit_name: itemUnitName,
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
-        }); 
+        
+        axios.put(url + '/update_item_unit/'+itemUnitid, {
+            unit_name: itemUnitName,
+          })
+          .then(function (response) {
+            alert(response.data.message);
+            if(response.data)
+            {
+                history.push('/allitemunits');
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
     }
+    
+    const StatusChange = (s) => {
+        axios.put(url + '/enabled_item_unit/'+itemUnitid, {
+            status: s,
+        })
+          .then(function (response) {
+            alert(response.data.message);
+            if(response.data)
+            {
+                history.push('/disabled_all_item_unit');
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+        }); 
+    }; 
 
     return (
         <Provider theme={theme}>
@@ -73,9 +79,9 @@ export default function EditItemUnit(props,{route}) {
                 <Card style={styles.card}>
                     <Card.Title title="EDIT ITEM UNIT"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Item Unit Name" value={itemUnitName} onChangeText={itemUnitName => setItemUnitName(itemUnitName)} />
-                    <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Item Unit </Button>
-                    <Button mode="contained" style={styles.button} color='red'>Disable Item Unit</Button>
+                        <TextInput style={styles.input} mode="outlined" label="Item Unit Name" value={itemUnitName} onChangeText={itemUnitName => setItemUnitName(itemUnitName)} />
+                        <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Item Unit </Button>
+                        <Button mode="contained" style={styles.button} color='red' onPress={()=>StatusChange("disabled")}>Disable Item Unit</Button>
                     </Card.Content>
                 </Card>
                 :
@@ -102,7 +108,9 @@ const styles = StyleSheet.create({
             },
             default: {
                 marginTop: '4%',
-                width: '50%',
+                width: '75%',
+                border: '1px solid gray',
+                boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })
     },

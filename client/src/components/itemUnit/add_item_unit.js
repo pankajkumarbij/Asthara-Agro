@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import axios from 'axios';
+import {url} from '../../utils/url';
+import {useHistory} from 'react-router-dom';
 
 const theme = {
     ...DefaultTheme,
@@ -15,34 +18,24 @@ const theme = {
 export default function AddItemUnit({ navigation }) {
 
     const [itemUnitName, setItemUnitName] = useState("");
-    const [host, setHost] = useState("");
-
-    useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-    }, [host]);
+    let history = useHistory();
 
     function submitForm() {
-        fetch(`http://${host}:5000/create_item_unit`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                unit_name: itemUnitName,
-            })
+        axios.post(url + '/create_item_unit', {
+            unit_name: itemUnitName,
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
+          .then(function (response) {
+            alert(response.data.message);
+            if(response.data)
+            {
+                history.push('/allitemunits');
+            }
             setItemUnitName("");
-        }); 
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
+         
     }
 
     return (
@@ -51,8 +44,8 @@ export default function AddItemUnit({ navigation }) {
                 <Card style={styles.card}>
                     <Card.Title title="ADD ITEM UNIT"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Item Unit Name" value={itemUnitName} onChangeText={itemUnitName => setItemUnitName(itemUnitName)} />
-                    <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Item Unit</Button>
+                        <TextInput style={styles.input} mode="outlined" label="Item Unit Name" value={itemUnitName} onChangeText={itemUnitName => setItemUnitName(itemUnitName)} />
+                        <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Item Unit</Button>
                     </Card.Content>
                 </Card>
             </View>
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

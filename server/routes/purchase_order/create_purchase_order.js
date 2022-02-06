@@ -4,17 +4,16 @@ const PurchaseOrder = require('../../models/purchase_order/purchase_order');
 
 router.post('/create_purchase_order', (req, res)=>{
     var newPurchaseOrder = new PurchaseOrder({
-        
-        requestedBy:req.body.userId,
         orderId:req.body.orderId,
+        custom_orderId:req.body.custom_orderId,
+        custom_vendorId:req.body.custom_vendorId,
         items:req.body.items,
         user_id:req.body.user_id,
         vendor_id:req.body.vendor_id,
-        indent_id:req.body.indent_id,
-        
-        purchase_order_date:req.body.purchase_order_date,
-        purchase_order_time:req.body.purchase_order_tiem,
-
+        order_id:req.body.order_id,
+        customerPoolId: req.body.customerPoolId,
+        vendorPoolId: req.body.vendorPoolId,
+        managerPoolId: req.body.managerPoolId,
     })
     newPurchaseOrder.save()
     .then(post => {

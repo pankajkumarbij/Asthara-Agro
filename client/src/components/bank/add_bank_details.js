@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
-import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import { TextInput, Card, Button, Provider, DefaultTheme ,Text, Menu} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useHistory } from 'react-router-dom';
+import {bank_url} from '../../utils/bank';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -13,31 +16,71 @@ const theme = {
     },
 };
 //define add bank details component
-export default function AddBankDetails({ navigation }) {
+export default function AddBankDetails(props, {route}) {
+
+    var userid="";
+    if(Platform.OS=="android"){
+        userid = route.params.userid;
+    }
+    else{
+        userid = props.match.params.userid;
+    }
+
+    let history = useHistory();
+
     //initialize all required state variables
     const [userId, setUserId] = useState('');
     const [bankName, setBankName] = useState("");
     const [branchName, setBranchName] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
+    const [confirm_AccountNumber, setConfirm_AccountNumber] = useState("");
     const [accountHolderName, setAccountHolderName] = useState("");
     const [ifsccode, setIfsccode] = useState("");
     const [host, setHost] = useState("");
+    const[flag,setFlag] = useState(false);
+    const[error,setError] = useState("");
+    const[account_error,setAccount_error] = useState(false);
+    const[account_type,setAccount_type] = useState("Choose Account Type");
+    const [visible1, setVisible1] = useState(false);
     //fetch login user information for store corresponding the bank details data
     useEffect(() => {
-        async function fetchData() {
-            await AsyncStorage.getItem('loginuserid')
-            .then((userid) => {
-                setUserId(userid);
-            })
+
+        if(userid){
+            setUserId(userid);
         }
-        fetchData();
+
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
         }
         else{
             setHost("localhost");
         }
-    }, [host]);
+        if(ifsccode.length==11 && ifsccode)
+        {
+            axios.get(bank_url+ifsccode)
+            .then(result =>{
+                //console.log(result.data);
+                setBankName(result.data.BANK);
+                setBranchName(result.data.BRANCH);
+                setFlag(true);
+                setError("");
+            })
+            .catch(err => {
+                console.log(err)
+                setError("Invalid IFSC Code");
+                
+            })
+        }
+        else{
+                setFlag(false);
+                setBankName("");
+                setBranchName("");
+        }
+
+    }, [host, userid,ifsccode,accountNumber,confirm_AccountNumber]);
+
+    const openMenu1 = () => setVisible1(true);
+    const closeMenu1 = () => setVisible1(false);
     //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/create_bank`, {
@@ -51,20 +94,25 @@ export default function AddBankDetails({ navigation }) {
                 branch_name: branchName,
                 account_number: accountNumber,
                 account_holder_name: accountHolderName,
-                ifsc_code: ifsccode
+                confirm_AccountNumber:confirm_AccountNumber,
+                ifsc_code: ifsccode,
+                account_type: account_type,
             })
         })
         .then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
-            alert(data.message);
             console.log(data);
-            setBankName("");
-            setBranchName("");
-            setAccountNumber("");
-            setAccountHolderName("");
-            setIfsccode("");
+            if(data.bank!="")
+            {
+                history.push('/viewuser/'+userId);
+            }
+            alert(data.message);
         }); 
+    }
+    function chooseAccountType(accountType){
+        setAccount_type(accountType);
+        closeMenu1();
     }
     //define all the required input fields
     return (
@@ -73,11 +121,29 @@ export default function AddBankDetails({ navigation }) {
                 <Card style={styles.card}>
                     <Card.Title title="Add Bank Details"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Bank Name" value={bankName} multiline onChangeText={bankName => setBankName(bankName)} />
-                    <TextInput style={styles.input} mode="outlined" label="Branch Name" value={branchName} onChangeText={branchName => setBranchName(branchName)} />
-                    <TextInput style={styles.input} mode="outlined" label="Account Number" value={accountNumber} onChangeText={accountNumber => setAccountNumber(accountNumber)} />
-                    <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderName => setAccountHolderName(accountHolderName)} />
                     <TextInput style={styles.input} mode="outlined" label="Ifsc Code" value={ifsccode} onChangeText={ifsccode => setIfsccode(ifsccode)} />
+                    { error && 
+                        <p id={1} style={{color:"red"}}>{error}</p>
+                    }
+                    { flag &&
+                        <>
+                            <TextInput style={styles.input} mode="outlined" label="Bank Name" value={bankName} />
+                            <TextInput style={styles.input} mode="outlined" label="Branch Name" value={branchName}  />
+                        </>
+                    }
+                    <TextInput style={styles.input} mode="outlined" label="Account Number" value={confirm_AccountNumber} onChangeText={confirm_AccountNumber => setConfirm_AccountNumber(confirm_AccountNumber)} secureTextEntry={true}/>
+                    <TextInput style={styles.input} mode="outlined" label="Confirm Account Number" value={accountNumber} onChangeText={accountNumber => setAccountNumber(accountNumber)} />
+                    { account_error && 
+                        <span id={2} style={{color:"red"}}>{account_error}</span>
+                    }
+                    <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderName => setAccountHolderName(accountHolderName)} />
+                    <Menu
+                    visible={visible1}
+                    onDismiss={closeMenu1}
+                    anchor={<Button style={styles.input} mode="outlined" onPress={openMenu1}>{account_type}</Button>}>
+                        <Menu.Item title="Current account" onPress={()=>chooseAccountType("Current account")} />
+                        <Menu.Item title="Savings account" onPress={()=>chooseAccountType("Savings account")} />
+                    </Menu>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Bank Details</Button>
                     </Card.Content>
                 </Card>
@@ -103,7 +169,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

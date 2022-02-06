@@ -12,15 +12,15 @@ const paymentSchema = new mongoose.Schema({
     },
     customer_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Customer'
+        ref:'User'
     },
     vendor_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Vendor'
+        ref:'User'
     },
     emp_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Employee'
+        ref:'User'
     },
     grn:{
         type:mongoose.Schema.Types.ObjectId,
@@ -54,23 +54,15 @@ const paymentSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.Double,
             require:true,
         },
-
-        
-
-
     }],
-
     total_payment:{
         type:mongoose.Schema.Types.Double,
         required:true
     },
-
     payable_date:{
         type:Date,
         default: Date.now , // +7 for after 7day's date
     },
-
-
     status: {
         type: String,
         default:"pending"

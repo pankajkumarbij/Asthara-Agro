@@ -4,7 +4,7 @@ const router = express.Router();
 const Indent=require('../../models/indent/indent')
 //Dfine route to diplay the indents
 router.get('/displayindent',(req, res)=>{
-        Indent.find({}, function(err, indents){
+        Indent.find({status:"pending"}, function(err, indents){
         if(err){
             console.log(err);
         }
@@ -24,5 +24,24 @@ router.get('/displayindent/:id',(req, res)=>{
         }
     });
 });
-
+router.get('/displayindent_rejected',(req, res)=>{
+        Indent.find({status:"rejected"}, function(err, indents){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(indents);
+        }
+    });
+});
+router.get('/displayindent_approved',(req, res)=>{
+        Indent.find({status:"approved"}, function(err, indents){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(indents);
+        }
+    });
+});
 module.exports = router;

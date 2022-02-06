@@ -14,15 +14,14 @@ const theme = {
         accent: '#f1c40f',
     },
 };
-
+//define AllIndents component
 export default function AllIndents({ navigation }) {
-
-    
+    //initialize all required state variables
     const [allIndents, setAllIndents] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState([]);
-
+    //fetch all Indents
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -38,17 +37,19 @@ export default function AllIndents({ navigation }) {
         .then(allIndents => setAllIndents(allIndents));
     }, [allIndents, host]);
 
+    //openMenu for Open Menu
     const openMenu = (index) => {
         const values = [...visible];
         values[index]=true;
         setVisible(values);
     };
+    //closeMenu for Close Menu
     const closeMenu = (index) => {
         const values = [...visible];
         values[index]=false;
         setVisible(values);
     };
-
+    //statusChange() define function for update the status field
     const StatusChange = (s, id, index) => {
         fetch(`http://${host}:5000/update_indent_status/${id}`, {
             method: 'PUT',
@@ -70,7 +71,6 @@ export default function AllIndents({ navigation }) {
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
-
         <Provider theme={theme}>
         <SafeAreaView>
         <ScrollView>
@@ -100,9 +100,9 @@ export default function AllIndents({ navigation }) {
                                 <DataTable.Cell>{indent._id}</DataTable.Cell>
                                 <DataTable.Cell numeric>
                                     <Menu visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{indent.status}</Button>}>
-                                    <Menu.Item title="Approve" onPress={()=>StatusChange("Approve", indent._id, index)}/>
-                                    <Menu.Item title="Reject" onPress={()=>StatusChange("Reject", indent._id, index)}/>
-                                    <Menu.Item title="Pending" onPress={()=>StatusChange("Pending",  indent._id, index)}/>
+                                    <Menu.Item title="Approve" onPress={()=>StatusChange("approved", indent._id, index)}/>
+                                    <Menu.Item title="Reject" onPress={()=>StatusChange("rejected", indent._id, index)}/>
+                                    {/* <Menu.Item title="Pending" onPress={()=>StatusChange("pending",  indent._id, index)}/> */}
                                     </Menu>
                                 </DataTable.Cell>
                                 <DataTable.Cell numeric> 

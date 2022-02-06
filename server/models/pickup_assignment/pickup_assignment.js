@@ -15,7 +15,7 @@ const pickup_assignmentSchema = new mongoose.Schema({
     }, 
     vendor_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Vendor'
+        ref:'User'
     },
     item_description:[{
         itemId:{
@@ -44,6 +44,15 @@ const pickup_assignmentSchema = new mongoose.Schema({
     status: {
         type: String,
         default:"pending",
+    },
+    customerPoolId: {
+        type: String,
+    },
+    vendorPoolId: {
+        type: String,
+    },
+    managerPoolId: {
+        type: String,
     },
 },
 {

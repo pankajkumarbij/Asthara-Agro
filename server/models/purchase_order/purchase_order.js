@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
 require('@mongoosejs/double');
 const purchaseorderSchema = new mongoose.Schema({
-    
-    requestedBy:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
     order_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'OrderSummary'
+    },
+    orderId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Order'
     },
-    indent_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Indent'
+    custom_orderId:{
+        type:String,
+    },
+    custom_vendorId:{
+        type:String,
     },
     user_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -20,7 +21,7 @@ const purchaseorderSchema = new mongoose.Schema({
     },
     vendor_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Vendor'
+        ref:'User'
     },
     items:{
         type:mongoose.Schema.Types.Mixed,
@@ -34,10 +35,19 @@ const purchaseorderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default:"pending",
+        default:"pending for vendor acceptance",
     },
-
-});
-
+    customerPoolId: {
+        type: String,
+    },
+    vendorPoolId: {
+        type: String,
+    },
+    managerPoolId: {
+        type: String,
+    },
+    }, {
+        timestamps: true
+    });
 const PurchaseOrder = mongoose.model('PurchaseOrder', purchaseorderSchema);
 module.exports = PurchaseOrder;

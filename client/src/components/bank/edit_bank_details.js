@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
-import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import { TextInput, Card, Button, Provider, DefaultTheme,Menu } from 'react-native-paper';
 
 const theme = {
     ...DefaultTheme,
@@ -31,6 +31,8 @@ export default function EditBankDetails(props, {route}) {
     const [accountHolderName, setAccountHolderName] = useState("");
     const [ifsccode, setIfsccode] = useState("");
     const [host, setHost] = useState("");
+    const[account_type,setAccount_type] = useState("Choose Account Type");
+    const [visible1, setVisible1] = useState(false);
     //fetch corresponding the bank details data for edit
     useEffect(() => {
         if(Platform.OS=="android"){
@@ -55,9 +57,15 @@ export default function EditBankDetails(props, {route}) {
                 setAccountNumber(item[0].account_number);
                 setAccountHolderName(item[0].account_holder_name);
                 setIfsccode(item[0].ifsc_code);
+                setAccount_type(item[0].account_type);
             });
         }
+        
     }, [host,id,bankId,bankid]);
+
+    const openMenu1 = () => setVisible1(true);
+    const closeMenu1 = () => setVisible1(false);
+
     //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/update_bank/${bankId}`, {
@@ -71,7 +79,8 @@ export default function EditBankDetails(props, {route}) {
                 branch_name: branchName,
                 account_number: accountNumber,
                 account_holder_name: accountHolderName,
-                ifsc_code: ifsccode
+                ifsc_code: ifsccode,
+                account_type:account_type
             })
         })
         .then(res => res.json())
@@ -84,7 +93,12 @@ export default function EditBankDetails(props, {route}) {
             setAccountNumber("");
             setAccountHolderName("");
             setIfsccode("");
+            setAccount_type("Choose Account Type");
         }); 
+    }
+    function chooseAccountType(accountType){
+        setAccount_type(accountType);
+        closeMenu1();
     }
     //define all the required input fields
     return (
@@ -93,11 +107,22 @@ export default function EditBankDetails(props, {route}) {
                 <Card style={styles.card}>
                     <Card.Title title="Update Bank Details"/>
                     <Card.Content>
+                    <TextInput style={styles.input} mode="outlined" label="Ifsc Code" value={ifsccode} onChangeText={ifsccode => setIfsccode(ifsccode)} />
                     <TextInput style={styles.input} mode="outlined" label="Bank Name" value={bankName} multiline onChangeText={bankName => setBankName(bankName)} />
                     <TextInput style={styles.input} mode="outlined" label="Branch Name" value={branchName} onChangeText={branchName => setBranchName(branchName)} />
                     <TextInput style={styles.input} mode="outlined" label="Account Number" value={accountNumber} onChangeText={accountNumber => setAccountNumber(accountNumber)} />
+                    <Menu
+                    visible={visible1}
+                    onDismiss={closeMenu1}
+                    anchor={<Button style={styles.input} mode="outlined" onPress={openMenu1}>{account_type}</Button>}>
+                        <Menu.Item title="Current account" onPress={()=>chooseAccountType("Current account")} />
+                        <Menu.Item title="Savings account" onPress={()=>chooseAccountType("Savings account")} />
+                        <Menu.Item title="Salary account" onPress={()=>chooseAccountType("Salary account")} />
+                        <Menu.Item title="Fixed deposit account" onPress={()=>chooseAccountType("Fixed deposit account")} />
+                        <Menu.Item title="Recurring deposit account" onPress={()=>chooseAccountType("Recurring deposit account")} />
+                        <Menu.Item title="NRI accounts" onPress={()=>chooseAccountType("NRI accounts")} />
+                    </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderName => setAccountHolderName(accountHolderName)} />
-                    <TextInput style={styles.input} mode="outlined" label="Ifsc Code" value={ifsccode} onChangeText={ifsccode => setIfsccode(ifsccode)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Bank details</Button>
                     </Card.Content>
                 </Card>
@@ -123,7 +148,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

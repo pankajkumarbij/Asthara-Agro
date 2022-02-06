@@ -1,17 +1,26 @@
 const express = require('express');
 const router = express.Router();
 /* Required Model for store in database*/
-const RetriveInventory = require('../../models/inventory/inventory');
+const Inventory = require('../../models/inventory/inventory');
 //DEfine Route to retrive the inventory details
 router.get('/retrive_inventory',(req, res)=>{
-    RetriveInventory.find({}, function(err, retrive_inventory){
+    Inventory.find({}, function(err, inventory){
         if(err){
             console.log(err);
         }
         else {
-            res.json(retrive_inventory);
+            res.json(inventory);
         }
     });
 });
-
+router.get('/retrive_inventory_items',(req, res)=>{
+    Inventory.find({}, function(err, inventory){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(inventory);
+        }
+    });
+});
 module.exports = router;

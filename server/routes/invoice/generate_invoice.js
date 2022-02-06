@@ -21,5 +21,24 @@ router.post('/newinvoice',(req,res)=>{
     })
     .catch(err => res.json(err))
 });
-
+router.post('/generate_invoice',(req,res)=>{
+    var newPost = new Invoice({
+        userId:req.body.userId,
+        customerId:req.body.customerId,
+        createdBy:req.body.userId,
+        orderId:req.body.orderId,
+        indentId:req.body.indentId,
+        purchaseId:req.body.purchaseId,
+        vendorId:req.body.vendorId,
+        indentId:req.body.indentId,
+        items:req.body.items,
+        date_of_issue:req.body.date_of_issue,
+    })
+    newPost.save()
+    .then(post => {
+        res.json(post);
+        console.log("save in database");
+    })
+    .catch(err => res.json(err))
+});
 module.exports = router;

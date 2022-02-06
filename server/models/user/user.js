@@ -7,11 +7,16 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        required: true,
+        //required: true,
     },
     full_name: {
         type: String,
         required: true,
+    },
+    nick_name: {
+        type: String,
+        required: true,
+        unique: true,
     },
     email: { 
         type: String,
@@ -20,14 +25,38 @@ const userSchema = new mongoose.Schema({
     },
     mobile_no: {
         type: Number,
+        required: true,
+    },
+    idType: {
+        type: String,
+        required: true,
+    },
+    idNumber: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String
     },
     gst_no: {
         type: String,
-        default:"",
+    },
+    pool_name: {
+        type: String
+    },
+    pool_id: {
+        type: String
     },
     password: {
         type: String,
+        required: true,
     },
+    status:{
+        type:String,
+        default:"enabled"
+    }
+    }, {
+    timestamps: true
 });
 
 const User = mongoose.model('User', userSchema);

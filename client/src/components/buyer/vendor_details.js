@@ -4,6 +4,7 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'rea
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { all_users_by_role } from '../../services/user_api';
 
 const theme = {
     ...DefaultTheme,
@@ -15,11 +16,12 @@ const theme = {
     },
 };
 //define show vendor details component
-export default function Vendor_details({ navigation }) {
+export default function Vendor_details(props,{ navigation }) {
 
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
+    const  [roleas, setRoleas] = useState("");
     //fetch all vendor details from the database
     useEffect(() => {
         if(Platform.OS=="android"){
@@ -28,12 +30,11 @@ export default function Vendor_details({ navigation }) {
         else{
             setHost("localhost");
         }
-        fetch('http://localhost:5000/retrive_all_vendor', {
-            method: 'GET'
+        //retrieve all vendors
+        all_users_by_role("vendor")
+        .then(result=> {
+            setAllItems(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(allItems => setAllItems(allItems));
     }, [allItems, host]);
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -68,9 +69,9 @@ export default function Vendor_details({ navigation }) {
                                 <DataTable.Cell>{item.email}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {vendorId: item._id})}}>Details</Button>
+                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
                                         :
-                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/editvendordetails/"+item._id}>Details</Link></Button>
+                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
                                 </DataTable.Cell>
                             </DataTable.Row>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '50%',
+                width: '70%',
                 border: '1px solid gray',
                 borderRadius: '2%',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',

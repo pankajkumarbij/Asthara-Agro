@@ -4,6 +4,7 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'rea
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { all_users } from '../../services/user_api';
 
 const theme = {
     ...DefaultTheme,
@@ -15,12 +16,13 @@ const theme = {
     },
 };
 
-export default function AllUsers({ navigation }) {
+export default function AllUsers(props,{ navigation }) {
 
     const [allUsers, setAllUsers] = useState();
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
-
+    const [roleas, setRoleas] = useState("");
+    
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -28,13 +30,13 @@ export default function AllUsers({ navigation }) {
         else{
             setHost("localhost");
         }
-        fetch(`http://${host}:5000/retrive_all_user`, {
-            method: 'GET'
+        setRoleas(props.roleas);
+        //Retrieve all users
+        all_users(host)
+        .then(function(result) {
+            setAllUsers(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(allusers => setAllUsers(allusers));
-    }, [allUsers, host]);
+    }, [allUsers, host,roleas, props.roleas]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -44,19 +46,22 @@ export default function AllUsers({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title>All Users</Title>
+                    <Title style={{marginBottom: '20px'}}>All Users</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Email</DataTable.Title>
                         {Platform.OS !== "android" &&
                         <DataTable.Title>Full Name</DataTable.Title>
                         }
+                        <DataTable.Title>Nick Name</DataTable.Title>
+                        
                         <DataTable.Title>Role</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
@@ -69,12 +74,14 @@ export default function AllUsers({ navigation }) {
                                 {Platform.OS !== "android" &&
                                 <DataTable.Cell>{item.full_name}</DataTable.Cell>
                                 }
+                                <DataTable.Cell>{item.nick_name}</DataTable.Cell>
+                                
                                 <DataTable.Cell>{item.role}</DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
                                         :
-                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/edituser/"+item._id}>Details</Link></Button>
+                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
                                 </DataTable.Cell>
                             </DataTable.Row>
@@ -133,9 +140,8 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '50%',
+                width: '75%',
                 border: '1px solid gray',
-                borderRadius: '2%',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })

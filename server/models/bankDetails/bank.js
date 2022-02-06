@@ -26,7 +26,12 @@ const bankSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    account_type:{
+        type:String,
+        required: true,
+    }
+    }, {
+    timestamps: true
 });
-
 const Bank = mongoose.model('Bank', bankSchema);
 module.exports = Bank;

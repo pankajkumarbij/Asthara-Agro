@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import axios from 'axios';
+import {url} from '../../utils/url';
+import {useHistory} from 'react-router-dom';
 
 const theme = {
     ...DefaultTheme,
@@ -15,34 +18,22 @@ const theme = {
 export default function AddItemGrade({ navigation }) {
 
     const [itemGradeName, setItemGradeName] = useState("");
-    const [host, setHost] = useState("");
-
-    useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-    }, [host]);
-
+    let history = useHistory();
     function submitForm() {
-        fetch(`http://${host}:5000/create_item_grade`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                grade_name: itemGradeName,
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
-            console.log(data);
+        axios.post(url + '/create_item_grade', {
+            grade_name: itemGradeName,
+          })
+          .then(function (response) {
+            alert(response.data.message);
+            if(response.data)
+            {
+                history.push('/allitemgrades')
+            }
             setItemGradeName("");
-        }); 
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
     }
 
     return (
@@ -77,7 +68,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

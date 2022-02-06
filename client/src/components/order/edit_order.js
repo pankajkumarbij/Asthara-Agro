@@ -3,6 +3,9 @@ import { View, StyleSheet, Platform, ScrollView, SafeAreaView } from 'react-nati
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle,faMinusCircle, faSearch, faTimes, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
+import { Order_by_id } from '../../services/order_api';
+import { all_vendor_items } from '../../services/vendor_api';
+import { useHistory } from 'react-router-dom';
 
 const theme = {
     ...DefaultTheme,
@@ -16,10 +19,11 @@ const theme = {
 
 export default function EditOrder(props,{route}) {
 
+    let history = useHistory();
+
     var orderid = "";
-    var id="";
     if(Platform.OS=="android"){
-        id = route.params.orderId;
+        orderid = route.params.orderId;
     }
     else{
         orderid = props.match.params.orderid;
@@ -30,7 +34,7 @@ export default function EditOrder(props,{route}) {
     const [visible, setVisible] = useState([]);
     const [item, setItem] = useState();
     const [host, setHost] = useState("");
-    const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:''}]);
+    const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:'',itemPrice:0}]);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [mobileNo, setMobileNo] = useState("");
@@ -43,49 +47,39 @@ export default function EditOrder(props,{route}) {
     const [flag, setFlag] = useState(true);
 
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-            setOrderId(id);
-        }
-        else{
-            setHost("localhost");
-            setOrderId(orderid);
-        }
 
-        fetch(`http://${host}:5000/retrive_all_item`, {
-            method: 'GET'
+        setHost(props.host);
+        setOrderId(orderid);
+        
+        all_vendor_items()
+        .then(result =>{
+            setItem(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(item => setItem(item));
-
-        if(flag && orderId){
-            fetch(`http://${host}:5000/retrive_order/${orderId}`, {
-                method: 'GET'
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(order => {
-                setName(order[0].name);
-                setEmail(order[0].email);
-                setMobileNo(order[0].mobile_no);
-                setAddress(order[0].address);
-                setLandmark(order[0].landmark);
-                setDistrict(order[0].landmark);
-                setState(order[0].state);
-                setCountry(order[0].country);
-                setPincode(order[0].postal_code);
-                setItems(order[0].items);
+        if(flag && orderid && host){
+            Order_by_id(orderid)
+            .then(result => {
+                setName(result[0].name);
+                setEmail(result[0].email);
+                setMobileNo(result[0].mobile_no);
+                setAddress(result[0].address);
+                setLandmark(result[0].landmark);
+                setDistrict(result[0].landmark);
+                setState(result[0].state);
+                setCountry(result[0].country);
+                setPincode(result[0].postal_code);
+                setItems(result[0].items);
                 setFlag(false);
-            });
+            })
         }
-    }, [item,host,orderId,id,orderid,flag]);
+
+    }, [item,host,orderid,flag,props.host]);
 
     const openMenu = (index) => {
         const values = [...visible];
         values[index]=true;
         setVisible(values);
     };
+
     const closeMenu = (index) => {
         const values = [...visible];
         values[index]=false;
@@ -99,6 +93,12 @@ export default function EditOrder(props,{route}) {
             values[index].itemName = fieldvalue;
             values[index].itemUnit=unit;
             closeMenu(index);
+        }
+        else if (fieldname === "finalPrice") {
+            values[index].itemPrice = fieldvalue;
+        }
+        else if (fieldname === "itemNegotiatePrice") {
+            values[index].itemNegotiatePrice = fieldvalue;
         }
         else{
             values[index].quantity = fieldvalue;
@@ -141,7 +141,7 @@ export default function EditOrder(props,{route}) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            console.log(data);
+            history.push('/pendingorders');
         });
     }
 
@@ -153,7 +153,7 @@ export default function EditOrder(props,{route}) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            console.log(data);
+            history.push('/pendingorders');
         });
     }
 
@@ -163,11 +163,11 @@ export default function EditOrder(props,{route}) {
         <Provider theme={theme}>
             <SafeAreaView>
             <ScrollView>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View>
                 <Card style={styles.card}>
                     <Card.Title title="Edit Order"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Full Name" value={name} onChangeText={name => setName(name)} />
+                    <TextInput style={styles.input} mode="outlined" label="Customer Name" value={name} onChangeText={name => setName(name)} />
                     <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                     <TextInput style={styles.input} mode="outlined" label="Mobile no" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
                     <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
@@ -178,7 +178,7 @@ export default function EditOrder(props,{route}) {
                     <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pincode => setPincode(pincode)} />
                     {items.map((it, index) => (
                         <View>
-                            <Menu
+                            {/* <Menu
                             visible={visible[index]}
                             onDismiss={()=>closeMenu(index)}
                             anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{it.itemName}</Button>}>
@@ -202,9 +202,12 @@ export default function EditOrder(props,{route}) {
                                     :
                                     <Menu.Item title="No items are available" />
                                 }
-                            </Menu>
-                            <TextInput mode="outlined" label="unit of each item" value={it.itemUnit} />
+                            </Menu> */}
+                             <TextInput mode="outlined" label="Item Name" value={it.itemName} />
+                            <TextInput mode="outlined" label="Unit of each item" value={it.itemUnit} />
                             <TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} />
+                            <TextInput  keyboardType='numeric' mode="outlined" label="Per Unit Price" value={it.itemPrice} />
+                            <TextInput  keyboardType='numeric' mode="outlined" label="Negotiate Price" value={it.itemNegotiatePrice} />
                             <View style={{flexDirection: 'row'}}>
                                 {Platform.OS=="android" ?
                                     <>
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
                 marginTop: '4%',
                 marginBottom: '4%',
-                width: '50%',
+                width: '75%',
             }
         })
     },

@@ -29,7 +29,9 @@ const addressSchema = new mongoose.Schema({
     postal_code: {
         type: Number,
         required: true,
-    },
+    }
+    }, {
+    timestamps: true
 });
 
 const Address = mongoose.model('Address', addressSchema);

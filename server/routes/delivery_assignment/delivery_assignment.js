@@ -10,7 +10,7 @@ router.post('/delivery_assignment', (req, res)=>{
         user_id:req.body.user_id,
         vendor_id:req.body.vendor_id,
         invoice_id: req.body.invoice_id,
-        item_description:req.body.item_description,
+        items:req.body.items,
         address_id: req.body.address_id,
         address_location:req.body.address_location,
         status: req.body.status,

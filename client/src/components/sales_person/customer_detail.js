@@ -4,6 +4,7 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'rea
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { all_users_by_role } from '../../services/user_api';
 
 const theme = {
     ...DefaultTheme,
@@ -15,7 +16,7 @@ const theme = {
     },
 };
 
-export default function Customer_details({ navigation }) {
+export default function Customer_details(props,{ navigation }) {
 
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
@@ -28,12 +29,11 @@ export default function Customer_details({ navigation }) {
         else{
             setHost("localhost");
         }
-        fetch('http://localhost:5000/retrive_all_customer', {
-          method: 'GET'
+        //retrieve all customer
+        all_users_by_role("customer")
+        .then(result=> {
+            setAllItems(result);
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(allItems => setAllItems(allItems));
     }, [allItems, host]);
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -68,9 +68,9 @@ export default function Customer_details({ navigation }) {
                                 <DataTable.Cell>{item.email}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {vendorId: item._id})}}>Details</Button>
+                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
                                         :
-                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/editcustomerdetails/"+item._id}>Details</Link></Button>
+                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
                                 </DataTable.Cell>
                             </DataTable.Row>
@@ -87,7 +87,6 @@ export default function Customer_details({ navigation }) {
         </Provider>
     );
 }
-
 const styles = StyleSheet.create({
     view: {
         ...Platform.select({
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
                 width: '90%',
             },
             default: {
-                width: '50%',
+                width: '70%',
                 border: '1px solid gray',
                 borderRadius: '2%',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
