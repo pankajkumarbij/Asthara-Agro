@@ -3,6 +3,7 @@ import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { users_by_id } from '../../services/user_api';
+import { url } from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -15,7 +16,7 @@ const theme = {
 };
 
 //define add address component
-export default function AddAddress(props, {route}) {
+export default function AddAddress({navigation,route},props) {
 
     var userid="";
     if(Platform.OS=="android"){
@@ -62,7 +63,7 @@ export default function AddAddress(props, {route}) {
     function submitForm() {
 
         if(role=="vendor"){
-            fetch(`http://${host}:5000/create_vendor_address`, {
+            fetch(url+`/create_vendor_address`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export default function AddAddress(props, {route}) {
         }
 
         if(role=="customer"){
-            fetch(`http://${host}:5000/create_customer_address`, {
+            fetch(url+`/create_customer_address`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,7 +108,7 @@ export default function AddAddress(props, {route}) {
             }); 
         }
 
-        fetch(`http://${host}:5000/create_address`, {
+        fetch(url+`/create_address`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -126,7 +127,14 @@ export default function AddAddress(props, {route}) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            history.push('/addbankdetails/'+userId);
+            if(Platform.OS=='android')
+            {
+                navigation.navigate('AddBankDetails',{userid:userId});
+            }
+            else
+            {
+                history.push('/addbankdetails/'+userId);
+            }
         }); 
     }
     //define all the required input fields
@@ -134,7 +142,7 @@ export default function AddAddress(props, {route}) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Add Address"/>
+                <Card.Title titleStyle={styles.title} title="Add Address"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
                     <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
@@ -173,6 +181,7 @@ const styles = StyleSheet.create({
     },
     input: {
         marginTop: '2%',
+        marginBottom: '2%',
         width: '100%',
         ...Platform.select({
             ios: {
@@ -183,6 +192,25 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                marginTop: '1%',
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

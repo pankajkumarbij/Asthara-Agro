@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform} from 'react-native';
+import { View, StyleSheet, Platform, ScrollView} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme ,Text, Menu} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +16,7 @@ const theme = {
     },
 };
 //define add bank details component
-export default function AddBankDetails(props, {route}) {
+export default function AddBankDetails( {navigation,route},props) {
 
     var userid="";
     if(Platform.OS=="android"){
@@ -119,22 +119,29 @@ export default function AddBankDetails(props, {route}) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Add Bank Details"/>
+                <ScrollView>
+                    <Card.Title titleStyle={styles.title} title="Add Bank Details"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Ifsc Code" value={ifsccode} onChangeText={ifsccode => setIfsccode(ifsccode)} />
-                    { error && 
-                        <p id={1} style={{color:"red"}}>{error}</p>
+                    { error ? 
+                        <Text id={1} style={{color:"red"}}>{error}</Text>
+                        :
+                        <Text></Text>
                     }
-                    { flag &&
+                    { flag ?
                         <>
                             <TextInput style={styles.input} mode="outlined" label="Bank Name" value={bankName} />
                             <TextInput style={styles.input} mode="outlined" label="Branch Name" value={branchName}  />
                         </>
+                        :
+                        <Text></Text>
                     }
                     <TextInput style={styles.input} mode="outlined" label="Account Number" value={confirm_AccountNumber} onChangeText={confirm_AccountNumber => setConfirm_AccountNumber(confirm_AccountNumber)} secureTextEntry={true}/>
                     <TextInput style={styles.input} mode="outlined" label="Confirm Account Number" value={accountNumber} onChangeText={accountNumber => setAccountNumber(accountNumber)} />
-                    { account_error && 
-                        <span id={2} style={{color:"red"}}>{account_error}</span>
+                    { account_error ? 
+                        <Text id={2} style={{color:"red"}}>{account_error}</Text>
+                        :
+                        <Text></Text>
                     }
                     <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderName => setAccountHolderName(accountHolderName)} />
                     <Menu
@@ -146,6 +153,7 @@ export default function AddBankDetails(props, {route}) {
                     </Menu>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Bank Details</Button>
                     </Card.Content>
+                </ScrollView>
                 </Card>
             </View>
         </Provider>
@@ -175,6 +183,7 @@ const styles = StyleSheet.create({
     },
     input: {
         marginTop: '2%',
+        marginBottom: '2%',
         width: '100%',
         ...Platform.select({
             ios: {
@@ -188,7 +197,27 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                marginTop: '1%',
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     button: {
         marginTop: '2%',
+        marginBottom: '8%'
     }
 }); 

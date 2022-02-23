@@ -19,7 +19,7 @@ const theme = {
     },
 };
 
-export default function All_Purchase_Order_Confirm(props,{ navigation }) {
+export default function All_Pending_Purchase_Order_Confirm(props,{ navigation }) {
 
     const [allPurchaseOrderConfirm, setAllPurchaseOrderConfirm] = useState();
     const [searchQuery, setSearchQuery] = useState('');
