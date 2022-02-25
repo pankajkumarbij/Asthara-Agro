@@ -60,6 +60,19 @@ import All_Accepted_Pickup_Assignment_Confirm_Vendor from '../components/pickup_
 // import AllVendorPools from '../components/pool/all_vendor_pools';
 // import AddCustomerVendorPool from '../components/pool/vendor_customer_cross';
 // import AllCustomerVendorPools from '../components/pool/all_cross_pool';
+import Customer_details from '../components/sales_person/customer_detail';
+import CreateOrder from '../components/order/createorder';
+import Add_customer_Address from '../components/customer_address/add_address';
+import All_addresses from '../components/customer_address/all_customer_address';
+import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
+import Add_vendor_Address from '../components/vendor_address/add_vendor_address';
+import All_addressesVendor from '../components/vendor_address/all_vendor_address';
+// import AddTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/transport_labour_from_vendor';
+// import AllTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/all_transport_labour_from_vendor';
+// import AddTransportLabour from '../components/transport_labour/transport_labour_for_sales/transport_labour';
+// import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
+import Vendor_details from '../components/buyer/vendor_details';
+import VendorAddItem from '../components/vendorsItem/vendors_addItem';
 
 const Stack = createStackNavigator();
 
@@ -365,6 +378,71 @@ export default function Stacks({navigation}){
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/> */}
+            <Stack.Screen name="Customer_details" component={Customer_details} options={{
+            headerLeft:()=>(
+                <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="CreateOrder" component={CreateOrder} options={{
+            headerLeft:()=>(
+                <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Add_customer_Address" component={Add_customer_Address} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_addresses" component={All_addresses} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            {/* <Stack.Screen name="VendorAddItem" component={VendorAddItem} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/> */}
+            <Stack.Screen name="VendorsAllItems" component={VendorsAllItems} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Add_vendor_Address" component={Add_vendor_Address} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            {/* <Stack.Screen name="All_addressesVendor" component={All_addressesVendor} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/> */}
+            {/* <Stack.Screen name="AddTransportLabourFromVendor" component={AddTransportLabourFromVendor} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllTransportLabourFromVendor" component={AllTransportLabourFromVendor} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AddTransportLabour" component={AddTransportLabour} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllTransportLabourForSales" component={AllTransportLabourForSales} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/> */}
+            <Stack.Screen name="Vendor_details" component={Vendor_details} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
         </Stack.Navigator>
     );
 }

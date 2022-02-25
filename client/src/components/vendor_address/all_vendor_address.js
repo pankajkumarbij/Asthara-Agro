@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function All_addresses({ navigation }) {
+export default function All_addressesVendor({ navigation }) {
 
     const [vendorId, setVendorId] = useState('');
     const [address, setAddress] = useState();
