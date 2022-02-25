@@ -157,6 +157,7 @@ function CustomDrawerContent({navigation}) {
             </View>
             <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Home')}}>Home</Button>
             <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AddCategory')}}>Add Category</Button>
+            <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllItemCategories')}}>view Category</Button>
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
                 <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                     <View>

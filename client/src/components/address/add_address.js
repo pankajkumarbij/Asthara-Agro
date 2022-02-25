@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom'
 import { users_by_id } from '../../services/user_api';
 import { url } from '../../utils/url';
 
@@ -16,14 +16,16 @@ const theme = {
 };
 
 //define add address component
-export default function AddAddress({navigation,route},props) {
+export default function AddAddress({navigation,route}) {
 
     var userid="";
+    const { userid1 } = useParams();
+
     if(Platform.OS=="android"){
         userid = route.params.userid;
     }
     else{
-        userid = props.match.params.userid;
+        userid = userid1;
     }
 
     let history = useHistory();
