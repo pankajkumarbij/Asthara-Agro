@@ -49,14 +49,13 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Accepted Pickup Assignment Confirm Vendor</Title>
+                    <Title >All Accepted Pickup Assignment Confirm Vendor</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>

@@ -49,14 +49,13 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Pickup Assignment Confirm</Title>
+                    <Title >All Pickup Assignment Confirm</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>

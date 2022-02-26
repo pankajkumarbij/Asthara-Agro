@@ -100,14 +100,13 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Confirm Purchase Order</Title>
+                    <Title >All Confirm Purchase Order</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>

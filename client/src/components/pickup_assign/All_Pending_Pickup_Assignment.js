@@ -81,14 +81,13 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title style={{marginBottom: '20px'}}>All Pending Pickup Assignment</Title>
+               <Title >All Pending Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>

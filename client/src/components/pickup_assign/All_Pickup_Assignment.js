@@ -99,14 +99,13 @@ export default function All_Pickup_Assignment({ navigation }) {
                 </Portal>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title style={{marginBottom: '20px'}}>All Pickup Assignment</Title>
+               <Title >All Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>

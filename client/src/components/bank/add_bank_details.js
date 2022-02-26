@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ScrollView} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme ,Text, Menu} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {bank_url} from '../../utils/bank';
 import axios from 'axios';
 
@@ -16,14 +16,15 @@ const theme = {
     },
 };
 //define add bank details component
-export default function AddBankDetails( {navigation,route},props) {
+export default function AddBankDetails( {navigation,route}) {
 
     var userid="";
+    const { userid1 } = useParams();
     if(Platform.OS=="android"){
         userid = route.params.userid;
     }
     else{
-        userid = props.match.params.userid;
+        userid = userid1;
     }
 
     let history = useHistory();

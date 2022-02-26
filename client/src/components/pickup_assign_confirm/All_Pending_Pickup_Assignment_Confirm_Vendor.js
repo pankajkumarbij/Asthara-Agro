@@ -80,14 +80,13 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Pending Pickup Assignment Confirm Vendor</Title>
+                    <Title >All Pending Pickup Assignment Confirm Vendor</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>

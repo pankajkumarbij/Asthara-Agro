@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, Image, Text } from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme, Button } from 'react-native-paper';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { users_by_id, user_address, user_bank, user_category} from '../../services/user_api';
 
 const theme = {
@@ -16,14 +16,15 @@ const theme = {
     },
 };
 
-export default function ViewUser(props, {route}) {
+export default function ViewUser( {route}) {
 
     var userid = "";
+    const {userid1} = useParams();
     if(Platform.OS=="android"){
         userid = route.params.userId;
     }
     else{
-        userid = props.match.params.userid;
+        userid = userid1;
     }
     
     const [user, setUser] = useState();

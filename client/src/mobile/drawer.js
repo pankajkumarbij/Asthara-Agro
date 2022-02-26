@@ -51,6 +51,9 @@ function CustomDrawerContent({navigation}) {
     const [visible29, setVisible29] = useState(false);
     const [visible30, setVisible30] = useState(false);
     const [visible31, setVisible31] = useState(false);
+    const [visible32, setVisible32] = useState(false);
+    const [visible33, setVisible33] = useState(false);
+    const [visible34, setVisible34] = useState(false);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [roleas, setRoleas] = useState("");
@@ -147,6 +150,12 @@ function CustomDrawerContent({navigation}) {
     const closeMenu30 = () => setVisible30(false);
     const openMenu31 = () => setVisible31(true);
     const closeMenu31 = () => setVisible31(false);
+    const openMenu32 = () => setVisible32(true);
+    const closeMenu32 = () => setVisible32(false);
+    const openMenu33 = () => setVisible33(true);
+    const closeMenu33 = () => setVisible33(false);
+    const openMenu34 = () => setVisible34(true);
+    const closeMenu34 = () => setVisible34(false);
     // console.log(role);
     
     return (
@@ -189,7 +198,6 @@ function CustomDrawerContent({navigation}) {
                 <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
             </View>
             <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Home')}}>Home</Button>
-            <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AddCategory')}}>Add Category</Button>
             
             {role === "manager" ?
             <>
@@ -346,7 +354,7 @@ function CustomDrawerContent({navigation}) {
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                 <View>
-                    <Text style={{textAlign: 'center'}}> Assignments </Text>
+                    <Text style={{textAlign: 'center'}}> Assignment </Text>
                 </View>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
             </View>
@@ -584,6 +592,59 @@ function CustomDrawerContent({navigation}) {
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Pending_Pickup_Assignment')}}>View Pending Pickup Assignment</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Pickup_Assignment')}}>View Accepted Pickup Assignment</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Pickup_Assignment_Confirm_Buyer')}}>View Pickup Confirmed by Buyer</Button>
+            </Menu>
+            </> :
+            <></>
+    }
+    {role === "customer" ?
+        <>
+            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
+            <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+                    <View>
+                        <Text style={{textAlign: 'center'}}> Assignment </Text>
+                    </View>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+            </View>
+            <Menu
+            visible={visible32}
+            onDismiss={closeMenu32}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu32}>Delivery</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Delivery')}}>All Delivery</Button>
+            </Menu>
+            </> :
+            <></>
+    }
+    {role === "accountant" ?
+        <>
+            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
+            <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+                    <View>
+                        <Text style={{textAlign: 'center'}}> Reports </Text>
+                    </View>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+            </View>
+            <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllCompletedOrders')}}>View Completed Orders</Button>
+            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
+            <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+                    <View>
+                        <Text style={{textAlign: 'center'}}> Assignment </Text>
+                    </View>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+            </View>
+            <Menu
+            visible={visible33}
+            onDismiss={closeMenu33}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu33}>Delivery Assignment</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Delivery_Assignment')}}>View Delivery Assignment</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Pending_Delivery_Assignment')}}>View Pending Delivery Assignment</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery_Assignment')}}>View Accepted Delivery Assignment</Button>
+            </Menu>
+            <Menu
+            visible={visible34}
+            onDismiss={closeMenu34}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu34}>Delivery</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Delivery')}}>All Delivery</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery')}}>All Confirm Delivery</Button>
             </Menu>
             </> :
             <></>
