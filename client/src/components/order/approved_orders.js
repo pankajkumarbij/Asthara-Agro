@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId} from '../../utils/user';
 import { manager_pool_by_id } from '../../services/pool';
 import { users_by_id } from '../../services/user_api';
 
@@ -27,8 +27,20 @@ export default function ApprovedOrders(props, { navigation }) {
     const [flag, setFlag] = useState(false);
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
+
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         if(role=='manager' && userId){
             users_by_id(userId)

@@ -5,7 +5,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import swal from '@sweetalert/with-react';
-import { userId } from '../../../utils/user';
+import { loginuserId } from '../../../utils/user';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 
 const theme = {
@@ -33,8 +33,14 @@ export default function AddTransportLabour(props,{ navigation }) {
     const [acpo, setACPO] = useState();
 
     let history = useHistory();
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         all_completed_purchase_orders()  
         .then(result => {

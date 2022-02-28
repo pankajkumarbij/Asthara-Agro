@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pickup_assignment } from '../../services/pickup_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
 
@@ -30,8 +30,20 @@ export default function All_Pickup_Assignment({ navigation }) {
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
+
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         if(role=='manager' && userId){
             users_by_id(userId)

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { transport_labour_for_sales } from '../../../services/transport_labour/transport_labout_for_sales';
-import { userId } from '../../../utils/user';
+import { loginuserId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -21,8 +21,14 @@ export default function AllTransportLabourForSales(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         transport_labour_for_sales()
         .then(result=> {

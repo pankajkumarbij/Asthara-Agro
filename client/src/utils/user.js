@@ -1,25 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('role');
-      if (value !== null) {
-        return value;
-      }
-     } catch (error) {
-     }
-  }
-  let x;
-  const userList =retrieveData();
-  console.log(retrieveData ); // Promise  <pending>
-  userList.then((result)=> {
-    x=result;
+
+export async function roleas() {
+  return await AsyncStorage.getItem('role')
+  .then((role) => {
+     return role;
+
   })
-//   let r=""
-//    retrieveData()
-//    .then((a) => {
-//      r=a;
-//     });
-console.log(x);
-//export default fetchData();
-export const role =retrieveData();
-export const userId = localStorage.getItem('loginuserid');
+}
+
+export async function loginuserId() {
+  return await AsyncStorage.getItem('loginuserid')
+  .then((id) => {
+     return id;
+
+  })
+}

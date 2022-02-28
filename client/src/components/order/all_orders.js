@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { allOrder } from '../../services/order_api';
 import { manager_pool_by_id } from '../../services/pool';
 import { users_by_id } from '../../services/user_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId} from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -25,9 +25,21 @@ export default function AllOrders(props, { navigation }) {
     const [allOrders, setAllOrders] = useState();
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
         
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
+
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{

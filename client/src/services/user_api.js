@@ -2,7 +2,7 @@ import {url} from '../utils/url';
 import axios from 'axios';
 //retrive users by category
 export function all_users(host){
-    return fetch(`http://${host}:5000/retrive_all_user`, {
+    return fetch(`${url}/retrive_all_user`, {
          method: 'GET'
     })
     .then(res => res.json())
@@ -27,7 +27,7 @@ export const users_by_email = (email) => {
 }
 //retrive all disabled users
 export function disabled_users(host){
-    return fetch(`http://${host}:5000/retrive_all_disabled_user`, {
+    return fetch(`${url}/retrive_all_disabled_user`, {
             method: 'GET'
     })
     .then(res => res.json())
@@ -45,7 +45,7 @@ export const all_users_by_role = (role) => {
 }
 //retive all disabled users category
 export function disabled_user_category(host){
-    return fetch(`http://${host}:5000/retrive_all_disabled_user_category`, {
+    return fetch(`${url}/retrive_all_disabled_user_category`, {
             method: 'GET'
     })
     .then(res => res.json())
@@ -56,7 +56,7 @@ export function disabled_user_category(host){
 }
 //retive all disabled users category by id
 export function disabled_all_disabled_user_category(host){
-    return fetch(`http://${host}:5000/retrive_user_category`, {
+    return fetch(`${url}/retrive_user_category`, {
         method: 'GET'
     })
     .then(res => res.json())
@@ -67,7 +67,7 @@ export function disabled_all_disabled_user_category(host){
 }
 //retrive users address by user id
 export function address_by_usersId(host,userId){
-    return fetch(`http://${host}:5000/retrive_address_by_userId/${userId}`, {
+    return fetch(`${url}/retrive_address_by_userId/${userId}`, {
         method: 'GET'
     })
     .then(res => res.json())
@@ -78,7 +78,7 @@ export function address_by_usersId(host,userId){
 }
 //retrive users address by user id
 export function address_by_Id(host,addressId){
-    return fetch(`http://${host}:5000/retrive_address/${addressId}`, {
+    return fetch(`${url}/retrive_address/${addressId}`, {
         method: 'GET'
     })
     .then(res => res.json())
@@ -89,7 +89,7 @@ export function address_by_Id(host,addressId){
 }
 //retrive bank details by user id
 export function bank_by_userId(host,userId){
-    return fetch(`http://${host}:5000/retrive_bank_by_userId/${userId}`, {
+    return fetch(`${url}/retrive_bank_by_userId/${userId}`, {
         method: 'GET'
     })
     .then(res => res.json())

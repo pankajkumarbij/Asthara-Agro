@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import swal from '@sweetalert/with-react';
-import { userId } from '../../../utils/user';
+import { loginuserId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -25,6 +25,17 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
     const [driverMobileNumber, setDriverMobileNumber] = useState("");
     const [labourName, setLabourName] = useState("");
     const [labourMobileNumber, setLabourMobileNumber] = useState("");
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
+
+    useEffect(() => {
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
+        
+    },[]);
 
     let history = useHistory();
 

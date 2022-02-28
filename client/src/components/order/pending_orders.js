@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
 import {host} from '../../utils/host';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId} from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { manager_pool_by_id } from '../../services/pool';
 
@@ -29,9 +29,21 @@ export default function PendingOrders(props, { navigation }) {
     const [vendorsid, setVendorsid] = useState([]);
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
 
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
+        
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{

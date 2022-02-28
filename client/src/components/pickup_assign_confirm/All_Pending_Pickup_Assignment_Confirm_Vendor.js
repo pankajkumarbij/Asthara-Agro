@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_pickup_assignment_confirmed } from '../../services/pickup_api';
 import {host} from '../../utils/host';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -25,8 +25,20 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState([])
     const [managerPoolId, setManagerPoolId] = useState('');
-    
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
+
     useEffect(() => {
+
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         if(role=='manager' && userId){
             users_by_id(userId)

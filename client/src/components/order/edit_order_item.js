@@ -7,7 +7,7 @@ import {vendor_by_low_price} from '../../services/vendor_api';
 import {order_item_summary_quantity} from '../../services/order_api';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId} from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -47,11 +47,23 @@ export default function EditOrderItem(props,{route}) {
     const [vendorPoolId, setVendorPoolId] = useState("");
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState('');
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     let history = useHistory();
 
     useEffect(() => {
 
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
+        
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
