@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import swal from '@sweetalert/with-react';
+// import swal from '@sweetalert/with-react';
 import { userId } from '../../../utils/user';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 
@@ -102,15 +102,15 @@ export default function AddTransportLabour(props,{ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             if(data.message!="something wrong!"){
-                swal("Yeah!", data.message, "success");
+                    alert("Yeah!", data.message, "success");
                 history.push('/alltransportlabourforsales');
             }
             else{
                 if(data.error.errors){
-                    swal("Oops!", "All Fields are required!", "error");
+                    alert("All Fields are required!");
                 }
                 else{
-                    swal(data.message);
+                    alert(data.message);
                 }
             }
         });

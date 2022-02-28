@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import swal from '@sweetalert/with-react';
+// import swal from '@sweetalert/with-react';
 import { userId } from '../../../utils/user';
 
 const theme = {
@@ -58,15 +58,15 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
         .then(data => {
             console.log(data);
             if(data.message!="Something went wrong!"){
-                swal("Yeah!", data.message, "success");
+                alert("Yeah!", data.message, "success");
                 history.push('/alltransportlabourfromvendor');
             }
             else{
                 if(data.error.errors){
-                    swal("Oops!", "All Fields are required!", "error");
+                    alert( "All Fields are required!");
                 }
                 else{
-                    swal("Oops!", "You Have Already Added Transport and Labour Charge", "error");
+                    alert("You Have Already Added Transport and Labour Charge");
                 }
             }
         });
