@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ScrollView} from 'react-native';
+import { View, StyleSheet, Platform, ScrollView,KeyboardAvoidingView} from 'react-native';
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar} from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -210,6 +210,7 @@ export default function Register({ navigation},props) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
+                <KeyboardAvoidingView>
                 <ScrollView>
                     <Card.Title titleStyle={styles.title} title="Register User"/>
                     <Card.Content>
@@ -369,6 +370,7 @@ export default function Register({ navigation},props) {
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Address</Button>
                     </Card.Content>
                 </ScrollView>
+                </KeyboardAvoidingView>
                 </Card>
             </View>
         </Provider>

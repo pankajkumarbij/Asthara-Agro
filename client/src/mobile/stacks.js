@@ -52,14 +52,14 @@ import All_Pickup_Assignment_Confirm_Buyer from '../components/pickup_assign_con
 import All_Pickup_Assignment_Confirm from '../components/pickup_assign_confirm/All_Pickup_Assignment_Confirm';
 import All_Pending_Pickup_Assignment_Confirm_Vendor from '../components/pickup_assign_confirm/All_Pending_Pickup_Assignment_Confirm_Vendor';
 import All_Accepted_Pickup_Assignment_Confirm_Vendor from '../components/pickup_assign_confirm/All_Accepted_Pickup_Assignment_Confirm_Vendor';
-// import AddCustomerPool from '../components/pool/add_customer_pool';
-// import AddManagerPool from '../components/pool/add_manager_pool';
-// import AddVendorPool from '../components/pool/add_vendor_pool';
-// import AllCustomerPools from '../components/pool/all_customer_pools';
-// import AllManagerPools from '../components/pool/all_manager_pools';
-// import AllVendorPools from '../components/pool/all_vendor_pools';
-// import AddCustomerVendorPool from '../components/pool/vendor_customer_cross';
-// import AllCustomerVendorPools from '../components/pool/all_cross_pool';
+import AddCustomerPool from '../components/pool/add_customer_pool';
+import AddManagerPool from '../components/pool/add_manager_pool';
+import AddVendorPool from '../components/pool/add_vendor_pool';
+import AllCustomerPools from '../components/pool/all_customer_pools';
+import AllManagerPools from '../components/pool/all_manager_pools';
+import AllVendorPools from '../components/pool/all_vendor_pools';
+import AddCustomerVendorPool from '../components/pool/vendor_customer_cross';
+import AllCustomerVendorPools from '../components/pool/all_cross_pool';
 import Customer_details from '../components/sales_person/customer_detail';
 import CreateOrder from '../components/order/createorder';
 import Add_customer_Address from '../components/customer_address/add_address';
@@ -67,10 +67,10 @@ import All_addresses from '../components/customer_address/all_customer_address';
 import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
 import Add_vendor_Address from '../components/vendor_address/add_vendor_address';
 import All_addressesVendor from '../components/vendor_address/all_vendor_address';
-// import AddTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/transport_labour_from_vendor';
-// import AllTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/all_transport_labour_from_vendor';
-// import AddTransportLabour from '../components/transport_labour/transport_labour_for_sales/transport_labour';
-// import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
+import AddTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/transport_labour_from_vendor';
+import AllTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/all_transport_labour_from_vendor';
+import AddTransportLabour from '../components/transport_labour/transport_labour_for_sales/transport_labour';
+import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
 import Vendor_details from '../components/buyer/vendor_details';
 import VendorAddItem from '../components/vendorsItem/vendors_addItem';
 
@@ -338,7 +338,7 @@ export default function Stacks({navigation}){
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            {/* <Stack.Screen name="AddCustomerPool" component={AddCustomerPool} options={{
+            <Stack.Screen name="AddCustomerPool" component={AddCustomerPool} options={{
             headerLeft:()=>(
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
@@ -377,7 +377,7 @@ export default function Stacks({navigation}){
             headerLeft:()=>(
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
-            }}/> */}
+            }}/>
             <Stack.Screen name="Customer_details" component={Customer_details} options={{
             headerLeft:()=>(
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
@@ -418,7 +418,7 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/> */}
-            {/* <Stack.Screen name="AddTransportLabourFromVendor" component={AddTransportLabourFromVendor} options={{
+            <Stack.Screen name="AddTransportLabourFromVendor" component={AddTransportLabourFromVendor} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
@@ -437,7 +437,7 @@ export default function Stacks({navigation}){
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
-            }}/> */}
+            }}/>
             <Stack.Screen name="Vendor_details" component={Vendor_details} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />

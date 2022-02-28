@@ -81,6 +81,7 @@ export default function CreateOrder({ navigation }) {
                 if(item){
                     const itemsnames=[...new Set(item.map(x=>x.item_name))];
                     setItem(itemsnames);
+                    console.log(item);
                     setFlag2(false);
                 }
             });
@@ -301,7 +302,7 @@ export default function CreateOrder({ navigation }) {
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Create Sales Order"/>
+                    <Card.Title titleStyle={styles.title} title="Create Sales Order"/>
                     <Card.Content>
                         <View style={styles.customer}>
                             <Button mode="outlined" style={styles.button} onPress={()=>setFlag(false)} >New Customer Order</Button>
@@ -339,7 +340,7 @@ export default function CreateOrder({ navigation }) {
                                 }
                             </Menu>
                         }
-                        <TextInput style={styles.input} mode="outlined" label="Nick Name" value={nick_name} onChangeText={nick_name => setNickName(name)} />
+                        <TextInput style={styles.input} mode="outlined" label="Nick Name" value={nick_name} onChangeText={nick_name => setNickName(nick_name)} />
                         <TextInput style={styles.input} mode="outlined" label="Full Name" value={name} onChangeText={name => setName(name)} />
                         <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                         <TextInput style={styles.input} mode="outlined" label="Mobile no" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
@@ -495,6 +496,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

@@ -4,7 +4,8 @@ import React, {useState} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import swal from '@sweetalert/with-react'
+// import swal from '@sweetalert/with-react'
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -61,7 +62,7 @@ export default function AddVendorPool(props,{ navigation }) {
     };
 
     function submitForm() {
-        fetch(`http://localhost:5000/create_vendor_pool`, {
+        fetch(`${url}/create_vendor_pool`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,21 +77,21 @@ export default function AddVendorPool(props,{ navigation }) {
         .then(data => {
             console.log(data);
             if(data.message!="something wrong!"){
-                swal("Yeah!", data.message, "success");
+                alert("Yeah!", data.message, "success");
                 history.push('/allvendorpools');
             }
             else{
                 if(data.error.errors){
-                    swal("Oops!", "All Fields are required!", "error");
+                    alert("All Fields are required!");
                 }
                 else if(data.error.keyPattern.postal_code){
-                    swal("Oops!", "Pin Code "+data.error.keyValue.postal_code+" is already available in another pool!", "error");
+                    alert("Pin Code "+data.error.keyValue.postal_code+" is already available in another pool!");
                 }
                 else if(data.error.keyPattern.pool_name){
-                    swal("Oops!", "Pool "+data.error.keyValue.pool_name+" is already created!", "error");
+                    alert("Pool "+data.error.keyValue.pool_name+" is already created!");
                 }
                 else{
-                    swal("Oops!", "something wrong!", "error");
+                    alert("something wrong!");
                 }
             }
         });
@@ -108,9 +109,9 @@ export default function AddVendorPool(props,{ navigation }) {
                     {items.map((it, index) => (
                         <View>
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" maxLength={6} value={it} onChangeText={(text)=>ItemChange(index, text)} />
-                            {pincodeError[index] &&
+                            {pincodeError[index] ?
                                 <Text style={{color: "red"}}>{pincodeError[index]}</Text>
-                            }
+                            :
                             <View style={{flexDirection: 'row'}}>
                                 {Platform.OS=="android" ?
                                     <>
@@ -124,6 +125,7 @@ export default function AddVendorPool(props,{ navigation }) {
                                     </>
                                 }
                             </View>
+                            }
                         </View>
                     ))}
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>

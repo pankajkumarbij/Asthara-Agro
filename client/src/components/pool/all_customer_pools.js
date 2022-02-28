@@ -39,14 +39,13 @@ export default function AllCustomerPools(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Customer Pools</Title>
+                    <Title >All Customer Pools</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
@@ -61,7 +60,7 @@ export default function AllCustomerPools(props,{ navigation }) {
                                     <DataTable.Cell>{item.pool_name}</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
-                                            <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_pool/"+item._id}>Details</Link></Button>
                                         }
