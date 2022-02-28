@@ -57,7 +57,7 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
             setAllPurchaseOrderConfirm(result);
         })
 
-    }, [allPurchaseOrderConfirm]);
+    }, [allPurchaseOrderConfirm,role,userId]);
 
     function VendorDetails(id, customid) {
         users_by_id(id)

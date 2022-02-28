@@ -51,7 +51,7 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, []);
+    }, [role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

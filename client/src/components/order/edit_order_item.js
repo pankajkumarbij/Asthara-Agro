@@ -108,7 +108,7 @@ export default function EditOrderItem(props,{route}) {
             })
         }
 
-    }, [vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId]);
+    }, [role,userId,vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId]);
 
     //submitForm() for sending the data in corresponding database
     function submitForm(){

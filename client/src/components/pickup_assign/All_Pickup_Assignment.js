@@ -57,7 +57,7 @@ export default function All_Pickup_Assignment({ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment]);
+    }, [allPickupAssignment,role,userId]);
     function VendorDetails(id, customid) {
         users_by_id(id)
         .then(result => {

@@ -49,7 +49,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment]);
+    }, [allPickupAssignment,role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

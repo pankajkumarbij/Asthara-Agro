@@ -35,7 +35,7 @@ export default function AllTransportLabourFromVendor(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, []);
+    }, [userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

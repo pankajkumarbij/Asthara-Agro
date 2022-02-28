@@ -72,7 +72,7 @@ export default function PendingOrders(props, { navigation }) {
             setFlag(true);
         }
 
-    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId]);
+    }, [allOrders, ,role,userId, visible, flag, managerPinCodes, managerPoolId]);
 
     const openMenu = (index) => {
         const values = [...visible];

@@ -50,7 +50,7 @@ export default function All_Pickup_Assignment_Confirm_Buyer(props,{ navigation }
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignmentConfirm]);
+    }, [allPickupAssignmentConfirm,role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

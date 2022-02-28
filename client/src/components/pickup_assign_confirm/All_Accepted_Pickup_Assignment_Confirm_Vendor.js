@@ -50,7 +50,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignmentConfirm]);
+    }, [allPickupAssignmentConfirm,role,userId]);
 
     
     const onChangeSearch = query => setSearchQuery(query);

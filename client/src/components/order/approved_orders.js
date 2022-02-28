@@ -70,7 +70,7 @@ export default function ApprovedOrders(props, { navigation }) {
             setFlag(true);
         }
 
-    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId]);
+    }, [allOrders, role,userId,visible, flag, managerPinCodes, managerPoolId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

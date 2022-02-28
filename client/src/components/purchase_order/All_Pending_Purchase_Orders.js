@@ -50,7 +50,7 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
             setAllPurchaseOrders(result);
         })
 
-    }, [allPurchaseOrders]);
+    }, [allPurchaseOrders,role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

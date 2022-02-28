@@ -52,7 +52,7 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment]);
+    }, [allPickupAssignment,role,userId]);
 
     const openMenu = (index) => {
         const values = [...visible];

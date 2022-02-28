@@ -51,7 +51,7 @@ export default function OrderItemsSummary(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, [allOrders]);
+    }, [allOrders,role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 

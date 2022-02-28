@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
@@ -35,7 +35,7 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
            setUserId(result);   
         })
         
-    },[]);
+    },[role,userId]);
 
     let history = useHistory();
 
