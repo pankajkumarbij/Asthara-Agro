@@ -69,12 +69,12 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
         .then(data => {
             console.log(data);
             if(data.message!="Something went wrong!"){
-                alert("Yeah!", data.message, "success");
+                alert(data.message);
                 history.push('/alltransportlabourfromvendor');
             }
             else{
                 if(data.error.errors){
-                    alert( "All Fields are required!");
+                    alert("All Fields are required!");
                 }
                 else{
                     alert("You Have Already Added Transport and Labour Charge");

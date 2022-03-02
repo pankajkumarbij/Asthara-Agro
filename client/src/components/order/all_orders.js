@@ -69,7 +69,7 @@ export default function AllOrders(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title >All Orders</Title>
+                    <Title style={styles.title} >All Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -159,6 +159,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                // textAlign: 'center',
+                // color: 'green',
+                // fontSize: 28,
+                // fontFamily: 'Roboto'
             }
         })
     },

@@ -141,7 +141,7 @@ export default function PendingOrders(props, { navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title >Pending Orders</Title>
+                    <Title style={styles.title} >Pending Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -253,6 +253,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                // textAlign: 'center',
+                // color: 'green',
+                // fontSize: 28,
+                // fontFamily: 'Roboto'
             }
         })
     },

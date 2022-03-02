@@ -112,7 +112,7 @@ export default function All_Pending_Purchase_Order_Confirm(props,{ navigation })
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                    <Title >All Pending Purchase Order Confirm</Title>
+                    <Title style={styles.title} >All Pending Purchase Order Confirm</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -170,6 +170,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                // textAlign: 'center',
+                // color: 'green',
+                // fontSize: 28,
+                // fontFamily: 'Roboto'
             }
         })
     },

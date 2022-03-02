@@ -6,6 +6,7 @@ import { Provider, DefaultTheme, Card, Button, Menu, Searchbar } from 'react-nat
 import { Link, useHistory } from 'react-router-dom';
 import { all_customer_pools, all_vendor_pools } from '../../services/pool';
 // import swal from '@sweetalert/with-react'
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -81,7 +82,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
         .then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
-            alert("Yeah!", data.message, "success");
+            alert(data.message);
             history.push('/allcustomervendorpools');
         }); 
         fetch(`http://localhost:5000/updateflag_vendor_pool/${vendorId}`, {

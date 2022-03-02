@@ -5,6 +5,8 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-
 import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 // import swal from '@sweetalert/with-react'
+import axios from 'axios';
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -61,36 +63,32 @@ export default function AddManagerPool(props,{ navigation }) {
     };
 
     function submitForm() {
-        fetch(`http://localhost:5000/create_manager_pool`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                pool_name: poolName,
-                postal_code: items
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            console.log(data);
-            if(data.message!="something wrong!"){
-                alert("Yeah!", data.message, "success");
+        axios.post(url + `/create_manager_pool`, {
+            pool_name: poolName,
+            postal_code: items
+          })
+        .then(function (response){
+            console.log(response.data);
+            alert(response.data.message);
+            if(response.data.message!="something wrong!"){
+                alert(response.data.message);
                 history.push('/allmanagerpools');
             }
             else{
-                if(data.error.errors){
+                if(response.data.error.errors){
                     alert("All Fields are required!");
                 }
-                else if(data.error.keyPattern.postal_code){
-                    alert("Pin Code "+data.error.keyValue.postal_code+" is already available in another pool!");
+                else if(response.data.error.keyPattern.postal_code){
+                    alert("Pin Code "+response.data.error.keyValue.postal_code+" is already available in another pool!");
                 }
-                else if(data.error.keyPattern.pool_name){
-                    alert("Pool "+data.error.keyValue.pool_name+" is already created!");
+                else if(response.data.error.keyPattern.pool_name){
+                    alert("Pool "+response.data.error.keyValue.pool_name+" is already created!");
                 }
             }
-        });
+        })
+        .catch(function (error) {
+            console.log(error);
+         });
     }
 
     return (

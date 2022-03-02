@@ -107,7 +107,7 @@ export default function AddTransportLabour(props,{ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             if(data.message!="something wrong!"){
-                    alert("Yeah!", data.message, "success");
+                    alert(data.message);
                 history.push('/alltransportlabourforsales');
             }
             else{
