@@ -92,7 +92,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title >All Pending Pickup Assignment Confirm Vendor</Title>
+                    <Title style={styles.title}>All Pending Pickup Assignment Confirm Vendor</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -181,6 +181,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

@@ -26,7 +26,7 @@ import All_Accepted_Purchase_Orders from '../components/purchase_order/All_Accep
 import All_Purchase_Order_Confirm from '../components/purchase_confirm/All_Purchase_Order_Confirm';
 import All_Pending_Purchase_Order_Confirm from '../components/purchase_confirm/All_Pending_Purchase_Order_Confirm';
 import All_Accepted_Purchase_Order_Confirm from '../components/purchase_confirm/All_Accepted_Purchase_Order_Confirm';
-import ViewUser from '../components/user/view_user';
+import AllUsers from '../components/manager/all_users';
 import AddUserCategory from '../components/userCategory/add_user_category';
 import AllUserCategories from '../components/userCategory/all_user_categories';
 import Disabled_All_Items from '../components/item/disabled_all_items';
@@ -208,7 +208,7 @@ export default function Stacks({navigation}){
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="ViewUser" component={ViewUser} options={{
+            <Stack.Screen name="AllUsers" component={AllUsers} options={{
             headerLeft:()=>(
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

@@ -120,24 +120,10 @@ const styles = StyleSheet.create({
                 fontFamily: 'Roboto'
             },
             default: {
-               title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
                 textAlign: 'center',
                 color: 'green',
+                fontSize: 28,
                 fontFamily: 'Roboto'
-            },
-            default: {
-                // textAlign: 'center',
-                // color: 'green',
-                // fontSize: 28,
-                // fontFamily: 'Roboto'
-            }
-        })
-    },
             }
         })
     },

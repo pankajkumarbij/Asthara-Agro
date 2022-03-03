@@ -59,7 +59,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-               <Title >All Accepted Pickup Assignment</Title>
+               <Title style={styles.title}>All Accepted Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -141,7 +141,24 @@ const styles = StyleSheet.create({
             }
         })
     },
-
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',

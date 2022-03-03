@@ -97,7 +97,7 @@ export default function AddCustomerPool(props,{ navigation }) {
         <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card} >
-                    <Card.Title title="New Customer Pool"/>
+                    <Card.Title titleStyle={styles.title} title="New Customer Pool"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Pool Name (RAJ_JPR_SANGANER)" value={poolName} onChangeText={poolName => setPoolName(poolName)} />
                     {items.map((it, index) => (
@@ -165,6 +165,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

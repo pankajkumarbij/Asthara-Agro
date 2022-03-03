@@ -318,7 +318,7 @@ function CustomDrawerContent({navigation}) {
             onDismiss={closeMenu9}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu9}>User</Button>}>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Register')}}>Add User</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('ViewUser')}}>View Users</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllUsers')}}>View Users</Button>
             </Menu>
             <Menu
             visible={visible10}

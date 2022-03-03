@@ -165,10 +165,10 @@ const styles = StyleSheet.create({
                 fontFamily: 'Roboto'
             },
             default: {
-                // textAlign: 'center',
-                // color: 'green',
-                // fontSize: 28,
-                // fontFamily: 'Roboto'
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

@@ -111,7 +111,7 @@ export default function All_Pickup_Assignment({ navigation }) {
                 </Portal>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title >All Pickup Assignment</Title>
+               <Title style={styles.title}>All Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -196,7 +196,24 @@ const styles = StyleSheet.create({
             }
         })
     },
-
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',

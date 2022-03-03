@@ -124,7 +124,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
         <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card} >
-                    <Card.Title title="New Customer Vendor Cross Pool"/>
+                    <Card.Title titleStyle={styles.title} title="New Customer Vendor Cross Pool"/>
                     <Card.Content>
                         <Menu
                         visible={visible1}
@@ -225,6 +225,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

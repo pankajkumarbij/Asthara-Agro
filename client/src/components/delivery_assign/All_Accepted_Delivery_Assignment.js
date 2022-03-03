@@ -49,7 +49,7 @@ export default function All_Accepted_Delivery_Assignment({ navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title >All Accepted Delivery Assignment</Title>
+                    <Title style={styles.title}>All Accepted Delivery Assignment</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -108,6 +108,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
