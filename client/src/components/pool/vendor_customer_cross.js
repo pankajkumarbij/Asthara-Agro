@@ -69,23 +69,26 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
 
     function submitForm() {
         axios.post(url + `/create_vendor_customer_cross_pool`, {
-            pool_name: poolName,
-            postal_code: items
+                customer_pool_name: customer,
+                customer_pool_Id: customerId,
+                vendor_pool_name: vendor,
+                vendor_pool_Id: vendorId
           })
           .then(function (response) {
             alert(response.data.message);
             history.push('/allcustomervendorpools');
         })
         axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
-            pool_name: poolName,
-            postal_code: items
+            flag_value:1,
           })
         .then(function (response) {
             alert(response.data.message);
+        })
+        .catch(function (error) {
+            console.error(error);
         });
         axios.put(url + `/updateflag_customer_pool/${customerId}`, {
-            pool_name: poolName,
-            postal_code: items
+            flag_value:1,
           })
           .then(function (response) {
             alert(response.data.message);

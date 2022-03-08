@@ -4,7 +4,7 @@ import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-pa
 import { useHistory, useParams } from 'react-router-dom'
 import { users_by_id } from '../../services/user_api';
 import { url } from '../../utils/url';
-
+import axios from 'axios';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -65,12 +65,7 @@ export default function AddAddress({navigation,route}) {
     function submitForm() {
 
         if(role=="vendor"){
-            fetch(url+`/create_vendor_address`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            axios.post(url + '/create_vendor_address', {
                     vendorId: userId,
                     address: address,
                     landmark: landmark,
@@ -78,22 +73,17 @@ export default function AddAddress({navigation,route}) {
                     state: state,
                     country: country,
                     postal_code: pincode,
-                })
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(data => {
-                alert(data.message);
-            }); 
+              })
+              .then(function (response) {
+                alert(response.data.message);
+              })
+              .catch(function (error) {
+                console.log(error);
+              }); 
         }
 
         if(role=="customer"){
-            fetch(url+`/create_customer_address`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            axios.post(url + '/create_customer_address', {
                     customerId: userId,
                     customerEmail: Email,
                     address: address,
@@ -102,33 +92,25 @@ export default function AddAddress({navigation,route}) {
                     state: state,
                     country: country,
                     postal_code: pincode,
-                })
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(data => {
-            }); 
+              })
+              .then(function (response) {
+                alert(response.data.message);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });  
         }
-
-        fetch(url+`/create_address`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: userId,
+        axios.post(url + '/create_address', {
+                 userId: userId,
                 address: address,
                 landmark: landmark,
                 district: district,
                 state: state,
                 country: country,
                 postal_code: pincode,
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
+          })
+          .then(function (response) {
+            alert(response.data.message);
             if(Platform.OS=='android')
             {
                 navigation.navigate('AddBankDetails',{userid:userId});
@@ -137,7 +119,10 @@ export default function AddAddress({navigation,route}) {
             {
                 history.push('/addbankdetails/'+userId);
             }
-        }); 
+          })
+          .catch(function (error) {
+            console.log(error);
+          }); 
     }
     //define all the required input fields
     return (
