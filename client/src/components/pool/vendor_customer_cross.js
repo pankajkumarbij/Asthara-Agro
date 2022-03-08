@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { all_customer_pools, all_vendor_pools } from '../../services/pool';
 // import swal from '@sweetalert/with-react'
 import {url} from '../../utils/url';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -67,52 +68,31 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
     }
 
     function submitForm() {
-        fetch(`http://localhost:5000/create_vendor_customer_cross_pool`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                customer_pool_name: customer,
-                customer_pool_Id: customerId,
-                vendor_pool_name: vendor,
-                vendor_pool_Id: vendorId
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            alert(data.message);
+        axios.post(url + `/create_vendor_customer_cross_pool`, {
+            pool_name: poolName,
+            postal_code: items
+          })
+          .then(function (response) {
+            alert(response.data.message);
             history.push('/allcustomervendorpools');
-        }); 
-        fetch(`http://localhost:5000/updateflag_vendor_pool/${vendorId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               flag_value:1
-            })
         })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            //alert(data.message);
+        axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
+            pool_name: poolName,
+            postal_code: items
+          })
+        .then(function (response) {
+            alert(response.data.message);
         });
-        fetch(`http://localhost:5000/updateflag_customer_pool/${customerId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-               flag_value:1
-            })
-        })
-        .then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-            //alert(data.message);
-        });       
+        axios.put(url + `/updateflag_customer_pool/${customerId}`, {
+            pool_name: poolName,
+            postal_code: items
+          })
+          .then(function (response) {
+            alert(response.data.message);
+        })  
+        .catch(function (error) {
+            console.log(error);
+         });   
     }
 
     const onChangeSearch1 = query => setSearchQuery1(query);

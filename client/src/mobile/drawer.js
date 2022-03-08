@@ -164,7 +164,7 @@ function CustomDrawerContent({navigation}) {
             {email!=null && email!="" ?
             <>
                 <Avatar.Text size={70} label="A" style={{alignSelf:'center',marginTop:'15%'}} />
-                <Button style={{width:280}} color="green" style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Profile')}}>{email}</Button>
+                <Button style={{width:280}} color="green" Style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Profile')}}>{email}</Button>
                 {role!=null && role=="manager" ?
                 
                     <Menu

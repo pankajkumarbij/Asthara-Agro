@@ -73,6 +73,7 @@ import AddTransportLabour from '../components/transport_labour/transport_labour_
 import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
 import Vendor_details from '../components/buyer/vendor_details';
 import VendorAddItem from '../components/vendorsItem/vendors_addItem';
+import EditItem from '../components/item/edititem';
 
 const Stack = createStackNavigator();
 
@@ -439,6 +440,11 @@ export default function Stacks({navigation}){
             ),
             }}/>
             <Stack.Screen name="Vendor_details" component={Vendor_details} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+             <Stack.Screen name="EditItem" component={EditItem} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
