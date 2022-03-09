@@ -25,6 +25,7 @@ export default function All_order_status(props,{ navigation }) {
         order_status()  
         .then(result => {
             setAllOrderStatus(result);
+            console.log(result);
         })
 
     }, [allOrderStatus]);

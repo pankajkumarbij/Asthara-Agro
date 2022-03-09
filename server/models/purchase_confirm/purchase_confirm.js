@@ -15,6 +15,9 @@ const purchaseorderConfirmSchema = new mongoose.Schema({
     custom_vendorId:{
         type:String,
     },
+    sales_id:{
+        type: String,
+    },
     purchaseId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Purchase'

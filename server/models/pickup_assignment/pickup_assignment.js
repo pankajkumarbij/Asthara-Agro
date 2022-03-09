@@ -17,6 +17,9 @@ const pickup_assignmentSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    sales_id:{
+        type: String,
+    },
     item_description:[{
         itemId:{
             type: mongoose.Schema.Types.ObjectId,

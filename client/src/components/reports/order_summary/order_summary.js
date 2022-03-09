@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye, faPrint } from '@fortawesome/free-solid-svg-i
 import { allOrder } from '../../../services/order_api';
 import { customer_manager_pool_by_manager_pool_id, manager_pool_by_id } from '../../../services/pool';
 import { users_by_id } from '../../../services/user_api';
-import { role, userId } from '../../../utils/user';
+import { roleas, loginuserId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -40,10 +40,12 @@ export default function OrderSummary(props, { navigation }) {
     const [isPool, setIsPool] = useState([]);
     const [flag, setFlag] = useState(true);
     const [customerPoolId, setCustomerPoolId] = useState([]);
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -81,7 +83,17 @@ export default function OrderSummary(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, [managerPoolId, customerPools, isPool, flag, customerPoolId]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [managerPoolId, customerPools, isPool, flag, customerPoolId, role, userId]);
 
     function printPageArea(){
         var printContent = document.getElementById("print").innerHTML;
@@ -150,7 +162,7 @@ export default function OrderSummary(props, { navigation }) {
                                 <Text style={styles.label}>Delivered</Text>
                             </View>
                         </View>
-                        {role=="manager"  && 
+                        {role && userId && role=="manager"  && 
                         <View>
                             <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Customer Pool</Text>
                             <ScrollView style={{height: '50px'}}>
@@ -189,7 +201,7 @@ export default function OrderSummary(props, { navigation }) {
                         <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {(role=="manager"  && allOrders && managerPinCodes && customerPoolId) &&
+                    {(role && userId && role=="manager" && allOrders && managerPinCodes && customerPoolId) &&
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             if(customerPoolId.includes(String(item.customerPoolId)))
@@ -222,7 +234,7 @@ export default function OrderSummary(props, { navigation }) {
                             }
                         })
                     }
-                    {(role=="sales"  && allOrders) &&
+                    {(role && userId && role=="sales" && allOrders) &&
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
                             if((isPending && (item.status=="pending" || item.status=="approved")) || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))

@@ -1,11 +1,10 @@
+import React, {useState, useEffect} from 'react';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text, Alert} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, Modal } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import swal from '@sweetalert/with-react';
-import { userId } from '../../../utils/user';
+import { roleas, loginuserId } from '../../../utils/user';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
@@ -37,6 +36,8 @@ export default function AddTransportLabour(props,{ navigation }) {
     const [flag, setFlag] = useState(false);
     const [msg, setMsg] = useState("");
     const [addedItems, setAddedItems] = useState([]);
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     let history = useHistory();
 
@@ -45,6 +46,16 @@ export default function AddTransportLabour(props,{ navigation }) {
         all_completed_purchase_orders()  
         .then(result => {
             setACPO(result);
+        })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
         })
 
     },[acpo])
@@ -135,15 +146,15 @@ export default function AddTransportLabour(props,{ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             if(data.message!="something wrong!"){
-                swal("Yeah!", data.message, "success");
+                alert(data.message);
                 history.push('/alltransportlabourforsales');
             }
             else{
                 if(data.error.errors){
-                    swal("Oops!", "All Fields are required!", "error");
+                    alert("All Fields are required!");
                 }
                 else{
-                    swal(data.message);
+                    alert(data.message);
                 }
             }
         });

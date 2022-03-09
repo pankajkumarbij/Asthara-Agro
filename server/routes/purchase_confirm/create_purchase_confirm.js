@@ -8,6 +8,7 @@ router.post('/create_purchase_confirm', (req, res)=>{
         custom_orderId:req.body.custom_orderId,
         custom_vendorId:req.body.custom_vendorId,
         order_id:req.body.order_id,
+        sales_id: req.body.sales_id,
         items:req.body.items,
         user_id:req.body.user_id,
         vendor_id:req.body.vendor_id,

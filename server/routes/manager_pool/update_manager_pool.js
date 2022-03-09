@@ -24,7 +24,7 @@ router.put('/update_manager_pool/:id',(req, res) =>{
         res.json(message);
     })
 });
-router.put('/updateflag_vendor_pool/:id',(req, res) =>{
+router.put('/updateflag_manager_pool/:id',(req, res) =>{
     var manager_pool = {
         flag_value:req.body.flag_value,
     }

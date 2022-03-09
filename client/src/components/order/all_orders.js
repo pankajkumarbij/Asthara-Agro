@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { allOrder } from '../../services/order_api';
 import { manager_pool_by_id } from '../../services/pool';
 import { users_by_id } from '../../services/user_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -25,10 +25,12 @@ export default function AllOrders(props, { navigation }) {
     const [allOrders, setAllOrders] = useState();
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -47,7 +49,17 @@ export default function AllOrders(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, [managerPoolId]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [managerPoolId, role, userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -73,7 +85,7 @@ export default function AllOrders(props, { navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role=="sales"  && allOrders) &&
+                    {(role && userId && role=="sales"  && allOrders) &&
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -100,7 +112,7 @@ export default function AllOrders(props, { navigation }) {
                             }
                         })
                     }
-                    {(role=="manager"  && allOrders && managerPinCodes) &&
+                    {(role && userId && role=="manager"  && allOrders && managerPinCodes) &&
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){

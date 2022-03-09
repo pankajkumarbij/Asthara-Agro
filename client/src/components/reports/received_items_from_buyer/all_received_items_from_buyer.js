@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye, faCamera } from '@fortawesome/free-solid-svg-icons';
 import { recieved_from_buyer } from '../../../services/report/recieved_from_buyer_api';
-import { role, userId } from '../../../utils/user';
+import { roleas, loginuserId } from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
@@ -31,10 +31,12 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
     const [msg, setMsg] = useState("");
     const [addedItems, setAddedItems] = useState([]);
     const [acpo, setACPO] = useState();
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
 
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -51,7 +53,17 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
             setAllReceivedItems(result);
         })
 
-    }, [allReceivedItems, acpo]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [allReceivedItems, acpo, userId, role]);
 
     const ItemChange = () => {
 
@@ -147,7 +159,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role=="manager" && allReceivedItems) &&
+                    {(role && userId && role=="manager" && allReceivedItems) &&
                         allReceivedItems.map((item)=>{
                             if(item.purchase_order.managerPoolId==managerPoolId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -168,7 +180,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                             }
                         })
                     }
-                    {(role=="buyer" && allReceivedItems) &&
+                    {(role && userId && role=="buyer" && allReceivedItems) &&
                         allReceivedItems.map((item)=>{
                             if(item.purchase_order.buyer_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -189,7 +201,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                             }
                         })
                     }
-                    {((role=="sales") && allReceivedItems) &&
+                    {(role && userId && (role=="sales") && allReceivedItems) &&
                         allReceivedItems.map((item)=>{
                             if(item.purchase_order.sales_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -210,7 +222,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                             }
                         })
                     }
-                    {role=="sales" && visible3 &&
+                    {(role && userId && role=="sales" && visible3) &&
                         <>
                             <BarcodeScannerComponent
                                 width="50%"
@@ -232,7 +244,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                             }
                         </>
                     }
-                    {role=="sales" && !visible3 &&
+                    {role && userId && role=="sales" && !visible3 &&
                         <Button mode="contained" style={styles.button} onPress={() => scan()} icon={() => <FontAwesomeIcon icon={ faCamera } />}>Start Scan</Button>
                     }
                 </DataTable>

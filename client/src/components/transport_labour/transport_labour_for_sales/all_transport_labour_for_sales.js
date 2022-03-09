@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { transport_labour_for_sales } from '../../../services/transport_labour/transport_labout_for_sales';
-import { userId } from '../../../utils/user';
+import { roleas, loginuserId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -21,14 +21,24 @@ export default function AllTransportLabourForSales(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
 
         transport_labour_for_sales()
         .then(result=> {
             setAllOrders(result);
-            console.log(result);
-            console.log("ok");
+        })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
         })
 
     }, []);
@@ -56,7 +66,7 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                         <DataTable.Title>Vehicle Number</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {allOrders &&
+                    {role && userId && allOrders &&
                         allOrders.map((item, index)=>{
                             if(item.buyerId==userId)
                             return (

@@ -7,7 +7,7 @@ import {vendor_by_low_price} from '../../services/vendor_api';
 import {order_item_summary_quantity} from '../../services/order_api';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -48,12 +48,14 @@ export default function EditOrderItem(props,{route}) {
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState('');
     const [sales_id, setSalesId] = useState("");
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     let history = useHistory();
 
     useEffect(() => {
 
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -98,7 +100,17 @@ export default function EditOrderItem(props,{route}) {
             })
         }
 
-    }, [vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId, role, userId]);
 
     //submitForm() for sending the data in corresponding database
     function submitForm(){

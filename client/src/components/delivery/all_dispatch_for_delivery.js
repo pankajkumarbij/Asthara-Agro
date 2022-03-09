@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { all_deliveries } from '../../services/delivery';
-import { userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -21,12 +21,24 @@ export default function AllDispatchForDelivery(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
 
         all_deliveries()
         .then(result=> {
             setAllOrders(result);
+        })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
         })
 
     }, []);
@@ -54,7 +66,7 @@ export default function AllDispatchForDelivery(props, { navigation }) {
                         <DataTable.Title>Vehicle Number</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {allOrders &&
+                    {role && userId && allOrders &&
                         allOrders.map((item, index)=>{
                             if(item.salesId==userId)
                             return (

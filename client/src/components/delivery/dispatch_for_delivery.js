@@ -5,7 +5,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text, Alert} from 
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, Modal } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import swal from '@sweetalert/with-react';
-import { userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 import { recieved_from_buyer } from '../../services/report/recieved_from_buyer_api';
 
@@ -37,6 +37,8 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
     const [flag, setFlag] = useState(false);
     const [msg, setMsg] = useState("");
     const [addedItems, setAddedItems] = useState([]);
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     let history = useHistory();
 
@@ -45,6 +47,16 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
         recieved_from_buyer()  
         .then(result => {
             setACPO(result);
+        })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
         })
 
     },[acpo])
@@ -210,7 +222,7 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
                             </Menu>
                         </View>
                     ))}
-                    { visible3 &&
+                    {visible3 &&
                     <>
                         <BarcodeScannerComponent
                             width="50%"

@@ -44,4 +44,24 @@ router.put('/updateflag_customer_pool/:id', (req, res)=>{
     })
 });
 
+router.put('/updateflag2_customer_pool/:id', (req, res)=>{
+    var customer_pool = {
+        flag2_value:req.body.flag_value,
+    }
+    Customer_pool.findOneAndUpdate({'_id':req.params.id},customer_pool)
+    .then((customer_pool) => {
+        if(customer_pool){
+            var message = { message: "customer_pool sucessfully updated!" };
+            res.json(message);
+        }else{
+            var message = { message: "customer_pool not found!" };
+            res.json(message);
+        }
+    }).catch(err => {
+        console.log(err);
+        var message = { message:"Something wrong!",success: false, err: err };
+        res.json(message);
+    })
+});
+
 module.exports = router;

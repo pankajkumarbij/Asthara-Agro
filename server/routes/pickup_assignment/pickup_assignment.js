@@ -8,6 +8,7 @@ router.post('/pickup_assignment', (req, res)=>{
         purchase_order_id: req.body.purchase_order_id,
         user_id:req.body.user_id,
         vendor_id: req.body.vendor_id,
+        sales_id: req.body.sales_id,
         item_description:req.body.item_description,
         address_id: req.body.address_id,
         address_location:req.body.address_location,

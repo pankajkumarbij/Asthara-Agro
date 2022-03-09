@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_confirm_purchase_order } from '../../services/order_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
 import { users_by_id } from '../../services/user_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -27,13 +27,15 @@ export default function All_Purchase_Order_Confirm(props,{ navigation }) {
     const [vendor, setVendor] = useState();
     const [address, setAddress] = useState();
     const [managerPoolId, setManagerPoolId] = useState('');
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
     useEffect(() => {
         
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -44,8 +46,18 @@ export default function All_Purchase_Order_Confirm(props,{ navigation }) {
         .then(result=>{
             setAllPurchaseOrderConfirm(result);
         })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
         
-    }, [allPurchaseOrderConfirm]);
+    }, [allPurchaseOrderConfirm, role, userId]);
 
     function VendorDetails(id, customid) {
         users_by_id(id)
@@ -117,7 +129,7 @@ export default function All_Purchase_Order_Confirm(props,{ navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role=="manager" && allPurchaseOrderConfirm) &&
+                    {(role && userId && role=="manager" && allPurchaseOrderConfirm) &&
                         allPurchaseOrderConfirm.map((purchaseOrderConfirm,index)=>{
                             if(purchaseOrderConfirm.managerPoolId==managerPoolId)
                             if(purchaseOrderConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_purchase_order } from '../../services/order_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -23,10 +23,12 @@ export default function All_Accepted_Purchase_Orders(props,{ navigation }) {
     const [allPurchaseOrders, setAllPurchaseOrders] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [managerPoolId, setManagerPoolId] = useState('');
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -37,8 +39,18 @@ export default function All_Accepted_Purchase_Orders(props,{ navigation }) {
         .then(result => {
             setAllPurchaseOrders(result)
         })
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
         
-    }, [allPurchaseOrders]);
+    }, [allPurchaseOrders, role, userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -65,7 +77,7 @@ export default function All_Accepted_Purchase_Orders(props,{ navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role=="manager" && allPurchaseOrders) &&
+                    {(role && userId && role=="manager" && allPurchaseOrders) &&
                         allPurchaseOrders.map((purchaseOrder,index)=>{
                             if(purchaseOrder.managerPoolId==managerPoolId)
                             if(purchaseOrder._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -86,7 +98,7 @@ export default function All_Accepted_Purchase_Orders(props,{ navigation }) {
                             }
                         })
                     }
-                    {(role=="vendor" && allPurchaseOrders) &&
+                    {(role && userId && role=="vendor" && allPurchaseOrders) &&
                         allPurchaseOrders.map((purchaseOrder,index)=>{
                             if(purchaseOrder.vendor_id==userId)
                             if(purchaseOrder._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              

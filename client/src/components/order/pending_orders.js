@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
 import {host} from '../../utils/host';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { manager_pool_by_id } from '../../services/pool';
 
@@ -29,6 +29,8 @@ export default function PendingOrders(props, { navigation }) {
     const [vendorsid, setVendorsid] = useState([]);
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
 
@@ -60,7 +62,17 @@ export default function PendingOrders(props, { navigation }) {
             setFlag(true);
         }
 
-    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId, role, userId]);
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -170,7 +182,7 @@ export default function PendingOrders(props, { navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role=="manager" && allOrders) &&
+                    {(role && userId && role=="manager" && allOrders) &&
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -205,7 +217,7 @@ export default function PendingOrders(props, { navigation }) {
                             }
                         })
                     }
-                    {(role=="sales" && allOrders) &&
+                    {(role && userId && role=="sales" && allOrders) &&
                         allOrders.map((item, index)=>{
                             // if(item.userId==userId)
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){

@@ -16,6 +16,10 @@ let customer_poolSchema = new mongoose.Schema({
     flag_value:{
         type:Number,
         default:0,
+    },
+    flag2_value:{
+        type:Number,
+        default:0,
     }
     }, 
     {

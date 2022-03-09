@@ -10,6 +10,7 @@ router.post('/create_pickup_assign_confirm', (req, res)=>{
         order_id:req.body.order_id,
         items:req.body.items,
         user_id:req.body.user_id,
+        sales_id: req.body.sales_id,
         vendor_id:req.body.vendor_id,
         buyer_id:req.body.buyer_id,
         pickupAssignId:req.body.pickupAssignId,

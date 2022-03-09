@@ -9,6 +9,9 @@ const orderSummarySchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Order',
     },
+    sales_id:{
+        type: String,
+    },
     custom_orderId:{
         type:String,
     },

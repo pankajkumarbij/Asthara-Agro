@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_pickup_assignment } from '../../services/pickup_api';
-import { role, userId } from '../../utils/user';
+import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -23,10 +23,12 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
     const [allPickupAssignment, setAllPickupAssignment] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [managerPoolId, setManagerPoolId] = useState('');
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
 
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -38,7 +40,17 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment]);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+    }, [allPickupAssignment, role, userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -65,7 +77,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                     <DataTable.Title>Action</DataTable.Title>
                 </DataTable.Header>
 
-                {(role=="manager" && allPickupAssignment) &&
+                {(role && userId && role=="manager" && allPickupAssignment) &&
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.managerPoolId==managerPoolId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -86,7 +98,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                         }
                     })
                 } 
-                {(role=="buyer" && allPickupAssignment) &&
+                {(role && userId && role=="buyer" && allPickupAssignment) &&
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.buyer_id==userId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
