@@ -16,7 +16,7 @@ const theme = {
     },
 };
 //define edit item component
-export default function EditItem({route},props) {
+export default function EditItem(props,{route}) {
 
     var itemid = "";
     let history=useHistory();

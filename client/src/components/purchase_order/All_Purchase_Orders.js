@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { purchase_order } from '../../services/order_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -23,20 +23,8 @@ export default function All_Purchase_Orders(props,{ navigation }) {
     const [allPurchaseOrders, setAllPurchaseOrders] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [managerPoolId, setManagerPoolId] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
         
         if(role=='manager' && userId){
             users_by_id(userId)
@@ -50,7 +38,7 @@ export default function All_Purchase_Orders(props,{ navigation }) {
             setAllPurchaseOrders(result);
         })
 
-    }, [allPurchaseOrders,role,userId]);
+    }, [allPurchaseOrders]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -60,13 +48,14 @@ export default function All_Purchase_Orders(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                <Title style={styles.title} >All Purchase Orders</Title>
+                <Title style={{marginBottom: '20px'}}>All Purchase Orders</Title>
                 <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
+                    style={{marginBottom: '20px'}}
                 />
                 <DataTable.Header>
                     <DataTable.Title>Order ID</DataTable.Title>
@@ -159,24 +148,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

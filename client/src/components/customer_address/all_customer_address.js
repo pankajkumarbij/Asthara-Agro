@@ -76,13 +76,14 @@ export default function All_addresses({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title >Customer All Addresses</Title>
+                    <Title style={{marginBottom: '20px'}}>Customer All Addresses</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <Menu
                         visible={visible2}
@@ -116,9 +117,8 @@ export default function All_addresses({ navigation }) {
                         <DataTable.Title>State (District)</DataTable.Title>
                         <DataTable.Title>Country</DataTable.Title>
                     </DataTable.Header>
-                    { 
-                    address  &&
-                        address.map((address,index) =>{
+                    { address  &&
+                        address.map((address,index)=>{
                             return(
                                 <DataTable.Row>
                                     <DataTable.Cell>{address.address}</DataTable.Cell>
@@ -133,10 +133,10 @@ export default function All_addresses({ navigation }) {
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}>Details</Link></Button>
                                         }
                                     </DataTable.Cell> */}
-                                </DataTable.Row>
+                                </DataTable.Row> 
                                 
                             )
-                        }) 
+                        })
                     } 
             </DataTable>
             </View>

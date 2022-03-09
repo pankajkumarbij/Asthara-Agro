@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { transport_labour_for_sales } from '../../../services/transport_labour/transport_labout_for_sales';
-import { loginuserId } from '../../../utils/user';
+import { userId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -21,14 +21,8 @@ export default function AllTransportLabourForSales(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         transport_labour_for_sales()
         .then(result=> {
@@ -47,13 +41,14 @@ export default function AllTransportLabourForSales(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title >All Transport Labour For Sales</Title>
+                    <Title style={{marginBottom: '20px'}}>All Transport Labour For Sales</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Date</DataTable.Title>

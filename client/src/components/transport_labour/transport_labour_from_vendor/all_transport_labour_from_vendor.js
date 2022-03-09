@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { transport_labour_from_vendor } from '../../../services/transport_labour/transport_labour_from_vendor';
-import { loginuserId } from '../../../utils/user';
+import { userId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -21,21 +21,15 @@ export default function AllTransportLabourFromVendor(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         transport_labour_from_vendor()
         .then(result=> {
             setAllOrders(result);
         })
 
-    }, [userId]);
+    }, []);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -45,13 +39,14 @@ export default function AllTransportLabourFromVendor(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title >All Transport Labour From Vendor</Title>
+                    <Title style={{marginBottom: '20px'}}>All Transport Labour From Vendor</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Date</DataTable.Title>

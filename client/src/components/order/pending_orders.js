@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
 import {host} from '../../utils/host';
-import { roleas, loginuserId} from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { manager_pool_by_id } from '../../services/pool';
 
@@ -29,21 +29,9 @@ export default function PendingOrders(props, { navigation }) {
     const [vendorsid, setVendorsid] = useState([]);
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
 
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
-        
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
@@ -72,7 +60,7 @@ export default function PendingOrders(props, { navigation }) {
             setFlag(true);
         }
 
-    }, [allOrders, ,role,userId, visible, flag, managerPinCodes, managerPoolId]);
+    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId]);
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -86,7 +74,7 @@ export default function PendingOrders(props, { navigation }) {
         setVisible(values);
     };
 
-    const StatusChange = (s, id, index, items, custom_orderId, customerPoolId, vendorPoolId) => {
+    const StatusChange = (s, id, index, items, custom_orderId, customerPoolId, vendorPoolId, sales_id) => {
 
         if(s=="approved"){
             items.forEach(myFunction);
@@ -106,6 +94,31 @@ export default function PendingOrders(props, { navigation }) {
                         customerPoolId: customerPoolId,
                         vendorPoolId: vendorPoolId,
                         managerPoolId: managerPoolId,
+                        sales_id: sales_id,
+                    })
+                })
+                .then(res => res.json())
+                .catch(error => console.log(error))
+                .then(data => {
+                    // alert(data.message);
+                });
+            }
+
+            items.forEach(myFunction1);
+
+            function myFunction1(item) {
+                fetch(`http://${host}:5000/create_order_status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: custom_orderId,
+                        item_name: item.itemName,
+                        item_grade: item.Grade,
+                        quantity: item.quantity,
+                        status: "Pending for Vendor Assignment",
+                        split_status: "Full"
                     })
                 })
                 .then(res => res.json())
@@ -141,13 +154,14 @@ export default function PendingOrders(props, { navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >Pending Orders</Title>
+                    <Title style={{marginBottom: '20px'}}>Pending Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
@@ -175,8 +189,8 @@ export default function PendingOrders(props, { navigation }) {
                                             visible={visible[index]}
                                             onDismiss={()=>closeMenu(index)}
                                             anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{item.status}</Button>}>
-                                                <Menu.Item title="Approve" onPress={()=>StatusChange("approved", item._id, index, item.items, custom_orderId, item.customerPoolId, item.vendorPoolId)}/>
-                                                <Menu.Item title="Reject" onPress={()=>StatusChange("rejected", item._id, index, item.items, custom_orderId, item.customerPoolId, item.vendorPoolId)}/>
+                                                <Menu.Item title="Approve" onPress={()=>StatusChange("approved", item._id, index, item.items, custom_orderId, item.customerPoolId, item.vendorPoolId, item.userId)}/>
+                                                <Menu.Item title="Reject" onPress={()=>StatusChange("rejected", item._id, index, item.items, custom_orderId, item.customerPoolId, item.vendorPoolId, item.userId)}/>
                                         </Menu>
                                         </DataTable.Cell>
                                         <DataTable.Cell numeric>
@@ -253,24 +267,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

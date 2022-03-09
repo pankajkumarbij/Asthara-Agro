@@ -7,7 +7,7 @@ import {vendor_by_low_price} from '../../services/vendor_api';
 import {order_item_summary_quantity} from '../../services/order_api';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { roleas, loginuserId} from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -47,23 +47,12 @@ export default function EditOrderItem(props,{route}) {
     const [vendorPoolId, setVendorPoolId] = useState("");
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
+    const [sales_id, setSalesId] = useState("");
 
     let history = useHistory();
 
     useEffect(() => {
 
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
-        
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
@@ -96,6 +85,7 @@ export default function EditOrderItem(props,{route}) {
                 setOrderId(result[0].orderId);
                 setVendorPoolId(result[0].vendorPoolId);
                 setCustomerPoolId(result[0].customerPoolId);
+                setSalesId(result[0].sales_id);
                 setFlag(false);
             });
         }
@@ -108,7 +98,7 @@ export default function EditOrderItem(props,{route}) {
             })
         }
 
-    }, [role,userId,vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId]);
+    }, [vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId]);
 
     //submitForm() for sending the data in corresponding database
     function submitForm(){
@@ -133,6 +123,20 @@ export default function EditOrderItem(props,{route}) {
              //alert(data.message);
         }); 
 
+        fetch(`http://${host}:5000/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Vendor Assigned",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+
         const values2 = items;
         values2.quantity = quantity;
         setItems(values2);
@@ -148,7 +152,7 @@ export default function EditOrderItem(props,{route}) {
                 orderId: orderId,
                 items:items,
                 user_id:userId,
-                vendor_id:vendor_id,
+                sales_id: sales_id,                vendor_id:vendor_id,
                 custom_vendorId: custom_vendorId,
                 vendorPoolId: vendorPoolId,
                 customerPoolId: customerPoolId,

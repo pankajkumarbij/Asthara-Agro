@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { allOrder } from '../../services/order_api';
 import { manager_pool_by_id } from '../../services/pool';
 import { users_by_id } from '../../services/user_api';
-import { roleas, loginuserId} from '../../utils/user';
+import { role, userId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -25,21 +25,9 @@ export default function AllOrders(props, { navigation }) {
     const [allOrders, setAllOrders] = useState();
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
         
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
-
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
@@ -59,7 +47,7 @@ export default function AllOrders(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, [role,userId,allOrders, managerPoolId, managerPinCodes]);
+    }, [managerPoolId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -69,13 +57,14 @@ export default function AllOrders(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >All Orders</Title>
+                    <Title style={{marginBottom: '20px'}}>All Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
@@ -159,24 +148,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

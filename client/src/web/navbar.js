@@ -127,6 +127,12 @@ import All_Delivery_Assignment from '../components/delivery_assign/All_Delivery_
 import All_Pending_Delivery_Assignment from '../components/delivery_assign/All_Pending_Delivery_Assignment';
 import All_Accepted_Delivery_Assignment from '../components/delivery_assign/All_Accepted_Delivery_Assignment';
 
+import Alldispatchitems from '../components/reports/all_dispatch_order_items/all_dispatch_order_items';
+import View_dispatch_order_items from '../components/reports/all_dispatch_order_items/view_all_dispatch_order_items';
+
+import AllReceiveditems from '../components/reports/received_items_from_buyer/all_received_items_from_buyer';
+import EditReceivedOrder from '../components/reports/received_items_from_buyer/view_received_item_from_buyer';
+
 import Edit_Accepted_Delivery_Assignment from '../components/delivery_assign/Edit_Accepted_Delivery_Assignment';
 import Edit_Delivery_Assignment from '../components/delivery_assign/Edit_Delivery_Assignment';
 import All_Delivery from '../components/update_delivery/All_Delivery';
@@ -152,6 +158,10 @@ import AddCustomerVendorPool from '../components/pool/vendor_customer_cross';
 import AllCustomerVendorPools from '../components/pool/all_cross_pool';
 import EditCustomerVendorPool from '../components/pool/edit_cross_pool';
 
+import AddCustomerManagerPool from '../components/pool/add_manager_customer_pool';
+import AllCustomerManagerPools from '../components/pool/all_manager_customer_pool';
+import EditCustomerManagerPool from '../components/pool/edit_manager_customer_pool';
+
 import AddManagerPool from '../components/pool/add_manager_pool';
 import AllManagerPools from '../components/pool/all_manager_pools';
 import EditManagerPool from '../components/pool/edit_manager_pool';
@@ -167,7 +177,18 @@ import ViewTransportLabourFromVendor from '../components/transport_labour/transp
 import All_Completed_Purchase_Orders from '../components/reports/completed_purchase_order/all_completed_purchase_orders';
 import View_Completed_Purchase_Order from '../components/reports/completed_purchase_order/view_completed_purchase_order';
 
+import AddDispatchForDelivery from '../components/delivery/dispatch_for_delivery';
+import AllDispatchForDelivery from '../components/delivery/all_dispatch_for_delivery';
+import ViewDispatchForDelivery from '../components/delivery/view_dispatch_for_delivery_orders';
+
+import OrderSummary from '../components/reports/order_summary/order_summary';
+import ViewOrderSummary from '../components/reports/order_summary/view_order_summary';
+
+import All_order_status from '../components/reports/order_status/all_order_status';
+
 import PageNotFound from '../components/pagenotfound/notfound';
+import Scanner from '../components/barcode/scanner';
+import Barcode from '../components/barcode/barcode';
 
 const NavBar =()  => {
 
@@ -322,7 +343,13 @@ const NavBar =()  => {
                                         <NavDropdown title="Customer Vendor Cross Pool" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/addcustomervendorpool" as={Link}>Add Cross Pool</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/allcustomervendorpools" as={Link}>View Vendor Pools</NavDropdown.Item>
+                                            <NavDropdown.Item to="/allcustomervendorpools" as={Link}>View Customer Vendor Pools</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown title="Manager Customer Cross Pool" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                            <NavDropdown.Item to="/addcustomermanagerpool" as={Link}>Add Manager Customer Pool</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/allcustomermanagerpools" as={Link}>View Manager Customer Pools</NavDropdown.Item>
                                         </NavDropdown>
                                     </NavDropdown>
                                     <NavDropdown.Divider />
@@ -458,9 +485,21 @@ const NavBar =()  => {
                                             </>
                                         }
                                         </NavDropdown>
-                                </>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown title="Delivery Management" id="collasible-nav-dropdown" drop="right"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        {(roleas=="sales") &&
+                                            <>
+                                            <NavDropdown title="Dispatch For Delivery" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                                <NavDropdown.Item to="/adddispatchfordelivery" as={Link}>Create Dispatch For Delivery</NavDropdown.Item>
+                                                <NavDropdown.Divider />
+                                                <NavDropdown.Item to="/alldispatchfordelivery" as={Link}>All Dispatch For Delivery</NavDropdown.Item>
+                                            </NavDropdown>
+                                            </>
+                                        }
+                                        </NavDropdown>
+                                    </>
                                 }
-                              </NavDropdown>
+                            </NavDropdown>
                             <NavDropdown title="User Management" id="collasible-nav-dropdown"  style={{border: '1px solid gray', borderRadius: '10px',backgroundColor: 'white', marginLeft: '2%', marginRight: '2%'}}>
                                 {roleas=="manager" &&
                                     <>
@@ -551,6 +590,26 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                     </>
                                 }
+                                {( roleas=="manager" || roleas=="sales") &&
+                                    <>
+                                        <NavDropdown.Item to="/alldispatchitems" as={Link}>All Dispatch order items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                }
+                                {( roleas=="manager" || roleas=="sales" || roleas=="buyer") &&
+                                    <>
+                                        <NavDropdown.Item to="/allreceiveditems" as={Link}>All Received order items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                }
+                                {(roleas=="manager" || roleas=="sales") &&
+                                    <>
+                                        <NavDropdown.Item to="/ordersummary" as={Link}>Order Summary</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/allorderstatus" as={Link}>All Order Status</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                }
                                 {( roleas=="manager") &&
                                     <>
                                         <NavDropdown.Item to="/customer_account_delete_requests" as={Link}>Delete Account Requests</NavDropdown.Item>
@@ -633,7 +692,7 @@ const NavBar =()  => {
                             <Home />
                         </Route>                        
                         <Route path="/forgotpassword" render={(props) => <Forgotpassword {...props} />} exact/>
-                        <Route path="/addaddress/:userid1" render={(props) => <AddAddress {...props} />} exact />
+                        <Route path="/addaddress/:userid" render={(props) => <AddAddress {...props} />} exact />
                         <Route path="/addbankdetails/:userid" render={(props) => <AddBankDetails {...props} />} exact />
                         <Route path="/login">
                             <Login />
@@ -650,6 +709,12 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/profile">
                     <Profile/>
+                </Route>
+                <Route path="/scanner">
+                    <Scanner/>
+                </Route>
+                <Route path="/barcode">
+                    <Barcode/>
                 </Route>
                 <Route path="/allorders">
                     <AllOrders roleas={roleas} host={host}/>
@@ -702,6 +767,12 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/allcustomervendorpools">
                     <AllCustomerVendorPools/>
+                </Route>
+                <Route path="/addcustomermanagerpool">
+                    <AddCustomerManagerPool/>
+                </Route>
+                <Route path="/allcustomermanagerpools">
+                    <AllCustomerManagerPools/>
                 </Route>
                 <Route path="/addmanagerpool">
                     <AddManagerPool/>
@@ -924,9 +995,25 @@ const NavBar =()  => {
                 
                 <Route path="/allcompletedorders">
                     <AllCompletedOrders/>
+                </Route>    
+                <Route path="/alldispatchitems">
+                    <Alldispatchitems/>
                 </Route>        
                 <Route path="/editCompletedorder/:orderid" render={(props) => <EditCompletedOrder {...props} />} exact />    
                     
+                <Route path="/allreceiveditems">
+                    <AllReceiveditems/>
+                </Route>        
+                <Route path="/editreceivedorder/:id" render={(props) => <EditReceivedOrder {...props} />} exact />
+
+                <Route path="/adddispatchfordelivery">
+                    <AddDispatchForDelivery/>
+                </Route>   
+                <Route path="/alldispatchfordelivery">
+                    <AllDispatchForDelivery/>
+                </Route>        
+                <Route path="/viewdispatchfordelivery/:id" render={(props) => <ViewDispatchForDelivery {...props} />} exact />
+                
                 <Route path="/All_Delivery_Assignment">
                     <All_Delivery_Assignment/>
                 </Route>    
@@ -949,9 +1036,17 @@ const NavBar =()  => {
                 <Route path="/allcompletedpurchaseorders">
                     <All_Completed_Purchase_Orders/>
                 </Route>
+                <Route path="/View_Dispatch_order_items/:id" render={(props) => <View_dispatch_order_items {...props} />} exact />
                 <Route path="/View_Completed_Purchase_Order/:id" render={(props) => <View_Completed_Purchase_Order {...props} />} exact />
                 <Route path="/Edit_Accepted_Delivery/:deliveryid" render={(props) => <Edit_Accepted_Delivery {...props} />} exact />
                 <Route path="/Edit_Confirm_Delivery/:deliveryid" render={(props) => <Edit_Confirm_Delivery {...props} />} exact />
+                <Route path="/ordersummary">
+                    <OrderSummary/>
+                </Route>
+                <Route path="/viewordersummary/:orderid" render={(props) => <ViewOrderSummary roleas={roleas} host={host} {...props} />} exact />
+                <Route path="/allorderstatus">
+                    <All_order_status/>
+                </Route>
                 <Route component={PageNotFound}  />
                 </Switch>
             }

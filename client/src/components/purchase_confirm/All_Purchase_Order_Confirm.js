@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { users_by_id } from '../../services/user_api';
 import { all_confirm_purchase_order, purchase_order } from '../../services/order_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -30,20 +30,8 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         if(role=='manager' && userId){
             users_by_id(userId)
@@ -57,7 +45,7 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
             setAllPurchaseOrderConfirm(result);
         })
 
-    }, [allPurchaseOrderConfirm,role,userId]);
+    }, [allPurchaseOrderConfirm]);
 
     function VendorDetails(id, customid) {
         users_by_id(id)
@@ -112,13 +100,14 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >All Confirm Purchase Order</Title>
+                    <Title style={{marginBottom: '20px'}}>All Confirm Purchase Order</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
@@ -174,24 +163,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

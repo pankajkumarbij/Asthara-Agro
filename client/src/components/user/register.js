@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ScrollView,KeyboardAvoidingView} from 'react-native';
-import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar} from 'react-native-paper';
+import { View, StyleSheet, Platform} from 'react-native';
+import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { user_category } from '../../services/user_api';
 import { uploadImage } from '../../services/image';
 import emailjs from 'emailjs-com';
 import { all_customer_pools, all_manager_pools, all_vendor_pools } from '../../services/pool';
-import { url } from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -20,7 +19,7 @@ const theme = {
     },
 };
 
-export default function Register({ navigation},props) {
+export default function Register(props,{ navigation }) {
 
     let history = useHistory();
 
@@ -109,7 +108,7 @@ export default function Register({ navigation},props) {
     }
 
     function submitForm() {
-        fetch(url+'/create_user', {
+        fetch('http://localhost:5000/create_user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -136,21 +135,14 @@ export default function Register({ navigation},props) {
         .then(data => {
             alert(data.message);
             console.log(data);
-            if(data.data){
+            if(data.data._id!=""){
                 emailjs.send('gmail', 'template_r2kqjja',values, 'user_tzfygekUd6AAYz72qWJrG')
                 .then((result) => {
                     console.log(result); 
                 }, (error) => {
                     console.log(error.text);
                 });
-                if(Platform.OS=='android')
-                {
-                    navigation.navigate('AddAddress',{userid:data.data._id});
-                }
-                else
-                {
-                    history.push("/addaddress/"+data.data._id);
-                }
+                history.push("/addaddress/"+data.data._id);
             }
         })
         .catch(err=>{
@@ -210,9 +202,7 @@ export default function Register({ navigation},props) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                <KeyboardAvoidingView>
-                <ScrollView>
-                    <Card.Title titleStyle={styles.title} title="Register User"/>
+                    <Card.Title title="Register User"/>
                     <Card.Content>
                     <Menu
                     visible={visible1}
@@ -271,13 +261,13 @@ export default function Register({ navigation},props) {
                         <Menu.Item title="Passport" onPress={()=>chooseIdType("Passport")} />
                     </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Govt ID Number" value={values.idNumber} onChangeText={handleChange('idNumber')}/>
-                    {/* <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles}
                         />
                         <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                    </View> */}
+                    </View>
                     {(category=="vendor" || category=="customer") &&
                         <TextInput style={styles.input} mode="outlined" label="GST No" value={values.gstNo} onChangeText={handleChange('gstNo')} />
                     }
@@ -369,8 +359,6 @@ export default function Register({ navigation},props) {
                     <TextInput style={styles.input} mode="outlined" label="Confirm Password" alue={values.confirmPassword} onChangeText={handleChange('confirmPassword')} secureTextEntry={true}/>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Address</Button>
                     </Card.Content>
-                </ScrollView>
-                </KeyboardAvoidingView>
                 </Card>
             </View>
         </Provider>
@@ -386,7 +374,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                marginTop: '2%',
+                marginTop: '10%',
                 marginBottom: '10%',
                 width: '90%',
             },
@@ -399,8 +387,7 @@ const styles = StyleSheet.create({
         })
     },
     input: {
-        marginTop: '2%',
-        marginBottom: '2%',
+        margin: '2%',
         width: '100%',
         ...Platform.select({
             ios: {
@@ -411,25 +398,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                marginTop: '1%',
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

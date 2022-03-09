@@ -21,7 +21,7 @@ const theme = {
     },
 };
 //define add items component
-export default function VendorAddItem({ navigation }) {
+export default function AddItem({ navigation }) {
     //initialize all required state variables
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);

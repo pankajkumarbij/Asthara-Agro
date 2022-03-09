@@ -8,7 +8,6 @@ import { users_by_email, users_by_id } from '../../services/user_api';
 import { item_grade } from  '../../services/item_api';
 import { Link, useHistory } from "react-router-dom";
 import { customer_address_by_id } from '../../services/customer_api';
-import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -31,6 +30,7 @@ export default function CreateOrder({ navigation }) {
     const [visible2, setVisible2] = useState(false);
     const [visible5, setVisible5] = useState(false);
     const [item, setItem] = useState();
+    const [host, setHost] = useState("");
     const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:'',itemPrice:'',targetPrice:'', Grade: 'Choose Grade',}]);
     const [nick_name, setNickName] = useState("");
     const [name, setName] = useState("");
@@ -71,8 +71,15 @@ export default function CreateOrder({ navigation }) {
         }
         fetchData();
 
+        if(Platform.OS=="android"){
+            setHost("10.0.2.2");
+        }
+        else{
+            setHost("localhost");
+        }
+
         if(flag2 && vendor_pool_id){
-            fetch(`${url}/vendors_retrive_all_item_by_vendor_pool/${vendor_pool_id}`, {
+            fetch(`http://${host}:5000/vendors_retrive_all_item_by_vendor_pool/${vendor_pool_id}`, {
                 method: 'GET'
             })
             .then(res => res.json())
@@ -81,7 +88,6 @@ export default function CreateOrder({ navigation }) {
                 if(item){
                     const itemsnames=[...new Set(item.map(x=>x.item_name))];
                     setItem(itemsnames);
-                    console.log(item);
                     setFlag2(false);
                 }
             });
@@ -106,7 +112,7 @@ export default function CreateOrder({ navigation }) {
         }
 
         if(flag6 && userId && pool_id){
-            fetch(`${url}/retrieve_customer_address_by_pool/${pool_id}`, {
+            fetch(`http://localhost:5000/retrieve_customer_address_by_pool/${pool_id}`, {
             method: 'GET',
             })
             .then(res => res.json())
@@ -118,7 +124,7 @@ export default function CreateOrder({ navigation }) {
         }
 
         if(flag3 && pool_id){
-            fetch(`${url}/retrieve_cross_pool_by_customer_pool/${pool_id}`, {
+            fetch(`http://localhost:5000/retrieve_cross_pool_by_customer_pool/${pool_id}`, {
             method: 'GET',
             })
             .then(res => res.json())
@@ -135,7 +141,7 @@ export default function CreateOrder({ navigation }) {
             setFlag7(false);
         }
 
-    }, [item, userId, pool_id, vendor_pool_id, flag3, flag2, flag4, flag5, flag6, flag7, addresses, itemGrade, address, landmark, district, state, country, pincode, customerId]);
+    }, [item, host, userId, pool_id, vendor_pool_id, flag3, flag2, flag4, flag5, flag6, flag7, addresses, itemGrade, address, landmark, district, state, country, pincode, customerId]);
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -175,7 +181,7 @@ export default function CreateOrder({ navigation }) {
         }
         else if (fieldname=="grade") {
             values[index].Grade=grade;
-            fetch(`${url}/retrive_vendor_item_by_name_grade/${values[index].itemName}/${grade}/${vendor_pool_id}`, {
+            fetch(`http://localhost:5000/retrive_vendor_item_by_name_grade/${values[index].itemName}/${grade}/${vendor_pool_id}`, {
                 method: 'GET'
             })
             .then(res => res.json())
@@ -231,7 +237,7 @@ export default function CreateOrder({ navigation }) {
     };
 
     function submitForm() {
-        fetch(`${url}/create_order`, {
+        fetch(`http://${host}:5000/create_order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -302,7 +308,7 @@ export default function CreateOrder({ navigation }) {
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title titleStyle={styles.title} title="Create Sales Order"/>
+                    <Card.Title title="Create Sales Order"/>
                     <Card.Content>
                         <View style={styles.customer}>
                             <Button mode="outlined" style={styles.button} onPress={()=>setFlag(false)} >New Customer Order</Button>
@@ -340,7 +346,7 @@ export default function CreateOrder({ navigation }) {
                                 }
                             </Menu>
                         }
-                        <TextInput style={styles.input} mode="outlined" label="Nick Name" value={nick_name} onChangeText={nick_name => setNickName(nick_name)} />
+                        <TextInput style={styles.input} mode="outlined" label="Nick Name" value={nick_name} onChangeText={nick_name => setNickName(name)} />
                         <TextInput style={styles.input} mode="outlined" label="Full Name" value={name} onChangeText={name => setName(name)} />
                         <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                         <TextInput style={styles.input} mode="outlined" label="Mobile no" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
@@ -496,24 +502,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

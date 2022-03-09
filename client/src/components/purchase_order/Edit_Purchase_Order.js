@@ -44,6 +44,7 @@ export default function Edit_Purchase_Order(props, {route}) {
     const [vendorPoolId, setVendorPoolId] = useState("");
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState("");
+    const [sales_id, setSalesId] = useState("");
 
     let history = useHistory();
 
@@ -77,6 +78,7 @@ export default function Edit_Purchase_Order(props, {route}) {
                 setVendorPoolId(item[0].vendorPoolId);
                 setCustomerPoolId(item[0].customerPoolId);
                 setManagerPoolId(item[0].managerPoolId);
+                setSalesId(item[0].sales_id);
             });
         }
 
@@ -99,6 +101,58 @@ export default function Edit_Purchase_Order(props, {route}) {
     }, [host, purchaseId, purchaseid, id, items, order_id, vendor_id, status, flag,vendorsid,actualQuantity,flag2,flag3]);
 
     function submitForm() {
+
+        fetch(`http://${host}:5000/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Vendor Accepted",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+
+        if(parseInt(items.quantity)-parseInt(quantity)!=0){
+
+            fetch(`http://${host}:5000/update_order_quantity/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity:quantity,
+                    split_status:"Split",
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                //  alert(data.message);
+            });
+
+            fetch(`http://${host}:5000/create_order_status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: custom_orderId,
+                    item_name: items.itemName,
+                    item_grade: items.Grade,
+                    quantity: parseInt(items.quantity)-parseInt(quantity),
+                    status: "Pending for Vendor Assignment",
+                    split_status: "Split"
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+            });
+        }
 
         const values2 = items;
         values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity)-parseInt(quantity);
@@ -161,6 +215,7 @@ export default function Edit_Purchase_Order(props, {route}) {
                 orderId:orderId,
                 custom_orderId:custom_orderId,
                 custom_vendorId:custom_vendorId,
+                sales_id:sales_id,
                 items:items,   
                 vendor_id:vendor_id, 
                 status:status,
@@ -173,7 +228,7 @@ export default function Edit_Purchase_Order(props, {route}) {
         .catch(error => console.log(error))
         .then(data => {
             // alert(data.message);
-            history.push('/All_Pending_Purchase_Order_Confirm');
+            history.push('/All_Pending_Purchase_Orders');
         });   
 
         //for change the status

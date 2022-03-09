@@ -5,9 +5,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView} from 'react-native
 import { Provider, DefaultTheme, Card, Button, Menu, Searchbar } from 'react-native-paper';
 import { Link, useHistory } from 'react-router-dom';
 import { all_customer_pools, all_vendor_pools } from '../../services/pool';
-// import swal from '@sweetalert/with-react'
-import {url} from '../../utils/url';
-import axios from 'axios';
+import swal from '@sweetalert/with-react'
 
 const theme = {
     ...DefaultTheme,
@@ -68,34 +66,52 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
     }
 
     function submitForm() {
-        axios.post(url + `/create_vendor_customer_cross_pool`, {
+        fetch(`http://localhost:5000/create_vendor_customer_cross_pool`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 customer_pool_name: customer,
                 customer_pool_Id: customerId,
                 vendor_pool_name: vendor,
                 vendor_pool_Id: vendorId
-          })
-          .then(function (response) {
-            alert(response.data.message);
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            swal("Yeah!", data.message, "success");
             history.push('/allcustomervendorpools');
+        }); 
+        fetch(`http://localhost:5000/updateflag_vendor_pool/${vendorId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               flag_value:1
+            })
         })
-        axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
-            flag_value:1,
-          })
-        .then(function (response) {
-            alert(response.data.message);
-        })
-        .catch(function (error) {
-            console.error(error);
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //alert(data.message);
         });
-        axios.put(url + `/updateflag_customer_pool/${customerId}`, {
-            flag_value:1,
-          })
-          .then(function (response) {
-            alert(response.data.message);
-        })  
-        .catch(function (error) {
-            console.log(error);
-         });   
+        fetch(`http://localhost:5000/updateflag_customer_pool/${customerId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               flag_value:1
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //alert(data.message);
+        });       
     }
 
     const onChangeSearch1 = query => setSearchQuery1(query);
@@ -107,7 +123,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
         <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card} >
-                    <Card.Title titleStyle={styles.title} title="New Customer Vendor Cross Pool"/>
+                    <Card.Title title="New Customer Vendor Cross Pool"/>
                     <Card.Content>
                         <Menu
                         visible={visible1}
@@ -208,24 +224,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

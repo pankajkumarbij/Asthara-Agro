@@ -40,7 +40,7 @@ export default function AddItemGrade({ navigation }) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title titleStyle={styles.title} title="ADD ITEM GRADE"/>
+                    <Card.Title title="ADD ITEM GRADE"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Item Grade Name" value={itemGradeName} onChangeText={itemGradeName => setItemGradeName(itemGradeName)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Item Grade</Button>
@@ -84,24 +84,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

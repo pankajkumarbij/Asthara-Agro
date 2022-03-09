@@ -41,6 +41,7 @@ export default function Edit_Pickup_Assignment(props, {route}) {
     const [actualQuantity, setActualQuantity] = useState();
     const [vendorsid, setVendorsid] = useState([]);
     const [flag2, setFlag2] = useState(true);
+    const [flag5, setFlag5] = useState(true);
     const [flag3, setFlag3] = useState(true);
     const [orderId, setOrderId] = useState("");
     const [custom_orderId, setCustomId] = useState("");
@@ -49,6 +50,7 @@ export default function Edit_Pickup_Assignment(props, {route}) {
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState("");
     const [image,setImage]=useState("");
+    const [sales_id, setSalesId] = useState("");
 
     let history = useHistory();
 
@@ -63,7 +65,7 @@ export default function Edit_Pickup_Assignment(props, {route}) {
             setPickupAssignId(pickupId);
         }
 
-        if(pickupAssignId){
+        if(pickupAssignId && flag5){
             pickup_assignment_by_id(pickupAssignId)
             .then(result=>{
                 setOrder_Id(result[0].order_id);
@@ -79,6 +81,8 @@ export default function Edit_Pickup_Assignment(props, {route}) {
                 setVendorPoolId(result[0].vendorPoolId);
                 setCustomerPoolId(result[0].customerPoolId);
                 setManagerPoolId(result[0].managerPoolId);
+                setSalesId(result[0].sales_id);
+                setFlag5(false);
             })
         }
 
@@ -102,9 +106,61 @@ export default function Edit_Pickup_Assignment(props, {route}) {
             setVendorsid([]);
         }
 
-    }, [host,pickupAssignId,items, pickupId,id, order_id,flag2,vendorsid,flag3]);
+    }, [pickupAssignId,items, pickupId,id, order_id,flag2,vendorsid,flag3,flag5]);
 
     function submitForm() {
+
+        fetch(`http://${host}:5000/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Buyer Accepted",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+
+        if(parseInt(items.quantity)-parseInt(quantity)!=0){
+
+            fetch(`http://${host}:5000/update_order_quantity/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity:quantity,
+                    split_status:"Split",
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                //  alert(data.message);
+            });
+
+            fetch(`http://${host}:5000/create_order_status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: custom_orderId,
+                    item_name: items.itemName,
+                    item_grade: items.Grade,
+                    quantity: parseInt(items.quantity)-parseInt(quantity),
+                    status: "Pending for Vendor Assignment",
+                    split_status: "Split"
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+            });
+        }
 
         const values2 = items;
         values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity)-parseInt(quantity);
@@ -163,6 +219,7 @@ export default function Edit_Pickup_Assignment(props, {route}) {
                 orderId:orderId,
                 custom_orderId:custom_orderId,
                 custom_vendorId:custom_vendorId,
+                sales_id: sales_id,
                 items:items,   
                 vendor_id:vendor_id,
                 buyer_id:buyer_id,

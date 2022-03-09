@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pickup_assignment } from '../../services/pickup_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
 
@@ -30,20 +30,8 @@ export default function All_Pickup_Assignment({ navigation }) {
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         if(role=='manager' && userId){
             users_by_id(userId)
@@ -57,7 +45,7 @@ export default function All_Pickup_Assignment({ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment,role,userId]);
+    }, [allPickupAssignment]);
     function VendorDetails(id, customid) {
         users_by_id(id)
         .then(result => {
@@ -111,13 +99,14 @@ export default function All_Pickup_Assignment({ navigation }) {
                 </Portal>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title style={styles.title}>All Pickup Assignment</Title>
+               <Title style={{marginBottom: '20px'}}>All Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
+                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>
@@ -196,24 +185,7 @@ const styles = StyleSheet.create({
             }
         })
     },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
-            }
-        })
-    },
+
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',

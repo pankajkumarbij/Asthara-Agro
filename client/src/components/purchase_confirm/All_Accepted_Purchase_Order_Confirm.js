@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet,Platform, ScrollView, Text,SafeAreaView, ActivityIndicator  } from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator  } from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Modal, TextInput, Portal  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -7,7 +7,7 @@ import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_confirm_purchase_order } from '../../services/order_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
 import { users_by_id } from '../../services/user_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -30,20 +30,8 @@ export default function All_Accepted_Purchase_Order_Confirm(props,{ navigation }
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         if(role=='manager' && userId){
             users_by_id(userId)
@@ -57,7 +45,7 @@ export default function All_Accepted_Purchase_Order_Confirm(props,{ navigation }
             setAllPurchaseOrderConfirm(result);
         })
 
-    }, [allPurchaseOrderConfirm,role,userId]);
+    }, [allPurchaseOrderConfirm]);
 
     function VendorDetails(id, customid) {
         users_by_id(id)
@@ -112,20 +100,21 @@ export default function All_Accepted_Purchase_Order_Confirm(props,{ navigation }
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >All Accepted Purchase Order Confirm</Title>
+                    <Title style={{marginBottom: '20px'}}>All Accepted Purchase Order Confirm</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
-                        {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
+                        <DataTable.Title>Vendor ID</DataTable.Title>
                         <DataTable.Title>Item</DataTable.Title>
-                        <DataTable.Title >Action</DataTable.Title>
+                        <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
                     {role=="manager" && allPurchaseOrderConfirm ?
@@ -135,12 +124,11 @@ export default function All_Accepted_Purchase_Order_Confirm(props,{ navigation }
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{purchaseOrderConfirm.custom_orderId}</DataTable.Cell>
-                                        {/* <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell> */}
+                                        <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell>
                                         <DataTable.Cell>{purchaseOrderConfirm.items.itemName+" ("+purchaseOrderConfirm.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell >
-                                        {Platform.OS=='android' ?
-                                             <Button  color ="green" mode="contained"  onPress={() => {navigation.navigate('Profile')}}>Details</Button>
-                                            // <Text>hello</Text>
+                                        <DataTable.Cell numeric>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}>Details</Button>
                                                 :
                                                 <Link to={"/View_Purchase_Order_Confirm3/"+purchaseOrderConfirm._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -176,24 +164,6 @@ const styles = StyleSheet.create({
             }
         })
     },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
-            }
-        })
-    },
 
     datatable: {
         alignSelf: 'center',
@@ -205,7 +175,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '80%',
             },
             default: {
                 width: '75%',

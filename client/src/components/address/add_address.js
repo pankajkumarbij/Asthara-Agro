@@ -1,10 +1,9 @@
-import React, {useState, useEffect,} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { users_by_id } from '../../services/user_api';
-import { url } from '../../utils/url';
-import axios from 'axios';
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -16,16 +15,14 @@ const theme = {
 };
 
 //define add address component
-export default function AddAddress({navigation,route}) {
+export default function AddAddress(props, {route}) {
 
     var userid="";
-    const { userid1 } = useParams();
-
     if(Platform.OS=="android"){
         userid = route.params.userid;
     }
     else{
-        userid = userid1;
+        userid = props.match.params.userid;
     }
 
     let history = useHistory();
@@ -65,7 +62,12 @@ export default function AddAddress({navigation,route}) {
     function submitForm() {
 
         if(role=="vendor"){
-            axios.post(url + '/create_vendor_address', {
+            fetch(`http://${host}:5000/create_vendor_address`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     vendorId: userId,
                     address: address,
                     landmark: landmark,
@@ -73,17 +75,22 @@ export default function AddAddress({navigation,route}) {
                     state: state,
                     country: country,
                     postal_code: pincode,
-              })
-              .then(function (response) {
-                alert(response.data.message);
-              })
-              .catch(function (error) {
-                console.log(error);
-              }); 
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                alert(data.message);
+            }); 
         }
 
         if(role=="customer"){
-            axios.post(url + '/create_customer_address', {
+            fetch(`http://${host}:5000/create_customer_address`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     customerId: userId,
                     customerEmail: Email,
                     address: address,
@@ -92,44 +99,42 @@ export default function AddAddress({navigation,route}) {
                     state: state,
                     country: country,
                     postal_code: pincode,
-              })
-              .then(function (response) {
-                alert(response.data.message);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });  
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+            }); 
         }
-        axios.post(url + '/create_address', {
-                 userId: userId,
+
+        fetch(`http://${host}:5000/create_address`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
                 address: address,
                 landmark: landmark,
                 district: district,
                 state: state,
                 country: country,
                 postal_code: pincode,
-          })
-          .then(function (response) {
-            alert(response.data.message);
-            if(Platform.OS=='android')
-            {
-                navigation.navigate('AddBankDetails',{userid:userId});
-            }
-            else
-            {
-                history.push('/addbankdetails/'+userId);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          }); 
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+            history.push('/addbankdetails/'+userId);
+        }); 
     }
     //define all the required input fields
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                <Card.Title titleStyle={styles.title} title="Add Address"/>
+                    <Card.Title title="Add Address"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
                     <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
@@ -168,7 +173,6 @@ const styles = StyleSheet.create({
     },
     input: {
         marginTop: '2%',
-        marginBottom: '2%',
         width: '100%',
         ...Platform.select({
             ios: {
@@ -179,25 +183,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                marginTop: '1%',
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

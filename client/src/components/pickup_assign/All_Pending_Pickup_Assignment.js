@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_pickup_assignment } from '../../services/pickup_api';
 import {host} from '../../utils/host';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -25,20 +25,8 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState([]);
     const [managerPoolId, setManagerPoolId] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
-
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
 
         if(role=='manager' && userId){
             users_by_id(userId)
@@ -52,7 +40,7 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignment,role,userId]);
+    }, [allPickupAssignment]);
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -67,6 +55,21 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
     };
 
     const StatusChange = (s, id, index) => {
+
+        fetch(`http://${host}:5000/update_order_item_status/${allPickupAssignment[index].custom_orderId}/${allPickupAssignment[index].items.itemName}/${allPickupAssignment[index].items.Grade}/${allPickupAssignment[index].items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Out for Pickup",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+
         fetch(`http://${host}:5000/update_pickup_assign_status/${id}`, {
             method: 'PUT',
             headers: {
@@ -93,13 +96,14 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title style={styles.title}>All Pending Pickup Assignment</Title>
+               <Title style={{marginBottom: '20px'}}>All Pending Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
+                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>
@@ -197,24 +201,7 @@ const styles = StyleSheet.create({
             }
         })
     },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
-            }
-        })
-    },
+
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',

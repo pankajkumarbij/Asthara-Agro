@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_pickup_assignment_confirmed } from '../../services/pickup_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { role, userId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -23,21 +23,9 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
     const [allPickupAssignmentConfirm, setAllPickupAssignment] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [managerPoolId, setManagerPoolId] = useState('');
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
 
     useEffect(() => {
 
-        roleas()
-        .then(result=>{
-           setRole(result);   
-        })
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
-        
         if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
@@ -50,7 +38,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignmentConfirm,role,userId]);
+    }, [allPickupAssignmentConfirm]);
 
     
     const onChangeSearch = query => setSearchQuery(query);
@@ -61,13 +49,14 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title}>All Accepted Pickup Assignment Confirm Vendor</Title>
+                    <Title style={{marginBottom: '20px'}}>All Accepted Pickup Assignment Confirm Vendor</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
+                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
@@ -140,24 +129,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

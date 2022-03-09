@@ -41,7 +41,7 @@ export default function AddItemCategory({ navigation }) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title titleStyle={styles.title} title="ADD ITEM CATEGORY"/>
+                    <Card.Title title="ADD ITEM CATEGORY"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Item Category Name" value={itemCategoryName} onChangeText={itemCategoryName => setItemCategoryName(itemCategoryName)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add Item Category</Button>
@@ -85,24 +85,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

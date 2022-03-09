@@ -49,7 +49,7 @@ export default function AddUserCategory({ navigation }) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title titleStyle={styles.title} title="ADD User Category"/>
+                    <Card.Title title="ADD User Category"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="User Category Name" value={userCategoryName} onChangeText={userCategoryName => setUserCategoryName(userCategoryName)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add User Category</Button>
@@ -93,24 +93,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },

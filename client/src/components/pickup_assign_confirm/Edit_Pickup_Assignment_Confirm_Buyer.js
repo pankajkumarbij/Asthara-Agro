@@ -92,6 +92,21 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
         .then(data => {
             // alert(data.message);
         });   
+
+        fetch(`http://${host}:5000/update_order_item_status/${purchaseOrder.custom_orderId}/${purchaseOrder.items.itemName}/${purchaseOrder.items.Grade}/${purchaseOrder.items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Reached at Buyer's Hub",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+        
         history.push("/all_pickup_assignment_confirm_buyer");
     };
    

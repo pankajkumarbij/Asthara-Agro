@@ -1,9 +1,9 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import { loginuserId } from '../../../utils/user';
-
+import swal from '@sweetalert/with-react';
+import { userId } from '../../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -25,17 +25,6 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
     const [driverMobileNumber, setDriverMobileNumber] = useState("");
     const [labourName, setLabourName] = useState("");
     const [labourMobileNumber, setLabourMobileNumber] = useState("");
-    const[role,setRole] = useState("");
-    const [userId,setUserId] = useState("");
-
-    useEffect(() => {
-
-        loginuserId()
-        .then(result=>{
-           setUserId(result);   
-        })
-        
-    },[role,userId]);
 
     let history = useHistory();
 
@@ -69,15 +58,15 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
         .then(data => {
             console.log(data);
             if(data.message!="Something went wrong!"){
-                alert(data.message);
+                swal("Yeah!", data.message, "success");
                 history.push('/alltransportlabourfromvendor');
             }
             else{
                 if(data.error.errors){
-                    alert("All Fields are required!");
+                    swal("Oops!", "All Fields are required!", "error");
                 }
                 else{
-                    alert("You Have Already Added Transport and Labour Charge");
+                    swal("Oops!", "You Have Already Added Transport and Labour Charge", "error");
                 }
             }
         });

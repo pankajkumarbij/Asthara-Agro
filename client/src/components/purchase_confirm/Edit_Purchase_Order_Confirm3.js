@@ -46,6 +46,7 @@ export default function Edit_Purchase_Order_Confirm3(props, {route}) {
     const [vendorPoolId, setVendorPoolId] = useState("");
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState('');
+    const [sales_id, setSalesId] = useState("");
     
     let history = useHistory();
 
@@ -78,6 +79,7 @@ export default function Edit_Purchase_Order_Confirm3(props, {route}) {
                 setVendorPoolId(result[0].vendorPoolId);
                 setCustomerPoolId(result[0].customerPoolId);
                 setManagerPoolId(result[0].managerPoolId);
+                setSalesId(result[0].sales_id);
             })
         }
 
@@ -105,6 +107,7 @@ export default function Edit_Purchase_Order_Confirm3(props, {route}) {
                 custom_vendorId:custom_vendorId,
                 items:items,   
                 vendor_id:vendor_id,
+                sales_id: sales_id,
                 buyer_id:buyer_id, 
                 status:status,
                 vendorPoolId: vendorPoolId,
@@ -134,6 +137,20 @@ export default function Edit_Purchase_Order_Confirm3(props, {route}) {
         .then(data => {
             // alert(data.message);
         });  
+
+        fetch(`http://${host}:5000/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Buyer Assigned",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
     }
 
     const PriceChange = (value) => {

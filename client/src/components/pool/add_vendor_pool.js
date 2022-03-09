@@ -4,9 +4,7 @@ import React, {useState} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-// import swal from '@sweetalert/with-react'
-import {url} from '../../utils/url';
-import axios from 'axios';
+import swal from '@sweetalert/with-react'
 
 const theme = {
     ...DefaultTheme,
@@ -63,35 +61,39 @@ export default function AddVendorPool(props,{ navigation }) {
     };
 
     function submitForm() {
-        axios.post(url + `/create_vendor_pool`, {
-            pool_name: poolName,
-            postal_code: items
-          })
-        .then(function (response) {
-            console.log(response.data);
-            alert(response.data.message);
-            if(response.data.message!="something wrong!"){
-                alert(response.data.message);
+        fetch(`http://localhost:5000/create_vendor_pool`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pool_name: poolName,
+                postal_code: items
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            console.log(data);
+            if(data.message!="something wrong!"){
+                swal("Yeah!", data.message, "success");
                 history.push('/allvendorpools');
             }
             else{
-                if(response.data.error.errors){
-                    alert("All Fields are required!");
+                if(data.error.errors){
+                    swal("Oops!", "All Fields are required!", "error");
                 }
-                else if(response.data.error.keyPattern.postal_code){
-                    alert("Pin Code "+response.data.error.keyValue.postal_code+" is already available in another pool!");
+                else if(data.error.keyPattern.postal_code){
+                    swal("Oops!", "Pin Code "+data.error.keyValue.postal_code+" is already available in another pool!", "error");
                 }
-                else if(response.data.error.keyPattern.pool_name){
-                    alert("Pool "+response.data.error.keyValue.pool_name+" is already created!");
+                else if(data.error.keyPattern.pool_name){
+                    swal("Oops!", "Pool "+data.error.keyValue.pool_name+" is already created!", "error");
                 }
                 else{
-                    alert("something wrong!");
+                    swal("Oops!", "something wrong!", "error");
                 }
             }
-        })
-        .catch(function (error) {
-            console.log(error);
-         });
+        });
     }
 
     return (
@@ -100,15 +102,15 @@ export default function AddVendorPool(props,{ navigation }) {
         <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card} >
-                    <Card.Title titleStyle={styles.title} title="New Vendor Pool"/>
+                    <Card.Title title="New Vendor Pool"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Pool Name (RAJ_JPR_SANGANER)" value={poolName} onChangeText={poolName => setPoolName(poolName)} />
                     {items.map((it, index) => (
                         <View>
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" maxLength={6} value={it} onChangeText={(text)=>ItemChange(index, text)} />
-                            {pincodeError[index] ?
+                            {pincodeError[index] &&
                                 <Text style={{color: "red"}}>{pincodeError[index]}</Text>
-                            :
+                            }
                             <View style={{flexDirection: 'row'}}>
                                 {Platform.OS=="android" ?
                                     <>
@@ -122,7 +124,6 @@ export default function AddVendorPool(props,{ navigation }) {
                                     </>
                                 }
                             </View>
-                            }
                         </View>
                     ))}
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>
@@ -168,24 +169,6 @@ const styles = StyleSheet.create({
             },
             default: {
                 
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
             }
         })
     },
