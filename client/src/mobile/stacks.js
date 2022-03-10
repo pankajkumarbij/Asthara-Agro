@@ -109,7 +109,7 @@ export default function Stacks({navigation}){
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-             <Stack.Screen name="AddCategory" component={AddCategory} options={{
+            <Stack.Screen name="AddCategory" component={AddCategory} options={{
             headerLeft:()=>(
                 <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
@@ -399,11 +399,11 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            {/* <Stack.Screen name="VendorAddItem" component={VendorAddItem} options={{
+            <Stack.Screen name="VendorAddItem" component={VendorAddItem} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
-            }}/> */}
+            }}/>
             <Stack.Screen name="VendorsAllItems" component={VendorsAllItems} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
@@ -414,11 +414,11 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            {/* <Stack.Screen name="All_addressesVendor" component={All_addressesVendor} options={{
+            <Stack.Screen name="All_addressesVendor" component={All_addressesVendor} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
-            }}/> */}
+            }}/>
             <Stack.Screen name="AddTransportLabourFromVendor" component={AddTransportLabourFromVendor} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
