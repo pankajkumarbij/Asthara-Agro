@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
-import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
+import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Text } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -69,14 +69,13 @@ export default function AllOrders(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Orders</Title>
+                <Title style={styles.title} >All Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
@@ -85,7 +84,7 @@ export default function AllOrders(props, { navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role && userId && role=="sales"  && allOrders) &&
+                    {(role && userId && role=="sales"  && allOrders) ?
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -102,7 +101,8 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                            <Button  mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>check</Button>
+                                                // <Button color="green" mode="contained"  onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -111,8 +111,9 @@ export default function AllOrders(props, { navigation }) {
                                 )
                             }
                         })
+                        :null
                     }
-                    {(role && userId && role=="manager"  && allOrders && managerPinCodes) &&
+                    {(role && userId && role=="manager"  && allOrders && managerPinCodes) ?
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -129,7 +130,8 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                // <Button mode="contained" color="green" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                <Text>hello</Text>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -138,6 +140,7 @@ export default function AllOrders(props, { navigation }) {
                                 )
                             }
                         })
+                        :null
                     }
                 </DataTable>
             </View>
@@ -163,6 +166,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -173,7 +194,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
