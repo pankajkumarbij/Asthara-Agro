@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform} from 'react-native';
+import { View, StyleSheet, Platform, ScrollView} from 'react-native';
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -200,6 +200,7 @@ export default function Register(props,{ navigation }) {
 
     return (
         <Provider theme={theme}>
+            <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
                     <Card.Title title="Register User"/>
@@ -261,13 +262,17 @@ export default function Register(props,{ navigation }) {
                         <Menu.Item title="Passport" onPress={()=>chooseIdType("Passport")} />
                     </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Govt ID Number" value={values.idNumber} onChangeText={handleChange('idNumber')}/>
-                    <View style={{flexDirection: 'row'}}>
-                        <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
-                        onChange={getFiles}
-                        />
-                        <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                    </View>
+                    {Platform.OS=='android' ?
+                        null
+                    :
+                        <View style={{flexDirection: 'row'}}>
+                            <input type="file" name="file" placeholder="Image"
+                            style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
+                            onChange={getFiles}
+                            />
+                            <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                        </View>
+                    }
                     {(category=="vendor" || category=="customer") &&
                         <TextInput style={styles.input} mode="outlined" label="GST No" value={values.gstNo} onChangeText={handleChange('gstNo')} />
                     }
@@ -361,6 +366,7 @@ export default function Register(props,{ navigation }) {
                     </Card.Content>
                 </Card>
             </View>
+            </ScrollView>
         </Provider>
     );
 }
