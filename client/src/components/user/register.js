@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ScrollView} from 'react-native';
-import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
+import { View, StyleSheet, Platform, ScrollView,KeyboardAvoidingView} from 'react-native';
+import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar} from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { user_category } from '../../services/user_api';
 import { uploadImage } from '../../services/image';
 import emailjs from 'emailjs-com';
 import { all_customer_pools, all_manager_pools, all_vendor_pools } from '../../services/pool';
+import { url } from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -19,7 +20,7 @@ const theme = {
     },
 };
 
-export default function Register(props,{ navigation }) {
+export default function Register({ navigation},props) {
 
     let history = useHistory();
 
@@ -108,7 +109,7 @@ export default function Register(props,{ navigation }) {
     }
 
     function submitForm() {
-        fetch('http://localhost:5000/create_user', {
+        fetch(url+'/create_user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,14 +136,21 @@ export default function Register(props,{ navigation }) {
         .then(data => {
             alert(data.message);
             console.log(data);
-            if(data.data._id!=""){
+            if(data.data){
                 emailjs.send('gmail', 'template_r2kqjja',values, 'user_tzfygekUd6AAYz72qWJrG')
                 .then((result) => {
                     console.log(result); 
                 }, (error) => {
                     console.log(error.text);
                 });
-                history.push("/addaddress/"+data.data._id);
+                if(Platform.OS=='android')
+                {
+                    navigation.navigate('AddAddress',{userid:data.data._id});
+                }
+                else
+                {
+                    history.push("/addaddress/"+data.data._id);
+                }
             }
         })
         .catch(err=>{
@@ -200,10 +208,11 @@ export default function Register(props,{ navigation }) {
 
     return (
         <Provider theme={theme}>
-            <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Register User"/>
+                <KeyboardAvoidingView>
+                <ScrollView>
+                    <Card.Title titleStyle={styles.title} title="Register User"/>
                     <Card.Content>
                     <Menu
                     visible={visible1}
@@ -262,17 +271,13 @@ export default function Register(props,{ navigation }) {
                         <Menu.Item title="Passport" onPress={()=>chooseIdType("Passport")} />
                     </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Govt ID Number" value={values.idNumber} onChangeText={handleChange('idNumber')}/>
-                    {Platform.OS=='android' ?
-                        null
-                    :
-                        <View style={{flexDirection: 'row'}}>
-                            <input type="file" name="file" placeholder="Image"
-                            style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
-                            onChange={getFiles}
-                            />
-                            <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                        </View>
-                    }
+                    {/* <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                    </View> */}
                     {(category=="vendor" || category=="customer") &&
                         <TextInput style={styles.input} mode="outlined" label="GST No" value={values.gstNo} onChangeText={handleChange('gstNo')} />
                     }
@@ -364,9 +369,10 @@ export default function Register(props,{ navigation }) {
                     <TextInput style={styles.input} mode="outlined" label="Confirm Password" alue={values.confirmPassword} onChangeText={handleChange('confirmPassword')} secureTextEntry={true}/>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Address</Button>
                     </Card.Content>
+                </ScrollView>
+                </KeyboardAvoidingView>
                 </Card>
             </View>
-            </ScrollView>
         </Provider>
     );
 }
@@ -380,7 +386,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                marginTop: '10%',
+                marginTop: '2%',
                 marginBottom: '10%',
                 width: '90%',
             },
@@ -393,7 +399,8 @@ const styles = StyleSheet.create({
         })
     },
     input: {
-        margin: '2%',
+        marginTop: '2%',
+        marginBottom: '2%',
         width: '100%',
         ...Platform.select({
             ios: {
@@ -404,6 +411,25 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                marginTop: '1%',
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

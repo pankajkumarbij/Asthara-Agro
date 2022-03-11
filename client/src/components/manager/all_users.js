@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_users } from '../../services/user_api';
 
 const theme = {
@@ -46,14 +46,13 @@ export default function AllUsers(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Users</Title>
+                    <Title style={styles.title} >All Users</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Email</DataTable.Title>
@@ -79,7 +78,7 @@ export default function AllUsers(props,{ navigation }) {
                                 <DataTable.Cell>{item.role}</DataTable.Cell>
                                 <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
+                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained"  onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
                                         :
                                         <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
@@ -124,6 +123,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
