@@ -39,20 +39,19 @@ export default function AllCustomerVendorPools(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Vendor Customer Cross Pools</Title>
+                    <Title style={styles.title}>All Vendor Customer Cross Pools</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
                         <DataTable.Title>Customer Pool</DataTable.Title>
                         <DataTable.Title>Vendor Pool</DataTable.Title>
-                        {/* <DataTable.Title numeric>Action</DataTable.Title> */}
+                        <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?
                     allItems.map((item)=>{
@@ -61,13 +60,13 @@ export default function AllCustomerVendorPools(props,{ navigation }) {
                             <DataTable.Row>
                                 <DataTable.Cell>{item.customer_pool_name}</DataTable.Cell>
                                 <DataTable.Cell>{item.vendor_pool_name}</DataTable.Cell>
-                                {/* <DataTable.Cell numeric>
+                                <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
+                                        <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditCustomerVendorPool', {itemId: item._id})}}>Details</Button>
                                         :
                                         <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_vendor_pool/"+item._id}>Details</Link></Button>
                                     }
-                                </DataTable.Cell> */}
+                                </DataTable.Cell>
                             </DataTable.Row>
                         )
                         }
@@ -108,6 +107,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
