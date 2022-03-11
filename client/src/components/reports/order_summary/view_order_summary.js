@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
-import { View, StyleSheet, Platform, ScrollView, SafeAreaView } from 'react-native';
-import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button } from 'react-native-paper';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text } from 'react-native';
+import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Portal, Modal } from 'react-native-paper';
 import { Order_by_id } from '../../../services/order_api';
 import { useHistory } from 'react-router-dom';
 import { order_status_by_orderId } from '../../../services/report/order_status';
@@ -29,6 +29,8 @@ export default function ViewOrderSummary(props,{route}) {
     
     const [order, setOrder] = useState();
     const [allOrderStatus, setAllOrderStatus] = useState();
+    const [visible, setVisible] = useState(false);
+    const [it, setIt] = useState();
 
     useEffect(() => {
 
@@ -61,11 +63,45 @@ export default function ViewOrderSummary(props,{route}) {
         history.push('/ordersummary');
     }
 
+    const showModal = (val) => {
+        setVisible(true);
+        setIt(val);
+    };
+    const hideModal = () => setVisible(false);
+
+    const containerStyle = {backgroundColor: 'white',width: '30%', alignSelf: 'center'};
+
     return (
         <Provider theme={theme}>
             <SafeAreaView>
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Portal>
+                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                        <>
+                            <DataTable>
+                                <DataTable.Header>
+                                    <DataTable.Title>Item Name</DataTable.Title>
+                                    <DataTable.Title>Quantity</DataTable.Title>
+                                    <DataTable.Title>status</DataTable.Title>
+                                </DataTable.Header>
+                                {it &&
+                                    it.map((item)=>{
+                                        return (
+                                            <>
+                                                <DataTable.Row>
+                                                    <DataTable.Cell>{item.item_name+" ("+item.item_grade+")"}</DataTable.Cell>
+                                                    <DataTable.Cell>{item.quantity}</DataTable.Cell>
+                                                    <DataTable.Cell>{item.status}</DataTable.Cell>
+                                                </DataTable.Row>
+                                            </>
+                                        )
+                                    })
+                                }
+                            </DataTable>
+                        </>
+                    </Modal>
+                </Portal>
                 <Card style={styles.card}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Card.Title style={{ flex: 1,}} title="View Order Summary"/>
@@ -93,6 +129,7 @@ export default function ViewOrderSummary(props,{route}) {
                                         <DataTable.Title>Final Price</DataTable.Title>
                                         <DataTable.Title>Negotiate Price</DataTable.Title>
                                         <DataTable.Title>status</DataTable.Title>
+                                        <DataTable.Title>Action</DataTable.Title>
                                     </DataTable.Header>
                                     
                                     {allOrderStatus && order[0].items.map((it) => {
@@ -119,6 +156,7 @@ export default function ViewOrderSummary(props,{route}) {
                                                     <DataTable.Cell>{it.targetPrice}</DataTable.Cell>
                                                     <DataTable.Cell>{it.itemNegotiatePrice}</DataTable.Cell>
                                                     <DataTable.Cell>{val[0].status}</DataTable.Cell>
+                                                    <DataTable.Cell><Button onPress={()=>showModal(val)}>Details</Button></DataTable.Cell>
                                                 </DataTable.Row>
                                             </>
                                         )
