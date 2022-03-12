@@ -76,7 +76,7 @@ export default function All_addresses({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title >Customer All Addresses</Title>
+                    <Title style={styles.title}>Customer All Addresses</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -128,7 +128,7 @@ export default function All_addresses({ navigation }) {
                                     <DataTable.Cell>{address.country}</DataTable.Cell> */}
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}>Details</Button>
+                                            <Button  mode="contained"  onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}>De</Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}>Details</Link></Button>
                                         }
@@ -156,10 +156,28 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
@@ -173,7 +191,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

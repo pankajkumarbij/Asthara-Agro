@@ -9,6 +9,7 @@ router.get('/retrive_all_delivery_assignments',(req, res)=>{
             console.log(err);
         }
         else {
+            console.log(retrive_all_delivery_assignments)
             res.json(retrive_all_delivery_assignments);
         }
     });

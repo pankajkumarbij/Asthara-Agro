@@ -4,7 +4,7 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar  } from 're
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
-
+import {url} from '../../utils/url';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -19,27 +19,20 @@ const theme = {
 export default function All_Delivery_Assignment({ navigation }) {
 
     const [allPickupAssignment, setAllPickupAssignment] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
 
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-
         //define a function for retrive the data in corresponding database
-        fetch(`http://${host}:5000/retrive_all_delivery_assignment`, {
+        fetch(`${url}/retrive_all_delivery_assignments`, {
             method: 'GET'
         })
         .then(res => res.json())
         .catch(error => console.log(error))
         .then(allPickupAssignment => setAllPickupAssignment(allPickupAssignment));
+        console.log(allPickupAssignment);
 
-    }, [allPickupAssignment, host]);
+    }, [allPickupAssignment]);
 
     const onChangeSearch = query => setSearchQuery(query);
     //define all the required input fields

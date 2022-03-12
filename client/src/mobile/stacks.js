@@ -74,6 +74,9 @@ import AllTransportLabourForSales from '../components/transport_labour/transport
 import Vendor_details from '../components/buyer/vendor_details';
 import VendorAddItem from '../components/vendorsItem/vendors_addItem';
 import EditItem from '../components/item/edititem';
+import All_Dispatch_Orders_From_Buyer from '../components/reports/all_dispatch_order_items/all_dispatch_order_items';
+import All_order_status from '../components/reports/order_status/all_order_status';
+import All_Received_Orders_From_Buyer from '../components/reports/received_items_from_buyer/all_received_items_from_buyer'
 
 const Stack = createStackNavigator();
 
@@ -445,6 +448,21 @@ export default function Stacks({navigation}){
             ),
             }}/>
              <Stack.Screen name="EditItem" component={EditItem} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_dispatch_orders" component={All_Dispatch_Orders_From_Buyer} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_order_status" component={All_order_status} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_Received_Orders_From_Buyer" component={All_Received_Orders_From_Buyer} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
