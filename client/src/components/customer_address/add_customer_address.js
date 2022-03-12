@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform} from 'react-native';
+import { View, StyleSheet, Platform,ScrollView} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme, Searchbar, Menu } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { all_users_by_role } from '../../services/user_api';
-
+import { useHistory } from 'react-router-dom';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -19,7 +19,7 @@ const theme = {
 export default function Add_customer_Address({ navigation }) {
     //initialize all required state variables
     const [visible2, setVisible2] = useState(false);
-
+    let history = useHistory();
     const [searchQuery2, setSearchQuery2] = useState('');
     const [customerId, setCustomerId] = useState('');
     const [address, setAddress] = useState('');
@@ -73,6 +73,13 @@ export default function Add_customer_Address({ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
+            if(Platform.OS == "android"){
+                navigation.navigate('All_customer_Addresses');
+            }
+            else{
+               
+                history.push('/customer_all_addresses');
+            }
         }); 
     }
 
@@ -87,6 +94,7 @@ export default function Add_customer_Address({ navigation }) {
     //define all the required input fields
     return (
         <Provider theme={theme}>
+            <ScrollView>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
                     <Card.Title title="Add Customer Address"/>
@@ -126,6 +134,7 @@ export default function Add_customer_Address({ navigation }) {
                     </Card.Content>
                 </Card>
             </View>
+            </ScrollView>
         </Provider>
     );
 }

@@ -62,8 +62,8 @@ import AddCustomerVendorPool from '../components/pool/vendor_customer_cross';
 import AllCustomerVendorPools from '../components/pool/all_cross_pool';
 import Customer_details from '../components/sales_person/customer_detail';
 import CreateOrder from '../components/order/createorder';
-import Add_customer_Address from '../components/customer_address/add_address';
-import All_addresses from '../components/customer_address/all_customer_address';
+import Add_customer_Address from '../components/customer_address/add_customer_address';
+import All_customer_Addresses from '../components/customer_address/all_customer_address';
 import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
 import Add_vendor_Address from '../components/vendor_address/add_vendor_address';
 import All_addressesVendor from '../components/vendor_address/all_vendor_address';
@@ -394,7 +394,7 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="All_addresses" component={All_addresses} options={{
+            <Stack.Screen name="All_customer_Addresses" component={All_customer_Addresses} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

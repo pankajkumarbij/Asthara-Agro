@@ -76,14 +76,13 @@ export default function All_addresses({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Customer All Addresses</Title>
+                    <Title >Customer All Addresses</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <Menu
                         visible={visible2}
@@ -113,30 +112,32 @@ export default function All_addresses({ navigation }) {
                     <DataTable.Header>
                         <DataTable.Title>Address</DataTable.Title>
                         <DataTable.Title>Landmark</DataTable.Title>
-                        <DataTable.Title>Pin code</DataTable.Title>
+                        {/* <DataTable.Title>Pin code</DataTable.Title>
                         <DataTable.Title>State (District)</DataTable.Title>
-                        <DataTable.Title>Country</DataTable.Title>
+                        <DataTable.Title>Country</DataTable.Title> */}
+                        <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
-                    { address  &&
+                    { address  ?
                         address.map((address,index)=>{
                             return(
                                 <DataTable.Row>
                                     <DataTable.Cell>{address.address}</DataTable.Cell>
                                     <DataTable.Cell>{address.landmark}</DataTable.Cell>
-                                    <DataTable.Cell>{address.postal_code}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{address.postal_code}</DataTable.Cell>
                                     <DataTable.Cell>{address.state+" ("+address.district+")"}</DataTable.Cell>
-                                    <DataTable.Cell>{address.country}</DataTable.Cell>
-                                    {/* <DataTable.Cell>
+                                    <DataTable.Cell>{address.country}</DataTable.Cell> */}
+                                    <DataTable.Cell>
                                         {Platform.OS=='android' ?
                                             <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}>Details</Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}>Details</Link></Button>
                                         }
-                                    </DataTable.Cell> */}
+                                    </DataTable.Cell>
                                 </DataTable.Row> 
                                 
                             )
                         })
+                        :null
                     } 
             </DataTable>
             </View>

@@ -260,42 +260,7 @@ export default function CreateOrder({ navigation }) {
                     history.push('/allorders');
                 }
             }
-            })
-        // fetch(`${url}/create_order`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         userId: userId,
-        //         customerId: customerId,
-        //         nick_name: nick_name,
-        //         name: name,
-        //         email: email,
-        //         mobile_no: mobileNo,
-        //         address: address,
-        //         landmark: landmark,
-        //         district: district,
-        //         state: state,
-        //         country: country,
-        //         postal_code: pincode,
-        //         items: items,
-        //         customerPoolId: pool_id,
-        //         vendorPoolId: vendor_pool_id,
-        //     })
-        // })
-        // .then(res => res.json())
-        // .catch(error => console.log(error))
-        // .then(data => {
-        //     alert(data.message);
-        //     if(Platform.OS=="android"){
-        //         navigation.navigate('AllOrders');
-
-        //     }
-        //     else{
-        //         history.push('/allorders');
-        //     }
-        // }); 
+            }) 
     }
 
     function chooseAddress(addressId) {

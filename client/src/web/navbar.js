@@ -88,7 +88,7 @@ import VendorAddAddress from '../components/vendor_address/add_vendor_address';
 import VendorAllAddress from '../components/vendor_address/all_vendor_address';
 import VendorEditAddress from '../components/vendor_address/edit_vendor_address';
 
-import CustomerAddAddress from '../components/customer_address/add_address';
+import CustomerAddAddress from '../components/customer_address/add_customer_address';
 import CustomerAllAddress from '../components/customer_address/all_customer_address';
 import CustomerEditAddress from '../components/customer_address/edit_customer_address';
 

@@ -419,7 +419,7 @@ function CustomDrawerContent({navigation}) {
             onDismiss={closeMenu20}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu20}>Customer Address</Button>}>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Add_customer_Address')}}>Add new customer address</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_addresses')}}>All Customer Addresses</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_customer_Addresses')}}>All Customer Addresses</Button>
             </Menu>
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />

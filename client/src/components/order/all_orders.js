@@ -101,8 +101,7 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                            <Button  mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>check</Button>
-                                                // <Button color="green" mode="contained"  onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                <Button  mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -130,8 +129,7 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                // <Button mode="contained" color="green" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
-                                                <Text>hello</Text>
+                                                 <Button mode="contained"  onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -159,7 +157,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '20%',

@@ -80,14 +80,13 @@ export default function ApprovedOrders(props, { navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Approved Orders</Title>
+                <Title style={styles.title} >Approved Orders</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
@@ -95,7 +94,7 @@ export default function ApprovedOrders(props, { navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {(role && userId && role=="manager" && allOrders) &&
+                    {(role && userId && role=="manager" && allOrders) ?
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -120,8 +119,9 @@ export default function ApprovedOrders(props, { navigation }) {
                                 )
                             }
                         })
+                        :null
                     }
-                    {(role && userId && role=="sales" && allOrders) &&
+                    {(role && userId && role=="sales" && allOrders) ?
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -137,7 +137,7 @@ export default function ApprovedOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                <Button mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -146,6 +146,7 @@ export default function ApprovedOrders(props, { navigation }) {
                                 )
                             }
                         })
+                        :null
                     }
                 </DataTable>
             </View>
@@ -183,6 +184,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -193,7 +212,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
