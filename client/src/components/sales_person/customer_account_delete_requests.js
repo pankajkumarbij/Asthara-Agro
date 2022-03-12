@@ -97,7 +97,7 @@ export default function Customer_Account_Delete_Requests({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title>Customer Account Delete Requests:</Title>
+                    <Title style={styles.title}>Customer Account Delete Requests:</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -182,6 +182,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

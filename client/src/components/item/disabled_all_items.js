@@ -38,14 +38,13 @@ export default function Disabled_All_Items(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Disabled Items</Title>
+                    <Title style={styles.title}>Disabled Items</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Item</DataTable.Title>
@@ -107,6 +106,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

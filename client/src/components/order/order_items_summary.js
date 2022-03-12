@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { OrderSummary } from '../../services/order_api';
-import { roleas, loginuserId } from '../../utils/user';
+import { roleas, loginuserId} from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
 const theme = {
@@ -23,12 +23,23 @@ export default function OrderItemsSummary(props, { navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
     const [managerPoolId, setManagerPoolId] = useState('');
-    const [role, setRole] = useState('');
-    const [userId, setUserId] = useState('');
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
+
 
     useEffect(() => {
 
-        if(role && role=='manager' && userId){
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
+
+        if(role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
@@ -40,17 +51,7 @@ export default function OrderItemsSummary(props, { navigation }) {
             setAllOrders(result);
         })
 
-        roleas()  
-        .then(result => {
-            setRole(result);
-        })
-
-        loginuserId()  
-        .then(result => {
-            setUserId(result);
-        })
-
-    }, [allOrders, role, userId]);
+    }, [allOrders,role,userId]);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -60,14 +61,13 @@ export default function OrderItemsSummary(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Order Items Summary</Title>
+                    <Title style={styles.title}>Order Items Summary</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
@@ -75,7 +75,7 @@ export default function OrderItemsSummary(props, { navigation }) {
                         <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {role && userId && allOrders ?
+                    {allOrders ?
                         allOrders.map((order) => { 
                             if(order.item.quantity>0){ 
                                 if(order.managerPoolId==managerPoolId)
@@ -121,6 +121,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

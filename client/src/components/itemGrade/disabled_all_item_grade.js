@@ -39,14 +39,13 @@ export default function DisabledAllItemGrade({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Disabled Item Grades</Title>
+                    <Title style={styles.title}>Disabled Item Grades</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Item Grade</DataTable.Title>
@@ -108,6 +107,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
