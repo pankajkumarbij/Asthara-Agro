@@ -69,7 +69,7 @@ export default function ViewOrderSummary(props,{route}) {
     };
     const hideModal = () => setVisible(false);
 
-    const containerStyle = {backgroundColor: 'white',width: '30%', alignSelf: 'center'};
+    const containerStyle = {backgroundColor: 'white',width: '50%', alignSelf: 'center'};
 
     return (
         <Provider theme={theme}>
