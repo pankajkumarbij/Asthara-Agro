@@ -49,6 +49,7 @@ export default function ApprovedOrders(props, { navigation }) {
         Order_by_status("approved")
         .then(result=> {
             setAllOrders(result);
+            console.log(result);
         })
 
         if(flag && allOrders.length > 0){

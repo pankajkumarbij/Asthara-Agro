@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
-import { role, userId } from '../../../utils/user';
+import {roleas, loginuserId} from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
 import BarCode from '../../barcode/barcode';
 
@@ -26,22 +26,34 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [visible, setVisible] = useState(false);
     const [barcode, setBarcode] = useState("");
+    const[role,setRole] = useState("");
+    const [userId,setUserId] = useState("");
 
     useEffect(() => {
 
-        if(role=='manager' && userId){
+        if(role && role=='manager' && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
             })
         }
+        
+        roleas()
+        .then(result=>{
+           setRole(result);   
+        })
+
+        loginuserId()
+        .then(result=>{
+           setUserId(result);   
+        })
 
         all_completed_purchase_orders()  
         .then(result => {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignmentConfirm]);
+    }, [allPickupAssignmentConfirm,role,userId]);
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -97,12 +109,12 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                             <DataTable.Title >Vendor ID</DataTable.Title>
                             <DataTable.Title>Item</DataTable.Title>
                             <DataTable.Title>Action</DataTable.Title>
-                            {role=='buyer' &&
+                            {role && role=='buyer' &&
                                 <DataTable.Title>BarCode</DataTable.Title>
                             }
                         </DataTable.Header>
                                                                               
-                        {(role=="manager" && allPickupAssignmentConfirm) &&
+                        {(role && userId && role=="manager" && allPickupAssignmentConfirm) &&
                             allPickupAssignmentConfirm.map((item)=>{
                                 if(item.purchase_order.managerPoolId==managerPoolId)
                                 if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -123,7 +135,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                 }
                             })
                         }
-                        {(role=="buyer" && allPickupAssignmentConfirm) &&
+                        {(role && userId && role=="buyer" && allPickupAssignmentConfirm) &&
                             allPickupAssignmentConfirm.map((item)=>{
                                 if(item.purchase_order.buyer_id==userId)
                                 if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              

@@ -260,6 +260,11 @@ app.use('/', delete_item_category);
 app.use('/', retrive_item_category);
 app.use('/', update_item_category);
 
+app.use('/', create_bank);
+app.use('/', delete_bank);
+app.use('/', retrive_bank);
+app.use('/', update_bank);
+
 app.use('/', create_item_unit);
 app.use('/', delete_item_unit);
 app.use('/', retrive_item_unit);
