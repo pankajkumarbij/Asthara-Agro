@@ -55,7 +55,7 @@ export default function AllUsers(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Email</DataTable.Title>
+                        {/* <DataTable.Title>Email</DataTable.Title> */}
                         {Platform.OS !== "android" &&
                         <DataTable.Title>Full Name</DataTable.Title>
                         }
@@ -69,7 +69,7 @@ export default function AllUsers(props,{ navigation }) {
                         if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.full_name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.role.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                         return (
                             <DataTable.Row>
-                                <DataTable.Cell>{item.email}</DataTable.Cell>
+                                {/* <DataTable.Cell>{item.email}</DataTable.Cell> */}
                                 {Platform.OS !== "android" &&
                                 <DataTable.Cell>{item.full_name}</DataTable.Cell>
                                 }
@@ -78,7 +78,7 @@ export default function AllUsers(props,{ navigation }) {
                                 <DataTable.Cell>{item.role}</DataTable.Cell>
                                 <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained"  onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
+                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained"  onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Check</Button>
                                         :
                                         <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

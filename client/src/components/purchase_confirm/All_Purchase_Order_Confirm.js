@@ -112,21 +112,20 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Confirm Purchase Order</Title>
+                    <Title style={styles.title}>All Confirm Purchase Order</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
-                        <DataTable.Title>Vendor ID</DataTable.Title>
+                        {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
                         <DataTable.Title>Item</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        {/* <DataTable.Title>Status</DataTable.Title> */}
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
@@ -137,12 +136,12 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{purchaseOrderConfirm.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell>
+                                        {/* <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell> */}
                                         <DataTable.Cell>{purchaseOrderConfirm.items.itemName+" ("+purchaseOrderConfirm.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell>{purchaseOrderConfirm.status}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{purchaseOrderConfirm.status}</DataTable.Cell> */}
                                         <DataTable.Cell numeric> 
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}>Check</Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Purchase_Order_Confirm3/"+purchaseOrderConfirm._id}>Details</Link></Button>
                                             }
@@ -178,6 +177,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -188,7 +205,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
