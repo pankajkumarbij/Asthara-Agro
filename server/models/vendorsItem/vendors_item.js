@@ -74,6 +74,9 @@ const vendorsItemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    min_quantity:{ 
+        type:Number,
+    },
     status:{
         type:String,
         default:"enabled"

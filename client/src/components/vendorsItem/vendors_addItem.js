@@ -59,7 +59,6 @@ export default function AddItem({ navigation }) {
     const [itemPrice,setItemPrice]=useState("");
     const [itemQuantity,setItemQuantity]=useState("");
     const [unit,setUnit]=useState("Select unit of each item");
-    const [host, setHost] = useState("");
     const [nick_name, setNickName] = useState("");
     const [address, setAddress] = useState('');
     const [landmark, setLandmark] = useState('');
@@ -72,6 +71,7 @@ export default function AddItem({ navigation }) {
     const [img, setImg] = useState();
     const [allItems, setAllItems] = useState();
     const [item, setItem] = useState("Choose Item");
+    const[min_quantity, setMin_quantity] = useState("");
 
     let history = useHistory();
 
@@ -88,13 +88,6 @@ export default function AddItem({ navigation }) {
             })
         }
         fetchData();    
-
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
 
         //Retrieve all items
         allitem()
@@ -128,7 +121,7 @@ export default function AddItem({ navigation }) {
             });
         }
 
-    }, [userId, itemCategory, host, itemUnit, itemGrade,nick_name]);
+    }, [userId,nick_name]);
 
     function chooseCategory(id, name) {
         setCategoryId(id);
@@ -187,9 +180,11 @@ export default function AddItem({ navigation }) {
                 state: state,
                 country: country,
                 postal_code: pincode,
+                min_quantity: min_quantity,
         })
           .then(function (response) {
             alert(response.data.message);
+            console.log(response.data);
             history.push('/vendors_allitems');
           })
           .catch(function (error) {
@@ -312,7 +307,7 @@ export default function AddItem({ navigation }) {
                             style={{flex: 3, border: '1px solid gray', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                             onChange={getFiles}
                             />
-                            <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                            <Button mode="contained" style={styles.button} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
                         </View>
                         <Menu key={5}
                         visible={visible5}
@@ -342,6 +337,7 @@ export default function AddItem({ navigation }) {
                                 <Menu.Item title="No items Available" />
                             }
                         </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="Minimum Quantity" numeric value={min_quantity} onChangeText={min_quantity => setMin_quantity(min_quantity.replace(/[^0-9]/g, ''))} />
                         <TextInput style={styles.input} mode="outlined" label="Item Quantity" numeric value={itemQuantity} onChangeText={itemQuantity => setItemQuantity(itemQuantity.replace(/[^0-9]/g, ''))} />
                         <TextInput style={styles.input} mode="outlined" label="Item Description" multiline value={itemDescription} onChangeText={itemDescription => setDescription(itemDescription)} />
                         <TextInput style={styles.input} mode="outlined" label="Unit Item Price" numeric value={itemPrice} onChangeText={itemPrice => setItemPrice(itemPrice.replace(/[^0-9]/g, ''))} />
@@ -423,5 +419,6 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: '2%',
+        flex: 1, 
     }
 }); 

@@ -655,7 +655,7 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                     </>
                                 }
-                                {(roleas=="accountant" || roleas=="manager"|| roleas=="sales" ) &&
+                                {/* {(roleas=="accountant" || roleas=="manager"|| roleas=="sales" ) &&
                                     <> 
                                         <NavDropdown  drop="right" title="Delivery Assignment" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/All_Delivery_Assignment" as={Link}>View Delivery Assignment</NavDropdown.Item>        
@@ -666,8 +666,8 @@ const NavBar =()  => {
                                         </NavDropdown>
                                         <NavDropdown.Divider />
                                 </>
-                                }
-                                {(roleas=="accountant" || roleas=="manager"|| roleas=="sales" || roleas=="customer"  ) &&
+                                } */}
+                                {/* {(roleas=="accountant" || roleas=="manager"|| roleas=="sales" || roleas=="customer"  ) &&
                                     <> 
                                         <NavDropdown drop="right" title="Delivery" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/All_Delivery" as={Link}>All Delivery</NavDropdown.Item>        
@@ -680,7 +680,7 @@ const NavBar =()  => {
                                             }
                                         </NavDropdown>
                                     </>
-                                }
+                                } */}
                             </NavDropdown>
                         {/* </Nav>
                     </Navbar.Collapse>

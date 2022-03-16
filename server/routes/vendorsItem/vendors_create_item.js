@@ -15,6 +15,7 @@ router.post('/vendors_create_item', (req, res)=>{
         category_name: req.body.category_name,
         grade_name: req.body.grade_name,
         unit_name: req.body.unit_name,
+        min_quantity: req.body.min_quantity,
         full_name:req.body.full_name,
         description: req.body.description,
         item_quantity:req.body.item_quantity,

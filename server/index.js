@@ -239,6 +239,10 @@ const create_order_status = require('./routes/report/order_status/create_order_s
 const retrieve_order_status = require('./routes/report/order_status/retrieve_order_status');
 const update_order_status = require('./routes/report/order_status/update_order_status');
 
+const create_crawler= require('./routes/crawler/create_crawler');
+const update_crawler = require('./routes/crawler/update_crawler');
+const retrieve_crawler =require('./routes/crawler/retrieve_crawler');
+
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
 });
@@ -422,6 +426,10 @@ app.use('/',retrieve_delivery);
 app.use('/',create_order_status);
 app.use('/',retrieve_order_status);
 app.use('/',update_order_status);
+
+app.use('/',create_crawler);
+app.use('/',retrieve_crawler);
+app.use('/',update_crawler);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");
