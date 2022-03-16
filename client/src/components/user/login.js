@@ -70,7 +70,7 @@ export default function Login({ navigation }) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Login User"/>
+                    <Card.Title titleStyle={styles.title} title="Login User"/>
                     <Card.Content>
                     <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                     <TextInput style={styles.input} mode="outlined" label="Password" value={password} onChangeText={password => setPassword(password)} secureTextEntry={true}/>
@@ -120,6 +120,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },
