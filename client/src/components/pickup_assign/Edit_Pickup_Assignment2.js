@@ -7,6 +7,7 @@ import { pickup_assignment_by_id } from '../../services/pickup_api';
 import { order_item_summary_quantity } from '../../services/order_api';
 import { useHistory } from 'react-router-dom';
 import { all_vendor_items_by_itemid } from '../../services/vendor_api';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -51,6 +52,8 @@ export default function Edit_Pickup_Assignment(props, {route}) {
     const [managerPoolId, setManagerPoolId] = useState("");
     const [image,setImage]=useState("");
     const [sales_id, setSalesId] = useState("");
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     let history = useHistory();
 
@@ -105,6 +108,16 @@ export default function Edit_Pickup_Assignment(props, {route}) {
         if(vendorsid == null) {
             setVendorsid([]);
         }
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
 
     }, [pickupAssignId,items, pickupId,id, order_id,flag2,vendorsid,flag3,flag5]);
 
@@ -163,31 +176,38 @@ export default function Edit_Pickup_Assignment(props, {route}) {
         }
 
         const values2 = items;
-        values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity)-parseInt(quantity);
+        values2.quantity = parseInt(items.quantity)-parseInt(quantity);
         setItems(values2);
-        
+    
         if(items.quantity!=0){
             const values3 = vendorsid;
             values3.push(vendor_id);
             setVendorsid(values3);
         }
 
-        //for splitted orders remaining quantity purchase order creation process
-        fetch(`http://${host}:5000/update_quantity_order_item_summary/${order_id}`, {
-            method: 'PUT',
+        // for splitted orders remaining quantity purchase order creation process
+        fetch(`http://${host}:5000/create_order_item_summary`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                item:items,
-                status:"Splitted by Buyer",
-                vendor_rejected:vendorsid,
+                userId: userId,
+                orderId: orderId,
+                custom_orderId: custom_orderId,
+                item: items,
+                vendor_rejected: vendorsid,
+                customerPoolId: customerPoolId,
+                vendorPoolId: vendorPoolId,
+                managerPoolId: managerPoolId,
+                sales_id: sales_id,
             })
-        }).then(res => res.json())
+        })
+        .then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
             // alert(data.message);
-        }); 
+        });
 
         const values = items;
         values.quantity = quantity;

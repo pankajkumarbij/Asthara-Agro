@@ -4,6 +4,7 @@ import { TextInput, Card, Button, Provider, DefaultTheme,DataTable } from 'react
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -45,6 +46,8 @@ export default function Edit_Purchase_Order(props, {route}) {
     const [customerPoolId, setCustomerPoolId] = useState("");
     const [managerPoolId, setManagerPoolId] = useState("");
     const [sales_id, setSalesId] = useState("");
+    const [role, setRole] = useState('');
+    const [userId, setUserId] = useState('');
 
     let history = useHistory();
 
@@ -97,6 +100,16 @@ export default function Edit_Purchase_Order(props, {route}) {
         if(vendorsid == null) {
             setVendorsid([]);
         }
+
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
 
     }, [host, purchaseId, purchaseid, id, items, order_id, vendor_id, status, flag,vendorsid,actualQuantity,flag2,flag3]);
 
@@ -155,7 +168,7 @@ export default function Edit_Purchase_Order(props, {route}) {
         }
 
         const values2 = items;
-        values2.quantity = parseInt(actualQuantity)+parseInt(items.quantity)-parseInt(quantity);
+        values2.quantity = parseInt(items.quantity)-parseInt(quantity);
         setItems(values2);
     
         if(items.quantity!=0){
@@ -164,22 +177,29 @@ export default function Edit_Purchase_Order(props, {route}) {
             setVendorsid(values3);
         }
 
-        //for splitted orders remaining quantity purchase order creation process
-        fetch(`http://${host}:5000/update_quantity_order_item_summary/${order_id}`, {
-            method: 'PUT',
+        // for splitted orders remaining quantity purchase order creation process
+        fetch(`http://${host}:5000/create_order_item_summary`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                item:items,
-                status:"Splitted by Vendor",
-                vendor_rejected:vendorsid,
+                userId: userId,
+                orderId: orderId,
+                custom_orderId: custom_orderId,
+                item: items,
+                vendor_rejected: vendorsid,
+                customerPoolId: customerPoolId,
+                vendorPoolId: vendorPoolId,
+                managerPoolId: managerPoolId,
+                sales_id: sales_id,
             })
-        }).then(res => res.json())
+        })
+        .then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
             // alert(data.message);
-        }); 
+        });
 
         const values = items;
         values.quantity = quantity;
