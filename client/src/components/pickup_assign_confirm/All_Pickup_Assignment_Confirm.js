@@ -61,37 +61,36 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Pickup Assignment Confirm</Title>
+                    <Title style={styles.title}>All Pickup Assignment Confirm</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
                         value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
 
                     <DataTable.Header>
                         <DataTable.Title>Order Id</DataTable.Title>
-                        <DataTable.Title>Vendor Id</DataTable.Title>
+                        {/* <DataTable.Title>Vendor Id</DataTable.Title> */}
                         <DataTable.Title >Item</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        {/* <DataTable.Title>Status</DataTable.Title> */}
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                     
-                    {(role && userId && role=="manager" && allPickupAssignmentConfirm) &&
+                    {(role && userId && role=="manager" && allPickupAssignmentConfirm) ?
                         allPickupAssignmentConfirm.map((pickupAssignmentConfirm,index)=>{
                             if(pickupAssignmentConfirm.managerPoolId==managerPoolId)
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
                                         <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell>{pickupAssignmentConfirm.status}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{pickupAssignmentConfirm.status}</DataTable.Cell> */}
                                         <DataTable.Cell numeric> 
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment_Confirm/"+pickupAssignmentConfirm._id}>Details</Link></Button>
                                             }
@@ -99,9 +98,9 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }): null
                     }
-                    {(role && userId && role=="vendor" && allPickupAssignmentConfirm) &&
+                    {(role && userId && role=="vendor" && allPickupAssignmentConfirm) ?
                         allPickupAssignmentConfirm.map((pickupAssignmentConfirm,index)=>{
                             if(pickupAssignmentConfirm.vendor_id==userId)
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -113,7 +112,7 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
                                         <DataTable.Cell>{pickupAssignmentConfirm.status}</DataTable.Cell>
                                         <DataTable.Cell numeric> 
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Details</Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment_Confirm/"+pickupAssignmentConfirm._id}>Details</Link></Button>
                                             }
@@ -121,7 +120,7 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }): null
                     }
                 </DataTable>
             </View>
@@ -147,6 +146,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -157,7 +174,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

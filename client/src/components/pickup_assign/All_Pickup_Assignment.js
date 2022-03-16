@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator  } from 'react-native';
-import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal, TextInput  } from 'react-native-paper';
+import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal, TextInput ,Text } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -112,37 +112,37 @@ export default function All_Pickup_Assignment({ navigation }) {
                 </Portal>
             <View style={styles.view}>
              <DataTable style={styles.datatable}>
-               <Title style={{marginBottom: '20px'}}>All Pickup Assignment</Title>
+               <Title style={styles.title}>All Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>
                     <DataTable.Title>Order ID</DataTable.Title>
-                    <DataTable.Title>Vendor ID</DataTable.Title>
+                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
                     <DataTable.Title>Item</DataTable.Title>
-                    <DataTable.Title>Status</DataTable.Title>
+                    {/* <DataTable.Title>Status</DataTable.Title> */}
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
 
-                {(role && userId && role=="manager" && allPickupAssignment) &&
+                {(role && userId && role=="manager" && allPickupAssignment) ?
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.managerPoolId==managerPoolId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    <DataTable.Cell onPress={() => VendorDetails(pickupAssignment.vendor_id, pickupAssignment.custom_vendorId)}>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                    {/* <DataTable.Cell onPress={() => VendorDetails(pickupAssignment.vendor_id, pickupAssignment.custom_vendorId)}>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
                                     <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
-                                    <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell> */}
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Details</Button>
+                                            // <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Details</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {itemId: pickupAssignment._id})}}>Check</Button>
                                             :
                                             <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment2/"+pickupAssignment._id}>Details</Link></Button>
                                         }
@@ -150,9 +150,9 @@ export default function All_Pickup_Assignment({ navigation }) {
                                 </DataTable.Row>
                             )
                         }
-                    })
+                    }) : null
                 }
-                {(role && userId && role=="buyer" && allPickupAssignment) &&
+                {(role && userId && role=="buyer" && allPickupAssignment) ?
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.buyer_id==userId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -164,7 +164,8 @@ export default function All_Pickup_Assignment({ navigation }) {
                                     <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Details</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Check</Button>
+                                            // <Text>hello</Text>
                                             :
                                             <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment2/"+pickupAssignment._id}>Details</Link></Button>
                                         }
@@ -172,7 +173,7 @@ export default function All_Pickup_Assignment({ navigation }) {
                                 </DataTable.Row>
                             )
                         }
-                    })
+                    }) : null
                 }
             </DataTable>
             </View>
@@ -198,7 +199,24 @@ const styles = StyleSheet.create({
             }
         })
     },
-
+title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -209,7 +227,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

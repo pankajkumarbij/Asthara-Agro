@@ -60,35 +60,34 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-               <Title style={{marginBottom: '20px'}}>All Accepted Pickup Assignment</Title>
+               <Title style={styles.title}>All Accepted Pickup Assignment</Title>
                <Searchbar
                     icon={() => <FontAwesomeIcon icon={ faSearch } />}
                     clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
-                    style={{marginBottom: '20px'}}
                 />
 
                 <DataTable.Header>
                     <DataTable.Title>Order ID</DataTable.Title>
-                    <DataTable.Title>Vendor ID</DataTable.Title>
+                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
                     <DataTable.Title>Item</DataTable.Title>
                     <DataTable.Title>Action</DataTable.Title>
                 </DataTable.Header>
 
-                {(role && userId && role=="manager" && allPickupAssignment) &&
+                {(role && userId && role=="manager" && allPickupAssignment) ?
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.managerPoolId==managerPoolId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
                                 <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Details</Button>
+                                        <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
                                         :
                                         <Link to={"/View_Pickup_Assignment2/"+pickupAssignment._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                     }
@@ -96,9 +95,9 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                             </DataTable.Row>
                         )
                         }
-                    })
+                    }): null
                 } 
-                {(role && userId && role=="buyer" && allPickupAssignment) &&
+                {(role && userId && role=="buyer" && allPickupAssignment) ?
                     allPickupAssignment.map((pickupAssignment,index)=>{
                         if(pickupAssignment.buyer_id==userId)
                         if(pickupAssignment._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -109,7 +108,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                                 <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Details</Button>
+                                        <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
                                         :
                                         <Link to={"/Edit_Pickup_Assignment2/"+pickupAssignment._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                     }
@@ -117,7 +116,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                             </DataTable.Row>
                         )
                         }
-                    })
+                    }): null
                 } 
                 </DataTable>
             </View>
@@ -143,7 +142,24 @@ const styles = StyleSheet.create({
             }
         })
     },
-
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -154,7 +170,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

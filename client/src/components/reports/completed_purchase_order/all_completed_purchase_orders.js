@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text  } from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView  } from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -94,14 +94,13 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                        <Title style={{marginBottom: '20px'}}>All Completed Purchase Orders</Title>
+                        <Title style={styles.title}>All Completed Purchase Orders</Title>
                         <Searchbar
                             icon={() => <FontAwesomeIcon icon={ faSearch } />}
                             clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                             placeholder="Search"
                             onChangeText={onChangeSearch}
                             value={searchQuery}
-                            style={{marginBottom: '20px'}}
                         />
 
                         <DataTable.Header>
@@ -114,7 +113,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                             }
                         </DataTable.Header>
                                                                               
-                        {(role && userId && role=="manager" && allPickupAssignmentConfirm) &&
+                        {(role && userId && role=="manager" && allPickupAssignmentConfirm) ?
                             allPickupAssignmentConfirm.map((item)=>{
                                 if(item.purchase_order.managerPoolId==managerPoolId)
                                 if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -125,7 +124,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                         <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Check</Button>
                                                 :
                                                 <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -133,9 +132,9 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                     </DataTable.Row>
                                 )
                                 }
-                            })
+                            }) : null
                         }
-                        {(role && userId && role=="buyer" && allPickupAssignmentConfirm) &&
+                        {(role && userId && role=="buyer" && allPickupAssignmentConfirm) ?
                             allPickupAssignmentConfirm.map((item)=>{
                                 if(item.purchase_order.buyer_id==userId)
                                 if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
@@ -161,7 +160,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                     </DataTable.Row>
                                 )
                                 }
-                            })
+                            }): null
                         }
                 </DataTable>
             </View>
@@ -187,6 +186,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -197,7 +214,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
