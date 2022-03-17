@@ -72,7 +72,7 @@ export default function Add_vendor_Address({ navigation }) {
         <Provider theme={theme}>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Add Address"/>
+                    <Card.Title titleStyle={styles.title} title="Add Address"/>
                     <Card.Content>
                         <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
                         <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
@@ -121,6 +121,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                // textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

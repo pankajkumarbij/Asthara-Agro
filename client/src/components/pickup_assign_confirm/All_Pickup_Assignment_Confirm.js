@@ -107,12 +107,12 @@ export default function All_Pickup_Assignment_Confirm({ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
                                         <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell>{pickupAssignmentConfirm.status}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{pickupAssignmentConfirm.status}</DataTable.Cell> */}
                                         <DataTable.Cell numeric> 
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment_Confirm/"+pickupAssignmentConfirm._id}>Details</Link></Button>
                                             }

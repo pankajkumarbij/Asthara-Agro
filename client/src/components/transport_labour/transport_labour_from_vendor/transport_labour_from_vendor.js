@@ -93,7 +93,7 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
         <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card} >
-                    <Card.Title title="Create Transport Labour from Vendor"/>
+                    <Card.Title titleStyle={styles.title} title="Create Transport Labour from Vendor"/>
                     <Card.Content>
                     <Menu
                     visible={visible2}
@@ -139,6 +139,24 @@ const styles = StyleSheet.create({
                 marginTop: '4%',
                 marginBottom: '4%',
                 width: '75%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                // textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

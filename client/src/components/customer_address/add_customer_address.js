@@ -97,7 +97,7 @@ export default function Add_customer_Address({ navigation }) {
             <ScrollView>
             <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
                 <Card style={styles.card}>
-                    <Card.Title title="Add Customer Address"/>
+                    <Card.Title titleStyle={styles.title} title="Add Customer Address"/>
                     <Card.Content>
                         <Menu
                             visible={visible2}
@@ -157,6 +157,24 @@ const styles = StyleSheet.create({
                 marginTop: '4%',
                 marginBottom: '4%',
                 width: '75%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                // textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

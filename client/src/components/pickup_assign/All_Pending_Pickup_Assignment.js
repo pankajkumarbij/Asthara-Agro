@@ -156,13 +156,13 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
                                     <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell  numeric>
-                                    <Menu  visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignment.status}</Button>}>
+                                    {/* <Menu  visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignment.status}</Button>}>
                                         <Menu.Item title="Accept" onPress={()=>StatusChange("accepted",  pickupAssignment._id, index)}/>
                                         <Menu.Item title="Decline" onPress={()=>StatusChange("decline",  pickupAssignment._id, index)}/>
-                                    </Menu>
+                                    </Menu> */}
                                     </DataTable.Cell>   
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?

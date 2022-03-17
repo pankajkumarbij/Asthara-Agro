@@ -51,39 +51,38 @@ export default function AllTransportLabourForSales(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Transport Labour For Sales</Title>
+                    <Title style={styles.title} >All Transport Labour For Sales</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Date</DataTable.Title>
-                        <DataTable.Title>Vehicle Type</DataTable.Title>
+                        {/* <DataTable.Title>Vehicle Type</DataTable.Title> */}
                         <DataTable.Title>Vehicle Number</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {role && userId && allOrders &&
+                    {role && userId && allOrders ?
                         allOrders.map((item, index)=>{
                             if(item.buyerId==userId)
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{item.createdAt.substring(0,10)}</DataTable.Cell>
-                                    <DataTable.Cell>{item.vehicle_type}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{item.vehicle_type}</DataTable.Cell> */}
                                     <DataTable.Cell>{item.vehicle_number}</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
                                             :
                                             <Link to={"/viewtransportlabourforsales/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             )
-                        })
+                        }): null
                     }
                 </DataTable>
             </View>
@@ -109,6 +108,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -119,7 +136,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
