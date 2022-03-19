@@ -45,7 +45,7 @@ export default function Vendor_details(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title>All Vendors</Title>
+                    <Title style={styles.title} >All Vendors</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -56,7 +56,7 @@ export default function Vendor_details(props,{ navigation }) {
                     <DataTable.Header>
                         <DataTable.Title>S.no</DataTable.Title>
                         <DataTable.Title>Name</DataTable.Title>
-                        <DataTable.Title>Email</DataTable.Title>
+                        {/* <DataTable.Title>Email</DataTable.Title> */}
                         <DataTable.Title>Acton</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?
@@ -66,10 +66,10 @@ export default function Vendor_details(props,{ navigation }) {
                             <DataTable.Row>
                                 <DataTable.Cell>{item._id}</DataTable.Cell>
                                 <DataTable.Cell>{item.full_name}</DataTable.Cell>
-                                <DataTable.Cell>{item.email}</DataTable.Cell>
+                                {/* <DataTable.Cell>{item.email}</DataTable.Cell> */}
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
+                                        <Button mode="contained" onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>
                                         :
                                         <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }
@@ -117,6 +117,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -127,7 +145,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '70%',

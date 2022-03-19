@@ -104,11 +104,11 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
-                                    <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell> */}
                                     <DataTable.Cell>{purchaseOrder.items.itemName} ({purchaseOrder.items.Grade})</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Details</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Check</Button>
                                             :
                                             <Link to={"/Edit_Purchase_Order/"+purchaseOrder._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }

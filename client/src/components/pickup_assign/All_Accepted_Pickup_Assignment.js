@@ -104,11 +104,11 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
                                 <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
+                                        <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
                                         :
                                         <Link to={"/Edit_Pickup_Assignment2/"+pickupAssignment._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                     }

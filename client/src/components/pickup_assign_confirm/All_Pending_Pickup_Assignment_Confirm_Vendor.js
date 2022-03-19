@@ -140,7 +140,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                    <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                    {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
                                     <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                     <Menu visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignmentConfirm.status}</Button>}>

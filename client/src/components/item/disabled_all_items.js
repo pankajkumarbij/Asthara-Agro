@@ -61,7 +61,7 @@ export default function Disabled_All_Items(props,{ navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" onPress={() => {navigation.navigate('DisabledEditItem', {itemId: item._id})}}>Details</Button>
+                                                <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" onPress={() => {navigation.navigate('DisabledEditItem', {itemId: item._id})}}>Check</Button>
                                                 :
                                                 <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/disablededititem/"+item._id}>Details</Link></Button>
                                             }
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
