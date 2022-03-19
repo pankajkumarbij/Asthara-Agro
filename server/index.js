@@ -243,6 +243,10 @@ const create_crawler= require('./routes/crawler/create_crawler');
 const update_crawler = require('./routes/crawler/update_crawler');
 const retrieve_crawler =require('./routes/crawler/retrieve_crawler');
 
+const create_excess_inventory= require('./routes/excess_inventory_management/create_excess_inventory');
+const update_excess_inventory = require('./routes/excess_inventory_management/update_excess_inventory');
+const retrieve_excess_inventory =require('./routes/excess_inventory_management/retrieve_excess_inventory_management');
+
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
 });
@@ -430,6 +434,10 @@ app.use('/',update_order_status);
 app.use('/',create_crawler);
 app.use('/',retrieve_crawler);
 app.use('/',update_crawler);
+
+app.use('/',create_excess_inventory);
+app.use('/',retrieve_excess_inventory);
+app.use('/',update_excess_inventory);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");
