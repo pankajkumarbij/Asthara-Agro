@@ -53,3 +53,10 @@ export const vendor_by_low_price = (itemname,grade,vendorPoolId) => {
         return res.data;
     }).catch(err => console.log(err))
 }
+
+export const vendor_items_by_access_details = (vendorid, itemname, grade) => {
+    return axios.get(url + '/retrive_vendor_item_by_access_details/'+itemname + '/' + grade + '/' + vendorid)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log(err))
+}

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEdit,faStore } from '@fortawesome/free-solid-svg-icons';
 import { pickup_assignment_confirm_by_id } from '../../services/pickup_api';
 import { useHistory } from 'react-router-dom';
+import { vendor_items_by_access_details } from '../../services/vendor_api';
 
 const theme = {
     ...DefaultTheme,
@@ -27,11 +28,6 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
         pickupConfirmId = props.match.params.pickupConfirmId;
     }
 
-    const [visible2, setVisible2] = useState(false);
-
-    const openMenu2 = () => setVisible2(true);
-    const closeMenu2 = () => setVisible2(false);
-
     const [pickupAssignId, setPickupAssignId] = useState("");
     const [order_id, setOrderId] = useState("")
     const [indent_id, setIndentId] = useState("Choose Indent");
@@ -41,10 +37,10 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
     const [vendor_id,setVendorId] = useState("Choose Vendor");
     const [host, setHost] = useState(""); 
     const [purchaseOrder, setPurchaseOrder] = useState();
+    const [min_quantity, setMinQuantity] = useState("");
 
     function chooseOrder(order_id) {
         setOrderId(order_id);
-        closeMenu2();
     }
 
     let history = useHistory();
@@ -74,7 +70,14 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
             })
         }
 
-    }, [host,pickupAssignId,order_id,pickupConfirmId,id]);
+        if(vendor_id && items){
+            vendor_items_by_access_details(vendor_id, items.itemName, items.Grade)
+            .then(result => {
+                setMinQuantity(result[0].min_quantity);
+            })
+        }
+
+    }, [host,pickupAssignId,order_id,pickupConfirmId,id,vendor_id,items]);
 
     function submitForm3(){
         alert("Payment Success!");
@@ -91,7 +94,29 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
         .catch(error => console.log(error))
         .then(data => {
             // alert(data.message);
-        });   
+        });
+        
+        if(min_quantity-items.quantity){
+            fetch(`http://${host}:5000/create_excess_inventory`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    vendorId: vendor_id, 
+                    buyerId: buyer_id, 
+                    items: items,
+                    excess_quantity: min_quantity-items.quantity,
+                    reserved: min_quantity-items.quantity
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+                console.log(data);
+            });
+        }
 
         fetch(`http://${host}:5000/update_order_item_status/${purchaseOrder.custom_orderId}/${purchaseOrder.items.itemName}/${purchaseOrder.items.Grade}/${purchaseOrder.items.quantity}`, {
             method: 'PUT',

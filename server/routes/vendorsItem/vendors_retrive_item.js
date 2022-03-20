@@ -101,4 +101,15 @@ router.get('/vendors_retrive_all_item_by_vendor_pool/:id',(req, res)=>{
     });
 });
 
+router.get('/retrive_vendor_item_by_access_details/:itemname/:grade/:vendorid',(req, res)=>{
+    VendorsItem.find({userId:req.params.vendorid, grade_name:req.params.grade, item_name:req.params.itemname}, function(err, item){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(item);
+        }
+    });
+});
+
 module.exports = router;

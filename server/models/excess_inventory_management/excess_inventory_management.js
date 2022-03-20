@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const excess_inventory_Schema = new mongoose.Schema({
-    VendorId:{
+    vendorId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required: true,
@@ -16,13 +16,16 @@ const excess_inventory_Schema = new mongoose.Schema({
         required: true,
     },
     excess_quantity :{
-        type : String,
+        type : Number,
+        default: 0,
     },
     wastage :{
-        type: String
+        type: Number,
+        default: 0,
     },
     reserved :{
-        type :String,
+        type :Number,
+        default: 0,
     },
     status:{
         type :String,

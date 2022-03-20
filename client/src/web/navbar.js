@@ -186,6 +186,12 @@ import ViewOrderSummary from '../components/reports/order_summary/view_order_sum
 
 import All_order_status from '../components/reports/order_status/all_order_status';
 
+import All_Aim from '../components/excess_inventory_management/all_aim';
+import Pending_Aim from '../components/excess_inventory_management/pending_aim';
+import Completed_Aim from '../components/excess_inventory_management/completed_aim';
+import View_Aim from '../components/excess_inventory_management/view_aim';
+import Edit_Aim from '../components/excess_inventory_management/edit_aim';
+
 import PageNotFound from '../components/pagenotfound/notfound';
 import Scanner from '../components/barcode/scanner';
 import Barcode from '../components/barcode/barcode';
@@ -396,6 +402,14 @@ const NavBar =()  => {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/alltransportlabourforsales" as={Link}>View Transport Labour</NavDropdown.Item>
                                         </NavDropdown>
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Excess Inventory Management" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/all_aim" as={Link}>All Excess Inventory Items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/pending_aim" as={Link}>Pending Excess Inventory Items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/completed_aim" as={Link}>Completed Excess Inventory Items</NavDropdown.Item>
                                     </NavDropdown>
                                 </>
                                 }   
@@ -1047,6 +1061,17 @@ const NavBar =()  => {
                 <Route path="/allorderstatus">
                     <All_order_status/>
                 </Route>
+                <Route path="/all_aim">
+                    <All_Aim/>
+                </Route>
+                <Route path="/pending_aim">
+                    <Pending_Aim/>
+                </Route>
+                <Route path="/completed_aim">
+                    <Completed_Aim/>
+                </Route>
+                <Route path="/View_Aim/:id" render={(props) => <View_Aim {...props} />} exact />
+                <Route path="/Edit_Aim/:id" render={(props) => <Edit_Aim {...props} />} exact />
                 <Route component={PageNotFound}  />
                 </Switch>
             }

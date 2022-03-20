@@ -5,13 +5,13 @@ const Excess_inventory = require('../../models/excess_inventory_management/exces
 //Define route for create address
 router.post('/create_excess_inventory', (req, res)=>{
     var newInventory = new Excess_inventory({
-        userId: req.body.userId,
+        vendorId: req.body.vendorId,
         buyerId: req.body.buyerId,
-        item: req.body.item,
+        items: req.body.items,
         excess_quantity: req.body.excess_quantity,
-        status: req.body.status,
-        wastage: req.body.wastage,
         reserved: req.body.reserved,
+        // status: req.body.status,
+        // wastage: req.body.wastage,
     })
     newInventory.save()
     .then(data => {

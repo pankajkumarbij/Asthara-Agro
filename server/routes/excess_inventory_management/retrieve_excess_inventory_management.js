@@ -13,4 +13,15 @@ router.get('/retrieve_excess_inventory_details',(req, res)=>{
         }
     });
 });
+//Define ROute to  retrive an Excess inventory Item
+router.get('/retrieve_excess_inventory_detail/:id',(req, res)=>{
+    Excess_inventory.find({'_id':req.params.id}, function(err, data){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
 module.exports = router;

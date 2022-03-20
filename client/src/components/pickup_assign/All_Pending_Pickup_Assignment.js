@@ -119,9 +119,17 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
 
                 <DataTable.Header>
                     <DataTable.Title>Order ID</DataTable.Title>
-                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
+                    {Platform.OS!=="Android" ?
+                        <DataTable.Title>Vendor ID</DataTable.Title>
+                        :
+                        null
+                    }
                     <DataTable.Title>Item</DataTable.Title>
-                    {/* <DataTable.Title numeric>Status</DataTable.Title> */}
+                    {Platform.OS!=="Android" ?
+                        <DataTable.Title numeric>Status</DataTable.Title>
+                        :
+                        null
+                    }
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
                                                                     
@@ -156,14 +164,22 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
+                                    {Platform.OS!=="Android" ?
+                                        <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                        :
+                                        null
+                                    }
                                     <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
-                                    <DataTable.Cell  numeric>
-                                    {/* <Menu  visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignment.status}</Button>}>
-                                        <Menu.Item title="Accept" onPress={()=>StatusChange("accepted",  pickupAssignment._id, index)}/>
-                                        <Menu.Item title="Decline" onPress={()=>StatusChange("decline",  pickupAssignment._id, index)}/>
-                                    </Menu> */}
-                                    </DataTable.Cell>   
+                                    {Platform.OS!=="Android" ?
+                                        <DataTable.Cell  numeric>
+                                            <Menu  visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignment.status}</Button>}>
+                                                <Menu.Item title="Accept" onPress={()=>StatusChange("accepted",  pickupAssignment._id, index)}/>
+                                                <Menu.Item title="Decline" onPress={()=>StatusChange("decline",  pickupAssignment._id, index)}/>
+                                            </Menu>
+                                        </DataTable.Cell>   
+                                        :
+                                        null
+                                    }
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
