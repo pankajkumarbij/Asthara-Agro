@@ -119,7 +119,7 @@ export default function Completed_Aim(props,{ navigation }) {
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: aim._id})}}>Check</Button>
                                             :
-                                            <Link to={"/View_Purchase_Order/"+aim._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            <Link to={"/View_Aim/"+aim._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
                                     </DataTable.Cell>       
                                 </DataTable.Row>

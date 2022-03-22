@@ -1,6 +1,8 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme,DataTable, Button } from 'react-native-paper';
+import { url } from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -30,6 +32,7 @@ export default function Edit_Aim(props, {route}) {
     const [items, setItems] = useState();
     const [vendor_id,setVendorId] = useState("Choose Vendor");
     const [host, setHost] = useState(""); 
+    const [flag, setFlag] = useState(true);
 
     useEffect(() => {
 
@@ -42,7 +45,7 @@ export default function Edit_Aim(props, {route}) {
             setAimId(id);
         }
 
-        if(aimId){
+        if(flag && aimId){
             fetch(`http://${host}:5000/retrieve_excess_inventory_detail/${aimId}`, {
                 method: 'GET'
             })
@@ -55,13 +58,32 @@ export default function Edit_Aim(props, {route}) {
                 setItems(item[0].items);
                 setVendorId(item[0].vendorId);
                 setBuyerId(item[0].buyerId);
+                setFlag(false);
             });
         }
 
-    }, [host,aimId,id]);
+    }, [host,aimId,id,flag]);
 
     function update(){
-
+        var s="Pending";
+        if(reserve_quantity==0){
+            s="Completed";
+        }
+        axios.put(url + '/update_excess_inventory_by_quantity/'+aimId, {
+            status: s,
+            wastage: waste_quantity,
+            reserved: reserve_quantity,
+        })
+        .then(function (response) {
+            alert(response.data.message);
+            if(response){
+                history.push('/allitemgrades');
+            }
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        }); 
     }
 
     return (
@@ -95,9 +117,9 @@ export default function Edit_Aim(props, {route}) {
                             null   
                         }
 
-                        <TextInput style={styles.input} mode="outlined" label="Waste Quantity" value={waste_quantity} />
+                        <TextInput style={styles.input} mode="outlined" label="Waste Quantity" value={waste_quantity} onChangeText={(text)=>setWasteQuantity(text)} />
 
-                        <TextInput style={styles.input} mode="outlined" label="Reserve Quantity" value={reserve_quantity} />
+                        <TextInput style={styles.input} mode="outlined" label="Reserve Quantity" value={reserve_quantity} onChangeText={(text)=>setReserveQuantity(text)} />
 
                         <DataTable.Cell>
                             {Platform.OS=="android" ?
