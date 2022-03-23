@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme,DataTable } from 'react-native-paper';
+import { retrieve_crawler_by_item_name } from '../../services/crawler';
 
 const theme = {
     ...DefaultTheme,
@@ -26,10 +27,13 @@ export default function View_Aim(props, {route}) {
     const [excess_quantity, setExcessQuantity] = useState();
     const [waste_quantity, setWasteQuantity] = useState();
     const [reserve_quantity, setReserveQuantity] = useState();
+    const [sold_quantity, setSoldQuantity] = useState();
+    const [sold_price, setSoldPrice] = useState();
     const [buyer_id,setBuyerId] = useState("Choose Buyer");
     const [items, setItems] = useState();
     const [vendor_id,setVendorId] = useState("Choose Vendor");
     const [host, setHost] = useState(""); 
+    const [mandi_price, setMandiPrice] = useState();
 
     useEffect(() => {
 
@@ -52,13 +56,22 @@ export default function View_Aim(props, {route}) {
                 setExcessQuantity(item[0].excess_quantity);
                 setWasteQuantity(item[0].wastage);
                 setReserveQuantity(item[0].reserved);
+                setSoldQuantity(item[0].sold);
+                setSoldPrice(item[0].sold_price);
                 setItems(item[0].items);
                 setVendorId(item[0].vendorId);
                 setBuyerId(item[0].buyerId);
             });
         }
 
-    }, [host,aimId,id]);
+        if(items){
+            retrieve_crawler_by_item_name(items.itemName)
+            .then((result)=>{
+                setMandiPrice(result[0].price);
+            })
+        }
+
+    }, [host,aimId,id, items]);
 
     return (
         <Provider theme={theme}>
@@ -75,15 +88,14 @@ export default function View_Aim(props, {route}) {
                             <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />
                         }
 
-                        {items ?
+                        {items && mandi_price ?
                             <View>
                                 <TextInput style={styles.input} mode="outlined" label="Excess Quantity" value={excess_quantity} />
                                 <DataTable style={styles.datatable}>
                                     <DataTable.Row style={styles.input}>
                                         <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
                                         <DataTable.Cell><TextInput mode="outlined" label="Unit" value={items.itemUnit} /></DataTable.Cell>
-                                        <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={items.quantity} /></DataTable.Cell>
-                                        <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Price" value={items.itemPrice} /></DataTable.Cell>
+                                        <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Mandi Price" value={mandi_price} /></DataTable.Cell>
                                     </DataTable.Row>
                                 </DataTable>    
                             </View>     
@@ -91,10 +103,30 @@ export default function View_Aim(props, {route}) {
                             null   
                         }
 
-                        <TextInput style={styles.input} mode="outlined" label="Waste Quantity" value={waste_quantity} />
+                        {waste_quantity ?
+                            <TextInput style={styles.input} mode="outlined" label="Waste Quantity" value={waste_quantity} />
+                            :
+                            null
+                        }
 
-                        <TextInput style={styles.input} mode="outlined" label="Reserve Quantity" value={reserve_quantity} />
+                        {sold_quantity ?
+                            <TextInput style={styles.input} mode="outlined" label="Sold Quantity" value={sold_quantity} />
+                            :
+                            null
+                        }
 
+                        {reserve_quantity ?
+                            <TextInput style={styles.input} mode="outlined" label="Reserve Quantity" value={reserve_quantity} />
+                            :
+                            null
+                        }
+
+                        {sold_price ?
+                            <TextInput style={styles.input} mode="outlined" label="Sold Price" value={sold_price} />
+                            :
+                            null
+                        }
+                        
                     </Card.Content>
                 </Card>
             </View>

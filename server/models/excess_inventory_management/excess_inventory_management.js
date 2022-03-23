@@ -27,6 +27,14 @@ const excess_inventory_Schema = new mongoose.Schema({
         type :Number,
         default: 0,
     },
+    sold :{
+        type :Number,
+        default: 0,
+    },
+    sold_price :{
+        type :Number,
+        default: 0,
+    },
     status:{
         type :String,
         default:"Pending"

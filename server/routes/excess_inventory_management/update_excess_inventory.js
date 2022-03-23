@@ -7,6 +7,8 @@ router.put('/update_excess_inventory_by_quantity/:id', (req, res)=>{
     var Inventory = {
         status: req.body.status,
         wastage: req.body.wastage,
+        sold: req.body.sold,
+        sold_price: req.body.sold_price,
         reserved: req.body.reserved,
     }
     Excess_inventory.findOneAndUpdate({'_id':req.params.id}, Inventory)
