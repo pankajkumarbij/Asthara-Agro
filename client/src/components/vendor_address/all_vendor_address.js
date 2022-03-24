@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function All_addresses({ navigation }) {
+export default function All_addressesVendor({ navigation }) {
 
     const [vendorId, setVendorId] = useState('');
     const [address, setAddress] = useState();
@@ -57,14 +57,13 @@ export default function All_addresses({ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Your All pickup Addresses</Title>
+                    <Title style={styles.title} >Your All pickup Addresses</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Address</DataTable.Title>
@@ -81,7 +80,7 @@ export default function All_addresses({ navigation }) {
                                         <DataTable.Cell>{address.state}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}>Details</Button>
+                                                <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}></Button>
                                                 :
                                                 <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_vendor_address/"+address._id}>Details</Link></Button>
                                             }
@@ -97,7 +96,7 @@ export default function All_addresses({ navigation }) {
             </DataTable>
             </View>
         </ScrollView>
-        </SafeAreaView>s
+        </SafeAreaView>
         </Provider>
     );
 }
@@ -118,6 +117,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -128,7 +145,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',

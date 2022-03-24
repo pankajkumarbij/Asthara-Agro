@@ -482,8 +482,8 @@ function CustomDrawerContent({navigation}) {
             visible={visible24}
             onDismiss={closeMenu24}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu24}>Add Item</Button>}>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('VendorAddItem')}}>Add Item</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllOrders')}}>View Items</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('VendorsAddItem')}}>Add Item</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('VendorsAllItems')}}>View Items</Button>
             </Menu>
             <Menu
             visible={visible25}

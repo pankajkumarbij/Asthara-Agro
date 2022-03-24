@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform} from 'react-native';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView} from 'react-native';
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +21,7 @@ const theme = {
     },
 };
 //define add items component
-export default function AddItem({ navigation }) {
+export default function VendorsAddItem({ navigation }) {
     //initialize all required state variables
     const [visible1, setVisible1] = useState(false);
     const [visible2, setVisible2] = useState(false);
@@ -214,9 +214,11 @@ export default function AddItem({ navigation }) {
 
     return (
         <Provider theme={theme}>
+        <SafeAreaView>
+        <ScrollView>
             <View>
                 <Card style={styles.card}>
-                    <Card.Title title="VENDORS ADD ITEM"/>
+                    <Card.Title titleStyle={styles.title} title="VENDORS ADD ITEM"/>
                     <Card.Content>
                         <Menu key={1}
                         visible={visible1}
@@ -302,13 +304,13 @@ export default function AddItem({ navigation }) {
                                 <Menu.Item title="No item Unit Available" />
                             }
                         </Menu>
-                        <View style={{flexDirection: 'row'}}>
+                        {/* <View style={{flexDirection: 'row'}}>
                             <input type="file" name="file" placeholder="Image"
                             style={{flex: 3, border: '1px solid gray', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                             onChange={getFiles}
                             />
                             <Button mode="contained" style={styles.button} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                        </View>
+                        </View> */}
                         <Menu key={5}
                         visible={visible5}
                         onDismiss={closeMenu5}
@@ -377,6 +379,8 @@ export default function AddItem({ navigation }) {
                     </Card.Content>
                 </Card>
             </View>
+        </ScrollView>
+        </SafeAreaView>
         </Provider>
     );
 }
@@ -399,6 +403,24 @@ const styles = StyleSheet.create({
                 marginTop: '4%',
                 marginBottom: '4%',
                 width: '75%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

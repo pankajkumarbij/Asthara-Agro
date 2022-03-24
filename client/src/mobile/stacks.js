@@ -72,7 +72,7 @@ import AllTransportLabourFromVendor from '../components/transport_labour/transpo
 import AddTransportLabour from '../components/transport_labour/transport_labour_for_sales/transport_labour';
 import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
 import Vendor_details from '../components/buyer/vendor_details';
-import VendorAddItem from '../components/vendorsItem/vendors_addItem';
+import VendorsAddItem from '../components/vendorsItem/vendors_addItem';
 import EditItem from '../components/item/edititem';
 import All_Dispatch_Orders_From_Buyer from '../components/reports/all_dispatch_order_items/all_dispatch_order_items';
 import All_order_status from '../components/reports/order_status/all_order_status';
@@ -402,7 +402,7 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="VendorAddItem" component={VendorAddItem} options={{
+            <Stack.Screen name="VendorsAddItem" component={VendorsAddItem} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

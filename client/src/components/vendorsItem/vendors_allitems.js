@@ -54,21 +54,20 @@ export default function VendorsAllItems(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>Vendor ItemList</Title>
+                    <Title style={styles.title} >Vendor ItemList</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Item</DataTable.Title>
-                        <DataTable.Title>Category</DataTable.Title>
-                        <DataTable.Title>Grade</DataTable.Title>
+                        {/* <DataTable.Title>Category</DataTable.Title> */}
+                        {/* <DataTable.Title>Grade</DataTable.Title> */}
                         <DataTable.Title>Unit</DataTable.Title>
-                        <DataTable.Title>Quantity</DataTable.Title>
+                        {/* <DataTable.Title>Quantity</DataTable.Title> */}
                         <DataTable.Title>Price</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
@@ -79,14 +78,14 @@ export default function VendorsAllItems(props,{ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name}</DataTable.Cell>
-                                        <DataTable.Cell>{item.category_name}</DataTable.Cell>
-                                        <DataTable.Cell>{item.grade_name}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{item.category_name}</DataTable.Cell> */}
+                                        {/* <DataTable.Cell>{item.grade_name}</DataTable.Cell> */}
                                         <DataTable.Cell>{item.unit_name}</DataTable.Cell>
-                                        <DataTable.Cell>{item.item_quantity}</DataTable.Cell>
+                                        {/* <DataTable.Cell>{item.item_quantity}</DataTable.Cell> */}
                                         <DataTable.Cell>{item.item_price}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('VendorsViewItem', {itemId: item._id})}}>Details</Button>
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('VendorsViewItem', {itemId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/vendors_view_item/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -122,6 +121,24 @@ const styles = StyleSheet.create({
             }
         })
     },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
+            }
+        })
+    },
     datatable: {
         alignSelf: 'center',
         marginTop: '2%',
@@ -132,7 +149,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '75%',
