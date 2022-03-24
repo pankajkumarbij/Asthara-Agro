@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { roleas, loginuserId } from '../../../utils/user';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
-
+import {url} from '../../../utils/url';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -81,7 +81,7 @@ export default function AddTransportLabour(props,{ navigation }) {
                 const values = [...items];
                 values.push({orderId: val.purchase_order.orderId, itemName: val.purchase_order.items.itemName, Grade: val.purchase_order.items.Grade, quantity: val.purchase_order.items.quantity});
                 setItems(values);
-                fetch(`http://localhost:5000/update_flag_completed_purchase_order/${val._id}`, {
+                fetch(`${url}/update_flag_completed_purchase_order/${val._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function AddTransportLabour(props,{ navigation }) {
                     // console.log(data);
                 });
 
-                fetch(`http://localhost:5000/update_order_item_status/${val.purchase_order.custom_orderId}/${val.purchase_order.items.itemName}/${val.purchase_order.items.Grade}/${val.purchase_order.items.quantity}`, {
+                fetch(`${url}/update_order_item_status/${val.purchase_order.custom_orderId}/${val.purchase_order.items.itemName}/${val.purchase_order.items.Grade}/${val.purchase_order.items.quantity}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function AddTransportLabour(props,{ navigation }) {
     }
 
     function submitForm() {
-        fetch(`http://localhost:5000/create_transport_labour_for_sales`, {
+        fetch(`${url}/create_transport_labour_for_sales`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -147,7 +147,13 @@ export default function AddTransportLabour(props,{ navigation }) {
         .then(data => {
             if(data.message!="something wrong!"){
                 alert(data.message);
-                history.push('/alltransportlabourforsales');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllTransportLabourForSales');
+                }
+                else{
+                    history.push('/alltransportlabourforsales');
+                }
+                
             }
             else{
                 if(data.error.errors){

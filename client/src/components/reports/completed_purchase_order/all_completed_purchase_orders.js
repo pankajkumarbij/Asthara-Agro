@@ -105,11 +105,12 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
 
                         <DataTable.Header>
                             <DataTable.Title >Order ID</DataTable.Title>
-                            <DataTable.Title >Vendor ID</DataTable.Title>
+                            {/* <DataTable.Title >Vendor ID</DataTable.Title> */}
                             <DataTable.Title>Item</DataTable.Title>
                             <DataTable.Title>Action</DataTable.Title>
-                            {role && role=='buyer' &&
+                            {role && role=='buyer' ?
                                 <DataTable.Title>BarCode</DataTable.Title>
+                                :null
                             }
                         </DataTable.Header>
                                                                               
@@ -120,7 +121,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
+                                        {/* <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell> */}
                                         <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
@@ -145,14 +146,14 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                         <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Details</Button>
+                                                <Button icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
                                         </DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Details</Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
                                                 :
                                                 <Button mode="contained" onPress={() => BarCodeGen(localStorage.getItem('nick_name')+"_"+item.purchase_order.custom_vendorId.split('_')[0]+"_"+item.purchase_order.custom_orderId.split('_')[0]+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)} style={{width: '100%'}}>BarCode</Button>
                                             }
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '20%',

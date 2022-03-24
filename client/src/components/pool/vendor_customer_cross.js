@@ -76,7 +76,12 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
           })
           .then(function (response) {
             alert(response.data.message);
-            history.push('/allcustomervendorpools');
+            if(Platform.OS=='android'){
+                navigation.navigate('AllCustomerVendorPools');
+            }
+            else{
+                history.push('/allcustomervendorpools');
+            }
         })
         axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
             flag_value:1

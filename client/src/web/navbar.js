@@ -21,9 +21,6 @@ import AddItemCategory from '../components/itemCategory/add_item_category';
 import AddUserCategory from '../components/userCategory/add_user_category';
 import AddAddress from '../components/address/add_address';
 import AddBankDetails from '../components/bank/add_bank_details';
-import All_Indents from '../components/indent/All_Indents';
-import Create_Indent from '../components/indent/Create_Indent';
-import Edit_Indent from '../components/indent/Edit_Indent';
 import Create_Purchase_Order from '../components/purchase_order/Create_Purchase_Order';
 import All_Purchase_Orders from '../components/purchase_order/All_Purchase_Orders';
 import Edit_Purchase_Order from '../components/purchase_order/Edit_Purchase_Order';
@@ -72,13 +69,9 @@ import All_Accepted_Purchase_Orders from '../components/purchase_order/All_Accep
 import Edit_Purchase_Order_Price from '../components/purchase_order/Edit_Purchase_Order_Price';
 import Accepted_Purchase_Orders from '../components/purchase_order/Accepted_Purchase_Orders';
 
-import AllInventory from '../components/inventory/allinventory';
 
 import All_Pending_Purchase_Order_Confirm from '../components/purchase_confirm/All_Pending_Purchase_Order_Confirm';
 import All_Accepted_Purchase_Order_Confirm from '../components/purchase_confirm/All_Accepted_Purchase_Order_Confirm';
-
-import CreateInvoice from '../components/invoice/create_invoice';
-import AllInvoice from '../components/invoice/all_invoice';
 
 import VenodrsAddItem from '../components/vendorsItem/vendors_addItem';
 import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
@@ -94,9 +87,6 @@ import CustomerEditAddress from '../components/customer_address/edit_customer_ad
 
 import Edit_Vendor_Purchase_Order from '../components/purchase_order/Edit_Vendor_Purchase_Order';
 import All_Declined_Purchase_Orders from '../components/purchase_order/All_Declined_Purchase_Orders';
-
-import CreateGrn from '../components/grn/create_grn';
-import AllGrn from '../components/grn/all_grn';
 
 import OrderItemsSummary from '../components/order/order_items_summary';
 
@@ -855,17 +845,9 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/addaddress/:userid" render={(props) => <AddAddress {...props} />} exact />
                 <Route path="/addbankdetails/:userid" render={(props) => <AddBankDetails {...props} />} exact />
-                <Route path="/Create_Indent">
-                    <Create_Indent/>
-                </Route>
-                <Route path="/All_Indents">
-                    <All_Indents/>
-                </Route>
                 <Route path="/Create_Purchase_Order">
                     <Create_Purchase_Order/>
-                </Route>
-                <Route path="/Edit_Indent/:indentid"  render={(props) => <Edit_Indent {...props} />} exact />
-                           
+                </Route>       
                 <Route path="/All_Purchase_Orders">
                     <All_Purchase_Orders/>
                 </Route>
@@ -926,21 +908,11 @@ const NavBar =()  => {
                 <Route path="/Accepted_Purchase_Orders">
                     <Accepted_Purchase_Orders/>
                 </Route>
-                
-                <Route path="/allinventory">
-                    <AllInventory/>
-                </Route>
                 <Route path="/All_Pending_Purchase_Order_Confirm">
                     <All_Pending_Purchase_Order_Confirm roleas={roleas}/>
                 </Route>
                 <Route path="/All_Accepted_Purchase_Order_Confirm">
                     <All_Accepted_Purchase_Order_Confirm roleas={roleas}/>
-                </Route>
-                <Route path="/all_invoice">
-                    <AllInvoice/>
-                </Route>
-                <Route path="/create_invoice">
-                    <CreateInvoice/>
                 </Route>
                 <Route path="/vendors_additem">
                     <VenodrsAddItem/>
@@ -966,12 +938,6 @@ const NavBar =()  => {
                 <Route path="/All_Declined_Purchase_Orders">
                     <All_Declined_Purchase_Orders/>
                 </Route>    
-                <Route path="/all_grn">
-                    <AllGrn/>
-                </Route>
-                <Route path="/create_grn">
-                    <CreateGrn/>
-                </Route>
                 <Route path="/order_items_summary">
                     <OrderItemsSummary host={host}/>
                 </Route>

@@ -27,7 +27,16 @@ export default function AddItemGrade({ navigation }) {
             alert(response.data.message);
             if(response.data)
             {
-                history.push('/allitemgrades')
+                if(response.data)
+                {
+                    if(Platform.OS=='android'){
+                        navigation.navigate('AllItemGrades');
+                    }
+                    else{
+                        history.push('/allitemgrades')
+                    }
+                }
+                
             }
             setItemGradeName("");
           })

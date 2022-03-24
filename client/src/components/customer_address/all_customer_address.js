@@ -27,7 +27,6 @@ export default function All_addresses({ navigation }) {
     const [customerEmail, setCustomerEmail] = useState("Choose customer");
     const [customer, setCustomer] = useState();
     const [address, setAddress] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
@@ -39,20 +38,13 @@ export default function All_addresses({ navigation }) {
         }
         fetchData();
 
-        if(Platform.OS == "android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-
         //Retrieve customers
         all_users_by_role("customer")
         .then(result => {
             setCustomer(result);
         })
         
-    }, [address, host, customerId ]);
+    }, [address,customerId ]);
     
     const openMenu2 = () => setVisible2(true);
     const closeMenu2 = () => setVisible2(false);
@@ -128,7 +120,7 @@ export default function All_addresses({ navigation }) {
                                     <DataTable.Cell>{address.country}</DataTable.Cell> */}
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button  mode="contained"  onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}>De</Button>
+                                            <Button  mode="contained"  onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}></Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}>Details</Link></Button>
                                         }

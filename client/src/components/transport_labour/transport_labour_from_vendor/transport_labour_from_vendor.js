@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text} from 'react-
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { roleas, loginuserId } from '../../../utils/user';
-
+import {url} from '../../../utils/url';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -52,7 +52,7 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
     }
 
     function submitForm() {
-        fetch(`http://localhost:5000/create_transport_labour_from_vendor`, {
+        fetch(`${url}/create_transport_labour_from_vendor`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,13 @@ export default function AddTransportLabourFromVendor(props,{ navigation }) {
             console.log(data);
             if(data.message!="Something went wrong!"){
                 alert(data.message);
-                history.push('/alltransportlabourfromvendor');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllTransportLabourFromVendor');
+                }
+                else{
+                    history.push('/alltransportlabourfromvendor');
+                }
+                
             }
             else{
                 if(data.error.errors){

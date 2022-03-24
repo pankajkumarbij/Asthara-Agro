@@ -28,7 +28,16 @@ export default function AddItemUnit({ navigation }) {
             alert(response.data.message);
             if(response.data)
             {
-                history.push('/allitemunits');
+                if(response.data)
+                {
+                    if(Platform.OS=='android'){
+                        navigation.navigate('AllItemUnits');
+                    }
+                    else{
+                        history.push('/allitemunits');
+                    }
+                }
+               
             }
             setItemUnitName("");
           })

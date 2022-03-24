@@ -26,9 +26,19 @@ export default function AddItemCategory({ navigation }) {
           })
           .then(function (response) {
             alert(response.data.message);
+            
             if(response.data)
             {
-                history.push('/allitemcategories')
+                if(response.data)
+                {
+                    if(Platform.OS=='android'){
+                        navigation.navigate('AllItemCategories');
+                    }
+                    else{
+                        history.push('/allitemcategories');
+                    }
+                }
+                
             }
             setItemCategoryName("");
           })

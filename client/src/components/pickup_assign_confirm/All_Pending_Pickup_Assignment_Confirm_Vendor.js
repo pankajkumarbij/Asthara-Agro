@@ -102,10 +102,14 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                        <DataTable.Title>Item</DataTable.Title>
-                        {/* <DataTable.Title>Status</DataTable.Title> */}
+                       {Platform.OS=='android' ?
+                            <DataTable.Title>Order ID</DataTable.Title>
+                        :<>
+                            <DataTable.Title>Order ID</DataTable.Title>
+                            <DataTable.Title>Vendor ID</DataTable.Title>
+                            <DataTable.Title>Item</DataTable.Title>
+                        </>}
+                        <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                                                                         
@@ -115,12 +119,16 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
-                                    <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
-                                    {/* <DataTable.Cell>
-                                    <Text >{pickupAssignmentConfirm.status}</Text>
-                                    </DataTable.Cell>     */}
+                                    {Platform.OS=='android' ?
+                                            <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                        :
+                                            <>
+                                                <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                                <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                                <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                                <DataTable.Cell><Text >{pickupAssignmentConfirm.status}</Text></DataTable.Cell>    
+                                            </>
+                                    }
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
@@ -139,9 +147,15 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
-                                    <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                    {Platform.OS=='android' ?
+                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                    :
+                                    <>
+                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                        <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                    </>
+                                    }
                                     <DataTable.Cell>
                                     <Menu visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{pickupAssignmentConfirm.status}</Button>}>
                                         <Menu.Item title="Accept" onPress={()=>StatusChange("vendor accepted",  pickupAssignmentConfirm._id, index)}/>
@@ -150,7 +164,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                                     </DataTable.Cell>    
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}></Button>
                                             :
                                             <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment_Confirm/"+pickupAssignmentConfirm._id}>Details</Link></Button>
                                         }
@@ -177,7 +191,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '20%',

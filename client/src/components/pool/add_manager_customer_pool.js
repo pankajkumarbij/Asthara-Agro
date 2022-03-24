@@ -81,7 +81,13 @@ export default function AddCustomerManagerPool(props,{ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            history.push('/allcustomermanagerpools');
+            if(Platform.OS=='android'){
+                navigation.navigate('AllManagerPools');
+            }
+            else{
+                history.push('/allcustomermanagerpools');
+            }
+            
         });
         fetch(`http://localhost:5000/updateflag2_customer_pool/${customerId}`, {
             method: 'PUT',

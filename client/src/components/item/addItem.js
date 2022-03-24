@@ -26,10 +26,16 @@ export default function AddItem({ navigation }) {
             item_name: itemName,
           })
           .then(function (response) {
+              console.log(response);
             alert(response.data.message);
             if(response.data)
             {
-                history.push('/allitems');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllItems');
+                }
+                else{
+                    history.push('/allitems');
+                }
             }
           })
           .catch(function (error) {

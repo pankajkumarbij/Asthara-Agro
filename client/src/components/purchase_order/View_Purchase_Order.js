@@ -44,6 +44,7 @@ export default function View_Purchase_Order(props, {route}) {
         if(flag && purchaseId){
             purchase_order_by_id(purchaseId)
             .then(result => {
+                console.log(result);
                     setOrderId(result[0].order_id)
                     setItems(result[0].items);
                     setVendorId(result[0].vendor_id);

@@ -18,7 +18,7 @@ const theme = {
     },
 };
 
-export default function AddManagerPool(props,{ navigation }) {
+export default function AddManagerPool({ navigation }) {
 
     const [poolName, setPoolName] = useState("");
     const [items, setItems] = useState(['']);
@@ -69,10 +69,14 @@ export default function AddManagerPool(props,{ navigation }) {
           })
         .then(function (response){
             console.log(response.data);
-            alert(response.data.message);
             if(response.data.message!="something wrong!"){
                 alert(response.data.message);
-                history.push('/allmanagerpools');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllManagerPools');
+                }
+                else{
+                    history.push('/allmanagerpools');
+                }
             }
             else{
                 if(response.data.error.errors){

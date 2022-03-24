@@ -18,7 +18,7 @@ const theme = {
     },
 };
 
-export default function AddVendorPool(props,{ navigation }) {
+export default function AddVendorPool({ navigation }) {
 
     const [poolName, setPoolName] = useState("");
     const [items, setItems] = useState(['']);
@@ -69,10 +69,14 @@ export default function AddVendorPool(props,{ navigation }) {
           })
         .then(function (response) {
             console.log(response.data);
-            alert(response.data.message);
             if(response.data.message!="something wrong!"){
                 alert(response.data.message);
-                history.push('/allvendorpools');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllVendorPools');
+                }
+                else{
+                    history.push('/allvendorpools');
+                }
             }
             else{
                 if(response.data.error.errors){

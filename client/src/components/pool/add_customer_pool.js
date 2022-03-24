@@ -18,7 +18,7 @@ const theme = {
     },
 };
 
-export default function AddCustomerPool(props,{ navigation }) {
+export default function AddCustomerPool({ navigation }) {
 
     const [poolName, setPoolName] = useState("");
     const [items, setItems] = useState(['']);
@@ -69,10 +69,15 @@ export default function AddCustomerPool(props,{ navigation }) {
           })
           .then(function (response) {
             console.log(response.data);
-            alert(response.data.message);
             if(response.data.message!="something wrong!"){
                 alert( response.data.message);
-                history.push('/allcustomerpools');
+                if(Platform.OS=='android'){
+                    navigation.navigate('AllCustomerPools');
+                }
+                else{
+                    history.push('/allcustomerpools');
+                }
+                
             }
             else{
                 if(response.data.error.errors){

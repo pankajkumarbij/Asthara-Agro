@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import {useHistory} from 'react-router-dom';
 
 const theme = {
     ...DefaultTheme,
@@ -16,7 +17,8 @@ export default function AddUserCategory({ navigation }) {
 
     const [userCategoryName, setUserCategoryName] = useState("");
     const [host, setHost] = useState("");
-
+    let history = useHistory();
+    
     useEffect(() => {
         if(Platform.OS=="android"){
             setHost("10.0.2.2");
@@ -41,6 +43,12 @@ export default function AddUserCategory({ navigation }) {
         .then(data => {
             alert(data.message);
             console.log(data);
+            if(Platform.OS=='android'){
+                navigation.navigate('AllUserCategories');
+            }
+            else{
+                history.push('/allusercategories')
+            }
             setUserCategoryName("");
         }); 
     }
