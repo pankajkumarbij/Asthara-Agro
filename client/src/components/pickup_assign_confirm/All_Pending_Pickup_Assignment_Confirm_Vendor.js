@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_pickup_assignment_confirmed } from '../../services/pickup_api';
-import {host} from '../../utils/host';
+import {url} from '../../utils/url';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 
@@ -67,7 +67,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
     };
 
     const StatusChange = (s, id, index) => {
-        fetch(`http://${host}:5000/update_pickup_assign_confirm_vendor_status/${id}`, {
+        fetch(`${url}/update_pickup_assign_confirm_vendor_status/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -118,9 +118,10 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             if(pickupAssignmentConfirm.managerPoolId==managerPoolId)
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
-                                <DataTable.Row>
+                                <DataTable.Row key={index}>
                                     {Platform.OS=='android' ?
-                                            <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                        <Text>hello</Text>
+                                            // <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                         :
                                             <>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
@@ -146,9 +147,9 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             if(pickupAssignmentConfirm.vendor_id==userId)
                             if(pickupAssignmentConfirm._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
-                                <DataTable.Row>
+                                <DataTable.Row key={index}>
                                     {Platform.OS=='android' ?
-                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                        <DataTable.Cell>{pickupAssignmentConfirm.custom_itemName}</DataTable.Cell>
                                     :
                                     <>
                                         <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>

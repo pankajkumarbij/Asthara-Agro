@@ -304,13 +304,17 @@ export default function VendorsAddItem({ navigation }) {
                                 <Menu.Item title="No item Unit Available" />
                             }
                         </Menu>
-                        {/* <View style={{flexDirection: 'row'}}>
-                            <input type="file" name="file" placeholder="Image"
-                            style={{flex: 3, border: '1px solid gray', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
-                            onChange={getFiles}
-                            />
-                            <Button mode="contained" style={styles.button} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                        </View> */}
+                        {Platform.OS!='android'?
+                            <View style={{flexDirection: 'row'}}>
+                                <input type="file" name="file" placeholder="Image"
+                                style={{flex: 3, border: '1px solid gray', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                                onChange={getFiles}
+                                />
+                                <Button mode="contained" style={styles.button} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                            </View>
+                            :
+                            null
+                        }
                         <Menu key={5}
                         visible={visible5}
                         onDismiss={closeMenu5}
