@@ -438,7 +438,7 @@ export default function CreateOrder({ navigation }) {
                                 <TextInput mode="outlined" label="unit of each item" value={it.itemUnit} />
                                 <TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '', "", "", "")} />
                                 <TextInput  keyboardType='numeric' mode="outlined" label="Target Price" value={it.targetPrice=(it.itemPrice / 100) * 30 +(it.itemPrice)} onChangeText={(text)=>ItemChange(index, "targetPrice", text, '', "", "", "")}/>
-                                <TextInput  keyboardType='numeric' mode="outlined" label="Negotiate Price"   style={{ backgroundColor: getColor(it.itemNegotiatePrice,it.targetPrice) }}    value={it.itemNegotiatePrice} onChangeText={(text)=>ItemChange(index, "itemNegotiatePrice", text, '', "", "", "")} />
+                                <TextInput  keyboardType='numeric' mode="outlined" label="Negotiate Price" style={{ backgroundColor: getColor(it.itemNegotiatePrice,it.targetPrice) }}    value={it.itemNegotiatePrice} onChangeText={(text)=>ItemChange(index, "itemNegotiatePrice", text, '', "", "", "")} />
                                 <View style={{flexDirection: 'row'}}>
                                     {Platform.OS=="android" ?
                                         <>

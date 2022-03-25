@@ -72,7 +72,7 @@ export default function OrderItemsSummary(props, { navigation }) {
                     <DataTable.Header>
                         <DataTable.Title>Order ID</DataTable.Title>
                         <DataTable.Title>Item</DataTable.Title>
-                        {/* <DataTable.Title>Status</DataTable.Title> */}
+                        <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                     {allOrders ?
@@ -84,7 +84,7 @@ export default function OrderItemsSummary(props, { navigation }) {
                                         <DataTable.Row>
                                             <DataTable.Cell >{order.custom_orderId}</DataTable.Cell>
                                             <DataTable.Cell >{order.item.itemName} ({order.item.Grade})</DataTable.Cell>
-                                            {/* <DataTable.Cell >{order.status}</DataTable.Cell> */}
+                                            <DataTable.Cell >{order.status}</DataTable.Cell>
                                             <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrderItem', {itemId: order.item.itemId,orderId:order._id})}}>Check</Button>

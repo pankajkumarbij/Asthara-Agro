@@ -98,6 +98,22 @@ export default function Edit_Aim(props, {route}) {
         }); 
     }
 
+    const getColor = (itemNegotiatePrice,targetPrice) => {
+        let BackgroundColor = '';
+        if(targetPrice && itemNegotiatePrice){    
+            if(itemNegotiatePrice <= 0) {
+                BackgroundColor = '';
+            } else if(itemNegotiatePrice >= targetPrice) {
+                BackgroundColor = 'lightgreen';
+            } else if(itemNegotiatePrice >= ((targetPrice / 100) * 95)) {
+                BackgroundColor = 'yellow';
+            } else if(itemNegotiatePrice >= ((targetPrice / 100) * 85)) {
+                BackgroundColor = 'orange';
+            } else BackgroundColor = 'red';
+        }
+        return BackgroundColor;
+    };
+
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -132,7 +148,7 @@ export default function Edit_Aim(props, {route}) {
 
                         <TextInput style={styles.input} mode="outlined" label="Sold Quantity" value={sold_quantity} onChangeText={(text)=>setSoldQuantity(text)} />
 
-                        <TextInput style={styles.input} mode="outlined" label="Sold Price" value={sold_price} onChangeText={(text)=>setSoldPrice(text)} />
+                        <TextInput style={{ backgroundColor: getColor(sold_price, mandi_price) }} mode="outlined" label="Sold Price" value={sold_price} onChangeText={(text)=>setSoldPrice(text)} />
 
                         <DataTable.Cell>
                             {Platform.OS=="android" ?
