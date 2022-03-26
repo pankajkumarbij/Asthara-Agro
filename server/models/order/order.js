@@ -50,6 +50,9 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Mixed,
         required: true,
     },
+    incentive: {
+        type: String,
+    },
     status:{
         type:String,
         default:"pending",

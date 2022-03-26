@@ -16,6 +16,7 @@ router.put('/update_order/:id',(req, res) =>{
         country: req.body.country,
         postal_code: req.body.postal_code,
         items: req.body.items,
+        incentive: req.body.incentive,
     }
     Order.findOneAndUpdate({'_id':req.params.id}, order_update)
     .then((order) => {

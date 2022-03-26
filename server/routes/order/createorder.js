@@ -23,6 +23,7 @@ router.post('/create_order', (req, res)=>{
         vendorPoolId: req.body.vendorPoolId,
         order_date:req.body.order_date,
         order_time:req.body.order_time,
+        incentive: req.body.incentive,
     })
     newOrder.save()
     .then(order => {
