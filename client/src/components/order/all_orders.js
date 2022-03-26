@@ -65,13 +65,13 @@ export default function AllOrders(props, { navigation }) {
     const sorting = (col)=>{
         if(sorting_order=="ASC"){
             const sorted=([...allOrders].sort((a,b)=>
-            a.col.toLowerCase()>b.col.toLowerCase() ?1:-1));
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
             setAllOrders(sorted);
             setSortingOrder('DES');
         }
         if(sorting_order=="DES"){
             const sorted=([...allOrders].sort((a,b)=>
-            a.col.toLowerCase<b.col.toLowerCase ?1:-1));
+            a[col].toLowerCase<b[col].toLowerCase ?1:-1));
             setAllOrders(sorted);
             setSortingOrder('ASC');
         }
@@ -94,7 +94,7 @@ export default function AllOrders(props, { navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
