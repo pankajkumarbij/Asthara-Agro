@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator 
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye,faSort } from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_pickup_assignment } from '../../services/pickup_api';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
@@ -25,6 +25,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -50,8 +51,23 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
             setUserId(result);
         })
 
-    }, [allPickupAssignment, role, userId]);
+    }, [role, userId]);
 
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
+    
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -70,9 +86,12 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                 />
 
                 <DataTable.Header>
-                    <DataTable.Title>Order ID</DataTable.Title>
-                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                    <DataTable.Title>Item</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
+                    {Platform.Os!='android'?
+                     <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } />Vendor ID</DataTable.Title>
+                     :null
+                     }
+                    <DataTable.Title ><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                     <DataTable.Title>Action</DataTable.Title>
                 </DataTable.Header>
 
@@ -83,7 +102,10 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
+                                {Platform.Os!='android'?
+                                    <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                    :null
+                                }
                                 <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?

@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator,
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import { all_pending_pickup_assignment_confirmed } from '../../services/pickup_api';
 import {url} from '../../utils/url';
 import { roleas, loginuserId } from '../../utils/user';
@@ -27,7 +27,8 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
-    
+    const [sorting_order, setSortingOrder] = useState('ASC');
+
     useEffect(() => {
 
         if(role && role=='manager' && userId){
@@ -52,7 +53,22 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
             setUserId(result);
         })
 
-    }, [allPickupAssignmentConfirm, role, userId]);
+    }, [ role, userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -103,13 +119,13 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
 
                     <DataTable.Header>
                        {Platform.OS=='android' ?
-                            <DataTable.Title>Order ID</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
                         :<>
-                            <DataTable.Title>Order ID</DataTable.Title>
-                            <DataTable.Title>Vendor ID</DataTable.Title>
-                            <DataTable.Title>Item</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } />Vendor ID</DataTable.Title>
+                            <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         </>}
-                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } />Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                                                                         
@@ -120,16 +136,16 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                             return (
                                 <DataTable.Row key={index}>
                                     {Platform.OS=='android' ?
-                                        <Text>hello</Text>
-                                            // <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
+                                        
+                                            <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                         :
                                             <>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
-                                                <DataTable.Cell><Text >{pickupAssignmentConfirm.status}</Text></DataTable.Cell>    
                                             </>
                                     }
+                                     <DataTable.Cell><Text >{pickupAssignmentConfirm.status}</Text></DataTable.Cell>    
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>

@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator,
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye,faSort } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_pickup_assignment } from '../../services/pickup_api';
 import {host} from '../../utils/host';
 import { roleas, loginuserId } from '../../utils/user';
@@ -27,6 +27,7 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -52,7 +53,22 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
             setUserId(result);
         })
 
-    }, [allPickupAssignment, role, userId]);
+    }, [ role, userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -118,18 +134,18 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
                 />
 
                 <DataTable.Header>
-                    <DataTable.Title>Order ID</DataTable.Title>
-                    {Platform.OS!=="Android" ?
-                        <DataTable.Title>Vendor ID</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
+                    {Platform.OS!=="android" ?
+                        <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } />Vendor ID</DataTable.Title>
                         :
                         null
                     }
-                    <DataTable.Title>Item</DataTable.Title>
-                    {Platform.OS!=="Android" ?
-                        <DataTable.Title numeric>Status</DataTable.Title>
+                    {Platform.OS!=="android" ?
+                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         :
-                        null
-                    }
+                            null
+                    } 
+                    <DataTable.Title numericonPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } />Status</DataTable.Title>
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
                                                                     
@@ -140,11 +156,13 @@ export default function All_Pending_Pickup_Assignment(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
-                                    <DataTable.Cell  numeric>
-                                    {/* <Text>{pickupAssignment.status}</Text> */}
-                                    </DataTable.Cell>   
+                                    {Platform.OS!=='android'?
+                                        <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                    :null}
+                                    {Platform.OS!=='android'?
+                                        <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>  
+                                    :null} 
+                                    <DataTable.Cell  numeric> <Text>{pickupAssignment.status}</Text></DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>

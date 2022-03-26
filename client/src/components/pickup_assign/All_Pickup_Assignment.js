@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator 
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal, TextInput ,Text } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import { all_pickup_assignment } from '../../services/pickup_api';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
@@ -29,6 +29,7 @@ export default function All_Pickup_Assignment({ navigation }) {
     const [visible, setVisible] = useState(false);
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -57,7 +58,22 @@ export default function All_Pickup_Assignment({ navigation }) {
             setUserId(result);
         })
 
-    }, [allPickupAssignment, role, userId]);
+    }, [ role, userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignment].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     function VendorDetails(id, customid) {
         users_by_id(id)
@@ -122,9 +138,14 @@ export default function All_Pickup_Assignment({ navigation }) {
                 />
 
                 <DataTable.Header>
-                    <DataTable.Title>Order ID</DataTable.Title>
-                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                    <DataTable.Title>Item</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } />Vendor ID</DataTable.Title>
+                    {Platform.OS!='android'?
+                    <>
+                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } />Status</DataTable.Title> 
+                    </>
+                     :null}
                     {/* <DataTable.Title>Status</DataTable.Title> */}
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
@@ -136,8 +157,13 @@ export default function All_Pickup_Assignment({ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell onPress={() => VendorDetails(pickupAssignment.vendor_id, pickupAssignment.custom_vendorId)}>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell onPress={() => VendorDetails(pickupAssignment.vendor_id, pickupAssignment.custom_vendorId)}>{pickupAssignment.custom_vendorId}</DataTable.Cell> 
+                                    {Platform.OS!='android'?
+                                        <>
+                                            <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
+                                            <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
+                                        </>
+                                    :null}
                                     {/* <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell> */}
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?

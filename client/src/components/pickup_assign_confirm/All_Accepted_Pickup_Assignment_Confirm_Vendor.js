@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator,
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import { all_accepted_pickup_assignment_confirmed } from '../../services/pickup_api';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
@@ -25,6 +25,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -50,8 +51,22 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
             setUserId(result);
         })
 
-    }, [allPickupAssignmentConfirm, role, userId]);
+    }, [role, userId]);
 
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
     
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -71,9 +86,9 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
                         {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                        <DataTable.Title>Item</DataTable.Title>
+                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                                                                         
