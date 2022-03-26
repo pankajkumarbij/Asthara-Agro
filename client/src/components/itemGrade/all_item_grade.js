@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes,faSort } from '@fortawesome/free-solid-svg-icons';
 import { item_grade } from '../../services/item_api';
 
 const theme = {
@@ -20,6 +20,7 @@ export default function AllItemGrades(props,{ navigation }) {
 
     const [allItemGrade, setAllItemGrade] = useState();
     const [searchQuery, setSearchQuery] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -29,7 +30,22 @@ export default function AllItemGrades(props,{ navigation }) {
             setAllItemGrade(result);
         })
 
-    }, [allItemGrade]);
+    }, []);
+    
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allItemGrade].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllItemGrade(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allItemGrade].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllItemGrade(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -49,7 +65,7 @@ export default function AllItemGrades(props,{ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title>Item Grade</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("grade_name")}><FontAwesomeIcon icon={ faSort } />Item Grade</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 

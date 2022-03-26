@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link , useHistory} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes,faSort } from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { user_category } from '../../services/user_api';
 
@@ -20,9 +20,10 @@ const theme = {
 export default function AllUserCategories({ navigation }) {
 
     const [allUserCategories, setAllUserCategories] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [token,setToken]=useState();
+    const [sorting_order, setSortingOrder] = useState('ASC');
+
     let history = useHistory();
 
     useEffect(() => {
@@ -37,10 +38,25 @@ export default function AllUserCategories({ navigation }) {
         user_category()
         .then(function(result) {
             setAllUserCategories(result);
-            console.log(result)
+            //console.log(result)
         });
         
-    }, [allUserCategories, host,token, history]);
+    }, [token, history]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allUserCategories].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllUserCategories(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allUserCategories].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllUserCategories(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -59,7 +75,7 @@ export default function AllUserCategories({ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>User Category</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("category_name")}><FontAwesomeIcon icon={ faSort } />User Category</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                 {allUserCategories ?

@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye,faSort } from '@fortawesome/free-solid-svg-icons';
 import { all_users } from '../../services/user_api';
 
 const theme = {
@@ -22,21 +22,32 @@ export default function AllUsers(props,{ navigation }) {
     const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [roleas, setRoleas] = useState("");
-    
+    const [sorting_order, setSortingOrder] = useState('ASC');
+
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
+
         setRoleas(props.roleas);
         //Retrieve all users
-        all_users(host)
+        all_users()
         .then(function(result) {
             setAllUsers(result);
         })
-    }, [allUsers, host,roleas, props.roleas]);
+    }, [roleas, props.roleas]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allUsers].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllUsers(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allUsers].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllUsers(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -57,11 +68,11 @@ export default function AllUsers(props,{ navigation }) {
                     <DataTable.Header>
                         {/* <DataTable.Title>Email</DataTable.Title> */}
                         {Platform.OS !== "android" &&
-                        <DataTable.Title>Full Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("full_name")}><FontAwesomeIcon icon={ faSort } />Full Name</DataTable.Title>
                         }
-                        <DataTable.Title>Nick Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("nick_name")}><FontAwesomeIcon icon={ faSort } />Nick Name</DataTable.Title>
                         
-                        <DataTable.Title>Role</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("role")}><FontAwesomeIcon icon={ faSort } />Role</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                 {allUsers ?

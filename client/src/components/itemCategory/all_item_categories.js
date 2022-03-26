@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button,Title, DataTable,Searchbar} from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye,faSort } from '@fortawesome/free-solid-svg-icons';
 import { item_all_category } from '../../services/item_api';
 // import { SearchBar } from 'react-native-elements';
 
@@ -21,6 +21,7 @@ export default function AllItemCategories({ navigation }) {
 
     const [allItemCategories, setAllItemCategories] = useState();
     const [searchQuery, setSearchQuery] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -30,8 +31,22 @@ export default function AllItemCategories({ navigation }) {
             setAllItemCategories(result);
         })
       
-    }, [allItemCategories]);
+    }, []);
 
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allItemCategories].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllItemCategories(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allItemCategories].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllItemCategories(sorted);
+            setSortingOrder('ASC');
+        }
+    }
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -50,7 +65,7 @@ export default function AllItemCategories({ navigation }) {
                     />
                        
                     <DataTable.Header>
-                        <DataTable.Title >Item Category</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("category_name")}><FontAwesomeIcon icon={ faSort } />Item Category</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header> 
 

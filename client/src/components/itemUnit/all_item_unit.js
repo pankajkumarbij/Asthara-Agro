@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes,faSort } from '@fortawesome/free-solid-svg-icons';
 import { item_unit } from '../../services/item_api';
 
 const theme = {
@@ -20,6 +20,7 @@ export default function AllItemUnits(props,{ navigation }) {
 
     const [allItemUnit, setAllItemUnit] = useState();
     const [searchQuery, setSearchQuery] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -29,7 +30,22 @@ export default function AllItemUnits(props,{ navigation }) {
             setAllItemUnit(result);
         })
 
-    }, [allItemUnit]);
+    }, []);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allItemUnit].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllItemUnit(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allItemUnit].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllItemUnit(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -48,7 +64,7 @@ export default function AllItemUnits(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Item Unit</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("unit_name")}><FontAwesomeIcon icon={ faSort } />Item Unit</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
