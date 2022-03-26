@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView } from 'react-nativ
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { all_pending_purchase_order } from '../../services/order_api';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
@@ -25,6 +25,7 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -50,7 +51,22 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
             setUserId(result);
         })
 
-    }, [allPurchaseOrders, role, userId]);
+    }, [role, userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPurchaseOrders].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPurchaseOrders(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPurchaseOrders].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPurchaseOrders(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -70,9 +86,9 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
                 />
 
                 <DataTable.Header>
-                    <DataTable.Title>Order ID</DataTable.Title>
-                    {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                    <DataTable.Title>Item</DataTable.Title>
+                <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
 
@@ -83,7 +99,7 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell> */}
+                                    <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.items.itemName} ({purchaseOrder.items.Grade})</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
@@ -104,7 +120,7 @@ export default function All_Pending_Purchase_Orders(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell> */}
+                                    <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.items.itemName} ({purchaseOrder.items.Grade})</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?

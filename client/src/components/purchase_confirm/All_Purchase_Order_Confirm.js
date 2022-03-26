@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator,
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal, TextInput  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { users_by_id } from '../../services/user_api';
 import { all_confirm_purchase_order, purchase_order } from '../../services/order_api';
 import { all_vendor_items_by_id_pincode } from '../../services/vendor_api';
@@ -29,6 +29,7 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -57,7 +58,7 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
             setUserId(result);
         })
 
-    }, [allPurchaseOrderConfirm, role, userId]);
+    }, [role, userId]);
 
     function VendorDetails(id, customid) {
         users_by_id(id)
@@ -72,6 +73,21 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
         .then(result => {
             setAddress(result[0]);
         })
+    }
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPurchaseOrderConfirm].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllPurchaseOrderConfirm(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPurchaseOrderConfirm].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllPurchaseOrderConfirm(sorted);
+            setSortingOrder('ASC');
+        }
     }
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -122,10 +138,10 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
-                        <DataTable.Title>Item</DataTable.Title>
-                        {/* <DataTable.Title>Status</DataTable.Title> */}
+                        <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
@@ -136,9 +152,9 @@ export default function All_Purchase_Order_Confirm({ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{purchaseOrderConfirm.custom_orderId}</DataTable.Cell>
-                                        {/* <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell> */}
+                                        <DataTable.Cell onPress={() => VendorDetails(purchaseOrderConfirm.vendor_id, purchaseOrderConfirm.custom_vendorId)}>{purchaseOrderConfirm.custom_vendorId}</DataTable.Cell>
                                         <DataTable.Cell>{purchaseOrderConfirm.items.itemName+" ("+purchaseOrderConfirm.items.Grade+")"}</DataTable.Cell>
-                                        {/* <DataTable.Cell>{purchaseOrderConfirm.status}</DataTable.Cell> */}
+                                        <DataTable.Cell>{purchaseOrderConfirm.status}</DataTable.Cell>
                                         <DataTable.Cell numeric> 
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}>Check</Button>

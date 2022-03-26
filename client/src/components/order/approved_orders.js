@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
 import { roleas, loginuserId } from '../../utils/user';
 import { manager_pool_by_id } from '../../services/pool';
@@ -29,6 +29,8 @@ export default function ApprovedOrders(props, { navigation }) {
     const [managerPinCodes, setManagerPinCodes] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
+    const [flag2, setFlag2] = useState(true);
 
     useEffect(() => {
 
@@ -46,11 +48,13 @@ export default function ApprovedOrders(props, { navigation }) {
             })
         }
 
-        Order_by_status("approved")
-        .then(result=> {
-            setAllOrders(result);
-            console.log(result);
-        })
+        if(flag2){
+            Order_by_status("approved")
+            .then(result=> {
+                setAllOrders(result);
+                setFlag2(false);
+            })
+        }
 
         if(flag && allOrders.length > 0){
             for(let i = 0; i < allOrders.length; i++){
@@ -71,7 +75,22 @@ export default function ApprovedOrders(props, { navigation }) {
             setUserId(result);
         })
 
-    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId, role, userId]);
+    }, [allOrders,  visible, flag, managerPinCodes, managerPoolId, role, userId, flag2]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -90,8 +109,9 @@ export default function ApprovedOrders(props, { navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        <DataTable.Title>Customer Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
@@ -109,6 +129,7 @@ export default function ApprovedOrders(props, { navigation }) {
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
+                                        <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>

@@ -71,7 +71,7 @@ export default function AllOrders(props, { navigation }) {
         }
         if(sorting_order=="DES"){
             const sorted=([...allOrders].sort((a,b)=>
-            a[col].toLowerCase<b[col].toLowerCase ?1:-1));
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
             setAllOrders(sorted);
             setSortingOrder('ASC');
         }
