@@ -27,6 +27,7 @@ export default function AllOrders(props, { navigation }) {
     const [managerPinCodes, setManagerPinCodes] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [or, setOr] = useState('ASC');
 
     useEffect(() => {
         
@@ -60,6 +61,21 @@ export default function AllOrders(props, { navigation }) {
         })
 
     }, [managerPoolId, role, userId]);
+
+    const sorting = ()=>{
+        if(or=="ASC"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a.item_name.toLowerCase()>b.item_name.toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setOr('DES');
+        }
+        if(or=="DES"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a.item_name.toLowerCase<b.item_name.toLowerCase ?1:-1));
+            setAllOrders(sorted);
+            setOr('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 

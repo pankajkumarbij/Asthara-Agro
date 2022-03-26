@@ -21,6 +21,7 @@ export default function AllItems(props,{ navigation }) {
     //initialize the all states variables
     const [allItems, setAllItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');
+    const [or, setOr] = useState('ASC');
 
     useEffect(() => {
         //Retrieve all items
@@ -29,7 +30,22 @@ export default function AllItems(props,{ navigation }) {
             setAllItems(result);
         })
 
-    }, [allItems]);
+    }, []); 
+
+    const sorting = ()=>{
+        if(or=="ASC"){
+            const sorted=([...allItems].sort((a,b)=>
+            a.item_name.toLowerCase()>b.item_name.toLowerCase() ?1:-1));
+            setAllItems(sorted);
+            setOr('DES');
+        }
+        if(or=="DES"){
+            const sorted=([...allItems].sort((a,b)=>
+            a.item_name.toLowerCase<b.item_name.toLowerCase ?1:-1));
+            setAllItems(sorted);
+            setOr('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -49,7 +65,7 @@ export default function AllItems(props,{ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title>Item Grade</DataTable.Title>
+                        <DataTable.Title sortDirection='descending' onPress={()=>sorting()}>Item Name</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?
