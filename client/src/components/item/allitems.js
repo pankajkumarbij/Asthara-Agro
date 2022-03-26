@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { allitem } from '../../services/item_api';
 
 const theme = {
@@ -21,7 +21,7 @@ export default function AllItems(props,{ navigation }) {
     //initialize the all states variables
     const [allItems, setAllItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');
-    const [or, setOr] = useState('ASC');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
         //Retrieve all items
@@ -33,17 +33,17 @@ export default function AllItems(props,{ navigation }) {
     }, []); 
 
     const sorting = ()=>{
-        if(or=="ASC"){
+        if(sorting_order=="ASC"){
             const sorted=([...allItems].sort((a,b)=>
             a.item_name.toLowerCase()>b.item_name.toLowerCase() ?1:-1));
             setAllItems(sorted);
-            setOr('DES');
+            setSortingOrder('DES');
         }
-        if(or=="DES"){
+        if(sorting_order=="DES"){
             const sorted=([...allItems].sort((a,b)=>
             a.item_name.toLowerCase<b.item_name.toLowerCase ?1:-1));
             setAllItems(sorted);
-            setOr('ASC');
+            setSortingOrder('ASC');
         }
     }
 
@@ -65,7 +65,7 @@ export default function AllItems(props,{ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title sortDirection='descending' onPress={()=>sorting()}>Item Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } /> Item Name</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?

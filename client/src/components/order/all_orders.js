@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Text } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { allOrder } from '../../services/order_api';
 import { manager_pool_by_id } from '../../services/pool';
 import { users_by_id } from '../../services/user_api';
@@ -27,7 +27,7 @@ export default function AllOrders(props, { navigation }) {
     const [managerPinCodes, setManagerPinCodes] = useState('');
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
-    const [or, setOr] = useState('ASC');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
         
@@ -62,18 +62,18 @@ export default function AllOrders(props, { navigation }) {
 
     }, [managerPoolId, role, userId]);
 
-    const sorting = ()=>{
-        if(or=="ASC"){
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
             const sorted=([...allOrders].sort((a,b)=>
-            a.item_name.toLowerCase()>b.item_name.toLowerCase() ?1:-1));
+            a.col.toLowerCase()>b.col.toLowerCase() ?1:-1));
             setAllOrders(sorted);
-            setOr('DES');
+            setSortingOrder('DES');
         }
-        if(or=="DES"){
+        if(sorting_order=="DES"){
             const sorted=([...allOrders].sort((a,b)=>
-            a.item_name.toLowerCase<b.item_name.toLowerCase ?1:-1));
+            a.col.toLowerCase<b.col.toLowerCase ?1:-1));
             setAllOrders(sorted);
-            setOr('ASC');
+            setSortingOrder('ASC');
         }
     }
 
@@ -94,9 +94,9 @@ export default function AllOrders(props, { navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        <DataTable.Title>Customer Name</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
