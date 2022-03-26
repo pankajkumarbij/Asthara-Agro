@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView  } from 'react-nati
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import {roleas, loginuserId} from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
@@ -28,6 +28,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
     const [barcode, setBarcode] = useState("");
     const[role,setRole] = useState("");
     const [userId,setUserId] = useState("");
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -53,7 +54,22 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [allPickupAssignmentConfirm,role,userId]);
+    }, [role,userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a.purchase_order[col].toLowerCase()>b.purchase_order[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allPickupAssignmentConfirm].sort((a,b)=>
+            a.purchase_order[col].toLowerCase()<b.purchase_order[col].toLowerCase() ?1:-1));
+            setAllPickupAssignment(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -104,9 +120,9 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                         />
 
                         <DataTable.Header>
-                            <DataTable.Title >Order ID</DataTable.Title>
-                            {/* <DataTable.Title >Vendor ID</DataTable.Title> */}
-                            <DataTable.Title>Item</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
+                            <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
                             <DataTable.Title>Action</DataTable.Title>
                             {role && role=='buyer' ?
                                 <DataTable.Title>BarCode</DataTable.Title>
@@ -121,7 +137,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
-                                        {/* <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell> */}
+                                        <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
                                         <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?

@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { OrderSummary } from '../../services/order_api';
 import { roleas, loginuserId} from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
@@ -25,7 +25,7 @@ export default function OrderItemsSummary(props, { navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const[role,setRole] = useState("");
     const [userId,setUserId] = useState("");
-
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -51,7 +51,22 @@ export default function OrderItemsSummary(props, { navigation }) {
             setAllOrders(result);
         })
 
-    }, [allOrders,role,userId]);
+    }, [role,userId]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -70,9 +85,9 @@ export default function OrderItemsSummary(props, { navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        <DataTable.Title>Item</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("item.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                     {allOrders ?

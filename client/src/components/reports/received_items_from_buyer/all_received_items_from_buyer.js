@@ -3,7 +3,7 @@ import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator,
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, TextInput  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faCamera, faSort } from '@fortawesome/free-solid-svg-icons';
 import { recieved_from_buyer } from '../../../services/report/recieved_from_buyer_api';
 import { roleas, loginuserId } from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
@@ -33,6 +33,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
     const [acpo, setACPO] = useState();
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
 
@@ -63,7 +64,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
             setUserId(result);
         })
 
-    }, [allReceivedItems, acpo, userId, role]);
+    }, [userId, role]);
 
     const ItemChange = () => {
 
@@ -134,6 +135,21 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
         showModal();
     }
 
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allReceivedItems].sort((a,b)=>
+            a.purchase_order[col].toLowerCase()>b.purchase_order[col].toLowerCase() ?1:-1));
+            setAllReceivedItems(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allReceivedItems].sort((a,b)=>
+            a.purchase_order[col].toLowerCase()<b.purchase_order[col].toLowerCase() ?1:-1));
+            setAllReceivedItems(sorted);
+            setSortingOrder('ASC');
+        }
+    }
+
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -152,9 +168,9 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title >Order ID</DataTable.Title>
-                        <DataTable.Title >Vehicle Number</DataTable.Title>
-                        <DataTable.Title>Item</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("vehicle_number")}><FontAwesomeIcon icon={ faSort } /> Vehicle Number</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
 

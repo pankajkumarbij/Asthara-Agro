@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ScrollView, SafeAreaView, CheckBox, Text } 
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faPrint, faSort } from '@fortawesome/free-solid-svg-icons';
 import { allOrder } from '../../../services/order_api';
 import { customer_manager_pool_by_manager_pool_id, manager_pool_by_id } from '../../../services/pool';
 import { users_by_id } from '../../../services/user_api';
@@ -39,9 +39,11 @@ export default function OrderSummary(props, { navigation }) {
     const [customerPools, setCustomerPools] = useState();
     const [isPool, setIsPool] = useState([]);
     const [flag, setFlag] = useState(true);
+    const [flag2, setFlag2] = useState(true);
     const [customerPoolId, setCustomerPoolId] = useState([]);
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
         
@@ -78,10 +80,13 @@ export default function OrderSummary(props, { navigation }) {
             setFlag(false);
         }
 
-        allOrder()
-        .then(result=> {
-            setAllOrders(result);
-        })
+        if(flag2){
+            allOrder()
+            .then(result=> {
+                setAllOrders(result);
+                setFlag2(false);
+            })
+        }
 
         roleas()  
         .then(result => {
@@ -93,7 +98,7 @@ export default function OrderSummary(props, { navigation }) {
             setUserId(result);
         })
 
-    }, [managerPoolId, customerPools, isPool, flag, customerPoolId, role, userId]);
+    }, [managerPoolId, customerPools, isPool, flag, customerPoolId, role, userId, flag2]);
 
     function printPageArea(){
         var printContent = document.getElementById("print").innerHTML;
@@ -112,6 +117,21 @@ export default function OrderSummary(props, { navigation }) {
         // const values = [...isPool];
         // values[index]=!values[index];
         // setIsPool(values);
+    }
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allOrders].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllOrders(sorted);
+            setSortingOrder('ASC');
+        }
     }
 
     const onChangeSearch = query => setSearchQuery(query);
@@ -196,9 +216,9 @@ export default function OrderSummary(props, { navigation }) {
                         </View>
                     </View>
                     <DataTable.Header style={{marginTop: 10,}}>
-                        <DataTable.Title>Order ID</DataTable.Title>
-                        <DataTable.Title>Customer Name</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                     {(role && userId && role=="manager" && allOrders && managerPinCodes && customerPoolId) &&
