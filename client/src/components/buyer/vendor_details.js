@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes ,faSort} from '@fortawesome/free-solid-svg-icons';
 import { all_users_by_role } from '../../services/user_api';
 
 const theme = {
@@ -19,23 +19,33 @@ const theme = {
 export default function Vendor_details(props,{ navigation }) {
 
     const [allItems, setAllItems] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
-    const  [roleas, setRoleas] = useState("");
+    const [sorting_order, setSortingOrder] = useState('ASC');
+
     //fetch all vendor details from the database
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
+
         //retrieve all vendors
         all_users_by_role("vendor")
         .then(result=> {
             setAllItems(result);
         })
-    }, [allItems, host]);
+    }, []);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allItems].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllItems(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allItems].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllItems(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
     //show all the vendor details in datatable with search bar
@@ -54,9 +64,8 @@ export default function Vendor_details(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>S.no</DataTable.Title>
-                        <DataTable.Title>Name</DataTable.Title>
-                        {/* <DataTable.Title>Email</DataTable.Title> */}
+                        <DataTable.Title onPress={()=>sorting("full_name")}><FontAwesomeIcon icon={ faSort } />Name</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("email")}><FontAwesomeIcon icon={ faSort } />Email</DataTable.Title>
                         <DataTable.Title>Acton</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?
@@ -64,9 +73,8 @@ export default function Vendor_details(props,{ navigation }) {
                         if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.full_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                         return (
                             <DataTable.Row>
-                                <DataTable.Cell>{item._id}</DataTable.Cell>
                                 <DataTable.Cell>{item.full_name}</DataTable.Cell>
-                                {/* <DataTable.Cell>{item.email}</DataTable.Cell> */}
+                                <DataTable.Cell>{item.email}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Details</Button>

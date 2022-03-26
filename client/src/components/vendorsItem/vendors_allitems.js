@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { all_vendor_items_by_id } from '../../services/vendor_api';
 
@@ -23,6 +23,8 @@ export default function VendorsAllItems(props,{ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [userId, setUserId] = useState('');
     const [roleas, setRoleas] = useState("");
+    const [sorting_order, setSortingOrder] = useState('ASC');
+
     useEffect(() => {
         //to get the id of current vendor
         async function fetchData() {
@@ -39,12 +41,27 @@ export default function VendorsAllItems(props,{ navigation }) {
             
             all_vendor_items_by_id(userId)
             .then(result => {
-                console.log(result);
+                //console.log(result);
                 setAllItems(result);
             });
         }
 
-    }, [allItems,userId, roleas,props.roleas]);
+    }, [userId, roleas,props.roleas]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...allItems].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAllItems(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...allItems].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAllItems(sorted);
+            setSortingOrder('ASC');
+        }
+    }
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -63,12 +80,12 @@ export default function VendorsAllItems(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Item</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         {/* <DataTable.Title>Category</DataTable.Title> */}
                         {/* <DataTable.Title>Grade</DataTable.Title> */}
-                        <DataTable.Title>Unit</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("unit")}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
                         {/* <DataTable.Title>Quantity</DataTable.Title> */}
-                        <DataTable.Title>Price</DataTable.Title>
+                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
 

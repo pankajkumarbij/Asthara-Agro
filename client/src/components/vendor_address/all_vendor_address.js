@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView} from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye,faSort } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { all_vendor_addresses } from '../../services/vendor_api';
@@ -21,8 +21,8 @@ export default function All_addressesVendor({ navigation }) {
 
     const [vendorId, setVendorId] = useState('');
     const [address, setAddress] = useState();
-    const [host, setHost] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
+    const [sorting_order, setSortingOrder] = useState('ASC');
 
     useEffect(() => {
         async function fetchData() {
@@ -33,13 +33,6 @@ export default function All_addressesVendor({ navigation }) {
         }
         fetchData();
 
-        if(Platform.OS == "android"){
-            setHost("10.0.2.2");
-        }
-        else{
-            setHost("localhost");
-        }
-
         //Retrieve vendors address
         if(vendorId){
             all_vendor_addresses(vendorId)
@@ -48,8 +41,23 @@ export default function All_addressesVendor({ navigation }) {
             });
         }
         
-    }, [address, host, vendorId ]);
-    
+    }, [vendorId ]);
+
+    const sorting = (col)=>{
+        if(sorting_order=="ASC"){
+            const sorted=([...address].sort((a,b)=>
+            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
+            setAddress(sorted);
+            setSortingOrder('DES');
+        }
+        if(sorting_order=="DES"){
+            const sorted=([...address].sort((a,b)=>
+            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
+            setAddress(sorted);
+            setSortingOrder('ASC');
+        }
+    }
+
     const onChangeSearch = query => setSearchQuery(query);
     return (
         <Provider theme={theme}>
@@ -66,9 +74,9 @@ export default function All_addressesVendor({ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        <DataTable.Title>Address</DataTable.Title>
-                        <DataTable.Title>Pin code</DataTable.Title>
-                        <DataTable.Title>State</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("address")}><FontAwesomeIcon icon={ faSort } />Address</DataTable.Title>
+                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Pin code</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("state")}><FontAwesomeIcon icon={ faSort } />State</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                         { address  ?
