@@ -136,7 +136,7 @@ export default function Edit_Aim(props, {route}) {
                                     <DataTable.Row style={styles.input}>
                                         <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
                                         <DataTable.Cell><TextInput mode="outlined" label="Unit" value={items.itemUnit} /></DataTable.Cell>
-                                        <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Mandi Price" value={mandi_price} /></DataTable.Cell>
+                                        <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Market Price" value={mandi_price} /></DataTable.Cell>
                                     </DataTable.Row>
                                 </DataTable>    
                             </View>     

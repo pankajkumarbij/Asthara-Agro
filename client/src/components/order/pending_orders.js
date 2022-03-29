@@ -197,6 +197,11 @@ export default function PendingOrders(props, { navigation }) {
                     <DataTable.Header>
                         <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
+                        {role== "manager" ?
+                            <DataTable.Title>Incentive</DataTable.Title>
+                            :
+                            null
+                        }
                         <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
@@ -211,10 +216,15 @@ export default function PendingOrders(props, { navigation }) {
                                 d=String(d);
                                 var hour=d.substring(16,18);
                                 var custom_orderId=item.nick_name+"_"+item.postal_code+"_"+date+"_"+hour;
+                                var incentive=0;
+                                item.items.map((it, index)=>{
+                                    incentive+=(it.itemNegotiatePrice-it.itemPrice)*it.quantity*0.1;
+                                })
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
+                                        <DataTable.Cell>{incentive}</DataTable.Cell>
                                         <DataTable.Cell>
                                         <Menu
                                             visible={visible[index]}

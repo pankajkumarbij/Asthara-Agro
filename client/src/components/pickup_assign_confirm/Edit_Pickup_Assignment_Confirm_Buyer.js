@@ -96,7 +96,7 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
             // alert(data.message);
         });
         
-        if(min_quantity-items.quantity){
+        if(min_quantity-items.quantity>0){
             fetch(`http://${host}:5000/create_excess_inventory`, {
                 method: 'POST',
                 headers: {
