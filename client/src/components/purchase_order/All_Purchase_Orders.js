@@ -88,6 +88,7 @@ export default function All_Purchase_Orders(props,{ navigation }) {
                     <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                     <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
                     <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
+                    <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> status</DataTable.Title>
                     <DataTable.Title>Action</DataTable.Title>
                 </DataTable.Header>
 
@@ -100,6 +101,7 @@ export default function All_Purchase_Orders(props,{ navigation }) {
                                     <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.items.itemName+" ("+purchaseOrder.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>{purchaseOrder.status}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Check</Button>
@@ -124,6 +126,7 @@ export default function All_Purchase_Orders(props,{ navigation }) {
                                     <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
                                     <DataTable.Cell>{purchaseOrder.items.itemName+" ("+purchaseOrder.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>{purchaseOrder.status}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Check</Button>

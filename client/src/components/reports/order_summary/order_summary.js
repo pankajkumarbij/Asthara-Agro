@@ -32,6 +32,7 @@ export default function OrderSummary(props, { navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const [managerPinCodes, setManagerPinCodes] = useState('');
     const [isPending, setIsPending] = useState(true);
+    const [isApproved, setIsApproved] = useState(true);
     const [isRejected, setIsRejected] = useState(true);
     const [isDelivered, setIsDelivered] = useState(true);
     const [startDate, setStartDate] = useState("2021-01-01");
@@ -113,10 +114,6 @@ export default function OrderSummary(props, { navigation }) {
         const values = [...isPool];
         values[index]=!values[index];
         setIsPool(values);
-
-        // const values = [...isPool];
-        // values[index]=!values[index];
-        // setIsPool(values);
     }
 
     const sorting = (col)=>{
@@ -167,6 +164,14 @@ export default function OrderSummary(props, { navigation }) {
                             </View>
                             <View style={styles.checkboxContainer}>
                                 <CheckBox
+                                    value={isApproved}
+                                    onValueChange={setIsApproved}
+                                    style={styles.checkbox}
+                                />
+                                <Text style={styles.label}>Approved</Text>
+                            </View>
+                            <View style={styles.checkboxContainer}>
+                                <CheckBox
                                     value={isRejected}
                                     onValueChange={setIsRejected}
                                     style={styles.checkbox}
@@ -213,6 +218,11 @@ export default function OrderSummary(props, { navigation }) {
                                 <Text style={styles.label}>End Date:</Text>
                                 <input type="date" onChange={(e) => setEndDate(e.target.value)}/>
                             </View>
+                            {endDate<startDate?
+                            <Text style={styles.error}>End Date should be greater than start date</Text>
+                            :
+                            null
+                            }
                         </View>
                     </View>
                     <DataTable.Header style={{marginTop: 10,}}>
@@ -224,8 +234,8 @@ export default function OrderSummary(props, { navigation }) {
                     {(role && userId && role=="manager" && allOrders && managerPinCodes && customerPoolId) &&
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
-                            if(customerPoolId.includes(String(item.customerPoolId)))
-                            if((isPending && (item.status=="pending" || item.status=="approved")) || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))
+                            // if(customerPoolId.includes(String(item.customerPoolId)))
+                            if((isPending && item.status=="pending") || (isApproved && item.status=="approved") || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                                 var date=item.order_date.substring(0,10);
                                 var d=new Date(item.order_date);
@@ -239,9 +249,7 @@ export default function OrderSummary(props, { navigation }) {
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
-                                        {(item.status=="pending" || item.status=="approved") &&
-                                            <DataTable.Cell>pending</DataTable.Cell>
-                                        }
+                                        <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
@@ -257,7 +265,7 @@ export default function OrderSummary(props, { navigation }) {
                     {(role && userId && role=="sales" && allOrders) &&
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
-                            if((isPending && (item.status=="pending" || item.status=="approved")) || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))
+                            if((isPending && item.status=="pending") || (isApproved && item.status=="approved") || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))
                             if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                                 var date=item.order_date.substring(0,10);
                                 var d=new Date(item.order_date);
@@ -271,9 +279,7 @@ export default function OrderSummary(props, { navigation }) {
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
-                                        {(item.status=="pending" || item.status=="approved") &&
-                                            <DataTable.Cell>pending</DataTable.Cell>
-                                        }
+                                        <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
@@ -392,4 +398,7 @@ const styles = StyleSheet.create({
     label: {
         margin: 8,
     },
+    error: {
+        color: 'red',
+    }
 }); 

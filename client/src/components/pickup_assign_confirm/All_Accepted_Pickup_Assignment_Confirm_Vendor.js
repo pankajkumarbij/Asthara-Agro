@@ -87,7 +87,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
 
                     <DataTable.Header>
                         <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } />Order ID</DataTable.Title>
-                        {/* <DataTable.Title>Vendor ID</DataTable.Title> */}
+                        <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } />Vendor ID</DataTable.Title>
                         <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
@@ -99,7 +99,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
+                                    <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
                                     <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell> 
                                         {Platform.OS=='android' ?
