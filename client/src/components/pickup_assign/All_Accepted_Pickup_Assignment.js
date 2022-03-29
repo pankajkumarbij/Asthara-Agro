@@ -106,7 +106,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                                     <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
                                     :null
                                 }
-                                <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
+                                <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>
@@ -127,7 +127,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                             <DataTable.Row>
                                 <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
                                 {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
-                                <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
+                                <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
                                         <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment2', {purchaseId: pickupAssignment._id})}}>Check</Button>

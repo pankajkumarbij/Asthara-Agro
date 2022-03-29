@@ -145,7 +145,8 @@ export default function All_Pickup_Assignment({ navigation }) {
                         <DataTable.Title><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } />Status</DataTable.Title> 
                     </>
-                     :null}
+                     :null
+                     }
                     {/* <DataTable.Title>Status</DataTable.Title> */}
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
@@ -160,7 +161,7 @@ export default function All_Pickup_Assignment({ navigation }) {
                                     <DataTable.Cell onPress={() => VendorDetails(pickupAssignment.vendor_id, pickupAssignment.custom_vendorId)}>{pickupAssignment.custom_vendorId}</DataTable.Cell> 
                                     {Platform.OS!='android'?
                                         <>
-                                            <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
+                                            <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
                                             <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
                                         </>
                                     :null}
@@ -185,13 +186,16 @@ export default function All_Pickup_Assignment({ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignment.items.itemName+" ("+pickupAssignment.items.Grade+")"}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell> */}
+                                    <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
+                                    {Platform.OS!='android'?
+                                        <>
+                                            <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
+                                            <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
+                                        </>
+                                    :null}
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Check</Button>
-                                            // <Text>hello</Text>
                                             :
                                             <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} ><Link to={"/View_Pickup_Assignment2/"+pickupAssignment._id}>Details</Link></Button>
                                         }

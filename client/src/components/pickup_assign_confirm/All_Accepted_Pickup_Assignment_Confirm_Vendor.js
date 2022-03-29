@@ -100,7 +100,7 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                     <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
-                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                     <DataTable.Cell> 
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
@@ -120,8 +120,8 @@ export default function All_Accepted_Pickup_Assignment_Confirm_Vendor(props,{ na
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell> */}
-                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
+                                    <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                     <DataTable.Cell> 
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>

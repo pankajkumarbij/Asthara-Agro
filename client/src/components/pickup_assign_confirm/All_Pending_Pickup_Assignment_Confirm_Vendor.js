@@ -142,7 +142,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                                             <>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                                 <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
-                                                <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                                <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                             </>
                                     }
                                      <DataTable.Cell><Text >{pickupAssignmentConfirm.status}</Text></DataTable.Cell>    
@@ -170,7 +170,7 @@ export default function All_Pending_Pickup_Assignment_Confirm_Vendor(props,{ nav
                                     <>
                                         <DataTable.Cell>{pickupAssignmentConfirm.custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{pickupAssignmentConfirm.custom_vendorId}</DataTable.Cell>
-                                        <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" ("+pickupAssignmentConfirm.items.Grade+")"}</DataTable.Cell>
+                                        <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                     </>
                                     }
                                     <DataTable.Cell>
