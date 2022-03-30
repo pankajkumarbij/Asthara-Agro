@@ -151,7 +151,7 @@ export default function AllOrders(props, { navigation }) {
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
-                                        <DataTable.Cell>{incentive}</DataTable.Cell>
+                                        <DataTable.Cell>{incentive.toFixed(2)}</DataTable.Cell>
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?

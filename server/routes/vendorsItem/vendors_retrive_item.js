@@ -111,5 +111,15 @@ router.get('/retrive_vendor_item_by_access_details/:itemname/:grade/:vendorid',(
         }
     });
 });
+router.get('/retrive_vendor_item_price/:vendorid/:itemname/:grade',(req, res)=>{
+    VendorsItem.find({userId:req.params.vendorid,item_name:req.params.itemname,grade_name:req.params.grade}, function(err, item){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(item);
+        }
+    });
+});
 
 module.exports = router;

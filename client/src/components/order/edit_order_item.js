@@ -3,12 +3,13 @@ import { View, StyleSheet, Platform, ScrollView, SafeAreaView } from 'react-nati
 import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { OrderSummary_by_id } from '../../services/order_api';
-import {vendor_by_low_price} from '../../services/vendor_api';
+import {vendor_by_low_price,vendor_items_by_access_details} from '../../services/vendor_api';
 import {order_item_summary_quantity} from '../../services/order_api';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -32,7 +33,6 @@ export default function EditOrderItem(props,{route}) {
 
     const [visible2, setVisible2] = useState(false);
 
-    const [host, setHost] = useState("");
     const [items, setItems] = useState();
     const [order_id, setOrder_Id] = useState("");
     const [vendors,setVendors] = useState();
@@ -63,11 +63,9 @@ export default function EditOrderItem(props,{route}) {
         }
 
         if(Platform.OS=="android"){
-            setHost("10.0.2.2");
             setOrder_Id(orderid);
         }
         else{
-            setHost("localhost");
             setOrder_Id(orderid);
         }
 
@@ -110,7 +108,7 @@ export default function EditOrderItem(props,{route}) {
             setUserId(result);
         })
 
-    }, [vendors, host, order_id, items, orderid, flag, custom_orderId, vendorsid, vendorPoolId, role, userId]);
+    }, [vendors, order_id, items, orderid, flag, custom_orderId, vendorPoolId, role, userId]);
 
     //submitForm() for sending the data in corresponding database
     function submitForm(){
@@ -119,7 +117,7 @@ export default function EditOrderItem(props,{route}) {
         values.quantity = 0;
         setItems(values);
 
-        fetch(`http://${host}:5000/update_quantity_order_item_summary/${order_id}`, {
+        fetch(`${url}/update_quantity_order_item_summary/${order_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +133,7 @@ export default function EditOrderItem(props,{route}) {
              //alert(data.message);
         }); 
 
-        fetch(`http://${host}:5000/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${quantity}`, {
+        fetch(`${url}/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${quantity}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -153,7 +151,7 @@ export default function EditOrderItem(props,{route}) {
         values2.quantity = quantity;
         setItems(values2);
 
-        fetch(`http://${host}:5000/create_purchase_order`, {
+        fetch(`${url}/create_purchase_order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -180,7 +178,12 @@ export default function EditOrderItem(props,{route}) {
 
     //chooseVendor() function for select the Vendor   
     function chooseVendor(id, email, dates, pincode){
-        setVendorId(id)
+        setVendorId(id);
+        if(id){
+            vendor_items_by_access_details(items.itemName,items.Grade,id)
+            .then((result) =>{
+                console.log(result);})
+        }
         setCustomVendorId(email+"_"+pincode+"_"+dates.substring(0,10)+"_"+dates.substring(11,13));
         closeMenu2();
     }

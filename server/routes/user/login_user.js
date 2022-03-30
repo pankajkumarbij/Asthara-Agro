@@ -18,6 +18,7 @@ router.post('/login_user', (req, res)=>{
             bcrypt.compare(req.body.password, user.password, function(err, result) {
                 if(result){
                     var token = jwt.sign({ email: user.email ,userId:user._id,role:user.role,nick_name:user.nick_name,expiresIn:300}, 'asthara-agro');
+                    console.log(token);
                     var output = { 
                         token:token, 
                         email:user.email, 
@@ -26,7 +27,6 @@ router.post('/login_user', (req, res)=>{
                         nick_name:user.nick_name,
                         message: "successfully login"
                     }
-                    
                     res.json(output);
                 }
                 else{

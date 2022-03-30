@@ -224,7 +224,7 @@ export default function PendingOrders(props, { navigation }) {
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
-                                        <DataTable.Cell>{incentive}</DataTable.Cell>
+                                        <DataTable.Cell>{incentive.toFixed(2)}</DataTable.Cell>
                                         <DataTable.Cell>
                                         <Menu
                                             visible={visible[index]}

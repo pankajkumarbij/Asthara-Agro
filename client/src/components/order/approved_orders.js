@@ -134,11 +134,12 @@ export default function ApprovedOrders(props, { navigation }) {
                                 item.items.map((it, index)=>{
                                     incentive+=(it.itemNegotiatePrice-it.itemPrice)*it.quantity*0.1;
                                 })
+                                console.log(incentive.toFixed(2));
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{custom_orderId}</DataTable.Cell>
                                         <DataTable.Cell>{item.name}</DataTable.Cell>
-                                        <DataTable.Cell>{incentive}</DataTable.Cell>
+                                        <DataTable.Cell>{incentive.toFixed(2)}</DataTable.Cell>
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/user/user');
+const auth = require('../../middleware/auth');
 
 router.get('/retrive_all_user',(req, res)=>{
     User.find({status:"enabled"}).sort({"_id":-1}).exec(function(err, users){

@@ -60,3 +60,4 @@ export const vendor_items_by_access_details = (vendorid, itemname, grade) => {
         return res.data;
     }).catch(err => console.log(err))
 }
+

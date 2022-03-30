@@ -40,7 +40,7 @@ export default function Login({ navigation }) {
             password:password,
           })
           .then(function (response) {
-            //console.log(response.data);
+            console.log(response.data);
             alert(response.data.message);
             if(response.data.token){
                 AsyncStorage.setItem('token', response.data.token);

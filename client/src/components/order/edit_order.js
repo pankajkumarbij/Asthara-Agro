@@ -6,6 +6,7 @@ import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar } from
 import { Order_by_id } from '../../services/order_api';
 import { all_vendor_items } from '../../services/vendor_api';
 import { useHistory } from 'react-router-dom';
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -33,7 +34,6 @@ export default function EditOrder(props,{route}) {
     const [orderId, setOrderId] = useState("");
     const [visible, setVisible] = useState([]);
     const [item, setItem] = useState();
-    const [host, setHost] = useState("");
     const [items, setItems] = useState([{ itemId: '', itemName: 'Choose Item', quantity: 0 ,itemUnit:'',itemPrice:0}]);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -48,14 +48,13 @@ export default function EditOrder(props,{route}) {
 
     useEffect(() => {
 
-        setHost(props.host);
         setOrderId(orderid);
         
         all_vendor_items()
         .then(result =>{
             setItem(result);
         })
-        if(flag && orderid && host){
+        if(flag && orderid){
             Order_by_id(orderid)
             .then(result => {
                 setName(result[0].name);
@@ -72,7 +71,7 @@ export default function EditOrder(props,{route}) {
             })
         }
 
-    }, [item,host,orderid,flag,props.host]);
+    }, [item,orderid,flag]);
 
     const openMenu = (index) => {
         const values = [...visible];
@@ -119,7 +118,7 @@ export default function EditOrder(props,{route}) {
     };
 
     function submitForm() {
-        fetch(`http://${host}:5000/update_order/${orderId}`, {
+        fetch(`${url}/update_order/${orderId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,7 +145,7 @@ export default function EditOrder(props,{route}) {
     }
 
     function deleteOrder() {
-        fetch(`http://${host}:5000/delete_order/${orderId}`, {
+        fetch(`${url}/delete_order/${orderId}`, {
             method: 'GET',
         })
         .then(res => res.json())
