@@ -162,7 +162,8 @@ export default function EditOrderItem(props,{route}) {
                 orderId: orderId,
                 items:items,
                 user_id:userId,
-                sales_id: sales_id,                vendor_id:vendor_id,
+                sales_id: sales_id,                
+                vendor_id:vendor_id,
                 custom_vendorId: custom_vendorId,
                 vendorPoolId: vendorPoolId,
                 customerPoolId: customerPoolId,
@@ -224,7 +225,7 @@ export default function EditOrderItem(props,{route}) {
                                         if(f==0){
                                             if((item.nick_name+"_"+item.postal_code).toUpperCase().search(searchQuery.toUpperCase())!=-1){
                                                 return (
-                                                    <Menu.Item title={item.nick_name+"_"+item.postal_code} onPress={()=>chooseVendor(item.userId, item.nick_name, String(item.date), item.postal_code)} />
+                                                    <Menu.Item title={item.nick_name+"_"+item.postal_code+" (Price:"+item.item_price+")"} onPress={()=>chooseVendor(item.userId, item.nick_name, String(item.date), item.postal_code)} />
                                                 )
                                             }
                                         }

@@ -71,7 +71,7 @@ router.get('/retrive_vendor_item_by_name_grade_lower_price/:itemname/:grade/:id'
             console.log(err);
         }
         else {
-            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade},{'nick_name':1,'userId':1, 'postal_code':1, 'date':1}).sort({"item_price":1}).exec(function(err, item){
+            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade}).sort({"item_price":1}).exec(function(err, item){
                 if(err){
                     console.log(err);
                 }
