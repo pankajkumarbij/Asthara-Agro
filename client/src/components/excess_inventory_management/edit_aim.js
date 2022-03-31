@@ -150,6 +150,12 @@ export default function Edit_Aim(props, {route}) {
 
                         <TextInput style={{ backgroundColor: getColor(sold_price, mandi_price) }} mode="outlined" label="Sold Price" value={sold_price} onChangeText={(text)=>setSoldPrice(text)} />
 
+                        {sold_price && mandi_price && sold_quantity ?
+                            <TextInput style={styles.input} mode="outlined" label="Insentive (RS)" value={(sold_price-mandi_price)*sold_quantity*0.1} />
+                            :
+                            null
+                        }
+                        
                         <DataTable.Cell>
                             {Platform.OS=="android" ?
                                 <>
