@@ -186,6 +186,10 @@ import PageNotFound from '../components/pagenotfound/notfound';
 import Scanner from '../components/barcode/scanner';
 import Barcode from '../components/barcode/barcode';
 
+import Addcrawler from '../components/crawler/add_crawler';
+import Editcrawler from '../components/crawler/edit_crawler';
+import Allcrawlers from '../components/crawler/allcrawler';
+
 const NavBar =()  => {
 
     const [email, setEmail] = useState("");
@@ -373,6 +377,12 @@ const NavBar =()  => {
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/allitemgrades" as={Link}>View Item Grades</NavDropdown.Item>
                                         </NavDropdown>
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Crawler" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                            <NavDropdown.Item to="/addcrawler" as={Link}>Add Crawler</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/allcrawlers" as={Link}>All Crawler</NavDropdown.Item>
                                     </NavDropdown>
                                     <NavDropdown.Divider />
 
@@ -793,6 +803,12 @@ const NavBar =()  => {
                 <Route path="/alltransportlabourforsales">
                     <AllTransportLabourForSales/>
                 </Route>
+                <Route path="/addcrawler">
+                    <Addcrawler/>
+                </Route>
+                <Route path="/allcrawlers">
+                    <Allcrawlers/>
+                </Route>
                 <Route path="/addtransportlabourfromvendor">
                     <AddTransportLabourFromVendor/>
                 </Route>
@@ -818,6 +834,7 @@ const NavBar =()  => {
                 <Route path="/edit_customer_pool/:id" render={(props) => <EditCustomerPool {...props} />} exact />
                 <Route path="/edit_vendor_pool/:id" render={(props) => <EditVendorPool {...props} />} exact />
                 <Route path="/edit_manager_pool/:id" render={(props) => <EditManagerPool {...props} />} exact />
+                <Route path="/editcrawler/:id" render={(props) => <Editcrawler {...props} />} exact />
                 <Route path="/edit_customer_vendor_pool/:id" render={(props) => <EditCustomerVendorPool {...props} />} exact />
                 <Route path="/createorder">
                     <CreateOrder/>

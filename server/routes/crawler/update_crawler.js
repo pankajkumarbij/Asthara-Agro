@@ -5,9 +5,12 @@ const crawler = require('../../models/crawler/crawler');
 //Define route for create customer_pool
 router.put('/update_crawler/:id', (req, res)=>{
     var crawler = {
-        item_name: req.body.item_name,
-        postal_code: req.body.postal_code,
-        price:req.body.price,
+        item_name : req.body.item_name,
+        item_grade : req.body.item_grade,
+        item_quantity : req.body.item_quantity,
+        date : req.body.date,
+        postal_code : req.body.postal_code,
+        price: req.body.price,
     }
    crawler.findOneAndUpdate({'_id':req.params.id},crawler)
     .then((crawler) => {

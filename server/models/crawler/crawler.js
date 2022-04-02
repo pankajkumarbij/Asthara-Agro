@@ -5,11 +5,21 @@ let crawler_Schema = new mongoose.Schema({
     item_name:{
         type:String,
     },
+    item_grade:{
+        type:String,
+    },
+    item_unit:{
+        type:String,
+    },
     postal_code: [{
         type: String,
     }],
     price:{
         type:Number,
+    },
+    date:{
+        type: Date,
+		default: Date,
     }
     }, 
     {

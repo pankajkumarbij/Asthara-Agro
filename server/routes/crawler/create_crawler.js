@@ -8,7 +8,10 @@ router.post('/create_crawler', (req, res) => {
         .then( async ()=>{
             var new_creawler = new crawler({
                 item_name : req.body.item_name,
-                postal_code: req.body.postal_code,
+                item_grade : req.body.item_grade,
+                item_unit : req.body.item_unit,
+                date : req.body.date,
+                postal_code : req.body.postal_code,
                 price: req.body.price,
             })
           const result = await new_creawler.save();

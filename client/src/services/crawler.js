@@ -8,3 +8,11 @@ export const retrieve_crawler_by_item_name = (item_name) => {
         return res.data;
     }).catch(err => console.log(err))
 }
+
+//retrive Crawlers 
+export const retrieve_crawler= () => {
+    return axios.get(url + '/retrieve_crawlers')
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log(err))
+}
