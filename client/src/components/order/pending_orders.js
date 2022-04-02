@@ -216,9 +216,9 @@ export default function PendingOrders(props, { navigation }) {
                                 d=String(d);
                                 var hour=d.substring(16,18);
                                 var custom_orderId=item.nick_name+"_"+item.postal_code+"_"+date+"_"+hour;
-                                var incentive=0;
+                                var incentive=0.0;
                                 item.items.map((it, index)=>{
-                                    incentive+=(it.itemNegotiatePrice-it.itemPrice)*it.quantity*0.1;
+                                    incentive+=(parseInt(it.itemNegotiatePrice)-it.targetPrice)*it.quantity*0.1;
                                 })
                                 return (
                                     <DataTable.Row>

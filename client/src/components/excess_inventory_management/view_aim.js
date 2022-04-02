@@ -126,6 +126,12 @@ export default function View_Aim(props, {route}) {
                             :
                             null
                         }
+
+                        {sold_price && mandi_price && sold_quantity ?
+                            <TextInput style={styles.input} mode="outlined" label="Insentive (RS)" value={(sold_price-mandi_price)*sold_quantity*0.1} />
+                            :
+                            null
+                        }
                         
                     </Card.Content>
                 </Card>

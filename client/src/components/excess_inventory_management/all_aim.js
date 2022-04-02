@@ -111,6 +111,7 @@ export default function All_Aim(props,{ navigation }) {
                                 <DataTable.Row>
                                     {/* <DataTable.Cell>{aim.buyerId}</DataTable.Cell>
                                     <DataTable.Cell>{aim.vendorId}</DataTable.Cell> */}
+                                    
                                     <DataTable.Cell>{aim.items.itemName+" ("+aim.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>{aim.excess_quantity}</DataTable.Cell>
                                     <DataTable.Cell>{aim.status}</DataTable.Cell>
