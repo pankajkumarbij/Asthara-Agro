@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-/* Required Model for store in database*/
+// Required Model for store in database
 const crawler = require('../../models/crawler/crawler');
 //Define route for create customer_pool
 router.put('/update_crawler/:id', (req, res)=>{
-    var crawler = {
+    var cr = {
         item_name : req.body.item_name,
         item_grade : req.body.item_grade,
         item_quantity : req.body.item_quantity,
@@ -12,9 +12,9 @@ router.put('/update_crawler/:id', (req, res)=>{
         postal_code : req.body.postal_code,
         price: req.body.price,
     }
-   crawler.findOneAndUpdate({'_id':req.params.id},crawler)
-    .then((crawler) => {
-        if(crawler){
+    crawler.findOneAndUpdate({'_id':req.params.id},cr)
+    .then((cr) => {
+        if(cr){
             var message = { message: "crawler sucessfully updated!" };
             res.json(message);
         }else{

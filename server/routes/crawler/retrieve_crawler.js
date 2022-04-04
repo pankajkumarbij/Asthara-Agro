@@ -24,4 +24,16 @@ router.get('/retrieve_crawler_by_item_name/:item_name',(req, res)=>{
         }
     });
 });
+
+router.get('/retrieve_crawler_by_id/:id',(req, res)=>{
+    crawler.find({_id:req.params.id}, function(err, crawler){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(crawler);
+        }
+    });
+});
+
 module.exports = router;

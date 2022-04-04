@@ -56,7 +56,7 @@ export default function AllCrawlers(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >Craler Price</Title>
+                    <Title style={styles.title} >All Crowlers</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -85,7 +85,7 @@ export default function AllCrawlers(props,{ navigation }) {
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
                                             :
-                                            <Button mode="contained" style={{width: '100%'}}><Link to={"/edititemunit/"+item._id}>Details</Link></Button>
+                                            <Button mode="contained" style={{width: '100%'}}><Link to={"/editcrawler/"+item._id}>Details</Link></Button>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row>
