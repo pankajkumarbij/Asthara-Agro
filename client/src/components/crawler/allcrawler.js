@@ -27,7 +27,6 @@ export default function AllCrawlers(props,{ navigation }) {
         //Retrieve all item Unit
         retrieve_crawler()
         .then(result => {
-            console.log(result);
             setAllItem(result);
         })
 
@@ -69,25 +68,45 @@ export default function AllCrawlers(props,{ navigation }) {
                         <DataTable.Title onPress={()=>sorting("item_grade")}><FontAwesomeIcon icon={ faSort } />Item Grade</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("item_unit")}><FontAwesomeIcon icon={ faSort } />Item Unit</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("price")}><FontAwesomeIcon icon={ faSort } />Item Price</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("createdAt")}><FontAwesomeIcon icon={ faSort } />Date</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
                     {allItem ?
                         allItem.map((item)=>{
                             if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
+                            var date=item.createdAt.substring(0,10);
+                            const today = new Date();
+                            const yyyy = today.getFullYear();
+                            let mm = today.getMonth() + 1;
+                            let dd = today.getDate();
+                            if (dd < 10) dd = '0' + dd;
+                            if (mm < 10) mm = '0' + mm;
+                            const tt = yyyy + '-' + mm + '-' + dd;
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{item.item_name}</DataTable.Cell>
                                     <DataTable.Cell>{item.item_grade}</DataTable.Cell>
                                     <DataTable.Cell>{item.item_unit}</DataTable.Cell>
                                     <DataTable.Cell>{item.price}</DataTable.Cell>
-                                    <DataTable.Cell numeric>
-                                        {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
-                                            :
-                                            <Button mode="contained" style={{width: '100%'}}><Link to={"/editcrawler/"+item._id}>Details</Link></Button>
-                                        }
-                                    </DataTable.Cell>
+                                    <DataTable.Cell>{date}</DataTable.Cell>
+                                    {date==tt ?
+                                        <DataTable.Cell numeric>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
+                                                :
+                                                <Button mode="contained" style={{width: '100%'}}><Link to={"/editcrawler/"+item._id}>Details</Link></Button>
+                                            }
+                                        </DataTable.Cell>
+                                    :
+                                        <DataTable.Cell numeric>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>View</Button>
+                                                :
+                                                <Button mode="contained" style={{width: '100%'}}><Link to={"/viewcrawler/"+item._id}>View</Link></Button>
+                                            }
+                                        </DataTable.Cell>
+                                    }
                                 </DataTable.Row>
                             )
                             }

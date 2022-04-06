@@ -188,6 +188,7 @@ import Barcode from '../components/barcode/barcode';
 
 import Addcrawler from '../components/crawler/add_crawler';
 import Editcrawler from '../components/crawler/edit_crawler';
+import Viewcrawler from '../components/crawler/view_crowlers';
 import Allcrawlers from '../components/crawler/allcrawler';
 
 const NavBar =()  => {
@@ -835,6 +836,7 @@ const NavBar =()  => {
                 <Route path="/edit_vendor_pool/:id" render={(props) => <EditVendorPool {...props} />} exact />
                 <Route path="/edit_manager_pool/:id" render={(props) => <EditManagerPool {...props} />} exact />
                 <Route path="/editcrawler/:id" render={(props) => <Editcrawler {...props} />} exact />
+                <Route path="/viewcrawler/:id" render={(props) => <Viewcrawler {...props} />} exact />
                 <Route path="/edit_customer_vendor_pool/:id" render={(props) => <EditCustomerVendorPool {...props} />} exact />
                 <Route path="/createorder">
                     <CreateOrder/>
