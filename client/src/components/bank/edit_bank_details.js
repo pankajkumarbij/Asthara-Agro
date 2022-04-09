@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme,Menu } from 'react-native-paper';
+import {url}  from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -14,38 +15,35 @@ const theme = {
 //define edit bank details component
 export default function EditBankDetails(props, {route}) {
 
-    var bankid = "";
-    var id="";
-    if(Platform.OS=="android"){
+    var bankid = '';
+    var id = '';
+    if (Platform.OS === 'android'){
         id = route.params.bankId;
     }
-    else{
+    else {
        bankid = props.match.params.bankid;
     }
     //initialize all required state variables
-    const [bankId,setBankId]=useState("");
+    const [bankId,setBankId] = useState('');
     const [userId, setUserId] = useState('');
-    const [bankName, setBankName] = useState("");
-    const [branchName, setBranchName] = useState("");
-    const [accountNumber, setAccountNumber] = useState("");
-    const [accountHolderName, setAccountHolderName] = useState("");
-    const [ifsccode, setIfsccode] = useState("");
-    const [host, setHost] = useState("");
-    const[account_type,setAccount_type] = useState("Choose Account Type");
+    const [bankName, setBankName] = useState('');
+    const [branchName, setBranchName] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [accountHolderName, setAccountHolderName] = useState('');
+    const [ifsccode, setIfsccode] = useState('');
+    const [account_type,setAccount_type] = useState('Choose Account Type');
     const [visible1, setVisible1] = useState(false);
     //fetch corresponding the bank details data for edit
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
+        if (Platform.OS === 'android'){
             setBankId(id);
         }
-        else{
-            setHost("localhost");
+        else {
             setBankId(bankid);
         }
 
-        if(bankId){
-            fetch(`http://${host}:5000/retrive_bank/${bankId}`, {
+        if (bankId){
+            fetch(`${url}}/retrive_bank/${bankId}`, {
                 method: 'GET'
             })
             .then(res => res.json())
@@ -61,14 +59,14 @@ export default function EditBankDetails(props, {route}) {
             });
         }
         
-    }, [host,id,bankId,bankid]);
+    }, [id,bankId,bankid]);
 
     const openMenu1 = () => setVisible1(true);
     const closeMenu1 = () => setVisible1(false);
 
     //define a function for sending the data in corresponding database
     function submitForm() {
-        fetch(`http://${host}:5000/update_bank/${bankId}`, {
+        fetch(`${url}/update_bank/${bankId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,13 +85,13 @@ export default function EditBankDetails(props, {route}) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            console.log(data);
-            setBankName("");
-            setBranchName("");
-            setAccountNumber("");
-            setAccountHolderName("");
-            setIfsccode("");
-            setAccount_type("Choose Account Type");
+            //console.log(data);
+            setBankName('');
+            setBranchName('');
+            setAccountNumber('');
+            setAccountHolderName('');
+            setIfsccode('');
+            setAccount_type('Choose Account Type');
         }); 
     }
     function chooseAccountType(accountType){
@@ -103,7 +101,7 @@ export default function EditBankDetails(props, {route}) {
     //define all the required input fields
     return (
         <Provider theme={theme}>
-            <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
+            <View style={styles.view}>
                 <Card style={styles.card}>
                     <Card.Title title="Update Bank Details"/>
                     <Card.Content>
@@ -119,10 +117,10 @@ export default function EditBankDetails(props, {route}) {
                         <Menu.Item title="Savings account" onPress={()=>chooseAccountType("Savings account")} />
                         <Menu.Item title="Salary account" onPress={()=>chooseAccountType("Salary account")} />
                         <Menu.Item title="Fixed deposit account" onPress={()=>chooseAccountType("Fixed deposit account")} />
-                        <Menu.Item title="Recurring deposit account" onPress={()=>chooseAccountType("Recurring deposit account")} />
+                        <Menu.Item title="Recurring deposit account" onPress={()=>chooseAccountType('Recurring deposit account')} />
                         <Menu.Item title="NRI accounts" onPress={()=>chooseAccountType("NRI accounts")} />
                     </Menu>
-                    <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderName => setAccountHolderName(accountHolderName)} />
+                    <TextInput style={styles.input} mode="outlined" label="Account Holder Name" value={accountHolderName} onChangeText={accountHolderN=> setAccountHolderName(accountHolderN)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update Bank details</Button>
                     </Card.Content>
                 </Card>
@@ -151,6 +149,11 @@ const styles = StyleSheet.create({
                 width: '75%',
             }
         })
+    },
+    view : {
+        flex: 1,
+        alignUsers: 'center', 
+        justifyContent: 'center' 
     },
     input: {
         marginTop: '2%',

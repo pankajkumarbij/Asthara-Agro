@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
 import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import {url} from '../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -15,17 +16,17 @@ const theme = {
 //define edit address component
 export default function EditAddress(props, {route}) {
     //fetch address id for edit the address
-    var addressid = "";
-    var id="";
-    if(Platform.OS=="android"){
+    var addressid = '';
+    var id = '';
+    if (Platform.OS === 'android'){
         id = route.params.addressId;
     }
-    else{
+    else {
         addressid = props.match.params.addressid;
     }
 
     //initialize all required state variables
-    const [addressId,setAddressId]=useState("");
+    const [addressId,setAddressId] = useState('');
     const [userId, setUserId] = useState('');
     const [address, setAddress] = useState('');
     const [landmark, setLandmark] = useState('');
@@ -36,16 +37,16 @@ export default function EditAddress(props, {route}) {
     const [host, setHost] = useState('');
     //fetch already stored address details for edit details 
     useEffect(() => {
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
+        if (Platform.OS === 'android'){
+            setHost('10.0.2.2');
             setAddressId(id);
         }
-        else{
-            setHost("localhost");
+        else {
+            setHost('localhost');
             setAddressId(addressid);
         }
-        if(addressId){
-            fetch(`http://${host}:5000/retrive_address/${addressId}`, {
+        if (addressId){
+            fetch(`${url}/retrive_address/${addressId}`, {
                 method: 'GET'
             })
             .then(res => res.json())
@@ -63,7 +64,7 @@ export default function EditAddress(props, {route}) {
     }, [host,id,addressId,addressid]);
     //define a function for sending the data in corresponding database
     function submitForm() {
-        fetch(`http://${host}:5000/update_address/${addressId}`, {
+        fetch(`${url}/update_address/${addressId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ export default function EditAddress(props, {route}) {
                 district: district,
                 state: state,
                 country: country,
-                postal_code: pincode,
+                postal_code: pincode
             })
         })
         .then(res => res.json())
@@ -88,16 +89,16 @@ export default function EditAddress(props, {route}) {
     //define all the required input fields for edit corresponding data
     return (
         <Provider theme={theme}>
-            <View style={{ flex: 1, alignUsers: 'center', justifyContent: 'center' }}>
+            <View style={styles.view}>
                 <Card style={styles.card}>
                     <Card.Title title="Update Address"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
-                    <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
-                    <TextInput style={styles.input} mode="outlined" label="District" value={district} onChangeText={district => setDistrict(district)} />
-                    <TextInput style={styles.input} mode="outlined" label="State" value={state} onChangeText={state => setState(state)} />
-                    <TextInput style={styles.input} mode="outlined" label="Country" value={country} onChangeText={country => setCountry(country)} />
-                    <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pincode => setPincode(pincode)} />
+                    <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={add => setAddress(add)} />
+                    <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={land => setLandmark(land)} />
+                    <TextInput style={styles.input} mode="outlined" label="District" value={district} onChangeText={dist => setDistrict(dist)} />
+                    <TextInput style={styles.input} mode="outlined" label="State" value={state} onChangeText={st => setState(st)} />
+                    <TextInput style={styles.input} mode="outlined" label="Country" value={country} onChangeText={coun => setCountry(coun)} />
+                    <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pin => setPincode(pin)} />
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Update address</Button>
                 </Card.Content>
                 </Card>
@@ -126,6 +127,11 @@ const styles = StyleSheet.create({
                 width: '75%',
             }
         })
+    },
+    view :{
+        flex: 1, 
+        alignUsers: 'center', 
+        justifyContent: 'center'
     },
     input: {
         marginTop: '2%',
