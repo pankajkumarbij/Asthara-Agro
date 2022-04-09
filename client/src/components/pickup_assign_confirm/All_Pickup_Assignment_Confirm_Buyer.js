@@ -124,7 +124,7 @@ export default function All_Pickup_Assignment_Confirm_Buyer(props,{ navigation }
                                         <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: pickupAssignmentConfirm._id})}}></Button>
                                                 :
                                                 <Link to={"/Edit_Pickup_Assignment_Confirm_Buyer/"+pickupAssignmentConfirm._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '90%',
+                width: '100%',
             },
             default: {
                 width: '20%',

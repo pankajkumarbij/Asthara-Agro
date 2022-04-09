@@ -102,7 +102,7 @@ export default function OrderItemsSummary(props, { navigation }) {
                                             <DataTable.Cell >{order.status}</DataTable.Cell>
                                             <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrderItem', {itemId: order.item.itemId,orderId:order._id})}}>Check</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrderItem', {itemId: order.item.itemId,orderId:order._id})}}></Button>
                                                 :
                                                 <Link to={"/editorderitem/"+order._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

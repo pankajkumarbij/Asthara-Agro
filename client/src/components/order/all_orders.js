@@ -97,7 +97,7 @@ export default function AllOrders(props, { navigation }) {
                         <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
                         {role== "manager" ?
-                            <DataTable.Title>Incentive(RS)</DataTable.Title>
+                            <DataTable.Title ><FontAwesomeIcon icon={ faSort } />Incentive(RS)</DataTable.Title>
                             :
                             null
                         }
@@ -155,7 +155,7 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                 <Button mode="contained"  onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                                 <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
