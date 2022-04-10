@@ -81,7 +81,7 @@ export default function CreateOrder({ navigation }) {
                 if(item){
                     const itemsnames=[...new Set(item.map(x=>x.item_name))];
                     setItem(itemsnames);
-                    console.log(item);
+                    //console.log(item);
                     setFlag2(false);
                 }
             });

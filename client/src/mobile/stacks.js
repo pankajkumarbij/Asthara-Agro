@@ -73,7 +73,11 @@ import AddTransportLabour from '../components/transport_labour/transport_labour_
 import AllTransportLabourForSales from '../components/transport_labour/transport_labour_for_sales/all_transport_labour_for_sales';
 import Vendor_details from '../components/buyer/vendor_details';
 import VendorsAddItem from '../components/vendorsItem/vendors_addItem';
-import EditItem from '../components/item/edititem';
+import EditItemapp from '../components/item/edititem_app';
+import EditItemGradeapp from '../components/itemGrade/edit_item_grade_app';
+import EditItemCategoryapp from '../components/itemCategory/edit_item_category_app';
+import EditItemUnitapp from '../components/itemUnit/edit_item_unit_app';
+import EditOrderapp from '../components/order/edit_order_app';
 import All_Dispatch_Orders_From_Buyer from '../components/reports/all_dispatch_order_items/all_dispatch_order_items';
 import All_order_status from '../components/reports/order_status/all_order_status';
 import All_Received_Orders_From_Buyer from '../components/reports/received_items_from_buyer/all_received_items_from_buyer'
@@ -447,7 +451,27 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-             <Stack.Screen name="EditItem" component={EditItem} options={{
+             <Stack.Screen name="EditItem" component={EditItemapp} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditItemCategory" component={EditItemCategoryapp} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditItemGrade" component={EditItemGradeapp} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditItemOrder" component={EditOrderapp} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditItemUnit" component={EditItemUnitapp} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

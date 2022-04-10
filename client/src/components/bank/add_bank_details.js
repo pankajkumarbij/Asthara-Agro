@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     },
     view : {
         flex: 1,
-        alignUsers: 'center', 
+        alignItems: 'center',
         justifyContent: 'center' 
     },
     p :{

@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function AllItemGrades(props,{ navigation }) {
+export default function AllItemGrades({ navigation }) {
 
     const [allItemGrade, setAllItemGrade] = useState();
     const [searchQuery, setSearchQuery] = useState('');

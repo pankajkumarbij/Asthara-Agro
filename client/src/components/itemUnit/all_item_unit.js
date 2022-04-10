@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function AllItemUnits(props,{ navigation }) {
+export default function AllItemUnits({ navigation }) {
 
     const [allItemUnit, setAllItemUnit] = useState();
     const [searchQuery, setSearchQuery] = useState('');

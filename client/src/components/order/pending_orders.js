@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { Order_by_status } from '../../services/order_api';
-import {host} from '../../utils/host';
+import {url} from '../../utils/url';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import { manager_pool_by_id } from '../../services/pool';
@@ -97,7 +97,7 @@ export default function PendingOrders(props, { navigation }) {
             items.forEach(myFunction);
 
             function myFunction(item) {
-                fetch(`http://${host}:5000/create_order_item_summary`, {
+                fetch(`${url}/create_order_item_summary`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export default function PendingOrders(props, { navigation }) {
             items.forEach(myFunction1);
 
             function myFunction1(item) {
-                fetch(`http://${host}:5000/create_order_status`, {
+                fetch(`${url}/create_order_status`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export default function PendingOrders(props, { navigation }) {
             }
         }
 
-        fetch(`http://${host}:5000/update_status/${id}`, {
+        fetch(`${url}/update_status/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

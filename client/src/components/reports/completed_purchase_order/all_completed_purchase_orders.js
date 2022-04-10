@@ -8,6 +8,7 @@ import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import {roleas, loginuserId} from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
 import BarCode from '../../barcode/barcode';
+import {url} from '../../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -76,7 +77,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
 
     function BarCodeGen(data, id){
         setBarcode(data);
-        fetch(`http://localhost:5000/update_barcode_completed_purchase_order/${id}`, {
+        fetch(`${url}/update_barcode_completed_purchase_order/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,8 +88,8 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
         }).then(res => res.json())
         .catch(error => console.log(error))
         .then(data => {
-            // alert(data.message);
-            // console.log(data);
+            alert(data.message);
+            //console.log(data);
         });
         showModal();
     }
