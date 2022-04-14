@@ -10,6 +10,7 @@ import { Link, useHistory } from "react-router-dom";
 import { customer_address_by_id } from '../../services/customer_api';
 import {url} from '../../utils/url';
 import axios from 'axios';
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -36,6 +37,9 @@ export default function CreateOrder({ navigation }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [mobileNo, setMobileNo] = useState("");
+    const [customerSystemOrderId, setCustomerSystemOrderId] = useState("");
+    const [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
+    const [expectedDeliveryTime, setExpectedDeliveryTime] = useState("");
     const [address, setAddress] = useState('');
     const [landmark, setLandmark] = useState('');
     const [district, setDistrict] = useState('');
@@ -238,6 +242,9 @@ export default function CreateOrder({ navigation }) {
                 name: name,
                 email: email,
                 mobile_no: mobileNo,
+                customerSystemOrderId: customerSystemOrderId,
+                expectedDeliveryDate: expectedDeliveryDate,
+                expectedDeliveryTime: expectedDeliveryTime,
                 address: address,
                 landmark: landmark,
                 district: district,
@@ -345,6 +352,17 @@ export default function CreateOrder({ navigation }) {
                         <TextInput style={styles.input} mode="outlined" label="Full Name" value={name} onChangeText={name => setName(name)} />
                         <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                         <TextInput style={styles.input} mode="outlined" label="Mobile no" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
+                        <TextInput type="bool" style={styles.input} mode="outlined" label="Customer System Order Id (Optional)" value={customerSystemOrderId} onChangeText={customerSystemOrderId => setCustomerSystemOrderId(customerSystemOrderId)} />
+                        {Platform.OS!="android" ?
+                            <>
+                                {/* <input style={styles.input} placeholder="Expected Delivery Date" value={expectedDeliveryDate} onChangeText={expectedDeliveryDate => setExpectedDeliveryDate(expectedDeliveryDate)} />
+                                <input style={styles.input} placeholder="Expected Delivery Time" value={expectedDeliveryTime} onChangeText={expectedDeliveryTime => setExpectedDeliveryTime(expectedDeliveryTime)} /> */}
+                                <input style={{marginTop: "2%", padding: "10px"}} type="date" placeholder="Expected Delivery Date (Optional)" onChange={e => setExpectedDeliveryDate(e.target.value)} />
+                                <input style={{marginTop: "2%", padding: "10px"}} type="time" placeholder="Expected Delivery Time (Optional)" onChange={e => setExpectedDeliveryTime(e.target.value)} /> 
+                            </>
+                            :
+                            null
+                        }
                         {flag &&
                             <Menu
                             visible={visible5}

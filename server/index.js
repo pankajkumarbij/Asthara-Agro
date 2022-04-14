@@ -247,6 +247,10 @@ const create_excess_inventory= require('./routes/excess_inventory_management/cre
 const update_excess_inventory = require('./routes/excess_inventory_management/update_excess_inventory');
 const retrieve_excess_inventory =require('./routes/excess_inventory_management/retrieve_excess_inventory_management');
 
+const create_sn= require('./routes/serialnumber/create_sn');
+const update_sn = require('./routes/serialnumber/update_sn');
+const retrieve_sn =require('./routes/serialnumber/retrieve_sn');
+
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
 });
@@ -438,6 +442,10 @@ app.use('/',update_crawler);
 app.use('/',create_excess_inventory);
 app.use('/',retrieve_excess_inventory);
 app.use('/',update_excess_inventory);
+
+app.use('/',create_sn);
+app.use('/',retrieve_sn);
+app.use('/',update_sn);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");

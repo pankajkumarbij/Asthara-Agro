@@ -46,6 +46,15 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    customerSystemOrderId: {
+        type: String,
+    },
+    expectedDeliveryTime: {
+        type: String,
+    },
+    expectedDeliveryDate: {
+        type: String,
+    },
     items: {
         type: mongoose.Schema.Types.Mixed,
         required: true,

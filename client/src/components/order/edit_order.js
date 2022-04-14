@@ -38,6 +38,9 @@ export default function EditOrder(props,{route}) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [mobileNo, setMobileNo] = useState("");
+    const [customerSystemOrderId, setCustomerSystemOrderId] = useState("");
+    const [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
+    const [expectedDeliveryTime, setExpectedDeliveryTime] = useState("");
     const [address, setAddress] = useState('');
     const [landmark, setLandmark] = useState('');
     const [district, setDistrict] = useState('');
@@ -60,6 +63,9 @@ export default function EditOrder(props,{route}) {
                 setName(result[0].name);
                 setEmail(result[0].email);
                 setMobileNo(result[0].mobile_no);
+                setCustomerSystemOrderId(result[0].customerSystemOrderId);
+                setExpectedDeliveryDate(result[0].expectedDeliveryDate);
+                setExpectedDeliveryTime(result[0].expectedDeliveryTime);
                 setAddress(result[0].address);
                 setLandmark(result[0].landmark);
                 setDistrict(result[0].landmark);
@@ -127,6 +133,9 @@ export default function EditOrder(props,{route}) {
                 name: name,
                 email: email,
                 mobile_no: mobileNo,
+                customerSystemOrderId: customerSystemOrderId,
+                expectedDeliveryDate: expectedDeliveryDate,
+                expectedDeliveryTime: expectedDeliveryTime,
                 address: address,
                 landmark: landmark,
                 district: district,
@@ -169,6 +178,17 @@ export default function EditOrder(props,{route}) {
                     <TextInput style={styles.input} mode="outlined" label="Customer Name" value={name} onChangeText={name => setName(name)} />
                     <TextInput style={styles.input} mode="outlined" label="Email" value={email} onChangeText={email => setEmail(email)} />
                     <TextInput style={styles.input} mode="outlined" label="Mobile no" value={mobileNo} onChangeText={mobileNo => setMobileNo(mobileNo)} />
+                    <TextInput type="bool" style={styles.input} mode="outlined" label="Customer System Order Id (Optional)" value={customerSystemOrderId} onChangeText={customerSystemOrderId => setCustomerSystemOrderId(customerSystemOrderId)} />
+                    {Platform.OS!="android" ?
+                        <>
+                            {/* <input style={styles.input} placeholder="Expected Delivery Date" value={expectedDeliveryDate} onChangeText={expectedDeliveryDate => setExpectedDeliveryDate(expectedDeliveryDate)} />
+                            <input style={styles.input} placeholder="Expected Delivery Time" value={expectedDeliveryTime} onChangeText={expectedDeliveryTime => setExpectedDeliveryTime(expectedDeliveryTime)} /> */}
+                            <input style={{marginTop: "2%", padding: "10px"}} type="date" placeholder="Expected Delivery Date (Optional)" value={expectedDeliveryDate} onChange={e => setExpectedDeliveryDate(e.target.value)} />
+                            <input style={{marginTop: "2%", padding: "10px"}} type="time" placeholder="Expected Delivery Time (Optional)" value={expectedDeliveryTime} onChange={e => setExpectedDeliveryTime(e.target.value)} /> 
+                        </>
+                        :
+                        null
+                    }
                     <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
                     <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
                     <TextInput style={styles.input} mode="outlined" label="District" value={district} onChangeText={district => setDistrict(district)} />
@@ -202,7 +222,7 @@ export default function EditOrder(props,{route}) {
                                     <Menu.Item title="No items are available" />
                                 }
                             </Menu> */}
-                             <TextInput mode="outlined" label="Item Name" value={it.itemName} />
+                            <TextInput mode="outlined" label="Item Name" value={it.itemName} />
                             <TextInput mode="outlined" label="Unit of each item" value={it.itemUnit} />
                             <TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={it.quantity} onChangeText={(text)=>ItemChange(index, "quantity", text, '')} />
                             <TextInput  keyboardType='numeric' mode="outlined" label="Per Unit Price" value={it.itemPrice} />

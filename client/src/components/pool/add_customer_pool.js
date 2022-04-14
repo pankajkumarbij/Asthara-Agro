@@ -68,7 +68,6 @@ export default function AddCustomerPool({ navigation }) {
             postal_code: items
           })
           .then(function (response) {
-            console.log(response.data);
             if(response.data.message!="something wrong!"){
                 alert( response.data.message);
                 if(Platform.OS=='android'){

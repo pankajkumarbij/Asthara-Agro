@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView  } from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text  } from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Portal, Modal  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -7,8 +7,10 @@ import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-ic
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import {roleas, loginuserId} from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
-import BarCode from '../../barcode/barcode';
+import { all_serial_number } from '../../../services/serialnumber';
+// import BarCode from '../../barcode/barcode';
 import {url} from '../../../utils/url';
+import QRCode from "react-qr-code";
 
 const theme = {
     ...DefaultTheme,
@@ -30,6 +32,8 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
     const[role,setRole] = useState("");
     const [userId,setUserId] = useState("");
     const [sorting_order, setSortingOrder] = useState('ASC');
+    const [serial_number, setSerialNumber] = useState("000001");
+    const [snid, setSnid] = useState("");
 
     useEffect(() => {
 
@@ -55,7 +59,13 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
             setAllPickupAssignment(result);
         })
 
-    }, [role,userId]);
+        all_serial_number()
+        .then(result => {
+            setSerialNumber(result[0].sn);
+            setSnid(result[0]._id);
+        })
+
+    }, [role,userId,serial_number]);
 
     const sorting = (col)=>{
         if(sorting_order=="ASC"){
@@ -91,12 +101,28 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
             alert(data.message);
             //console.log(data);
         });
+
+        fetch(`${url}/update_sn/${snid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sn: parseInt(serial_number)+1,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // alert(data.message);
+            //console.log(data);
+            setSerialNumber(parseInt(serial_number)+1);
+        });
         showModal();
     }
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    const containerStyle = {backgroundColor: 'white',width: '30%', alignSelf: 'center'};
+    const containerStyle = {backgroundColor: 'white',width: '16%', alignSelf: 'center',};
 
     return (
         <Provider theme={theme}>
@@ -106,7 +132,9 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                 <Portal>
                     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
                         <>
-                            <BarCode barcode={barcode} />
+                            {/* <BarCode barcode={barcode} /> */}
+                            <QRCode value={barcode} />
+                            <Text>{barcode}</Text>
                         </>
                     </Modal>
                 </Portal>
@@ -152,8 +180,13 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                 }
                             }) : null
                         }
-                        {(role && userId && role=="buyer" && allPickupAssignmentConfirm) ?
+                        {(serial_number && role && userId && role=="buyer" && allPickupAssignmentConfirm) ?
                             allPickupAssignmentConfirm.map((item)=>{
+                                const today = new Date();
+                                let yyyy = today.getFullYear();
+                                let mm = today.getMonth() + 1;
+                                let dd = today.getDate();
+                                const tt = dd +""+ mm + yyyy;
                                 if(item.purchase_order.buyer_id==userId)
                                 if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                                 return (
@@ -172,7 +205,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                             {Platform.OS=='android' ?
                                                 <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
                                                 :
-                                                <Button mode="contained" onPress={() => BarCodeGen(item.purchase_order.custom_orderId.split('_')[0]+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)} style={{width: '100%'}}>BarCode</Button>
+                                                <Button mode="contained" onPress={() => BarCodeGen(serial_number+tt+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)} style={{width: '100%'}}>BarCode</Button>
                                             }
                                         </DataTable.Cell>
                                     </DataTable.Row>
