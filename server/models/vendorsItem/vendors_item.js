@@ -81,6 +81,10 @@ const vendorsItemSchema = new mongoose.Schema({
         type:String,
         default:"enabled"
     },
+    buyer_approval_status:{
+        type:String,
+        default:"pending",
+    },
     date: {
         type: Date,
         default: Date.now,

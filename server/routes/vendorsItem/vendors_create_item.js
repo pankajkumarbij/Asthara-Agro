@@ -27,6 +27,7 @@ router.post('/vendors_create_item', (req, res)=>{
         country: req.body.country,
         postal_code: req.body.postal_code,
         nick_name:req.body.nick_name,
+        buyer_approval_status: req.body.buyer_approval_status,
     })
     newItem.save()
     .then(item => {

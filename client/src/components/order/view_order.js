@@ -51,7 +51,7 @@ export default function ViewOrder(props,{route}) {
                 <Card style={styles.card}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Card.Title style={{ flex: 1,}} title="View Order"/>
-                        <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>goBack()}>Go Back</Button>
+                        <Button mode="contained" style={styles.button} onPress={()=>goBack()}>Go Back</Button>
                     </View>
                     <Card.Content>
                     {order &&
@@ -138,5 +138,6 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: '2%',
+        flex: 1,
     },
 }); 

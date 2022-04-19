@@ -7,7 +7,7 @@ router.put('/update_customer_pool/:id', (req, res)=>{
     var customer_pool = {
         pool_name: req.body.pool_name,
         postal_code: req.body.postal_code,
-        flag_value:req.body.flag_value,
+        // flag_value:req.body.flag_value,
     }
     Customer_pool.findOneAndUpdate({'_id':req.params.id},customer_pool)
     .then((customer_pool) => {

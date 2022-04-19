@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { all_vendor_items_by_id } from '../../services/vendor_api';
+import { all_vendor_approved_items_by_id } from '../../services/vendor_api';
 
 const theme = {
     ...DefaultTheme,
@@ -38,10 +38,9 @@ export default function VendorsAllItems(props,{ navigation }) {
         setRoleas(props.roleas);
 
         if(userId){
-            
-            all_vendor_items_by_id(userId)
+            all_vendor_approved_items_by_id(userId)
             .then(result => {
-                //console.log(result);
+                console.log(result);
                 setAllItems(result);
             });
         }
@@ -71,7 +70,7 @@ export default function VendorsAllItems(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >Vendor ItemList</Title>
+                    <Title style={styles.title} >Vendor Approved ItemList from Buyer</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -84,9 +83,9 @@ export default function VendorsAllItems(props,{ navigation }) {
                         {/* <DataTable.Title>Category</DataTable.Title> */}
                         {/* <DataTable.Title>Grade</DataTable.Title> */}
                         <DataTable.Title onPress={()=>sorting("unit")}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
-                        {/* <DataTable.Title>Quantity</DataTable.Title> */}
+                        {/* <DataTable.Title onPress={()=>sorting("quantity")}><FontAwesomeIcon icon={ faSort } />Quantity</DataTable.Title> */}
                         <DataTable.Title><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
+                        <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
 
                     {allItems ?
@@ -100,7 +99,13 @@ export default function VendorsAllItems(props,{ navigation }) {
                                         <DataTable.Cell>{item.unit_name}</DataTable.Cell>
                                         {/* <DataTable.Cell>{item.item_quantity}</DataTable.Cell> */}
                                         <DataTable.Cell>{item.item_price}</DataTable.Cell>
-                                        <DataTable.Cell>{item.buyer_approval_status}</DataTable.Cell>
+                                        <DataTable.Cell>
+                                            {Platform.OS=='android' ?
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('VendorsViewItem', {itemId: item._id})}}></Button>
+                                                :
+                                                <Link to={"/vendors_view_item/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            }
+                                        </DataTable.Cell>
                                     </DataTable.Row>
                                 )
                             }

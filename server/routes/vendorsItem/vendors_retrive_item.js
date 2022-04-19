@@ -5,7 +5,7 @@ const VendorsItem = require('../../models/vendorsItem/vendors_item');
 const vendor_pool = require('../../models/vendor_pool/vendor_pool');
 //DEfine Route to retrive all items
 router.get('/vendors_retrive_all_item',(req, res)=>{
-    VendorsItem.find({status:"enabled"}, function(err, items){
+    VendorsItem.find({status:"enabled",buyer_approval_status:"approved"}, function(err, items){
         if(err){
             console.log(err);
         }
@@ -14,6 +14,7 @@ router.get('/vendors_retrive_all_item',(req, res)=>{
         }
     });
 });
+
 //Define route to retrive item by item id
 router.get('/vendors_retrive_item/:vendorid',(req, res)=>{
     VendorsItem.find({userId:req.params.vendorid}, function(err, item){
@@ -25,8 +26,31 @@ router.get('/vendors_retrive_item/:vendorid',(req, res)=>{
         }
     });
 });
+//Define route to retrive item by item id
+router.get('/vendors_retrive_pending_item/:vendorid',(req, res)=>{
+    VendorsItem.find({userId:req.params.vendorid,buyer_approval_status:"pending"}, function(err, item){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(item);
+        }
+    });
+});
+//Define route to retrive item by item id
+router.get('/vendors_retrive_approved_item/:vendorid',(req, res)=>{
+    VendorsItem.find({userId:req.params.vendorid,buyer_approval_status:"approved"}, function(err, item){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(item);
+        }
+    });
+});
+
 router.get('/retrive_vendor_item/:id',(req, res)=>{
-    VendorsItem.find({'_id':req.params.id}, function(err, item){
+    VendorsItem.find({'_id':req.params.id,buyer_approval_status:"approved"}, function(err, item){
         if(err){
             console.log(err);
         }
@@ -48,7 +72,7 @@ router.get('/vendors_retrive_all_disabled_items',(req, res)=>{
 });
 
 router.get('/retrive_vendor_item_by_name_grade/:itemname/:grade/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }
@@ -66,7 +90,7 @@ router.get('/retrive_vendor_item_by_name_grade/:itemname/:grade/:id',(req, res)=
 });
 
 router.get('/retrive_vendor_item_by_name_grade_lower_price/:itemname/:grade/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }
@@ -84,7 +108,7 @@ router.get('/retrive_vendor_item_by_name_grade_lower_price/:itemname/:grade/:id'
 });
 
 router.get('/vendors_retrive_all_item_by_vendor_pool/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }
@@ -102,7 +126,7 @@ router.get('/vendors_retrive_all_item_by_vendor_pool/:id',(req, res)=>{
 });
 
 router.get('/retrive_vendor_item_by_access_details/:itemname/:grade/:vendorid',(req, res)=>{
-    VendorsItem.find({userId:req.params.vendorid, grade_name:req.params.grade, item_name:req.params.itemname}, function(err, item){
+    VendorsItem.find({buyer_approval_status:"approved",userId:req.params.vendorid, grade_name:req.params.grade, item_name:req.params.itemname}, function(err, item){
         if(err){
             console.log(err);
         }
@@ -112,7 +136,7 @@ router.get('/retrive_vendor_item_by_access_details/:itemname/:grade/:vendorid',(
     });
 });
 router.get('/retrive_vendor_item_price/:vendorid/:itemname/:grade',(req, res)=>{
-    VendorsItem.find({userId:req.params.vendorid,item_name:req.params.itemname,grade_name:req.params.grade}, function(err, item){
+    VendorsItem.find({buyer_approval_status:"approved",userId:req.params.vendorid,item_name:req.params.itemname,grade_name:req.params.grade}, function(err, item){
         if(err){
             console.log(err);
         }

@@ -13,10 +13,10 @@ let vendor_poolSchema = new mongoose.Schema({
         required: true,
         unique: true,
     }],
-    flag_value:{
-        type:Number,
-        default:0,
-    }
+    // flag_value:{
+    //     type:Number,
+    //     default:0,
+    // }
     }, 
     {
     timestamps: true

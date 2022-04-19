@@ -24,6 +24,20 @@ export const all_vendor_items_by_id = (vendorId) => {
     }).catch(err => console.log(err))
 }
 
+export const all_vendor_pending_items_by_id= (vendorId) => {
+    return axios.get(url + '/vendors_retrive_pending_item/' + vendorId)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log(err))
+}
+
+export const all_vendor_approved_items_by_id= (vendorId) => {
+    return axios.get(url + '/vendors_retrive_approved_item/' + vendorId)
+    .then(res => {
+        return res.data;
+    }).catch(err => console.log(err))
+}
+
 //retrieve all items using vendor id and pincode
 export const all_vendor_items_by_id_pincode = (vendorId, pincode) => {
     return axios.get(url + '/vendors_retrive_item_by_vendorid_pincode/' + vendorId + "/" + pincode)

@@ -75,6 +75,8 @@ import All_Accepted_Purchase_Order_Confirm from '../components/purchase_confirm/
 
 import VenodrsAddItem from '../components/vendorsItem/vendors_addItem';
 import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
+import VendorsPendingItems from '../components/vendorsItem/vendors_pending_items';
+import VendorsApprovedItems from '../components/vendorsItem/vendors_approved_item';
 import VendorsEditItem from '../components/vendorsItem/vendors_edititem';
 import VendorsViewItem from '../components/vendorsItem/vendors_view_item';
 import VendorAddAddress from '../components/vendor_address/add_vendor_address';
@@ -420,7 +422,11 @@ const NavBar =()  => {
                                         <NavDropdown title="Add Item" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/vendors_additem" as={Link}>Add Item</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/vendors_allitems" as={Link}>View Items</NavDropdown.Item>
+                                            <NavDropdown.Item to="/vendors_pending_allitems" as={Link}>View Pending Items</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/vendors_approved_allitems" as={Link}>View Approved Items</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/vendors_allitems" as={Link}>View  All Items</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown.Divider />
                                         <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -948,6 +954,12 @@ const NavBar =()  => {
                <Route path="/customer_all_addresses">
                    <CustomerAllAddress />
                </Route>
+                <Route path="/vendors_pending_allitems">
+                    <VendorsPendingItems roleas={roleas}/>
+                </Route> 
+                <Route path="/vendors_approved_allitems">
+                    <VendorsApprovedItems roleas={roleas}/>
+                </Route> 
                 <Route path="/vendors_allitems">
                     <VendorsAllItems roleas={roleas}/>
                 </Route>    

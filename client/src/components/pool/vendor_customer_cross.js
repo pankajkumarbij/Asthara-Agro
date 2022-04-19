@@ -31,21 +31,29 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
     const [vendor, setVendor] = useState("Choose Vendor Pool");
     const [customerId, setCustomerId] = useState("");
     const [vendorId, setVendorId] = useState("");
+    const [flag, setFlag] = useState(true);
+    const [flag1, setFlag1] = useState(true);
 
     useEffect(() => {
         //Retrieve all customer list
-        all_customer_pools()
-        .then(result => {
-            setCustomers(result);
-        })
+        if(flag){
+            all_customer_pools()
+            .then(result => {
+                setCustomers(result);
+            });
+            setFlag(false);
+        }
 
         //Retrieve all vendor list
-        all_vendor_pools()
-        .then(result => {
-            setVendors(result);
-        })
+        if(flag1){
+            all_vendor_pools()
+            .then(result => {
+                setVendors(result);
+            })
+            setFlag1(false);
+        }
 
-    }, [customers, vendors]);
+    }, [flag,flag1]);
 
     let history = useHistory();
 
@@ -83,12 +91,12 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
                 history.push('/allcustomervendorpools');
             }
         })
-        axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
-            flag_value:1
-          })
-        .then(function (response) {
-            alert(response.data.message);
-        });
+        // axios.put(url + `/updateflag_vendor_pool/${vendorId}`, {
+        //     flag_value:1
+        //   })
+        // .then(function (response) {
+        //     alert(response.data.message);
+        // });
         axios.put(url + `/updateflag_customer_pool/${customerId}`, {
             flag_value:1
           })
@@ -123,7 +131,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
                                 value={searchQuery1}
                             />
                             {Platform.OS=='android' ?
-                                <Button icon={() => <FontAwesomeIcon icon={ faPlusCircle } />} mode="outlined" onPress={() => {navigation.navigate('AddItemGrade')}}>Add Grade</Button>
+                                <Button icon={() => <FontAwesomeIcon icon={ faPlusCircle } />} mode="outlined" onPress={() => {navigation.navigate('AddItemGrade')}}>Add Customer Pool</Button>
                                 :
                                 <Link to="/addcustomerpool"><Button mode="outlined" icon={() => <FontAwesomeIcon icon={ faPlusCircle } />}>Add Customer Pool</Button></Link>
                             }
@@ -133,8 +141,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
                                         return (
                                             <Menu.Item title={item.pool_name} onPress={()=>ChooseCustomer(item._id, item.pool_name)} />
                                         )
-                                    }
-                                })
+                                }})
                                 :
                                 <Menu.Item title="No Customer Pool Available" />
                             }
@@ -157,11 +164,9 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
                             }
                             {vendors ?
                                 vendors.map((item)=>{
-                                    if(item.flag_value === 0){
-                                        return (
-                                            <Menu.Item title={item.pool_name} onPress={()=>ChooseVendor(item._id, item.pool_name)} />
-                                        )
-                                    }
+                                    return(
+                                        <Menu.Item title={item.pool_name} onPress={()=>ChooseVendor(item._id, item.pool_name)} />
+                                    )
                                 })
                                 :
                                 <Menu.Item title="No Vendor Pool Available" />

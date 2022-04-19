@@ -109,14 +109,6 @@ export default function View_Completed_Purchase_Order(props, {route}) {
                            <TextInput style={styles.input} mode="outlined" label="Order Id" value={order_id} />
                         }
 
-                        {vendor_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />
-                        }
-
-                        {buyer_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Buyer ID" value={buyer_id} />
-                        }
-
                         {vNumber &&
                             <TextInput style={styles.input} mode="outlined" label="Vehicle Number" value={vNumber} />
                         }
