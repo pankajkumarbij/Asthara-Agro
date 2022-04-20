@@ -78,10 +78,12 @@ import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
 import VendorsPendingItems from '../components/vendorsItem/vendors_pending_items';
 import VendorsApprovedItems from '../components/vendorsItem/vendors_approved_item';
 import VendorsEditItem from '../components/vendorsItem/vendors_edititem';
+import Buyer_approved_vendor_item from '../components/vendorsItem/buyer_approved_vendor_item';
 import VendorsViewItem from '../components/vendorsItem/vendors_view_item';
 import VendorAddAddress from '../components/vendor_address/add_vendor_address';
 import VendorAllAddress from '../components/vendor_address/all_vendor_address';
 import VendorEditAddress from '../components/vendor_address/edit_vendor_address';
+
 
 import CustomerAddAddress from '../components/customer_address/add_customer_address';
 import CustomerAllAddress from '../components/customer_address/all_customer_address';
@@ -427,6 +429,8 @@ const NavBar =()  => {
                                             <NavDropdown.Item to="/vendors_approved_allitems" as={Link}>View Approved Items</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/vendors_allitems" as={Link}>View  All Items</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/buyer_approved_vendors_items" as={Link}>Approved vendor Item</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown.Divider />
                                         <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -941,6 +945,9 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/vendors_additem">
                     <VenodrsAddItem/>
+                </Route>
+                <Route path="/buyer_approved_vendors_items" >
+                    <Buyer_approved_vendor_item roleas={roleas}/>
                 </Route>
                <Route path="/vendors_add_address">
                   <VendorAddAddress />

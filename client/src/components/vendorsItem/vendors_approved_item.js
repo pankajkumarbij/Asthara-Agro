@@ -17,7 +17,7 @@ const theme = {
     },
 };
 //define all item components
-export default function VendorsAllItems(props,{ navigation }) {
+export default function VendorsApprovedItems(props,{ navigation }) {
     //initialize the all states variables
     const [allItems, setAllItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');

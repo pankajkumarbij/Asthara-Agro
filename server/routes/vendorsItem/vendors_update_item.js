@@ -39,6 +39,25 @@ router.put('/vendors_update_item/:id',(req, res) =>{
         res.json(message);
     })
 });
+router.put('/vendors_update_item_buyer_status/:id',(req, res) =>{
+    var item_update = {
+        buyer_approval_status:req.body.buyer_approval_status,
+    }
+    VendorsItem.findOneAndUpdate({'_id':req.params.id}, item_update)
+    .then((item) => {
+        if(item){
+            var message = {message: "item sucessfully updated" };
+            res.json(message);
+        }else{
+            var message = { error: "item not found" };
+            res.json(message);
+        }
+    }).catch(err => {
+        console.log(err);
+        var message = { message: false, err: err };
+        res.json(message);
+    })
+});
 
 
 
