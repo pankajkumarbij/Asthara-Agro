@@ -393,22 +393,31 @@ const NavBar =()  => {
 
                                 </>
                                 }   
-                                 {(roleas == "buyer") &&
+                                {(roleas == "buyer" || roleas == "manager") &&
                                 <>
                                     <NavDropdown title="Transport Labour" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown title="Transport Labour from Vendor" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                            <NavDropdown.Item to="/addtransportlabourfromvendor" as={Link}>Add Transport Labour</NavDropdown.Item>
-                                            <NavDropdown.Divider />
+                                            {roleas == "buyer" &&
+                                            <>
+                                                <NavDropdown.Item to="/addtransportlabourfromvendor" as={Link}>Add Transport Labour</NavDropdown.Item>
+                                                <NavDropdown.Divider />
+                                            </>
+                                            }
                                             <NavDropdown.Item to="/alltransportlabourfromvendor" as={Link}>View Transport Labour</NavDropdown.Item>
                                         </NavDropdown>
                                         <NavDropdown.Divider />
                                         <NavDropdown title="Transport Labour for Sales" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                            {roleas == "buyer" &&
+                                            <>
                                             <NavDropdown.Item to="/addtransportlabourforsales" as={Link}>Add Transport Labour</NavDropdown.Item>
                                             <NavDropdown.Divider />
+                                            </>
+                                            }
                                             <NavDropdown.Item to="/alltransportlabourforsales" as={Link}>View Transport Labour</NavDropdown.Item>
                                         </NavDropdown>
                                     </NavDropdown>
                                     <NavDropdown.Divider />
+                                    {roleas == "buyer" &&
                                     <NavDropdown title="Excess Inventory Management" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown.Item to="/all_aim" as={Link}>All Excess Inventory Items</NavDropdown.Item>
                                         <NavDropdown.Divider />
@@ -416,6 +425,7 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item to="/completed_aim" as={Link}>Completed Excess Inventory Items</NavDropdown.Item>
                                     </NavDropdown>
+                                    }
                                 </>
                                 }   
                                 {( roleas == "vendor") &&

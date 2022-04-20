@@ -123,6 +123,7 @@ export default function Register({ navigation},props) {
                 nick_name: values.nickName,
                 email: values.email,
                 mobile_no: values.mobileNo,
+                contactPersonName: values.contactPersonName,
                 idNumber: values.idNumber,
                 gst_no:values.gstNo,
                 pool_name: pool_name,
@@ -258,6 +259,9 @@ export default function Register({ navigation},props) {
                     </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Full Name" value={values.full_name} onChangeText={handleChange('full_name')} />
                     <TextInput style={styles.input} mode="outlined" label="Nick Name" value={values.nickName} onChangeText={handleChange('nickName')} />
+                    {(category=="vendor" || category=="customer") &&
+                        <TextInput style={styles.input} mode="outlined" label="Contact Person Name" value={values.contactPersonName} onChangeText={handleChange('contactPersonName')} />
+                    }
                     <TextInput style={styles.input} mode="outlined" label="Email" value={values.email} onChangeText={handleChange('email')} />
                     <TextInput style={styles.input} mode="outlined" label="Mobile No" value={values.mobileNo} onChangeText={handleChange('mobileNo')} />
                     <Menu

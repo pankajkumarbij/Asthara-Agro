@@ -12,6 +12,7 @@ router.post('/create_user', async (req, res)=>{
             const nick_name= req.body.nick_name;
             const email= req.body.email;
             const mobile_no= req.body.mobile_no;
+            const contactPersonName= req.body.contactPersonName;
             const idType= req.body.idType;
             const idNumber= req.body.idNumber;
             const image= req.body.image;

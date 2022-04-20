@@ -15,6 +15,11 @@ router.post('/create_transport_labour_for_sales', (req, res)=>{
         labour_mobile_no:req.body.labour_mobile_no,
         charge:req.body.charge,
         orders_items: req.body.orders_items,
+        img: req.body.img,
+        img2: req.body.img2,
+        img3: req.body.img3,
+        img4: req.body.img4,
+        img5: req.body.img5,
     })
     newTransport.save()
     .then(transport=> {

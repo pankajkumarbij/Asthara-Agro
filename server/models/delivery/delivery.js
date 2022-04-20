@@ -28,6 +28,21 @@ const dispatch_for_delivery_Schema = new mongoose.Schema({
     },
     charge:{
         type:String,
+    },
+    img: {
+        type:String,
+    },
+    img2: {
+        type:String,
+    },
+    img3: {
+        type:String,
+    },
+    img4: {
+        type:String,
+    },
+    img5: {
+        type:String,
     }
     }, {
     timestamps: true

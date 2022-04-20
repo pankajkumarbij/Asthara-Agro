@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useEffect } from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView} from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Image} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, DataTable, Title } from 'react-native-paper';
 import { transport_labour_for_sales_by_id } from '../../../services/transport_labour/transport_labout_for_sales';
 
@@ -32,6 +32,11 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
     const [labourName, setLabourName] = useState("");
     const [labourMobileNumber, setLabourMobileNumber] = useState("");
     const [items, setItems] = useState();
+    const [img, setImg] = useState();
+    const [img2, setImg2] = useState();
+    const [img3, setImg3] = useState();
+    const [img4, setImg4] = useState();
+    const [img5, setImg5] = useState();
 
     useEffect(() => {
 
@@ -46,6 +51,12 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
                 setDriverName(result[0].driver_name);
                 setDriverMobileNumber(result[0].driver_mobile_no);
                 setItems(result[0].orders_items);
+                setImg(result[0].img);
+                setImg2(result[0].img2);
+                setImg3(result[0].img3);
+                setImg4(result[0].img4);
+                setImg5(result[0].img5);
+                console.log(result);
             })
         }
 
@@ -90,6 +101,48 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
                             ))}
                         </DataTable>
                     }
+                    <View style={{flexDirection: 'row'}}>
+                    {img ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img}
+                        />
+                        :
+                        null
+                    }
+                    {img2 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img2}
+                        />
+                        :
+                        null
+                    }
+                    {img3 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img3}
+                        />
+                        :
+                        null
+                    }
+                    {img4 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img4}
+                        />
+                        :
+                        null
+                    }
+                    {img5 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img5}
+                        />
+                        :
+                        null
+                    }
+                    </View>
                     </Card.Content>
                 </Card>
             </View>

@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    contactPersonName: {
+        type: String,
+    },
     idType: {
         type: String,
         required: true,

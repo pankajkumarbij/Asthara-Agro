@@ -8,6 +8,8 @@ import { roleas, loginuserId } from '../../../utils/user';
 import { all_completed_purchase_orders } from '../../../services/pickup_api';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 import {url} from '../../../utils/url';
+import { uploadImage } from '../../../services/image';
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -38,6 +40,16 @@ export default function AddTransportLabour(props,{ navigation }) {
     const [addedItems, setAddedItems] = useState([]);
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [file, setFile] = useState();
+    const [img, setImg] = useState();
+    const [file2, setFile2] = useState();
+    const [img2, setImg2] = useState();
+    const [file3, setFile3] = useState();
+    const [img3, setImg3] = useState();
+    const [file4, setFile4] = useState();
+    const [img4, setImg4] = useState();
+    const [file5, setFile5] = useState();
+    const [img5, setImg5] = useState();
 
     let history = useHistory();
 
@@ -140,6 +152,11 @@ export default function AddTransportLabour(props,{ navigation }) {
                 labour_mobile_no: labourMobileNumber,
                 charge: charge,
                 orders_items: items,
+                img: img,
+                img2: img2,
+                img3: img3,
+                img4: img4,
+                img5: img5,
             })
         })
         .then(res => res.json())
@@ -191,6 +208,76 @@ export default function AddTransportLabour(props,{ navigation }) {
 
     function scan() {
         showModal();
+    }
+
+    function getFiles(event){
+        setFile(event.target.files[0]);
+    }
+
+    function ImageSubmitForm(){
+
+        uploadImage(file)
+        .then(result => {
+            setImg(result);
+            alert("Image Uploaded successfully");
+        });
+        
+    }
+
+    function getFiles2(event){
+        setFile2(event.target.files[0]);
+    }
+
+    function ImageSubmitForm2(){
+
+        uploadImage(file2)
+        .then(result => {
+            setImg2(result);
+            alert("Image Uploaded successfully");
+        });
+        
+    }
+
+    function getFiles3(event){
+        setFile3(event.target.files[0]);
+    }
+
+    function ImageSubmitForm3(){
+
+        uploadImage(file3)
+        .then(result => {
+            setImg3(result);
+            alert("Image Uploaded successfully");
+        });
+        
+    }
+
+    function getFiles4(event){
+        setFile4(event.target.files[0]);
+    }
+
+    function ImageSubmitForm4(){
+
+        uploadImage(file4)
+        .then(result => {
+            setImg4(result);
+            alert("Image Uploaded successfully");
+        });
+        
+    }
+
+    function getFiles5(event){
+        setFile5(event.target.files[0]);
+    }
+
+    function ImageSubmitForm5(){
+
+        uploadImage(file5)
+        .then(result => {
+            setImg5(result);
+            alert("Image Uploaded successfully");
+        });
+        
     }
 
     return (
@@ -251,6 +338,41 @@ export default function AddTransportLabour(props,{ navigation }) {
                     {!visible3 &&
                         <Button mode="contained" style={styles.button} onPress={() => scan()} icon={() => <FontAwesomeIcon icon={ faCamera } />}>Start Scan</Button>
                     }
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles2}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Upload Image</Button>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles3}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Upload Image</Button>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles4}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Upload Image</Button>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles5}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Upload Image</Button>
+                    </View>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>
                     </Card.Content>
                 </Card>
