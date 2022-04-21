@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { all_vendor_items } from '../../services/vendor_api';
 import  {all_users_by_role} from '../../services/user_api';
 import {url} from '../../utils/url';
+import { all_vendor_items_by_itemid} from '../../services/vendor_api';
 
 const theme = {
     ...DefaultTheme,
@@ -19,12 +19,19 @@ const theme = {
     },
 };
 //define all item components
-export default function Buyer_assignmnet(props, {navigation }) {
+export default function Buyer_assignmnet(props, {route,navigation }) {
+
+    var itemid = "";
+    if(Platform.OS=="android"){
+        itemid = route.params.itemId;
+    }
+    else{
+        itemid = props.match.params.itemid;
+    }
     //initialize the all states variables
     const [allItems, setAllItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');
-    const [userId, setUserId] = useState('');
-    const [roleas, setRoleas] = useState("");
+    const [flag, setFlag] = useState(true);
     const [sorting_order, setSortingOrder] = useState('ASC');
     const [visible, setVisible] = useState([]);
     const [buyer, setBuyer] = useState();
@@ -36,30 +43,21 @@ export default function Buyer_assignmnet(props, {navigation }) {
 
     useEffect(() => {
         //to get the id of current vendor
-        async function fetchData() {
-            await AsyncStorage.getItem('loginuserid')
-            .then((userid) => {
-                setUserId(userid);
-            })
-        }
-        fetchData();
 
-        setRoleas(props.roleas);
-
-        if(userId){
-            
-            all_vendor_items()
+        if(itemid &&flag){
+            all_vendor_items_by_itemid(itemid)
             .then(result => {
-                setAllItems(result);
+               setAllItems(result[0]);
+            setFlag(false);
             });
         }
+
         all_users_by_role("buyer")
         .then(result => {
-            console.log(result);
             setBuyer(result);
         })
 
-    }, [userId,props.roleas]);
+    }, [flag,itemid]);
 
     function chooseBuyer(id, email){
         setBuyerId(id)
@@ -160,7 +158,7 @@ export default function Buyer_assignmnet(props, {navigation }) {
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
 
-                    {allItems ?
+                    {/* {allItems ?
                         allItems.map((item,index)=>{
                             if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                             if(item.buyer_approval_status=="pending")
@@ -188,7 +186,7 @@ export default function Buyer_assignmnet(props, {navigation }) {
                         })
                         :
                         <ActivityIndicator color="#794BC4" size={60}/>
-                    }
+                    } */}
                 </DataTable>
             </View>
         </ScrollView>

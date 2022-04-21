@@ -79,7 +79,8 @@ import VendorsPendingItems from '../components/vendorsItem/vendors_pending_items
 import VendorsApprovedItems from '../components/vendorsItem/vendors_approved_item';
 import VendorsEditItem from '../components/vendorsItem/vendors_edititem';
 import Buyer_approved_vendor_item from '../components/vendorsItem/buyer_approved_vendor_item';
-import BuyerAssignment from '../components/vendorsItem/assign_buyer';
+import BuyerAssignment from '../components/vendorsItem/pending_for_buyer_assignment';
+import EditBuyerAssignment from '../components/vendorsItem/assign_buyer_vendor_item';
 import VendorsViewItem from '../components/vendorsItem/vendors_view_item';
 import VendorAddAddress from '../components/vendor_address/add_vendor_address';
 import VendorAllAddress from '../components/vendor_address/all_vendor_address';
@@ -862,6 +863,7 @@ const NavBar =()  => {
                 <Route path="/editcrawler/:id" render={(props) => <Editcrawler {...props} />} exact />
                 <Route path="/viewcrawler/:id" render={(props) => <Viewcrawler {...props} />} exact />
                 <Route path="/edit_customer_vendor_pool/:id" render={(props) => <EditCustomerVendorPool {...props} />} exact />
+                <Route path="/assign_buyer_for_vendorItem/:itemid" render={(props) => <EditBuyerAssignment {...props} />} exact />
                 <Route path="/createorder">
                     <CreateOrder/>
                 </Route>
