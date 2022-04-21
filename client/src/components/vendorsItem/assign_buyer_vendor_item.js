@@ -107,7 +107,7 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
                                 }
                             })
                             :
-                            <Menu.Item title="No Buyer Available" />
+                            <Menu.Item title="No Buyer" />
                         }
                     </Menu>
                     <Card.Content>
