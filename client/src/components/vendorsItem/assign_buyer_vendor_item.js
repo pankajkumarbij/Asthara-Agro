@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
-import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } from 'react-native-paper';
-import { Link } from "react-router-dom";
+import { faEdit, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import  {all_users_by_role} from '../../services/user_api';
-import {url} from '../../utils/url';
-import { all_vendor_items_by_itemid} from '../../services/vendor_api';
+import React, {useState, useEffect} from 'react';
+import { View, StyleSheet, Platform, ActivityIndicator, Image, Text} from 'react-native';
+import { TextInput, Card, Provider, DefaultTheme, Button, Menu, Searchbar } from 'react-native-paper';
+import { Link } from 'react-router-dom';
+import { all_vendor_items_by_itemid } from '../../services/vendor_api';
+import { all_users_by_role } from '../../services/user_api';
 
 const theme = {
     ...DefaultTheme,
@@ -22,18 +20,18 @@ const theme = {
 export default function Buyer_assignmnet(props, {route,navigation }) {
 
     var itemid = "";
+    var id="";
     if(Platform.OS=="android"){
-        itemid = route.params.itemId;
+        id = route.params.itemId;
     }
     else{
         itemid = props.match.params.itemid;
     }
-    //initialize the all states variables
-    const [allItems, setAllItems] = useState();
+
+    const [itemId, setItemId] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
-    const [flag, setFlag] = useState(true);
-    const [sorting_order, setSortingOrder] = useState('ASC');
-    const [visible, setVisible] = useState([]);
+    const [host, setHost] = useState("");
+    const [item, setItem] = useState();
     const [buyer, setBuyer] = useState();
     const [buyer_email, setBuyerEmail] = useState("Choose Buyer");
     const [buyer_id, setBuyerId] = useState("");
@@ -42,13 +40,20 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
     const closeMenu3 = () => setVisible3(false);
 
     useEffect(() => {
-        //to get the id of current vendor
 
-        if(itemid &&flag){
-            all_vendor_items_by_itemid(itemid)
+        if(Platform.OS=="android"){
+            setHost("10.0.2.2");
+            setItemId(id);
+        }
+        else{
+            setHost("localhost");
+            setItemId(itemid);
+        }
+
+        if(itemId){
+            all_vendor_items_by_itemid(itemId)
             .then(result => {
-               setAllItems(result[0]);
-            setFlag(false);
+                setItem(result[0]);
             });
         }
 
@@ -57,7 +62,7 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
             setBuyer(result);
         })
 
-    }, [flag,itemid]);
+    }, [host,itemId,id,itemid])
 
     function chooseBuyer(id, email){
         setBuyerId(id)
@@ -65,187 +70,122 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
         closeMenu3();
     }
 
-    const sorting = (col)=>{
-        if(sorting_order=="ASC"){
-            const sorted=([...allItems].sort((a,b)=>
-            a[col].toLowerCase()>b[col].toLowerCase() ?1:-1));
-            setAllItems(sorted);
-            setSortingOrder('DES');
-        }
-        if(sorting_order=="DES"){
-            const sorted=([...allItems].sort((a,b)=>
-            a[col].toLowerCase()<b[col].toLowerCase() ?1:-1));
-            setAllItems(sorted);
-            setSortingOrder('ASC');
-        }
-    }
-
-    const openMenu = (index) => {
-        const values = [...visible];
-        values[index]=true;
-        setVisible(values);
-    };
-
-    const closeMenu = (index) => {
-        const values = [...visible];
-        values[index]=false;
-        setVisible(values);
-    };
-    const StatusChange = (s, id, index) => {
-
-        fetch(`${url}/vendors_update_item_buyer_status/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                buyer_approval_status:s,
-            })
-        }).then(res => res.json())
-        .catch(error => console.log(error))
-        .then(data => {
-             alert(data.message);
-        });
-
-        closeMenu(index);
-    };    
     const onChangeSearch = query => setSearchQuery(query);
-
+    
     return (
         <Provider theme={theme}>
-        <SafeAreaView>
-        <ScrollView>
-            <View style={styles.view}>
-                <DataTable style={styles.datatable}>
-                    <Title style={styles.title}>Check Vendor Item</Title>
-                    <Searchbar
-                        icon={() => <FontAwesomeIcon icon={ faSearch } />}
-                        clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
-                        placeholder="Search"
-                        onChangeText={onChangeSearch}
-		                value={searchQuery}
-                    />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                {item ?
+                <Card style={styles.card}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Card.Title style={{ flex: 2,}} title="Buyer Assignment for Vendor Item:-"/>
+                        <Button>
+                            <Link to={"/vendors_edititem/"+item._id}>
+                                <FontAwesomeIcon icon={ faEdit } color="blue" size={25} />
+                            </Link>
+                        </Button>
+                    </View>
                     <Menu
-                        visible={visible3}
-                        onDismiss={closeMenu3}
-                        anchor={<Button style={styles.input} mode="outlined"  onPress={openMenu3}>{buyer_email} </Button>}>
-                            <Searchbar
-                                icon={() => <FontAwesomeIcon icon={ faSearch } />}
-                                clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
-                                placeholder="Search"
-                                onChangeText={onChangeSearch}
-                                value={searchQuery}
-                                style={{marginBottom: '20px'}}
-                            />
-                            {buyer ?
-                                buyer.map((item)=>{
-                                   // if(item.pool_id==vendorPoolId)
-                                    if(item.nick_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                                        return (
-                                            <Menu.Item title={item.nick_name} onPress={()=>chooseBuyer(item._id, item.email)} />
-                                        )
-                                    }
-                                })
-                                :
-                                <Menu.Item title="No Buyer Available" />
-                            }
-                        </Menu>
-                    <DataTable.Header>
-                        <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
-                        <DataTable.Title ><FontAwesomeIcon icon={ faSort } />Category</DataTable.Title>
-                        <DataTable.Title><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
-                        <DataTable.Title>Status</DataTable.Title>
-                        <DataTable.Title numeric>Action</DataTable.Title>
-                    </DataTable.Header>
-
-                    {/* {allItems ?
-                        allItems.map((item,index)=>{
-                            if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                            if(item.buyer_approval_status=="pending")
-                                return (
-                                    <DataTable.Row>
-                                        <DataTable.Cell>{item.item_name+"("+item.grade_name+")"}</DataTable.Cell>
-                                        <DataTable.Cell>{item.category_name}</DataTable.Cell>
-                                        <DataTable.Cell>{item.item_price}</DataTable.Cell>
-                                        <DataTable.Cell>
-                                            <Menu  visible={visible[index]} onDismiss={()=>closeMenu(index)} anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={()=>openMenu(index)}>{item.buyer_approval_status}</Button>}>
-                                                <Menu.Item title="Approved" onPress={()=>StatusChange("approved",  item._id, index)}/>
-                                                <Menu.Item title="Pending" onPress={()=>StatusChange("pending",  item._id, index)}/>
-                                            </Menu>
-                                        </DataTable.Cell>  
-                                        <DataTable.Cell numeric>
-                                            {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('VendorsViewItem', {itemId: item._id})}}></Button>
-                                                :
-                                                <Link to={"/vendors_view_item/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
-                                            }
-                                        </DataTable.Cell> 
-                                    </DataTable.Row>
-                                )
-                            }
-                        })
-                        :
-                        <ActivityIndicator color="#794BC4" size={60}/>
-                    } */}
-                </DataTable>
+                    visible={visible3}
+                    onDismiss={closeMenu3}
+                    anchor={<Button style={styles.input} mode="outlined"  onPress={openMenu3}>{buyer_email} </Button>}>
+                        <Searchbar
+                            icon={() => <FontAwesomeIcon icon={ faSearch } />}
+                            clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
+                            placeholder="Search"
+                            onChangeText={onChangeSearch}
+                            value={searchQuery}
+                            style={{marginBottom: '20px'}}
+                        />
+                        {buyer ?
+                            buyer.map((it)=>{
+                                if(it.pool_id==item.vendor_pool)
+                                if(it.nick_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
+                                    return (
+                                        <Menu.Item title={it.nick_name} onPress={()=>chooseBuyer(it._id, it.email)} />
+                                    )
+                                }
+                            })
+                            :
+                            <Menu.Item title="No Buyer Available" />
+                        }
+                    </Menu>
+                    <Card.Content>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex:1, marginTop: '2%', }}>
+                                {item.image ?
+                                        <Image
+                                            style={{width: 200, height: 210, border: '1px solid black'}}
+                                            source={item.image}
+                                        />
+                                    :
+                                        <Text>No Image</Text>
+                                }
+                            </View>
+                            <View style={{ flex:3, }}>
+                                <TextInput style={styles.input} mode="outlined" label="Item Name" value={item.item_name}/>
+                                <TextInput style={styles.input} mode="outlined" label="Item Category" value={item.category_name}/>
+                                <TextInput style={styles.input} mode="outlined" label="Item Grade" value={item.grade_name}/>
+                            </View>
+                        </View>
+                        <TextInput style={styles.input} mode="outlined" label="Item Unit" value={item.unit_name}/>
+                        <TextInput style={styles.input} mode="outlined" label="Item Price" value={item.item_price}/>
+                        <TextInput style={styles.input} mode="outlined" label="Item Description" multiline value={item.description}/>
+                        <TextInput style={styles.input} mode="outlined" label="Address" value={item.address}/>
+                        <TextInput style={styles.input} mode="outlined" label="Landmark" value={item.landmark}/>
+                        <TextInput style={styles.input} mode="outlined" label="District" value={item.district}/>
+                        <TextInput style={styles.input} mode="outlined" label="State" value={item.state}/>
+                        <TextInput style={styles.input} mode="outlined" label="country" value={item.country}/>
+                        <TextInput style={styles.input} mode="outlined" label="Pin Code" value={item.postal_code}/>
+                    </Card.Content>
+                </Card>
+                :
+                <ActivityIndicator size={50}/>
+                }
             </View>
-        </ScrollView>
-        </SafeAreaView>
         </Provider>
     );
 }
 //define stylesheet for the component (IOS styles to be added)
 const styles = StyleSheet.create({
     card: {
-        margin: '2%',
         alignSelf: 'center',
+        padding: '1%',
         ...Platform.select({
             ios: {
-                
+                //to be updated for IOS
+                marginTop: '10%',
+                width: '90%',
             },
             android: {
+                marginTop: '10%',
                 width: '90%',
             },
             default: {
-                width: '20%',
-            }
-        })
-    },
-    title: {
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                textAlign: 'center',
-                color: 'green',
-                fontFamily: 'Roboto'
-            },
-            default: {
-                textAlign: 'center',
-                color: 'green',
-                fontSize: 28,
-                fontFamily: 'Roboto'
-            }
-        })
-    },
-    datatable: {
-        alignSelf: 'center',
-        marginTop: '2%',
-        marginBottom: '2%',
-        padding: '2%',
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                width: '100%',
-            },
-            default: {
+                marginTop: '4%',
                 width: '75%',
                 border: '1px solid gray',
                 boxShadow: '0 4px 8px 0 gray, 0 6px 20px 0 gray',
             }
         })
     },
-}); 
+    input: {
+        marginTop: '2%',
+        width: '100%',
+        backgroundColor: 'white',
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                
+            },
+            default: {
+                
+            }
+        })
+    },
+    button: {
+        marginTop: '2%',
+    }
+});
