@@ -23,4 +23,14 @@ router.get('/retrieve_vendor_pool/:id',(req, res)=>{
         }
     });
 });
+router.get('/retrieve_vendor_pools/:pincode',(req, res)=>{
+    Vendor_pool.find({_id:req.params.id}, function(err, Vendor_pool){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.json(Vendor_pool);
+        }
+    });
+});
 module.exports = router;

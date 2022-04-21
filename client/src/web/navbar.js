@@ -79,6 +79,7 @@ import VendorsPendingItems from '../components/vendorsItem/vendors_pending_items
 import VendorsApprovedItems from '../components/vendorsItem/vendors_approved_item';
 import VendorsEditItem from '../components/vendorsItem/vendors_edititem';
 import Buyer_approved_vendor_item from '../components/vendorsItem/buyer_approved_vendor_item';
+import BuyerAssignment from '../components/vendorsItem/assign_buyer';
 import VendorsViewItem from '../components/vendorsItem/vendors_view_item';
 import VendorAddAddress from '../components/vendor_address/add_vendor_address';
 import VendorAllAddress from '../components/vendor_address/all_vendor_address';
@@ -441,7 +442,10 @@ const NavBar =()  => {
                                             <NavDropdown.Item to="/vendors_allitems" as={Link}>View  All Items</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/buyer_approved_vendors_items" as={Link}>Approved vendor Item</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item to="/buyer_assignment_for_inventory_check" as={Link}>Assign Buyer for inventory check</NavDropdown.Item>
                                         </NavDropdown>
+                                       
                                         <NavDropdown.Divider />
                                         <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/vendors_add_address" as={Link}>Add new pickup address</NavDropdown.Item>
@@ -955,6 +959,9 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/vendors_additem">
                     <VenodrsAddItem/>
+                </Route>
+                <Route path="/buyer_assignment_for_inventory_check">
+                    <BuyerAssignment />
                 </Route>
                 <Route path="/buyer_approved_vendors_items" >
                     <Buyer_approved_vendor_item roleas={roleas}/>
