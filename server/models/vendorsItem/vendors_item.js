@@ -88,7 +88,13 @@ const vendorsItemSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
-    }
+    },
+    vendor_pool: {
+        type: String,
+    },
+    manager_pool: {
+        type: String,
+    },
     }, {
     timestamps: true
 });

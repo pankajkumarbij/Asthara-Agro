@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { all_vendor_items_by_id } from '../../services/vendor_api';
+import { all_vendor_items } from '../../services/vendor_api';
 import {url} from '../../utils/url';
 
 const theme = {
@@ -41,14 +41,13 @@ export default function Buyer_approved_vendor_item(props, {navigation }) {
 
         if(userId){
             
-            all_vendor_items_by_id(userId)
+            all_vendor_items()
             .then(result => {
-                //console.log(result);
                 setAllItems(result);
             });
         }
 
-    }, [userId, roleas,props.roleas]);
+    }, [userId,props.roleas]);
 
     const sorting = (col)=>{
         if(sorting_order=="ASC"){
@@ -121,6 +120,7 @@ export default function Buyer_approved_vendor_item(props, {navigation }) {
                     {allItems ?
                         allItems.map((item,index)=>{
                             if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
+                            if(item.buyer_approval_status=="pending")
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name+"("+item.grade_name+")"}</DataTable.Cell>

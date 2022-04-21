@@ -10,6 +10,7 @@ import { allitem, item_all_category, item_grade, item_unit } from '../../service
 import axios from 'axios';
 import {url} from '../../utils/url';
 import { uploadImage } from '../../services/image';
+import { all_manager_pools, all_vendor_pools } from '../../services/pool';
 
 const theme = {
     ...DefaultTheme,
@@ -72,6 +73,11 @@ export default function VendorsAddItem({ navigation }) {
     const [allItems, setAllItems] = useState();
     const [item, setItem] = useState("Choose Item");
     const[min_quantity, setMin_quantity] = useState("");
+    const [vendor_pools, setVendorPools] = useState();
+    const [manager_pools, setManagerPools] = useState();
+    const [vendor_pool, setVendorPool] = useState();
+    const [manager_pool, setManagerPool] = useState();
+    const [flag, setFlag] = useState(true);
 
     let history = useHistory();
 
@@ -121,7 +127,37 @@ export default function VendorsAddItem({ navigation }) {
             });
         }
 
-    }, [userId,nick_name]);
+        all_vendor_pools()
+        .then(result => {
+            setVendorPools(result);
+        })
+
+        all_manager_pools()
+        .then(result => {
+            setManagerPools(result);
+        })
+
+        if(pincode && pincode.toString().length==6 && flag){
+            vendor_pools.map(it => {
+                var vp = it.postal_code.find(function (el) {
+                    return el==pincode;
+                });
+                if(vp!==undefined){
+                    setVendorPool(it._id);
+                }
+            })
+            manager_pools.map(it => {
+                var vp = it.postal_code.find(function (el) {
+                    return el==pincode;
+                });
+                if(vp!==undefined){
+                    setManagerPool(it._id);
+                }
+            })
+            setFlag(false);
+        }
+
+    }, [userId,nick_name,pincode,manager_pools,vendor_pools,flag]);
 
     function chooseCategory(id, name) {
         setCategoryId(id);
@@ -181,6 +217,8 @@ export default function VendorsAddItem({ navigation }) {
                 country: country,
                 postal_code: pincode,
                 min_quantity: min_quantity,
+                vendor_pool: vendor_pool,
+                manager_pool: manager_pool
         })
           .then(function (response) {
             alert(response.data.message);

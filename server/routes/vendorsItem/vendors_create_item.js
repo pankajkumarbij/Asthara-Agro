@@ -28,6 +28,8 @@ router.post('/vendors_create_item', (req, res)=>{
         postal_code: req.body.postal_code,
         nick_name:req.body.nick_name,
         buyer_approval_status: req.body.buyer_approval_status,
+        vendor_pool: req.body.vendor_pool,
+        manager_pool: req.body.manager_pool,
     })
     newItem.save()
     .then(item => {

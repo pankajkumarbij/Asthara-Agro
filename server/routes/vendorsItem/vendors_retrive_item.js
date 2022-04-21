@@ -5,7 +5,7 @@ const VendorsItem = require('../../models/vendorsItem/vendors_item');
 const vendor_pool = require('../../models/vendor_pool/vendor_pool');
 //DEfine Route to retrive all items
 router.get('/vendors_retrive_all_item',(req, res)=>{
-    VendorsItem.find({status:"enabled",buyer_approval_status:"approved"}, function(err, items){
+    VendorsItem.find({}, function(err, items){
         if(err){
             console.log(err);
         }
@@ -50,7 +50,7 @@ router.get('/vendors_retrive_approved_item/:vendorid',(req, res)=>{
 });
 
 router.get('/retrive_vendor_item/:id',(req, res)=>{
-    VendorsItem.find({'_id':req.params.id,buyer_approval_status:"approved"}, function(err, item){
+    VendorsItem.find({'_id':req.params.id}, function(err, item){
         if(err){
             console.log(err);
         }
