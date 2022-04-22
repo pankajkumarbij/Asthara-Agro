@@ -120,7 +120,7 @@ export default function Buyer_approved_vendor_item(props, {navigation }) {
                     {allItems ?
                         allItems.map((item,index)=>{
                             if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                            if(item.buyer_approval_status=="pending")
+                            if(item.buyer_approval_status=="pending" && item.buyer_id && item.buyer_id==userId)
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name+"("+item.grade_name+")"}</DataTable.Cell>

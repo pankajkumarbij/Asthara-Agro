@@ -59,6 +59,25 @@ router.put('/vendors_update_item_buyer_status/:id',(req, res) =>{
     })
 });
 
-
+router.put('/vendors_item_buyer_assign/:id',(req, res) =>{
+    var item_update = {
+        buyer_id: req.body.buyer_id,
+        buyer_email: req.body.buyer_email,
+    }
+    VendorsItem.findOneAndUpdate({'_id':req.params.id}, item_update)
+    .then((item) => {
+        if(item){
+            var message = {message: "Buyer Assign sucessfully" };
+            res.json(message);
+        }else{
+            var message = { error: "item not found" };
+            res.json(message);
+        }
+    }).catch(err => {
+        console.log(err);
+        var message = { message: false, err: err };
+        res.json(message);
+    })
+});
 
 module.exports = router;

@@ -428,31 +428,47 @@ const NavBar =()  => {
                                         <NavDropdown.Item to="/completed_aim" as={Link}>Completed Excess Inventory Items</NavDropdown.Item>
                                     </NavDropdown>
                                     }
+                                    <NavDropdown.Divider />
                                 </>
                                 }   
-                                {( roleas == "vendor") &&
+                                {( roleas == "vendor" || roleas=="manager" || roleas=="buyer") &&
                                     <>
-                                    <NavDropdown title="Inventory Management" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                    <NavDropdown title="Inventory Management of Vendor" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown title="Add Item" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                            <NavDropdown.Item to="/vendors_additem" as={Link}>Add Item</NavDropdown.Item>
+                                           {roleas=="vendor" &&
+                                                <>
+                                                <NavDropdown.Item to="/vendors_additem" as={Link}>Add Item</NavDropdown.Item>
+                                                <NavDropdown.Divider />
+                                                <NavDropdown.Item to="/vendors_pending_allitems" as={Link}>View Pending Items</NavDropdown.Item>
+                                                <NavDropdown.Divider />
+                                                <NavDropdown.Item to="/vendors_approved_allitems" as={Link}>View Approved Items</NavDropdown.Item>
+                                                <NavDropdown.Divider />
+                                                <NavDropdown.Item to="/vendors_allitems" as={Link}>View  All Items</NavDropdown.Item>
+                                                </>
+                                            }
+                                            {roleas=="buyer" &&
+                                            <>
                                             <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/vendors_pending_allitems" as={Link}>View Pending Items</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/vendors_approved_allitems" as={Link}>View Approved Items</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/vendors_allitems" as={Link}>View  All Items</NavDropdown.Item>
-                                            <NavDropdown.Divider />
-                                            <NavDropdown.Item to="/buyer_approved_vendors_items" as={Link}>Approved vendor Item</NavDropdown.Item>
+                                            <NavDropdown.Item to="/buyer_approved_vendors_items" as={Link}>Buyer Approve Item</NavDropdown.Item>
+                                            </>
+                                            }
+                                            {roleas=="manager" &&
+                                            <>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/buyer_assignment_for_inventory_check" as={Link}>Assign Buyer for inventory check</NavDropdown.Item>
+                                            </>
+                                            }
                                         </NavDropdown>
-                                       
+                                        {roleas == "vendor" &&
+                                        <>
                                         <NavDropdown.Divider />
                                         <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             <NavDropdown.Item to="/vendors_add_address" as={Link}>Add new pickup address</NavDropdown.Item>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item to="/vendors_all_addresses" as={Link}>All addresses</NavDropdown.Item> 
                                         </NavDropdown>
+                                        </>
+                                        }
                                     </NavDropdown>
                                     <NavDropdown.Divider />
                                     </>

@@ -70,6 +70,24 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
         closeMenu3();
     }
 
+    function submit(){
+        fetch(`http://${host}:5000/vendors_item_buyer_assign/${itemId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                buyer_id, 
+                buyer_email
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+        }); 
+    }
+
     const onChangeSearch = query => setSearchQuery(query);
     
     return (
@@ -138,6 +156,7 @@ export default function Buyer_assignmnet(props, {route,navigation }) {
                         <TextInput style={styles.input} mode="outlined" label="country" value={item.country}/>
                         <TextInput style={styles.input} mode="outlined" label="Pin Code" value={item.postal_code}/>
                     </Card.Content>
+                    <Button mode="contained" style={styles.button} onPress={()=>submit()} >Assign Buyer</Button>
                 </Card>
                 :
                 <ActivityIndicator size={50}/>

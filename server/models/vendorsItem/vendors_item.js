@@ -95,6 +95,12 @@ const vendorsItemSchema = new mongoose.Schema({
     manager_pool: {
         type: String,
     },
+    buyer_id: {
+        type: String,
+    },
+    buyer_email: {
+        type: String,
+    },
     }, {
     timestamps: true
 });

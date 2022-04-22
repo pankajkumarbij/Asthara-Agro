@@ -4,8 +4,9 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu  } fr
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye ,faSort} from '@fortawesome/free-solid-svg-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { all_vendor_items } from '../../services/vendor_api';
+import { users_by_id } from '../../services/user_api';
+import { roleas, loginuserId } from '../../utils/user';
 
 const theme = {
     ...DefaultTheme,
@@ -22,20 +23,27 @@ export default function Buyer_assignmnet(props, {navigation }) {
     const [allItems, setAllItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [userId, setUserId] = useState('');
-    const [roleas, setRoleas] = useState("");
+    const [role, setRole] = useState("");
     const [sorting_order, setSortingOrder] = useState('ASC');
+    const [managerPoolId, setManagerPoolId] = useState('');
 
     useEffect(() => {
-        //to get the id of current vendor
-        async function fetchData() {
-            await AsyncStorage.getItem('loginuserid')
-            .then((userid) => {
-                setUserId(userid);
+        roleas()  
+        .then(result => {
+            setRole(result);
+        })
+
+        loginuserId()  
+        .then(result => {
+            setUserId(result);
+        })
+
+        if(role && role=='manager' && userId){
+            users_by_id(userId)
+            .then(result=>{
+                setManagerPoolId(result[0].pool_id);
             })
         }
-        fetchData();
-
-        setRoleas(props.roleas);
 
         if(userId){
             
@@ -45,7 +53,7 @@ export default function Buyer_assignmnet(props, {navigation }) {
             });
         }
 
-    }, [userId,props.roleas]);
+    }, [userId,role]);
 
     const sorting = (col)=>{
         if(sorting_order=="ASC"){
@@ -88,7 +96,7 @@ export default function Buyer_assignmnet(props, {navigation }) {
                     {allItems ?
                         allItems.map((item,index)=>{
                             if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
-                            if(item.buyer_approval_status=="pending")
+                            if(item.buyer_approval_status=="pending" && !item.buyer_id && managerPoolId==item.manager_pool)
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name+"("+item.grade_name+")"}</DataTable.Cell>
