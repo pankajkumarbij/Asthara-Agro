@@ -1,1 +1,1 @@
-export const bank_url="https://ifsc.razorpay.com/";
+export const bank_url = 'https://ifsc.razorpay.com/';

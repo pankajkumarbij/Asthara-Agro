@@ -18,27 +18,24 @@ const theme = {
 //define edit item component
 export default function VendorsViewItem(props,{route}) {
 
-    var itemid = "";
-    var id="";
-    if(Platform.OS=="android"){
+    var itemid = '';
+    var id = '';
+    if (Platform.OS == 'android'){
         id = route.params.itemId;
     }
     else{
         itemid = props.match.params.itemid;
     }
 
-    const [itemId, setItemId] = useState("");
-    const [host, setHost] = useState("");
+    const [itemId, setItemId] = useState('');
     const [item, setItem] = useState();
 
     useEffect(() => {
 
-        if(Platform.OS=="android"){
-            setHost("10.0.2.2");
+        if(Platform.OS == 'android'){
             setItemId(id);
         }
         else{
-            setHost("localhost");
             setItemId(itemid);
         }
 
@@ -49,11 +46,11 @@ export default function VendorsViewItem(props,{route}) {
             });
         }
 
-    }, [host,itemId,id,itemid])
+    }, [itemId,id,itemid])
 
     return (
         <Provider theme={theme}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.view}>
                 {item ?
                 <Card style={styles.card}>
                     <View style={{ flexDirection: 'row' }}>
@@ -141,5 +138,10 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: '2%',
+    },
+    view: {
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center'
     }
 }); 

@@ -5,8 +5,8 @@ export function uploadImage(file){
     const data = new FormData();
     // Update the formData object
     data.append(
-        "file",
-        file
+        'file',
+        file ,
     );
 
     return fetch(`${url}/uploadfile`, {
@@ -16,7 +16,7 @@ export function uploadImage(file){
     .then(res => res.json())
     .catch(error => console.log(error))
     .then(Image => {
-        console.log("called");
+        console.log('called');
         return Image.img;
     });
 }

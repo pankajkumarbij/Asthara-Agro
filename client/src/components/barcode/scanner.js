@@ -15,7 +15,7 @@ function Scanner() {
           else setData('Not Found')
         }}
       />
-      {data && data!="Not Found" &&
+      {data && data !== 'Not Found' &&
         <h6 style={{textAlign: 'center'}}>{data}</h6>
       }
     </>
