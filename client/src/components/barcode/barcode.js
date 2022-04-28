@@ -20,7 +20,7 @@ export default function Barcode(props){
 
     const { inputRef } = useBarcode({
         value: props.barcode,
-        format: 'CODE128',
+        format: "CODE128",
     });
 
     function DownlaodBarcode(){

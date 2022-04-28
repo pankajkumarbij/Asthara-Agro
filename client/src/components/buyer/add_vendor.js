@@ -14,15 +14,15 @@ const theme = {
 //define add vendor component
 export default function Buyer_add_vendor(){
     //initialize all required state variables
-    const [fullname,setFullname] = useState('');
-    const [nickname,setNickname] = useState('');
-    const [email,setEmail] = useState('');
-    const [mobile_no,SetMobile_no] = useState('');
-    const [gst_no,setGst_no] = useState('');
-    const [password,setPassword] = useState('');
-    const [confirm_password,setConfirm_password] = useState('');
-    const [category,setCategory] = useState('');
-    const [role,setRole]=useState('');
+    const [fullname,setFullname] = useState("");
+    const [nickname,setNickname] = useState("");
+    const [email,setEmail] = useState("");
+    const [mobile_no,SetMobile_no] = useState("");
+    const [gst_no,setGst_no] = useState("");
+    const [password,setPassword] = useState("");
+    const [confirm_password,setConfirm_password] = useState("");
+    const [category,setCategory] = useState("");
+    const [role,setRole]=useState("");
     //fetch vendor category information
     useEffect(() => {
         fetch('http://localhost:5000/retrive_user_category_type/vendor', {

@@ -108,7 +108,7 @@ router.get('/retrive_vendor_item_by_name_grade_lower_price/:itemname/:grade/:id'
 });
 
 router.get('/vendors_retrive_all_item_by_vendor_pool/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }

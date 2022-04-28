@@ -5,5 +5,5 @@ export const all_aim = () => {
     return axios.get(url + '/retrieve_excess_inventory_details')
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
-};
+    }).catch(err => console.log(err))
+}

@@ -16,7 +16,7 @@ const theme = {
 };
 
 //define add address component
-export default function AddAddress({route},props) {
+export default function AddAddress(props, {route}) {
 
     var userid = '';
     if (Platform.OS === 'android'){

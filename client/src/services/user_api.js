@@ -3,7 +3,7 @@ import axios from 'axios';
 //retrive users by category
 export function all_users(host){
     return fetch(`${url}/retrive_all_user`, {
-         method: 'GET',
+         method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -16,19 +16,19 @@ export const users_by_id = (userId) => {
     return axios.get(url + '/retrive_user/' + userId)
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
-};
+    }).catch(err => console.log(err))
+}
 //retrive user by email
 export const users_by_email = (email) => {
     return axios.get(url + '/retrive_user_by_email/' + email)
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
-};
+    }).catch(err => console.log(err))
+}
 //retrive all disabled users
 export function disabled_users(host){
     return fetch(`${url}/retrive_all_disabled_user`, {
-            method: 'GET',
+            method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -41,12 +41,12 @@ export const all_users_by_role = (role) => {
     return axios.get(url + '/retrive_user_by_role/' + role)
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
-};
+    }).catch(err => console.log(err))
+}
 //retive all disabled users category
 export function disabled_user_category(host){
     return fetch(`${url}/retrive_all_disabled_user_category`, {
-            method: 'GET',
+            method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -57,7 +57,7 @@ export function disabled_user_category(host){
 //retive all disabled users category by id
 export function disabled_all_disabled_user_category(host){
     return fetch(`${url}/retrive_user_category`, {
-        method: 'GET',
+        method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -68,7 +68,7 @@ export function disabled_all_disabled_user_category(host){
 //retrive users address by user id
 export function address_by_usersId(host,userId){
     return fetch(`${url}/retrive_address_by_userId/${userId}`, {
-        method: 'GET',
+        method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -79,7 +79,7 @@ export function address_by_usersId(host,userId){
 //retrive users address by user id
 export function address_by_Id(host,addressId){
     return fetch(`${url}/retrive_address/${addressId}`, {
-        method: 'GET',
+        method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -90,7 +90,7 @@ export function address_by_Id(host,addressId){
 //retrive bank details by user id
 export function bank_by_userId(host,userId){
     return fetch(`${url}/retrive_bank_by_userId/${userId}`, {
-        method: 'GET',
+        method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -100,8 +100,8 @@ export function bank_by_userId(host,userId){
 }
 //retrive  user Category
 export function user_category(host){
-    return fetch(url + '/retrive_all_user_category', {
-        method: 'GET',
+    return fetch(url+"/retrive_all_user_category", {
+        method: 'GET'
     })
     .then(res => res.json())
     .catch(error => console.log(error))
@@ -115,7 +115,7 @@ export function user_address(userId){
     return axios.get(url + '/retrive_address_by_userId/' + userId)
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
+    }).catch(err => console.log(err))
 }
 
 //retrive user Bank Details by userId
@@ -123,5 +123,5 @@ export function user_bank(userId){
     return axios.get(url + '/retrive_bank_by_userId/' + userId)
     .then(res => {
         return res.data;
-    }).catch(err => console.log(err));
+    }).catch(err => console.log(err))
 }

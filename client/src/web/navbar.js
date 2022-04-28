@@ -461,12 +461,12 @@ const NavBar =()  => {
                                         </NavDropdown>
                                         {roleas == "vendor" &&
                                         <>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                            <NavDropdown.Item to="/vendors_add_address" as={Link}>Add new pickup address</NavDropdown.Item>
                                             <NavDropdown.Divider />
-                                            <NavDropdown title="Add Address" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                                <NavDropdown.Item to="/vendors_add_address" as={Link}>Add new pickup address</NavDropdown.Item>
-                                                <NavDropdown.Divider />
-                                                <NavDropdown.Item to="/vendors_all_addresses" as={Link}>All addresses</NavDropdown.Item> 
-                                            </NavDropdown>
+                                            <NavDropdown.Item to="/vendors_all_addresses" as={Link}>All addresses</NavDropdown.Item> 
+                                        </NavDropdown>
                                         </>
                                         }
                                     </NavDropdown>
