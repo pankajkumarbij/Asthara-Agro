@@ -33,7 +33,34 @@ const fdcSchema = new mongoose.Schema({
     },
     equipmentAndMachinery:{
         type: mongoose.Schema.Types.Mixed,
-    }
+    },
+    rain_fed:{
+        type: String,
+    },
+    canal: {
+        type: String,
+    },
+    borewell:{
+        type: String,
+    },
+    apmc:{
+        type: String,
+    },
+    private_mandi:{
+        type: String,
+    },
+    contract_forming:{
+        type: String,
+    },
+    bank:{
+        type: String,
+    },
+    private:{
+        type: String,
+    },
+    declaration:{
+        type: String,
+    },
     }, {
     timestamps: true
 });

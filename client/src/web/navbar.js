@@ -197,6 +197,12 @@ import Editcrawler from '../components/crawler/edit_crawler';
 import Viewcrawler from '../components/crawler/view_crowlers';
 import Allcrawlers from '../components/crawler/allcrawler';
 
+import BackgroundInfo from '../components/farmer_data_collection/fdc1';
+import FarmerTable from '../components/farmer_data_collection/fdc2';
+import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
+import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
+import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
+
 const NavBar =()  => {
 
     const [email, setEmail] = useState("");
@@ -587,6 +593,22 @@ const NavBar =()  => {
                                         <NavDropdown.Item to="/register" as={Link}>Add Customer</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item to="/customerdetails" as={Link}>View Customers</NavDropdown.Item>
+                                    </NavDropdown>
+                                    </>
+                                }
+                                {roleas=="manager" &&
+                                    <>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Farmer Data Collection" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/backgroundinfo" as={Link}>Add Farmer Data</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/allusers" as={Link}>View Farmers Data</NavDropdown.Item>
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown drop="right" title="User Category" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/addusercategory" as={Link}>Add User Category</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/allusercategories" as={Link}>View User Categories</NavDropdown.Item>
                                     </NavDropdown>
                                     </>
                                 }
@@ -1111,6 +1133,14 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/View_Aim/:id" render={(props) => <View_Aim {...props} />} exact />
                 <Route path="/Edit_Aim/:id" render={(props) => <Edit_Aim {...props} />} exact />
+
+                <Route path="/backgroundinfo">
+                    <BackgroundInfo/>
+                </Route>
+                <Route path="/farmertable/:id" render={(props) => <FarmerTable {...props} />} exact />
+                <Route path="/farmerlandinfo/:id" render={(props) => <FarmerLandInfo {...props} />} exact />
+                <Route path="/farmerequipmenttable/:id" render={(props) => <FarmerEquipmentTable {...props} />} exact />
+                <Route path="/farmercheckbox/:id" render={(props) => <FarmerCheckBox {...props} />} exact />
                 <Route component={PageNotFound}  />
                 </Switch>
             }

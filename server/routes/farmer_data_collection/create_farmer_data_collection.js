@@ -16,12 +16,20 @@ router.post('/create_fdc',(req,res)=>{
         crop_info:req.body.crop_info,
         land_info:req.body.land_info,
         equipmentAndMachinery:req.body.equipmentAndMachinery,
+        rain_fed: req.body.rain_fed,
+        canal: req.body.canal,
+        borewell: req.body.borewell,
+        private_mandi: req.body.private_mandi,
+        contract_forming: req.body.contract_forming,
+        bank: req.body.bank,
+        private: req.body.private,
+        declaration: req.body.declaration,
     })
     newFdc.save()
     .then(Fdc => {
-        res.json(Fdc);
+        res.json({msg:"Successfully Saved",data:Fdc});
     })
-    .catch(err => res.json(err))
+    .catch(err => res.json({msg:"Somthing went wrong",err}))
 });
 
 module.exports = router;
