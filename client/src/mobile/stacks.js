@@ -81,6 +81,11 @@ import EditOrderapp from '../components/order/edit_order_app';
 import All_Dispatch_Orders_From_Buyer from '../components/reports/all_dispatch_order_items/all_dispatch_order_items';
 import All_order_status from '../components/reports/order_status/all_order_status';
 import All_Received_Orders_From_Buyer from '../components/reports/received_items_from_buyer/all_received_items_from_buyer'
+import BackgroundInfo from '../components/farmer_data_collection/fdc1';
+import FarmerTable from '../components/farmer_data_collection/fdc2';
+import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
+import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
+import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
 
 const Stack = createStackNavigator();
 
@@ -491,6 +496,36 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
+             <Stack.Screen name="BackgroundInfo" component={BackgroundInfo} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="FarmerTable" component={FarmerTable} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="FarmerLandInfo" component={FarmerLandInfo} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+   
+            <Stack.Screen name="FarmerEquipmentTable" component={FarmerEquipmentTable} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="FarmerCheckBox" component={FarmerCheckBox} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+
+
+
+
         </Stack.Navigator>
     );
 }

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Platform, ScrollView, SafeAreaView, CheckBox, Text } from 'react-native';
-import { Provider, DefaultTheme, Button, Card } from 'react-native-paper';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView,Text } from 'react-native';
+import { Provider, DefaultTheme, Button, Card,Checkbox } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
 import axios from 'axios';
-
+//import CheckBox from '@react-native-community/checkbox';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -15,9 +15,9 @@ const theme = {
     },
 };
 
-export default function FarmerCheckBox(props, { navigation, route }) {
+export default function FarmerCheckBox( { navigation, route },props) {
 
-    var id = "";
+    var id = '';
     if(Platform.OS=="android"){
         id = route.params.id;
     }
@@ -53,7 +53,7 @@ export default function FarmerCheckBox(props, { navigation, route }) {
             alert(response.data.msg);
             if (response.data.msg == "successfully saved") {
                 if (Platform.OS == 'android') {
-                    navigation.navigate('AllCustomerPools');
+                   navigation.navigate('Home');
                 }
                 else {
                     history.push('/');
@@ -63,6 +63,9 @@ export default function FarmerCheckBox(props, { navigation, route }) {
         .catch(function (error) {
             console.log(error);
         });
+        if (Platform.OS == 'android') {
+            navigation.navigate('Home');
+         }
     }
 
     return (
@@ -70,13 +73,13 @@ export default function FarmerCheckBox(props, { navigation, route }) {
             <SafeAreaView>
                 <ScrollView>
                     <Card style={styles.card} >
-                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                            <View>
-                                <Text style={{ color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Sources of irrigation</Text>
+                        <View >
+                        <View style={styles.divbox}>
+                                <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}> Sources of irrigation</Text>
                                 <View style={styles.checkboxContainer}>
                                     <CheckBox
                                         value={RainFed}
-                                        onValueChange={setRainFed}
+                                        onValueChange={setRainFed} 
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>RainFed</Text>
@@ -98,8 +101,8 @@ export default function FarmerCheckBox(props, { navigation, route }) {
                                     <Text style={styles.label}>Borwall</Text>
                                 </View>
                             </View>
-                            <View>
-                                <Text style={{ color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Market Information</Text>
+                            <View style={styles.divbox}>
+                                <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Market Information</Text>
                                 <View style={styles.checkboxContainer}>
                                     <CheckBox
                                         value={APMC}
@@ -121,12 +124,12 @@ export default function FarmerCheckBox(props, { navigation, route }) {
                                         value={ContractFarming}
                                         onValueChange={setContractFarming}
                                         style={styles.checkbox}
-                                    />
-                                    <Text style={styles.label}>Contract Farming</Text>
+                                    /> 
+                                      <Text style={styles.label}>Contract Farming</Text>
                                 </View>
                             </View>
-                            <View>
-                                <Text style={{ color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Input Management</Text>
+                            <View style={styles.divbox}>
+                                <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Input Management</Text>
                                 <View style={styles.checkboxContainer}>
                                     <CheckBox
                                         value={Bank}
@@ -146,7 +149,7 @@ export default function FarmerCheckBox(props, { navigation, route }) {
                             </View>
                         </View>
                         <View>
-                            <Text style={{ color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline',marginTop:20}}>Declaration</Text>
+                            <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline',marginTop:20}}>Declaration</Text>
                             <View style={styles.checkboxContainer}>
                                 <CheckBox
                                     value={Declaration}
@@ -155,6 +158,7 @@ export default function FarmerCheckBox(props, { navigation, route }) {
                                 />
                                 <Text style={styles.label}>Consent to availability of above land for cultivation inder Sahayoga Krishi</Text>
                             </View>
+
                         </View>
                         <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>
                     </Card>
@@ -191,6 +195,7 @@ const styles = StyleSheet.create({
             },
             android: {
                 width: '90%',
+
             },
             default: {
                 width: '75%',
@@ -199,14 +204,49 @@ const styles = StyleSheet.create({
             }
         })
     },
+    divbox:{
+        ...Platform.select({
+            ios:{
+
+            },
+            android:{
+               flexDirection: "column",
+               flexWrap:'wrap',           
+               textAlign: "center",
+               minWidth: "90%",
+               margin:10
+
+
+            },
+            default:{
+                flexDirection: "row",
+
+            }
+        })
+
+    },
     checkboxContainer: {
-        flexDirection: "row",
+        ...Platform.select({
+            ios:{
+
+            },
+            android:{
+               flexDirection: "row"
+              
+ 
+            },
+            default:{
+                flexDirection: "row",
+
+            }
+        })
+
     },
     checkbox: {
         alignSelf: "center",
     },
     label: {
-        margin: 10,
+        margin:10,
     },
     error: {
         color: 'red',

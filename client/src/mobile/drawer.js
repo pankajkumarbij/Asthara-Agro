@@ -54,6 +54,7 @@ function CustomDrawerContent({navigation}) {
     const [visible32, setVisible32] = useState(false);
     const [visible33, setVisible33] = useState(false);
     const [visible34, setVisible34] = useState(false);
+    const [visible35, setVisible35] = useState(false);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [roleas, setRoleas] = useState("");
@@ -156,6 +157,8 @@ function CustomDrawerContent({navigation}) {
     const closeMenu33 = () => setVisible33(false);
     const openMenu34 = () => setVisible34(true);
     const closeMenu34 = () => setVisible34(false);
+    const openMenu35 = () => setVisible35(true);
+    const closeMenu35 = () => setVisible35(false);
     // console.log(role);
     
     return (
@@ -327,6 +330,14 @@ function CustomDrawerContent({navigation}) {
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AddUserCategory')}}>Add User Category</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllUserCategories')}}>View User Categories</Button>
             </Menu>
+            <Menu
+            visible={visible35}
+            onDismiss={closeMenu35}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu35}>Farmer Details</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('BackgroundInfo')}}>BackgroundInfo</Button>
+               
+
+            </Menu> 
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                 <View>

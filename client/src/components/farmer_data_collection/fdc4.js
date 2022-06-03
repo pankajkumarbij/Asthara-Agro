@@ -17,9 +17,9 @@ const theme = {
     },
 };
 
-export default function FarmerEquipmentTable(props, { navigation, route }) {
+export default function FarmerEquipmentTable({ navigation, route },props) {
 
-    var id = "";
+    var id = '';
     if(Platform.OS=="android"){
         id = route.params.id;
     }
@@ -76,12 +76,17 @@ export default function FarmerEquipmentTable(props, { navigation, route }) {
             alert(response.data.msg);
             if (response.data.msg == "successfully saved") {
                 if (Platform.OS == 'android') {
-                    navigation.navigate('AllCustomerPools');
+                    navigation.navigate('FarmerCheckBox',{id:id});
                 }
                 else {
                     history.push('/farmercheckbox/'+id);
                 }
             }
+            if (Platform.OS == 'android') {
+                navigation.navigate('FarmerCheckBox',{id:id});
+            }
+
+
         })
         .catch(function (error) {
             console.log(error);

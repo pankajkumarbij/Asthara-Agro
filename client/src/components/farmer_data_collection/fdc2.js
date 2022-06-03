@@ -1,9 +1,9 @@
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text } from 'react-native';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text, Keyboard ,TouchableWithoutFeedback} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-paper';
-import { useHistory } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
 import axios from 'axios';
 
@@ -17,122 +17,142 @@ const theme = {
     },
 };
 
-export default function FarmerTable(props, { navigation, route }) {
+export default function FarmerTable( { navigation, route },props) {
+  
+    var id = '';
+    if (Platform.OS =='android') {
+         id=route.params.id;
 
-    var id = "";
-    if(Platform.OS=="android"){
-        id = route.params.id;
     }
-    else{
-        id = props.match.params.id;
+    else {
+         id= props.match.params.id;
     }
 
-    const [Items, setItems] = useState([{sr:'',cropname:'',cropdetail:'',cultivationarea:'',totalqty:'',seedused:'',seedtype:'',Fertilizeruse:'',Pesticidesuse:'',croptimeframe:''}]);
+    const [Items, setItems] = useState([{ sr: '', cropname: '', cropdetail: '', cultivationarea: '', totalqty: '', seedused: '', seedtype: '', Fertilizeruse: '', Pesticidesuse: '', croptimeframe: '' }]);
     let history = useHistory();
 
-    const ItemChange1 = (index,newsr,newcropname,newcropdetail,newcultivationarea,newtotalqty,newseedused,newseedtype,newFertilizeruse,newPesticidesuse,newcroptimeframe) => {
-        if(newsr!='')
-        {
-          let value=[...Items];
-          value[index].sr= newsr; 
-          setItems(value);
-        }
-        else if(newcropname!='')
-        {
-            let value=[...Items];
-            value[index].cropname=newcropname; 
-            setItems(value);
-        }
-        else if(newcropdetail!='')
-        {
-            let value=[...Items];
-            value[index].cropdetail=newcropdetail;
+    const [ItemError, setItemError] = useState(['']);
+
+    const ItemChange1 = (index, newsr, newcropname, newcropdetail, newcultivationarea, newtotalqty, newseedused, newseedtype, newFertilizeruse, newPesticidesuse, newcroptimeframe) => {
+        if (newsr != '') {
+            var value = [...Items];
+            value[index].sr = newsr;
             setItems(value);
 
         }
-        else if(newcultivationarea!='')
-        {
-            let value=[...Items];
-            value[index].cultivationarea=newcultivationarea;
+        // const numberRegex = /^[0-9\b]+$/;
+        // if(numberRegex.test(newsr))
+        // {
+        //   var value = [...Items];
+        //    value[index].sr = newsr;
+        //    setItems(value);
+          
+        // }
+        // else{
+        //     var value = [...Items];
+        //     value[index].sr ='';
+        //     setItems(value);
+ 
+        // }
+
+
+        // var value = [...Items];
+        // value[index].cropname = newcropname;
+        // setItems(value);
+
+        
+
+        if (newcropname != '') {
+            let value = [...Items];
+            value[index].cropname = newcropname;
+            setItems(value);
+        }
+         if (newcropdetail != '') {
+            let value = [...Items];
+            value[index].cropdetail = newcropdetail;
             setItems(value);
 
         }
-        else if(newtotalqty!='')
-        {
-            let value=[...Items];
-            value[index].totalqty=newtotalqty
-            setItems(value);
-        }
-        else if(newseedused!='')
-        {
-            let value=[...Items];
-            value[index].seedused=newseedused
-            setItems(value);
-        }        
-        else if(newseedtype!='')
-        {
-            let value=[...Items];
-            value[index].seedtype=newseedtype
+        else if (newcultivationarea != '') {
+            let value = [...Items];
+            value[index].cultivationarea = newcultivationarea;
             setItems(value);
 
         }
-        else if(newcropname!='')
-        {
-            let value=[...Items];
-            value[index].cropname=newcropname
+        else if (newtotalqty != '') {
+            let value = [...Items];
+            value[index].totalqty = newtotalqty
             setItems(value);
         }
-        else if(newFertilizeruse!='')
-        {
-            let value=[...Items];
-            value[index].Fertilizeruse=newFertilizeruse
+        else if (newseedused != '') {
+            let value = [...Items];
+            value[index].seedused = newseedused
             setItems(value);
         }
-        else if(newPesticidesuse!='')
-        {
-            let value=[...Items];
-            value[index].Pesticidesuse=newPesticidesuse
+        else if (newseedtype != '') {
+            let value = [...Items];
+            value[index].seedtype = newseedtype
             setItems(value);
-        }
-        else if(newcroptimeframe!='')
-        {
-            let value=[...Items];
-            value[index].croptimeframe=newcroptimeframe
-            setItems(value);
-        }
-    };
 
+        }
+        else if (newcropname != '') {
+            let value = [...Items];
+            value[index].cropname = newcropname
+            setItems(value);
+        }
+        else if (newFertilizeruse != '') {
+            let value = [...Items];
+            value[index].Fertilizeruse = newFertilizeruse
+            setItems(value);
+        }
+        else if (newPesticidesuse != '') {
+            let value = [...Items];
+            value[index].Pesticidesuse = newPesticidesuse
+            setItems(value);
+        }
+        else if (newcroptimeframe != '') {
+            let value = [...Items];
+            value[index].croptimeframe = newcroptimeframe
+            setItems(value);
+        }
+    }
     const handleAddFields = () => {
         var values = [...Items];
-        values.push([{sr:'',cropname:'',cropdetail:'',cultivationarea:'',totalqty:'',seedused:'',seedtype:'',Fertilizeruse:'',Pesticidesuse:'',croptimeframe:''}]);
+        values.push([{ sr: '', cropname: '', cropdetail: '', cultivationarea: '', totalqty: '', seedused: '', seedtype: '', Fertilizeruse: '', Pesticidesuse: '', croptimeframe: '' }]);
         setItems(values);
+
     };
 
     const handleRemoveFields = index => {
         var values = [...Items];
         values.splice(index, 1);
         setItems(values);
-        
+
     };
 
     function submitForm() {
-        axios.put(url + '/update_fdc_crop_info/'+id, {
+        axios.put(url + '/update_fdc_crop_info/' + id, {
             Items: Items
         })
-        .then(function (response) {
-            alert(response.data.msg);
-            if (response.data.msg == "successfully saved") {
+            .then(function (response) {
+                alert(response.data.msg);
+                if (response.data.msg == "successfully saved") {
+                    if (Platform.OS == 'android') {
+                        navigation.navigate('FarmerLandInfo',{id:id});
+                    }
+                    else {
+
+                        history.push('/farmerlandinfo/' + id);
+                    }
+                }
                 if (Platform.OS == 'android') {
-                    navigation.navigate('AllCustomerPools');
+                    navigation.navigate('FarmerLandInfo',{id:id});
                 }
-                else {
-                    history.push('/farmerlandinfo/'+id);
-                }
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     return (
@@ -143,19 +163,24 @@ export default function FarmerTable(props, { navigation, route }) {
                         <Card style={styles.card} >
                             <Card.Title titleStyle={styles.title} title="Crop Information(Growth in last 3 years)" />
                             <Card.Content>
-                            {Items.map((it,index) => (
+                                {Items.map((it, index) => (
 
                                     <View>
-                                        <TextInput style={styles.input} mode="outlined" label="Sr No" value={it.sr} maxLength={6} onChangeText={(text) => ItemChange1(index,text,'','','','','','','','','')}/>
-                                        <TextInput style={styles.input} mode="outlined" label="Crop Name" value={it.cropname} maxLength={60} onChangeText={(text) =>ItemChange1(index,'',text,'','','','','','','','') } />
-                                        <TextInput style={styles.input} mode="outlined" label="Crop details" value={it.cropdetail} maxLength={60} onChangeText={(text) =>ItemChange1(index,'','',text,'','','','','','','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="cultivationarea"value={it.cultivationarea} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','',text,'','','','','','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="totalqty" value={it.totalqty} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','',text,'','','','','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Seed used" value={it.seedused} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','','',text,'','','','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Seed Type" value={it.seedtype} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','','','',text,'','','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Fertilizeruse" value={it.Fertilizeruse} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','','','','',text,'','')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Pesticidesuse" value={it.Pesticidesuse} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','','','','','',text,'')} />
-                                        <TextInput style={styles.input} mode="outlined" label="croptimeframe"value={it.croptimeframe} maxLength={60} onChangeText={(text) => ItemChange1(index,'','','','','','','','','',text)} />
+                                    {/* <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}> 
+                                    <TextInput keyboardType='numeric' style={styles.input} mode="outlined" label="Sr No" value={it.sr} maxLength={6} onChangeText={(text) => ItemChange1(index, text, '', '', '', '', '', '', '', '', '')} />
+
+                                    </TouchableWithoutFeedback>
+ */}
+                                        <TextInput keyboardType='numeric' style={styles.input} mode="outlined" label="Sr No" value={it.sr} maxLength={6} onChangeText={(text) => ItemChange1(index, text, '', '', '', '', '', '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Crop Name" value={it.cropname} maxLength={60} onChangeText={(text) => ItemChange1(index, '', text, '', '', '', '', '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Crop details" value={it.cropdetail} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', text, '', '', '', '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="cultivationarea" value={it.cultivationarea} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', text, '', '', '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="totalqty" value={it.totalqty} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', text, '', '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Seed used" value={it.seedused} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', '', text, '', '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Seed Type" value={it.seedtype} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', '', '', text, '', '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Fertilizeruse" value={it.Fertilizeruse} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', '', '', '', text, '', '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="Pesticidesuse" value={it.Pesticidesuse} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', '', '', '', '', text, '')} />
+                                        <TextInput style={styles.input} mode="outlined" label="croptimeframe" value={it.croptimeframe} maxLength={60} onChangeText={(text) => ItemChange1(index, '', '', '', '', '', '', '', '', '', text)} />
                                         <View style={{ flexDirection: 'row' }}>
                                             {Platform.OS == "android" ?
                                                 <>
@@ -164,7 +189,7 @@ export default function FarmerTable(props, { navigation, route }) {
                                                 </>
                                                 :
                                                 <>
-                                                    <Button onPress={ () => handleRemoveFields(index) } mode="outlined"><FontAwesomeIcon icon={faMinusCircle} color={'red'} size={30} /></Button>
+                                                    <Button onPress={() => handleRemoveFields(index)} mode="outlined"><FontAwesomeIcon icon={faMinusCircle} color={'red'} size={30} /></Button>
                                                     <Button onPress={() => handleAddFields()} mode="outlined"><FontAwesomeIcon icon={faPlusCircle} color={'green'} size={30} /></Button>
                                                 </>
                                             }
@@ -173,9 +198,9 @@ export default function FarmerTable(props, { navigation, route }) {
 
                                     </View>
 
-                            ))}
+                                ))}
 
-                            <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>
+                                <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>
                             </Card.Content>
                         </Card>
 

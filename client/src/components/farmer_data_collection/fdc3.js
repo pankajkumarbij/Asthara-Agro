@@ -6,6 +6,8 @@ import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-pa
 import { useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
 import axios from 'axios';
+//import Input from "react-validation/build/input";
+
 
 const theme = {
     ...DefaultTheme,
@@ -17,16 +19,18 @@ const theme = {
     },
 };
 
-export default function FarmerLandInfo(props, { navigation, route }) {
+export default function FarmerLandInfo( { navigation, route },props) {
+    
+    var id = '';
+    if (Platform.OS == 'android') {
+         id=route.params.id;
 
-    var id = "";
-    if(Platform.OS=="android"){
-        id = route.params.id;
     }
-    else{
-        id = props.match.params.id;
+    else {
+         id = props.match.params.id;
     }
 
+   
     var [Items, setItems] = useState([{ sr: '', CropGrowth: '', Longitude: '', Latitude: '', area: '' }]);
     let history = useHistory();
 
@@ -80,12 +84,16 @@ export default function FarmerLandInfo(props, { navigation, route }) {
             alert(response.data.msg);
             if (response.data.msg == "successfully saved") {
                 if (Platform.OS == 'android') {
-                    navigation.navigate('AllCustomerPools');
+                    navigation.navigate('FarmerEquipmentTable',{id:id});
                 }
                 else {
                     history.push('/farmerequipmenttable/'+id);
                 }
             }
+            if (Platform.OS == 'android') {
+                navigation.navigate('FarmerEquipmentTable',{id:id});
+            }
+
         })
         .catch(function (error) {
             console.log(error);
