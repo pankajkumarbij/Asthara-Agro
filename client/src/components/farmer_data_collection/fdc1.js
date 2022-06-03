@@ -41,17 +41,18 @@ export default function BackgroundInfo({ navigation }) {
             alert(response.data.msg);
             if (response.data.msg == "Successfully Saved") {
                 if (Platform.OS == 'android') {
-                    navigation.navigate('FarmerTable',{id:response.data.data.id});
+                    navigation.navigate('FarmerTable',{id:response.data.data._id});
                 }
                 else {
-                    history.push('/farmertable/'+response.data.data.id);
+                    history.push('/farmertable/'+response.data.data._id);
                 }
             }
-
+            console.log(response.data.data);
         })
         .catch(function (error) {
             console.log(error);
         });
+    }
 
     return (
         <Provider theme={theme}>
@@ -59,7 +60,7 @@ export default function BackgroundInfo({ navigation }) {
                 <ScrollView>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <Card style={styles.card} >
-                            <Card.Title titleStyle={styles.title} title="Background Information" />
+                            <Card.Title titleStyle={styles.title} title="Personal Information" />
                             <Card.Content>
                                 <View>
                                     <TextInput style={styles.input} mode="outlined" label="Name" value={name} onChangeText={(text) => setname(text)} />

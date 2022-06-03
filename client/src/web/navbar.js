@@ -202,6 +202,7 @@ import FarmerTable from '../components/farmer_data_collection/fdc2';
 import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
 import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
 import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
+import UnloadingTransportLabour from '../components/transport_labour/transport_labour_for_sales/editunloading';
 
 const NavBar =()  => {
 
@@ -401,6 +402,16 @@ const NavBar =()  => {
 
                                 </>
                                 }   
+                                {(roleas == "sales") &&
+                                <>
+                                    <NavDropdown title="Transport Labour" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown title="Transport Labour for Sales" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                            <NavDropdown.Item to="/alltransportlabourforsales" as={Link}>View Transport Labour</NavDropdown.Item>
+                                        </NavDropdown>
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                </>
+                                }
                                 {(roleas == "buyer" || roleas == "manager") &&
                                 <>
                                     <NavDropdown title="Transport Labour" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -879,6 +890,7 @@ const NavBar =()  => {
                 <Route path="/alltransportlabourfromvendor">
                     <AllTransportLabourFromVendor/>
                 </Route>
+                <Route path="/edittransportlabourforsalesunloading/:id" render={(props) => <UnloadingTransportLabour roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/viewtransportlabourforsales/:id" render={(props) => <ViewTransportLabourForSales roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/viewtransportlabourfromvendor/:id" render={(props) => <ViewTransportLabourFromVendor roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/vieworder/:orderid" render={(props) => <ViewOrder roleas={roleas} host={host} {...props} />} exact />

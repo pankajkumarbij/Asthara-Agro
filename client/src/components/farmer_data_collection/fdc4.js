@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function FarmerEquipmentTable({ navigation, route },props) {
+export default function FarmerEquipmentTable({ navigation, route }, props) {
 
     var id = '';
     if(Platform.OS=="android"){
@@ -82,11 +82,6 @@ export default function FarmerEquipmentTable({ navigation, route },props) {
                     history.push('/farmercheckbox/'+id);
                 }
             }
-            if (Platform.OS == 'android') {
-                navigation.navigate('FarmerCheckBox',{id:id});
-            }
-
-
         })
         .catch(function (error) {
             console.log(error);

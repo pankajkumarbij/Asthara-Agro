@@ -20,6 +20,7 @@ router.post('/create_delivery', (req, res)=>{
         img3: req.body.img3,
         img4: req.body.img4,
         img5: req.body.img5,
+        img6: req.body.img6,
     })
     newDelivery.save()
     .then(delivery=> {

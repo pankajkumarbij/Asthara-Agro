@@ -50,6 +50,8 @@ export default function AddTransportLabour(props,{ navigation }) {
     const [img4, setImg4] = useState();
     const [file5, setFile5] = useState();
     const [img5, setImg5] = useState();
+    const [file6, setFile6] = useState();
+    const [img6, setImg6] = useState();
 
     let history = useHistory();
 
@@ -157,6 +159,7 @@ export default function AddTransportLabour(props,{ navigation }) {
                 img3: img3,
                 img4: img4,
                 img5: img5,
+                img6: img6,
             })
         })
         .then(res => res.json())
@@ -280,6 +283,20 @@ export default function AddTransportLabour(props,{ navigation }) {
         
     }
 
+    function getFiles6(event){
+        setFile6(event.target.files[0]);
+    }
+
+    function ImageSubmitForm6(){
+
+        uploadImage(file6)
+        .then(result => {
+            setImg6(result);
+            alert("Image Uploaded successfully");
+        });
+        
+    }
+
     return (
         <Provider theme={theme}>
         <SafeAreaView>
@@ -340,38 +357,45 @@ export default function AddTransportLabour(props,{ navigation }) {
                     }
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Loaded Crates Picture (Back) Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles2}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Upload Image</Button>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Truck Side View (Left) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles3}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Upload Image</Button>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Truck Side View (Right) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles4}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Upload Image</Button>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Truck Front View with Driver and Vehicle Number</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles5}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 1, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Upload Image</Button>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Transporter invoice pic</Button>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <input type="file" name="file" placeholder="Image"
+                        style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
+                        onChange={getFiles6}
+                        />
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>FPO invoice pic</Button>
                     </View>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>
                     </Card.Content>

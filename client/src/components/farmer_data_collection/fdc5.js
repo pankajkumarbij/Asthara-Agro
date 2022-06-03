@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Platform, ScrollView, SafeAreaView,Text } from 'react-native';
-import { Provider, DefaultTheme, Button, Card,Checkbox } from 'react-native-paper';
+import { Provider, DefaultTheme, Button, Card, Checkbox } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
 import axios from 'axios';
-//import CheckBox from '@react-native-community/checkbox';
+
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -15,7 +15,7 @@ const theme = {
     },
 };
 
-export default function FarmerCheckBox( { navigation, route },props) {
+export default function FarmerCheckBox({ navigation, route }, props) {
 
     var id = '';
     if(Platform.OS=="android"){
@@ -25,7 +25,7 @@ export default function FarmerCheckBox( { navigation, route },props) {
         id = props.match.params.id;
     }
 
-    const [RainFed, setRainFed] = useState(false);
+    const [RainFed, setRainFed] = useState(true);
     const [Canal, setCanal] = useState(false);
     const [Borwall, setBorwall] = useState(false);
     const [APMC, setAPMC] = useState(false);
@@ -63,9 +63,6 @@ export default function FarmerCheckBox( { navigation, route },props) {
         .catch(function (error) {
             console.log(error);
         });
-        if (Platform.OS == 'android') {
-            navigation.navigate('Home');
-         }
     }
 
     return (
@@ -77,25 +74,31 @@ export default function FarmerCheckBox( { navigation, route },props) {
                         <View style={styles.divbox}>
                                 <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}> Sources of irrigation</Text>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={RainFed}
-                                        onValueChange={setRainFed} 
+                                    <Checkbox
+                                        status={RainFed ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setRainFed(!RainFed);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>RainFed</Text>
                                 </View>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={Canal}
-                                        onValueChange={setCanal}
+                                    <Checkbox
+                                        status={Canal ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setCanal(!Canal);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>Canal</Text>
                                 </View>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={Borwall}
-                                        onValueChange={setBorwall}
+                                    <Checkbox
+                                        status={Borwall ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setBorwall(!Borwall);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>Borwall</Text>
@@ -104,25 +107,31 @@ export default function FarmerCheckBox( { navigation, route },props) {
                             <View style={styles.divbox}>
                                 <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Market Information</Text>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={APMC}
-                                        onValueChange={setAPMC}
+                                    <Checkbox
+                                        status={APMC ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setAPMC(!APMC);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>APMC</Text>
                                 </View>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={PrivateMandi}
-                                        onValueChange={setPrivateMandi}
+                                    <Checkbox
+                                        status={PrivateMandi ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setPrivateMandi(!PrivateMandi);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>Private Mandi</Text>
                                 </View>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={ContractFarming}
-                                        onValueChange={setContractFarming}
+                                    <Checkbox
+                                        status={ContractFarming ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setContractFarming(!ContractFarming);
+                                        }}
                                         style={styles.checkbox}
                                     /> 
                                       <Text style={styles.label}>Contract Farming</Text>
@@ -131,17 +140,21 @@ export default function FarmerCheckBox( { navigation, route },props) {
                             <View style={styles.divbox}>
                                 <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline' }}>Input Management</Text>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={Bank}
-                                        onValueChange={setBank}
+                                    <Checkbox
+                                        status={Bank ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setBank(!Bank);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>APMC</Text>
                                 </View>
                                 <View style={styles.checkboxContainer}>
-                                    <CheckBox
-                                        value={Private}
-                                        onValueChange={setPrivate}
+                                    <Checkbox
+                                        status={Private ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setPrivate(!Private);
+                                        }}
                                         style={styles.checkbox}
                                     />
                                     <Text style={styles.label}>Private Mandi</Text>
@@ -151,9 +164,11 @@ export default function FarmerCheckBox( { navigation, route },props) {
                         <View>
                             <Text style={{ color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline',marginTop:20}}>Declaration</Text>
                             <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    value={Declaration}
-                                    onValueChange={setDeclaration}
+                                <Checkbox
+                                    status={Declaration ? 'checked' : 'unchecked'}
+                                    onPress={() => {
+                                        setDeclaration(!Declaration);
+                                    }}
                                     style={styles.checkbox}
                                 />
                                 <Text style={styles.label}>Consent to availability of above land for cultivation inder Sahayoga Krishi</Text>
@@ -232,12 +247,9 @@ const styles = StyleSheet.create({
             },
             android:{
                flexDirection: "row"
-              
- 
             },
             default:{
                 flexDirection: "row",
-
             }
         })
 

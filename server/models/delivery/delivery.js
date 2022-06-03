@@ -43,6 +43,9 @@ const dispatch_for_delivery_Schema = new mongoose.Schema({
     },
     img5: {
         type:String,
+    },
+    img6: {
+        type:String,
     }
     }, {
     timestamps: true

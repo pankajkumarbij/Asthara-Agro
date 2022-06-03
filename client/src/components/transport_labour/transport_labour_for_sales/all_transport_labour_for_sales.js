@@ -37,6 +37,7 @@ export default function AllTransportLabourForSales(props, { navigation }) {
         transport_labour_for_sales()
         .then(result=> {
             setAllOrders(result);
+            console.log(result);
         })
 
         roleas()  
@@ -130,7 +131,7 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                         <DataTable.Title>Date</DataTable.Title>
                         <DataTable.Title>Vehicle Type</DataTable.Title>
                         <DataTable.Title>Vehicle Number</DataTable.Title>
-                        <DataTable.Title numeric>Action</DataTable.Title>
+                        <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                     {role && userId && allOrders ?
                         allOrders.map((item, index)=>{
@@ -141,11 +142,33 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                                     <DataTable.Cell>{item.createdAt.substring(0,10)}</DataTable.Cell>
                                     <DataTable.Cell>{item.vehicle_type}</DataTable.Cell>
                                     <DataTable.Cell>{item.vehicle_number}</DataTable.Cell>
-                                    <DataTable.Cell numeric>
+                                    <DataTable.Cell>
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
                                             :
                                             <Link to={"/viewtransportlabourforsales/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                        }
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )
+                        }): null
+                    }
+                    {role=="sales" && allOrders ?
+                        allOrders.map((item, index)=>{
+                            if(item.createdAt.substring(0,10)==date)
+                            return (
+                                <DataTable.Row>
+                                    <DataTable.Cell>{item.createdAt.substring(0,10)}</DataTable.Cell>
+                                    <DataTable.Cell>{item.vehicle_type}</DataTable.Cell>
+                                    <DataTable.Cell>{item.vehicle_number}</DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                            :
+                                            <View style={{flexDirection: 'row'}}>
+                                                <Link to={"/viewtransportlabourforsales/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link> &nbsp;
+                                                <Link to={"/edittransportlabourforsalesunloading/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Unloading</Button></Link>
+                                            </View>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row>

@@ -20,6 +20,7 @@ router.post('/create_transport_labour_for_sales', (req, res)=>{
         img3: req.body.img3,
         img4: req.body.img4,
         img5: req.body.img5,
+        img6: req.body.img6,
     })
     newTransport.save()
     .then(transport=> {

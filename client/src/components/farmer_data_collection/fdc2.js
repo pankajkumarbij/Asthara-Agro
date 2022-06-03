@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function FarmerTable( { navigation, route },props) {
+export default function FarmerTable({ navigation, route }, props) {
   
     var id = '';
     if (Platform.OS =='android') {
@@ -134,25 +134,21 @@ export default function FarmerTable( { navigation, route },props) {
         axios.put(url + '/update_fdc_crop_info/' + id, {
             Items: Items
         })
-            .then(function (response) {
-                alert(response.data.msg);
-                if (response.data.msg == "successfully saved") {
-                    if (Platform.OS == 'android') {
-                        navigation.navigate('FarmerLandInfo',{id:id});
-                    }
-                    else {
-
-                        history.push('/farmerlandinfo/' + id);
-                    }
-                }
+        .then(function (response) {
+            alert(response.data.msg);
+            if (response.data.msg == "successfully saved") {
                 if (Platform.OS == 'android') {
                     navigation.navigate('FarmerLandInfo',{id:id});
                 }
+                else {
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                    history.push('/farmerlandinfo/' + id);
+                }
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     return (

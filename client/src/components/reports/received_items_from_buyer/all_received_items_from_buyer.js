@@ -159,6 +159,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
                     <Title style={styles.title}>All Received Orders From Buyer</Title>
+                    <Text style={{alignSelf: 'center',}}>Make Sure you have uploaded the unloading images of the vechicle at <Link to={"/alltransportlabourforsales"}>Link</Link></Text>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}

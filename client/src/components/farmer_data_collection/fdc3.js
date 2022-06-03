@@ -19,7 +19,7 @@ const theme = {
     },
 };
 
-export default function FarmerLandInfo( { navigation, route },props) {
+export default function FarmerLandInfo({ navigation, route }, props) {
     
     var id = '';
     if (Platform.OS == 'android') {
@@ -90,10 +90,6 @@ export default function FarmerLandInfo( { navigation, route },props) {
                     history.push('/farmerequipmenttable/'+id);
                 }
             }
-            if (Platform.OS == 'android') {
-                navigation.navigate('FarmerEquipmentTable',{id:id});
-            }
-
         })
         .catch(function (error) {
             console.log(error);
