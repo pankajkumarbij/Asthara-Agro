@@ -47,7 +47,6 @@ export default function BackgroundInfo({ navigation }) {
                     history.push('/farmertable/'+response.data.data._id);
                 }
             }
-            console.log(response.data.data);
         })
         .catch(function (error) {
             console.log(error);
