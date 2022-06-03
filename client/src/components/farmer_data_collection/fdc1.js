@@ -41,17 +41,17 @@ export default function BackgroundInfo({ navigation }) {
             alert(response.data.msg);
             if (response.data.msg == "Successfully Saved") {
                 if (Platform.OS == 'android') {
-                    navigation.navigate('AllCustomerPools');
+                    navigation.navigate('FarmerTable',{id:response.data.data.id});
                 }
                 else {
-                    history.push('/farmertable/'+response.data.data._id);
+                    history.push('/farmertable/'+response.data.data.id);
                 }
             }
+
         })
         .catch(function (error) {
             console.log(error);
         });
-    }
 
     return (
         <Provider theme={theme}>
