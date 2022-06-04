@@ -14,7 +14,7 @@ const theme = {
     },
 };
 
-export default function ViewOrder(props,{route}) {
+export default function ViewOrder({route}, props) {
 
     let history = useHistory();
 
@@ -54,7 +54,7 @@ export default function ViewOrder(props,{route}) {
                         <Button mode="contained" style={styles.button} onPress={()=>goBack()}>Go Back</Button>
                     </View>
                     <Card.Content>
-                    {order &&
+                    {order ?
                         <>
                             <TextInput style={styles.input} mode="outlined" label="Full Name" value={order[0].name} />
                             <TextInput style={styles.input} mode="outlined" label="Email" value={order[0].email} />
@@ -65,9 +65,9 @@ export default function ViewOrder(props,{route}) {
                             <TextInput style={styles.input} mode="outlined" label="State" value={order[0].state} />
                             <TextInput style={styles.input} mode="outlined" label="Country" value={order[0].country} />
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={order[0].postal_code} />
-                            {order[0].items && 
+                            {order[0].items ?
                                 <DataTable>
-                                    <Title style={{marginTop: '20px', marginBottom: '20px'}}>All Items</Title>
+                                    <Title >All Items</Title>
                                     <DataTable.Header>
                                         <DataTable.Title>Item Name</DataTable.Title>
                                         <DataTable.Title>unit</DataTable.Title>
@@ -87,9 +87,9 @@ export default function ViewOrder(props,{route}) {
                                             </DataTable.Row>
                                         </>
                                     ))}
-                                </DataTable>
+                                </DataTable>: null
                             }
-                        </>
+                        </>:null
                     }
                     </Card.Content>
                 </Card>

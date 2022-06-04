@@ -55,7 +55,7 @@ export default function AllCrawlers(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title} >All Crowlers</Title>
+                    <Title style={styles.title} >All Crawlers</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}

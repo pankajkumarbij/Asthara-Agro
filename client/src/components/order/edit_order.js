@@ -18,7 +18,7 @@ const theme = {
     },
 };
 
-export default function EditOrder(props,{route}) {
+export default function EditOrder({route},props) {
 
     let history = useHistory();
 

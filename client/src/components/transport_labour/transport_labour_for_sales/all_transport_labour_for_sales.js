@@ -87,14 +87,14 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                     />
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View>
-                            <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date</Text>
+                        <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date</Text>
                             <View>
                                 <input type="date" onChange={(e) => setDate(e.target.value)}/>
                             </View>
                         </View>
                         <View>
                             {role=="manager" ?
-                            <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Select Buyer</Text>
+                            <Text style={{color: 'gray',  fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Select Buyer</Text>
                             :
                             null
                             }
@@ -109,7 +109,6 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                                     placeholder="Search"
                                     onChangeText={onChangeSearch}
                                     value={searchQuery}
-                                    style={{marginBottom: '20px'}}
                                 />
                                 {buyer ?
                                     buyer.map((item)=>{

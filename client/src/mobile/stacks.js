@@ -86,6 +86,20 @@ import FarmerTable from '../components/farmer_data_collection/fdc2';
 import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
 import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
 import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
+import VendorsPendingItems from '../components/vendorsItem/vendors_pending_items';
+import VendorsApprovedItems from '../components/vendorsItem/vendors_approved_item';
+import Completed_Aim from '../components/excess_inventory_management/completed_aim';
+import Pending_Aim from '../components/excess_inventory_management/pending_aim';
+import All_Aim from '../components/excess_inventory_management/all_aim';
+import Buyer_approved_vendor_item from '../components/vendorsItem/buyer_approved_vendor_item';
+import OrderSummary from '../components/reports/order_summary/order_summary';
+import AddCustomerManagerPool from '../components/pool/add_manager_customer_pool';
+import AllCustomerManagerPools from '../components/pool/all_manager_customer_pool';
+import Crawler from '../components/crawler/add_crawler';
+import AllCrawlers from '../components/crawler/allcrawler';
+import Buyer_assignmnet from '../components/vendorsItem/pending_for_buyer_assignment';
+import ExportPdf from '../components/invoice/invoice';
+import ViewOrder from '../components/order/view_order';
 
 const Stack = createStackNavigator();
 
@@ -481,7 +495,47 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="All_dispatch_orders" component={All_Dispatch_Orders_From_Buyer} options={{
+           <Stack.Screen name="All_Received_Orders_From_Buyer" component={All_Received_Orders_From_Buyer} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="VendorsPendingItems" component={VendorsPendingItems} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="VendorsApprovedItems" component={VendorsApprovedItems} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_Aim" component={All_Aim} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Pending_Aim" component={Pending_Aim} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Completed_Aim" component={Completed_Aim} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Buyer_approved_vendor_item" component={Buyer_approved_vendor_item} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="All_Dispatch_Orders_From_Buyer" component={All_Dispatch_Orders_From_Buyer} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="OrderSummary" component={OrderSummary} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
@@ -491,7 +545,37 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="All_Received_Orders_From_Buyer" component={All_Received_Orders_From_Buyer} options={{
+           <Stack.Screen name="AddCustomerManagerPool" component={AddCustomerManagerPool} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllCustomerManagerPools" component={AllCustomerManagerPools} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Crawler" component={Crawler} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllCrawlers" component={AllCrawlers} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Buyer_assignmnet" component={Buyer_assignmnet} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="ExportPdf" component={ExportPdf} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="ViewOrder" component={ViewOrder} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

@@ -19,7 +19,7 @@ const theme = {
     },
 };
 
-export default function AllOrders(props, { navigation }) {
+export default function AllOrders({ navigation }, props) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
@@ -155,7 +155,8 @@ export default function AllOrders(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                 <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}></Button>
+                                                //  <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ViewOrder', {orderId: item._id})}}></Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ExportPdf', {orderId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
