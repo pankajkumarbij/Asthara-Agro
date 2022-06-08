@@ -78,7 +78,10 @@ export default function AllDispatchForDelivery(props, { navigation }) {
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
                                             :
-                                            <Link to={"/viewdispatchfordelivery/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            <View style={{flexDirection: 'row'}}>
+                                                <Link to={"/viewdispatchfordelivery/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link> &nbsp;
+                                                <Link to={"/editdeliveryunloading/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Unloading</Button></Link>
+                                            </View>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row>

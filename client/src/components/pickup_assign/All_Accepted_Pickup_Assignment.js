@@ -126,7 +126,7 @@ export default function All_Accepted_Pickup_Assignment(props,{ navigation }) {
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{pickupAssignment.custom_orderId}</DataTable.Cell>
-                                {/* <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell> */}
+                                <DataTable.Cell>{pickupAssignment.custom_vendorId}</DataTable.Cell>
                                 <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?

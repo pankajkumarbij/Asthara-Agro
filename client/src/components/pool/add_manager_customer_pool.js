@@ -134,7 +134,7 @@ export default function AddCustomerManagerPool(props,{ navigation }) {
                             }
                             {customers ?
                                 customers.map((item)=>{
-                                    if(item.flag2_value === 0){
+                                    if(item.flag2_value === 0 || item.flag2_value === null){
                                         return (
                                             <Menu.Item title={item.pool_name} onPress={()=>ChooseCustomer(item._id, item.pool_name)} />
                                         )

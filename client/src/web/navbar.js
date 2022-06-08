@@ -176,6 +176,7 @@ import View_Completed_Purchase_Order from '../components/reports/completed_purch
 import AddDispatchForDelivery from '../components/delivery/dispatch_for_delivery';
 import AllDispatchForDelivery from '../components/delivery/all_dispatch_for_delivery';
 import ViewDispatchForDelivery from '../components/delivery/view_dispatch_for_delivery_orders';
+import UnloadingDelivery from '../components/delivery/editunloading';
 
 import OrderSummary from '../components/reports/order_summary/order_summary';
 import ViewOrderSummary from '../components/reports/order_summary/view_order_summary';
@@ -203,6 +204,10 @@ import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
 import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
 import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
 import UnloadingTransportLabour from '../components/transport_labour/transport_labour_for_sales/editunloading';
+
+import AllOrderDeliveries from '../components/reports/delivery/all_deliveries';
+import ViewOrderDelivery from '../components/reports/delivery/view_delivered_order';
+import MakeOrderDelivery from '../components/reports/delivery/make_delivery';
 
 const NavBar =()  => {
 
@@ -644,24 +649,6 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item to="/disabledcustomerdetails" as={Link}>Disabled Customers</NavDropdown.Item>
                                     </NavDropdown>
-                                    {/* <NavDropdown.Divider />
-                                    <NavDropdown drop="right" title="Invoice" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                        <NavDropdown.Item to="/create_invoice" as={Link}>Create Invoice</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item to="/all_invoice" as={Link}>All Invoices</NavDropdown.Item>
-                                    </NavDropdown>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown  drop="right" title="Purchase Order" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                        <NavDropdown.Item to="/Accepted_Purchase_Orders" as={Link}>Accepted Purchase Order</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item to="/All_Declined_Purchase_Orders" as={Link}>All Declined PurchaseOrders</NavDropdown.Item>
-                                    </NavDropdown>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown drop="right" title="GRN" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                        <NavDropdown.Item to="/create_grn" as={Link}>Create GRN</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item to="/all_grn" as={Link}>All GRNs</NavDropdown.Item>
-                                    </NavDropdown> */}
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item to="/order_items_summary" as={Link}>Order Items Summary</NavDropdown.Item>
                                         <NavDropdown.Divider />
@@ -699,22 +686,19 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                     </>
                                 }
+                                {(roleas=="manager" || roleas=="sales") &&
+                                    <>
+                                        <NavDropdown.Item to="/allorderdeliveries" as={Link}>All Order Deliveries</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                }
                                 {( roleas=="manager") &&
                                     <>
                                         <NavDropdown.Item to="/customer_account_delete_requests" as={Link}>Delete Account Requests</NavDropdown.Item>
                                     </>
                                 }
                             </NavDropdown>
-                            {/* <NavDropdown title="Inventory" id="collasible-nav-dropdown"  style={{border: '1px solid gray', borderRadius: '10px',backgroundColor: 'white', marginLeft: '2%', marginRight: '2%'}}>
-                                <NavDropdown.Item to="/allinventory" as={Link}>Show Inventory</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item to="/allinventory" as={Link}>All Inventories</NavDropdown.Item>
-                            </NavDropdown> */}
                             <NavDropdown title="Assignment" id="collasible-nav-dropdown"  style={{border: '1px solid gray', borderRadius: '10px',backgroundColor: 'white', marginLeft: '2%', marginRight: '2%'}}>
-                                {/* <NavDropdown.Item to="/allitems" as={Link}>Delivery</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item to="/allitems" as={Link}>Show All Deliveries</NavDropdown.Item>
-                                <NavDropdown.Divider /> */}
                                 {(roleas=="buyer" || roleas=="manager" || roleas=="vendor") &&
                                     <> 
                                     <NavDropdown drop="right" title="Pickup Assignment" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%'}}>
@@ -1100,7 +1084,7 @@ const NavBar =()  => {
                     <AllDispatchForDelivery/>
                 </Route>        
                 <Route path="/viewdispatchfordelivery/:id" render={(props) => <ViewDispatchForDelivery {...props} />} exact />
-                
+                <Route path="/editdeliveryunloading/:id" render={(props) => <UnloadingDelivery roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/All_Delivery_Assignment">
                     <All_Delivery_Assignment/>
                 </Route>    
@@ -1153,6 +1137,13 @@ const NavBar =()  => {
                 <Route path="/farmerlandinfo/:id" render={(props) => <FarmerLandInfo {...props} />} exact />
                 <Route path="/farmerequipmenttable/:id" render={(props) => <FarmerEquipmentTable {...props} />} exact />
                 <Route path="/farmercheckbox/:id" render={(props) => <FarmerCheckBox {...props} />} exact />
+
+                <Route path="/allorderdeliveries">
+                    <AllOrderDeliveries/>
+                </Route>
+                <Route path="/vieworderdelivery/:id" render={(props) => <ViewOrderDelivery {...props} />} exact />
+                <Route path="/makeorderdelivery/:id" render={(props) => <MakeOrderDelivery {...props} />} exact />
+
                 <Route component={PageNotFound}  />
                 </Switch>
             }

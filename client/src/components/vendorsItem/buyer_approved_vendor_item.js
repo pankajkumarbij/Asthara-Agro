@@ -47,7 +47,7 @@ export default function Buyer_approved_vendor_item(props, {navigation }) {
             });
         }
 
-    }, [userId,props.roleas]);
+    }, [userId,props.roleas,allItems]);
 
     const sorting = (col)=>{
         if(sorting_order=="ASC"){

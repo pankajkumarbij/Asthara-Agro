@@ -4,8 +4,6 @@ import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Port
 import { Order_by_id } from '../../../services/order_api';
 import { useHistory } from 'react-router-dom';
 import { order_status_by_orderId } from '../../../services/report/order_status';
-import axios from 'axios';
-import { url } from '../../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -17,16 +15,16 @@ const theme = {
     },
 };
 
-export default function ViewOrderSummary(props,{navigation, route}) {
+export default function ViewOrderDelivery(props,{route}) {
 
     let history = useHistory();
 
     var orderid = "";
     if(Platform.OS=="android"){
-        orderid = route.params.orderId;
+        orderid = route.params.id;
     }
     else{
-        orderid = props.match.params.orderid;
+        orderid = props.match.params.id;
     }
     
     const [order, setOrder] = useState();
@@ -62,28 +60,7 @@ export default function ViewOrderSummary(props,{navigation, route}) {
     }, [orderid, order]);
 
     function goBack(){
-        history.push('/ordersummary');
-    }
-
-    function makeDelivery(){
-        axios.post(url + '/make_order_delivery', {
-            order: order,
-        })
-        .then(function (response) {
-        alert(response.data.message);
-        if(response.data)
-        {
-            if(Platform.OS=='android'){
-                navigation.navigate("/makeorderdelivery/"+orderid);
-            }
-            else{
-                history.push("/makeorderdelivery/"+response.data.data._id);
-            }
-        }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        history.push('/allorderdeliveries');
     }
 
     const showModal = (val) => {
@@ -127,7 +104,7 @@ export default function ViewOrderSummary(props,{navigation, route}) {
                 </Portal>
                 <Card style={styles.card}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Card.Title style={{ flex: 1,}} title="View Order Summary"/>
+                        <Card.Title style={{ flex: 1,}} title="View Order Delivery Details"/>
                         <Button mode="contained" style={styles.button} onPress={()=>goBack()}>Go Back</Button>
                     </View>
                     <Card.Content>
@@ -187,11 +164,6 @@ export default function ViewOrderSummary(props,{navigation, route}) {
                                 </DataTable>
                             }
                         </>
-                    }
-                    {Platform.OS=='android' ?
-                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditOrder', {itemId: orderid})}}>Make Delivery Now</Button>
-                        :
-                        <Button mode="contained" onPress={() => makeDelivery()} style={{width: '100%', marginTop: '20px'}}>Make Delivery Now</Button>
                     }
                     </Card.Content>
                 </Card>

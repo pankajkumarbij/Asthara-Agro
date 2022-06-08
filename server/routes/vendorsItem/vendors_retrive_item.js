@@ -72,12 +72,12 @@ router.get('/vendors_retrive_all_disabled_items',(req, res)=>{
 });
 
 router.get('/retrive_vendor_item_by_name_grade/:itemname/:grade/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }
         else {
-            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade}).sort({"item_price":-1}).exec(function(err, item){
+            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade, buyer_approval_status:"approved"}).sort({"item_price":-1}).exec(function(err, item){
                 if(err){
                     console.log(err);
                 }
@@ -90,12 +90,12 @@ router.get('/retrive_vendor_item_by_name_grade/:itemname/:grade/:id',(req, res)=
 });
 
 router.get('/retrive_vendor_item_by_name_grade_lower_price/:itemname/:grade/:id',(req, res)=>{
-    vendor_pool.find({_id:req.params.id,buyer_approval_status:"approved"}, function(err, vendor_pool){
+    vendor_pool.find({_id:req.params.id}, function(err, vendor_pool){
         if(err){
             console.log(err);
         }
         else {
-            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade}).sort({"item_price":1}).exec(function(err, item){
+            VendorsItem.find({'postal_code': { "$in" : vendor_pool[0].postal_code}, 'item_name':req.params.itemname, 'grade_name':req.params.grade, buyer_approval_status:"approved"}).sort({"item_price":1}).exec(function(err, item){
                 if(err){
                     console.log(err);
                 }

@@ -37,7 +37,6 @@ export default function AllTransportLabourForSales(props, { navigation }) {
         transport_labour_for_sales()
         .then(result=> {
             setAllOrders(result);
-            console.log(result);
         })
 
         roleas()  

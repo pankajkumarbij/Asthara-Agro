@@ -46,6 +46,24 @@ const transport_for_salesSchema = new mongoose.Schema({
     },
     img6: {
         type:String,
+    },
+    img7: {
+        type:String,
+    },
+    img8: {
+        type:String,
+    },
+    img9: {
+        type:String,
+    },
+    img10: {
+        type:String,
+    },
+    img11: {
+        type:String,
+    },
+    img12: {
+        type:String,
     }
     }, {
     timestamps: true
