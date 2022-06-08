@@ -27,17 +27,18 @@ export default function MakeOrderDelivery(props,{route}) {
     }
     
     const [order, setOrder] = useState();
+    const [flag, setFlag] = useState(true);
 
     useEffect(() => {
 
-        if(orderid){
+        if(flag && orderid){
             Delivered_order_by_id(orderid)
             .then(result=> {
                 setOrder(result[0].order);
             })
         }
 
-    }, [orderid, order]);
+    }, [orderid, flag]);
 
     function goBack(){
         history.push('/');
@@ -82,7 +83,7 @@ export default function MakeOrderDelivery(props,{route}) {
                                                 <DataTable.Row>
                                                     <DataTable.Cell>{it.itemName}</DataTable.Cell>
                                                     <DataTable.Cell>{it.itemUnit}</DataTable.Cell>
-                                                    <DataTable.Cell>{it.quantity}</DataTable.Cell>
+                                                    <DataTable.Cell><TextInput style={styles.input} mode="outlined" label="Full Name" value={it.quantity} /></DataTable.Cell>
                                                     <DataTable.Cell>{it.targetPrice}</DataTable.Cell>
                                                     <DataTable.Cell>{it.itemNegotiatePrice}</DataTable.Cell>
                                                 </DataTable.Row>
