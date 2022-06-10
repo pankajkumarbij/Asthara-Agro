@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useEffect } from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Image} from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Image, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, DataTable, Title } from 'react-native-paper';
 import { transport_labour_for_sales_by_id } from '../../../services/transport_labour/transport_labout_for_sales';
 
@@ -37,6 +37,13 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
     const [img3, setImg3] = useState();
     const [img4, setImg4] = useState();
     const [img5, setImg5] = useState();
+    const [img6, setImg6] = useState();
+    const [img7, setImg7] = useState();
+    const [img8, setImg8] = useState();
+    const [img9, setImg9] = useState();
+    const [img10, setImg10] = useState();
+    const [img11, setImg11] = useState();
+    const [img12, setImg12] = useState();
 
     useEffect(() => {
 
@@ -56,7 +63,13 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
                 setImg3(result[0].img3);
                 setImg4(result[0].img4);
                 setImg5(result[0].img5);
-                console.log(result);
+                setImg6(result[0].img6);
+                setImg7(result[0].img7);
+                setImg8(result[0].img8);
+                setImg9(result[0].img9);
+                setImg10(result[0].img10);
+                setImg11(result[0].img11);
+                setImg12(result[0].img12);
             })
         }
 
@@ -101,6 +114,7 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
                             ))}
                         </DataTable>
                     }
+                    <Text>Loaded Vehicle Images</Text>
                     <View style={{flexDirection: 'row'}}>
                     {img ?
                         <Image
@@ -138,6 +152,65 @@ export default function ViewTransportLabourForSales(props,{ route, navigation })
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img5}
+                        />
+                        :
+                        null
+                    }
+                    {img6 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img6}
+                        />
+                        :
+                        null
+                    }
+                    </View>
+                    <Text>UnLoaded Vehicle Images</Text>
+                    <View style={{flexDirection: 'row'}}>
+                    {img7 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img7}
+                        />
+                        :
+                        null
+                    }
+                    {img8 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img8}
+                        />
+                        :
+                        null
+                    }
+                    {img9 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img9}
+                        />
+                        :
+                        null
+                    }
+                    {img10 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img10}
+                        />
+                        :
+                        null
+                    }
+                    {img11 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img11}
+                        />
+                        :
+                        null
+                    }
+                    {img12 ?
+                        <Image
+                            style={{width: 200, height: 210, border: '1px solid black'}}
+                            source={img12}
                         />
                         :
                         null

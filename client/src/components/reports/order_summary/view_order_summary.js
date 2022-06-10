@@ -4,6 +4,8 @@ import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Port
 import { Order_by_id } from '../../../services/order_api';
 import { useHistory } from 'react-router-dom';
 import { order_status_by_orderId } from '../../../services/report/order_status';
+import axios from 'axios';
+import { url } from '../../../utils/url';
 
 const theme = {
     ...DefaultTheme,
@@ -15,7 +17,7 @@ const theme = {
     },
 };
 
-export default function ViewOrderSummary(props,{route}) {
+export default function ViewOrderSummary(props,{navigation, route}) {
 
     let history = useHistory();
 
@@ -61,6 +63,27 @@ export default function ViewOrderSummary(props,{route}) {
 
     function goBack(){
         history.push('/ordersummary');
+    }
+
+    function makeDelivery(){
+        axios.post(url + '/make_order_delivery', {
+            order: order,
+        })
+        .then(function (response) {
+        alert(response.data.message);
+        if(response.data)
+        {
+            if(Platform.OS=='android'){
+                navigation.navigate("/makeorderdelivery/"+orderid);
+            }
+            else{
+                history.push("/makeorderdelivery/"+response.data.data._id);
+            }
+        }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     const showModal = (val) => {
@@ -164,6 +187,11 @@ export default function ViewOrderSummary(props,{route}) {
                                 </DataTable>
                             }
                         </>
+                    }
+                    {Platform.OS=='android' ?
+                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditOrder', {itemId: orderid})}}>Make Delivery Now</Button>
+                        :
+                        <Button mode="contained" onPress={() => makeDelivery()} style={{width: '100%', marginTop: '20px'}}>Make Delivery Now</Button>
                     }
                     </Card.Content>
                 </Card>

@@ -136,7 +136,6 @@ export default function Register({ navigation},props) {
         .catch(error => console.log(error))
         .then(data => {
             alert(data.message);
-            console.log(data);
             if(data.data){
                 emailjs.send('gmail', 'template_r2kqjja',values, 'user_tzfygekUd6AAYz72qWJrG')
                 .then((result) => {

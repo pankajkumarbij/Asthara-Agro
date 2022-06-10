@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView } from 'react-native';
 import { Provider, DefaultTheme, Card, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import { url } from '../../../utils/url';
+import { url } from '../../utils/url';
 import axios from 'axios';
-import { uploadImage } from '../../../services/image';
+import { uploadImage } from '../../services/image';
 
 const theme = {
     ...DefaultTheme,
@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function UnloadingTransportLabour(props,{ navigation, route }) {
+export default function UnloadingDelivery(props,{ navigation, route }) {
 
     var id = "";
     if(Platform.OS=="android"){
@@ -42,7 +42,7 @@ export default function UnloadingTransportLabour(props,{ navigation, route }) {
     let history = useHistory();
 
     function submitForm() {
-        axios.put(url + '/update_unloading_img/'+id, {
+        axios.put(url + '/update_delivery_unloading_img/'+id, {
             img7: img,
             img8: img2,
             img9: img3,
@@ -58,7 +58,7 @@ export default function UnloadingTransportLabour(props,{ navigation, route }) {
                     navigation.navigate('AllCustomerPools');
                 }
                 else {
-                    history.push('/alltransportlabourforsales');
+                    history.push('/alldispatchfordelivery');
                 }
             }
         })

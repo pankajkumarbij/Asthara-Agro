@@ -187,7 +187,7 @@ const update_delivery_assign = require('./routes/delivery_assign/update_delivery
 
 const create_update_delivery = require('./routes/update_delivery/create_update_delivery');
 const retrive_update_delivery = require('./routes/update_delivery/retrive_update_delivery');
-const update_delivery = require('./routes/update_delivery/update_delivery');
+// const update_delivery = require('./routes/update_delivery/update_delivery');
 
 const image = require('./routes/image/image');
 
@@ -234,6 +234,7 @@ const retrieve_rfb = require('./routes/report/Recieved_from_buyer/retrieve_rfb')
 
 const create_delivery = require('./routes/delivery/create_transport_labour');
 const retrieve_delivery = require('./routes/delivery/retrieve_transport_labour');
+const update_delivery = require('./routes/delivery/update_transport_labour');
 
 const create_order_status = require('./routes/report/order_status/create_order_status');
 const retrieve_order_status = require('./routes/report/order_status/retrieve_order_status');
@@ -253,6 +254,14 @@ const retrieve_sn =require('./routes/serialnumber/retrieve_sn');
 
 const create_farmer_data_collection= require('./routes/farmer_data_collection/create_farmer_data_collection');
 const update_farmer_data_collection= require('./routes/farmer_data_collection/update_farmer_data_collection');
+
+const create_delivered= require('./routes/report/delivered/create_delivered');
+const retrieve_delivered= require('./routes/report/delivered/retrieve_delivered');
+const update_delivered= require('./routes/report/delivered/update_delivered');
+
+const create_rejected_items= require('./routes/rejectedItems/create_rejectedItems');
+const retrieve_rejected_items= require('./routes/rejectedItems/retrieve_rejectedItems');
+const update_rejected_items= require('./routes/rejectedItems/update_rejectedItems');
 
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
@@ -381,7 +390,7 @@ app.use('/', update_pickup_assign_confirm_vendor);
 
 app.use('/', create_delivery_assign);
 app.use('/', retrive_delivery_assign);
-app.use('/', update_delivery_assign);
+// app.use('/', update_delivery_assign);
 
 app.use('/', create_update_delivery);
 app.use('/', retrive_update_delivery);
@@ -433,6 +442,7 @@ app.use('/',retrieve_rfb);
 
 app.use('/',create_delivery);
 app.use('/',retrieve_delivery);
+app.use('/', update_delivery);
 
 app.use('/',create_order_status);
 app.use('/',retrieve_order_status);
@@ -452,6 +462,14 @@ app.use('/',update_sn);
 
 app.use('/',create_farmer_data_collection);
 app.use('/',update_farmer_data_collection);
+
+app.use('/', create_delivered);
+app.use('/', retrieve_delivered);
+app.use('/', update_delivered);
+
+app.use('/', create_rejected_items);
+app.use('/', retrieve_rejected_items);
+app.use('/', update_rejected_items);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");

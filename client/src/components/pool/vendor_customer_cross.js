@@ -137,7 +137,7 @@ export default function AddCustomerVendorPool(props,{ navigation }) {
                             }
                             {customers ?
                                 customers.map((item)=>{
-                                    if(item.flag_value === 0){
+                                    if(item.flag_value === 0 || item.flag_value === null){
                                         return (
                                             <Menu.Item title={item.pool_name} onPress={()=>ChooseCustomer(item._id, item.pool_name)} />
                                         )

@@ -29,4 +29,26 @@ router.put('/update_delivery/:id', (req, res)=>{
     })
 });
 
+router.put('/update_delivery_unloading_img/:id', (req, res)=>{
+    var delivery_update = {
+        img7: req.body.img7,
+        img8: req.body.img8,
+        img9: req.body.img9,
+        img10: req.body.img10,
+        img11: req.body.img11,
+        img12: req.body.img12,
+    }
+    Delivery.findOneAndUpdate({'_id':req.params.id}, delivery_update)
+    .then((delivery) => {
+        if(delivery){
+            res.json({data:delivery, msg: "successfully saved"});
+        }else{
+            res.json({msg: "not found"});
+        }
+    }).catch(err => {
+        console.log(err);
+        res.json({ msg:"Something wrong!", err: err });
+    })
+});
+
 module.exports = router;
