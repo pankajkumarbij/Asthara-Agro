@@ -20,7 +20,7 @@ const theme = {
     },
 };
 
-export default function AddDispatchForDelivery({ navigation }, props) {
+export default function AddDispatchForDelivery(props, { navigation }) {
 
     const [visible2, setVisible2] = useState(false);
     const [visible, setVisible] = useState([]);

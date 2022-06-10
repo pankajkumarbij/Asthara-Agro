@@ -19,7 +19,7 @@ const theme = {
     },
 };
 
-export default function ApprovedOrders( { navigation }, props) {
+export default function ApprovedOrders(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();

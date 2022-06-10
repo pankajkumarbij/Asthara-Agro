@@ -20,7 +20,7 @@ const theme = {
     },
 };
 
-export default function PendingOrders({ navigation }, props) {
+export default function PendingOrders(props, { navigation }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();

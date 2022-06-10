@@ -51,14 +51,13 @@ export default function AllDispatchForDelivery(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <Title style={{marginBottom: '20px'}}>All Dispatch For Delivery</Title>
+                    <Title>All Dispatch For Delivery</Title>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <DataTable.Header>
                         <DataTable.Title>Date</DataTable.Title>
@@ -66,7 +65,7 @@ export default function AllDispatchForDelivery(props, { navigation }) {
                         <DataTable.Title>Vehicle Number</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {role && userId && allOrders &&
+                    {role && userId && allOrders ?
                         allOrders.map((item, index)=>{
                             if(item.salesId==userId)
                             return (
@@ -86,7 +85,7 @@ export default function AllDispatchForDelivery(props, { navigation }) {
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             )
-                        })
+                        }):  null
                     }
                 </DataTable>
             </View>

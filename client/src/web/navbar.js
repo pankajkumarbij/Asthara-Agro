@@ -622,12 +622,6 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item to="/allusers" as={Link}>View Farmers Data</NavDropdown.Item>
                                     </NavDropdown>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown drop="right" title="User Category" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
-                                        <NavDropdown.Item to="/addusercategory" as={Link}>Add User Category</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item to="/allusercategories" as={Link}>View User Categories</NavDropdown.Item>
-                                    </NavDropdown>
                                     </>
                                 }
                             </NavDropdown>

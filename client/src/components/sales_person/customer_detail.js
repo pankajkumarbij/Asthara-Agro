@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function Customer_details({ navigation },props) {
+export default function Customer_details(props, { navigation }) {
 
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
