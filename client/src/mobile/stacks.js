@@ -63,7 +63,7 @@ import AllCustomerVendorPools from '../components/pool/all_cross_pool';
 import Customer_details from '../components/sales_person/customer_detail';
 import CreateOrder from '../components/order/createorder';
 import Add_customer_Address from '../components/customer_address/add_customer_address';
-import All_customer_Addresses from '../components/customer_address/all_customer_address';
+import All_addresses from '../components/customer_address/all_customer_address';
 import VendorsAllItems from '../components/vendorsItem/vendors_allitems';
 import Add_vendor_Address from '../components/vendor_address/add_vendor_address';
 import All_addressesVendor from '../components/vendor_address/all_vendor_address';
@@ -100,6 +100,9 @@ import AllCrawlers from '../components/crawler/allcrawler';
 import Buyer_assignmnet from '../components/vendorsItem/pending_for_buyer_assignment';
 import ExportPdf from '../components/invoice/invoice';
 import ViewOrder from '../components/order/view_order';
+import ViewUser from '../components/user/view_user';
+import AddDispatchForDelivery from '../components/delivery/dispatch_for_delivery';
+import AllDispatchForDelivery from '../components/delivery/all_dispatch_for_delivery';
 
 const Stack = createStackNavigator();
 
@@ -420,7 +423,7 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-            <Stack.Screen name="All_customer_Addresses" component={All_customer_Addresses} options={{
+            <Stack.Screen name="All_addresses" component={All_addresses} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
@@ -606,9 +609,21 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-
-
-
+            <Stack.Screen name="ViewUser" component={ViewUser} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+           <Stack.Screen name="AddDispatchForDelivery" component={AddDispatchForDelivery} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllDispatchForDelivery" component={AllDispatchForDelivery} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
 
         </Stack.Navigator>
     );

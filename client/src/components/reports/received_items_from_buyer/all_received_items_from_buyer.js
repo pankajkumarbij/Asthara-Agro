@@ -159,7 +159,12 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
                     <Title style={styles.title}>All Received Orders From Buyer</Title>
-                    <Text style={{alignSelf: 'center',}}>Make Sure you have uploaded the unloading images of the vechicle at <Link to={"/alltransportlabourforsales"}>Link</Link></Text>
+                    <Text style={{alignSelf: 'center',}}>Make Sure you have uploaded the unloading images of the vechicle at 
+                    {Platform.OS=='android' ?
+                                        <Button mode="contained"  onPress={() => {navigation.navigate('alltransportlabourforsales')}}>Link</Button>
+                                        :
+                                        <Button mode="contained" style={{width: '100%'}}><Link to={"alltransportlabourforsales"}>Link</Link></Button>
+                    }</Text>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
                         clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
@@ -167,7 +172,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                         onChangeText={onChangeSearch}
                         value={searchQuery}
                     />
-
+                    
                     <DataTable.Header>
                         <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("vehicle_number")}><FontAwesomeIcon icon={ faSort } /> Vehicle Number</DataTable.Title>

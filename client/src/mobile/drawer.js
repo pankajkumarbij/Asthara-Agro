@@ -62,6 +62,7 @@ function CustomDrawerContent({navigation}) {
     const [visible39, setVisible39] = useState(false);
     const [visible40, setVisible40] = useState(false);
     const [visible41, setVisible41] = useState(false);
+    const [visible43, setVisible43] = useState(false);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [roleas, setRoleas] = useState("");
@@ -180,6 +181,8 @@ function CustomDrawerContent({navigation}) {
     const closeMenu40 = () => setVisible40(false);
     const openMenu41 = () => setVisible41(true);
     const closeMenu41 = () => setVisible41(false);
+    const openMenu43 = () => setVisible43(true);
+    const closeMenu43 = () => setVisible43(false);
     // console.log(role);
     
     return (
@@ -406,9 +409,9 @@ function CustomDrawerContent({navigation}) {
             <Menu
             visible={visible35}
             onDismiss={closeMenu35}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu35}>Farmer Details</Button>}>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('BackgroundInfo')}}>BackgroundInfo</Button>
-               
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu35}>Farmer Data Collection</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('BackgroundInfo')}}>Add Farmer Data</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllUsers')}}>View Farmers Data</Button>
 
             </Menu> 
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
@@ -458,21 +461,6 @@ function CustomDrawerContent({navigation}) {
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Pending_Pickup_Assignment_Confirm_Vendor')}}>All Pending Pickup Assignment Confirm Vendor</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Pickup_Assignment_Confirm_Vendor')}}>All Accepted Pickup Assignment Confirm Vendor</Button>
             </Menu>
-            <Menu
-            visible={visible13}
-            onDismiss={closeMenu13}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu13}>Delivery Assignment</Button>}>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Delivery_Assignment')}}>View Delivery Assignment</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Pending_Delivery_Assignment')}}>View Pending Delivery Assignment</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery_Assignment')}}>View Accepted Delivery Assignment</Button>
-            </Menu>
-            <Menu
-            visible={visible14}
-            onDismiss={closeMenu14}
-            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu14}>Delivery</Button>}>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Delivery')}}>All Delivery</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery')}}>All Confirm Delivery</Button>
-            </Menu>
             </> :
             <></>
         }
@@ -486,6 +474,19 @@ function CustomDrawerContent({navigation}) {
                 <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
             </View>
 
+            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+                    <View>
+                        <Text style={{textAlign: 'center'}}> *Transport Labour </Text>
+                    </View>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+            </View>
+            <Menu
+            visible={visible42}
+            onDismiss={closeMenu42}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu42}>Transport Labour for Sales</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllTransportLabourForSales')}}>View Transport Labour</Button>
+            </Menu>
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
                 <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                     <View>
@@ -507,8 +508,24 @@ function CustomDrawerContent({navigation}) {
             onDismiss={closeMenu20}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu20}>Customer Address</Button>}>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Add_customer_Address')}}>Add new customer address</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_customer_Addresses')}}>All Customer Addresses</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_addresses')}}>All Customer Addresses</Button>
             </Menu>
+
+            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+                    <View>
+                        <Text style={{textAlign: 'center'}}> *Delivery Management </Text>
+                    </View>
+                <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
+            </View>
+            <Menu
+            visible={visible43}
+            onDismiss={closeMenu43}
+            anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu43}>Dispatch For Delivery</Button>}>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AddDispatchForDelivery')}}>Create Dispatch For Delivery</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllDispatchForDelivery')}}>All Dispatch For Delivery</Button>
+            </Menu>
+
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                 <View>
@@ -534,7 +551,7 @@ function CustomDrawerContent({navigation}) {
             visible={visible22}
             onDismiss={closeMenu22}
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu22}>Report</Button>}>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_dispatch_orders')}}>All Dispatch orders items</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Dispatch_Orders_From_Buyer')}}>All Dispatch orders items</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Received_Orders_From_Buyer')}}>All recieved order items</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery_Assignment')}}>Order Summary</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_order_status')}}>All Order status</Button>
@@ -696,6 +713,7 @@ function CustomDrawerContent({navigation}) {
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
             </View>
             <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Completed_Purchase_Orders')}}>All Completed Purchase Orders</Button>
+            <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Received_Orders_From_Buyer')}}>All Received Orders items</Button>
             <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', width: '80%', marginTop: '5%'}}>
             <View style={{flex: 1, height: 2, backgroundColor: 'blue'}} />
                     <View>

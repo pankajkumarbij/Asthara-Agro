@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function Customer_details(props,{ navigation }) {
+export default function Customer_details({ navigation },props) {
 
     const [allItems, setAllItems] = useState();
     const [host, setHost] = useState("");
@@ -68,7 +68,7 @@ export default function Customer_details(props,{ navigation }) {
                                 <DataTable.Cell>{item.email}</DataTable.Cell>
                                 <DataTable.Cell>
                                     {Platform.OS=='android' ?
-                                        <Button mode="contained"  onPress={() => {navigation.navigate('EditUser', {userId: item._id})}}>Check</Button>
+                                        <Button mode="contained"  onPress={() => {navigation.navigate('ViewUser', {userId: item._id})}}>Check</Button>
                                         :
                                         <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }

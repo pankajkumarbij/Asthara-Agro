@@ -20,7 +20,7 @@ const theme = {
     },
 };
 
-export default function PendingOrders(props, { navigation }) {
+export default function PendingOrders({ navigation }, props) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [allOrders, setAllOrders] = useState();
@@ -236,7 +236,8 @@ export default function PendingOrders(props, { navigation }) {
                                         </DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                                // <Button mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ExportPdf', {orderId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/editorder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }
@@ -266,7 +267,8 @@ export default function PendingOrders(props, { navigation }) {
                                         </DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Detail</Button>
+                                                // <Button mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Detail</Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ExportPdf', {orderId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/editorder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

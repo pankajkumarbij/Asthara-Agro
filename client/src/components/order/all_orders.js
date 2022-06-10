@@ -122,7 +122,9 @@ export default function AllOrders({ navigation }, props) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button  mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                                // <Button  mode="contained" onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Check</Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ExportPdf', {orderId: item._id})}}></Button>
+
                                                 :
                                                 <Link to={"/vieworder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

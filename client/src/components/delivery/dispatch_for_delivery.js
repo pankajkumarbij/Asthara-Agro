@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text, Alert} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, Modal } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
-import swal from '@sweetalert/with-react';
+// import swal from '@sweetalert/with-react';
 import { roleas, loginuserId } from '../../utils/user';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 import { recieved_from_buyer } from '../../services/report/recieved_from_buyer_api';
@@ -20,7 +20,7 @@ const theme = {
     },
 };
 
-export default function AddDispatchForDelivery(props,{ navigation }) {
+export default function AddDispatchForDelivery({ navigation }, props) {
 
     const [visible2, setVisible2] = useState(false);
     const [visible, setVisible] = useState([]);
@@ -167,15 +167,15 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
         .catch(error => console.log(error))
         .then(data => {
             if(data.message!="something wrong!"){
-                swal("Yeah!", data.message, "success");
+                alert( data.message);
                 history.push('/alldispatchfordelivery');
             }
             else{
                 if(data.error.errors){
-                    swal("Oops!", "All Fields are required!", "error");
+                    alert("All Fields are required!", "error");
                 }
                 else{
-                    swal(data.message);
+                    alert(data.message);
                 }
             }
         });
@@ -325,7 +325,7 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
                             </Menu>
                         </View>
                     ))}
-                    {visible3 &&
+                    {visible3 ?
                     <>
                         <BarcodeScannerComponent
                             width="50%"
@@ -339,58 +339,59 @@ export default function AddDispatchForDelivery(props,{ navigation }) {
                             :
                             <Button onPress={()=>setFlag(false)}>Start Scan</Button>
                         }
-                        {flag &&
+                        {flag ?
                             <View style={{padding: '5px', display: 'flex'}}>
                                 <TextInput style={styles.input} mode="outlined" label="Data" value={data} onChangeText={data => setData(data)} />
                                 <Button onPress={()=>ItemChange()}>Add</Button>
-                            </View>
+                            </View> : null
                         }
-                    </>
+                    </>: null
                     }
-                    {!visible3 &&
+                    {!visible3 ?
                         <Button mode="contained" style={styles.button} onPress={() => scan()} icon={() => <FontAwesomeIcon icon={ faCamera } />}>Start Scan</Button>
+                        : null
                     }
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Loaded Crates Picture (Back) Landscape</Button>
+                        <Button mode="contained" style={ { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Loaded Crates Picture (Back) Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles2}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Truck Side View (Left) with Vehicle Number Landscape</Button>
+                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Truck Side View (Left) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles3}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Truck Side View (Right) with Vehicle Number Landscape</Button>
+                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Truck Side View (Right) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles4}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Truck Front View with Driver and Vehicle Number</Button>
+                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Truck Front View with Driver and Vehicle Number</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles5}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Transporter invoice pic</Button>
+                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Transporter invoice pic</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles6}
                         />
-                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>FPO invoice pic</Button>
+                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>FPO invoice pic</Button>
                     </View>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>
                     </Card.Content>
