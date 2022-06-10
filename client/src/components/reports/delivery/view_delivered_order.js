@@ -1,9 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text } from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Portal, Modal } from 'react-native-paper';
-import { Order_by_id } from '../../../services/order_api';
 import { useHistory } from 'react-router-dom';
-import { order_status_by_orderId } from '../../../services/report/order_status';
+import { Delivered_order_by_id } from '../../../services/report/delivered';
 
 const theme = {
     ...DefaultTheme,
@@ -28,33 +27,16 @@ export default function ViewOrderDelivery(props,{route}) {
     }
     
     const [order, setOrder] = useState();
-    const [allOrderStatus, setAllOrderStatus] = useState();
-    const [visible, setVisible] = useState(false);
-    const [it, setIt] = useState();
+    const [acceptedItems, setAcceptedItems] = useState();
 
     useEffect(() => {
 
         if(orderid){
-            Order_by_id(orderid)
+            Delivered_order_by_id(orderid)
             .then(result=> {
-                setOrder(result);
+                setOrder(result[0].order);
+                setAcceptedItems(result[0].accepted_items);
             })
-        }
-
-        if(order){
-            var date=order[0].order_date.substring(0,10);
-            var d=new Date(order[0].order_date);
-            d.toTimeString();
-            d=String(d);
-            var hour=d.substring(16,18);
-            var custom_orderId=order[0].nick_name+"_"+order[0].postal_code+"_"+date+"_"+hour;
-
-            if(custom_orderId){
-                order_status_by_orderId(custom_orderId)  
-                .then(result => {
-                    setAllOrderStatus(result);
-                })
-            }
         }
 
     }, [orderid, order]);
@@ -63,45 +45,11 @@ export default function ViewOrderDelivery(props,{route}) {
         history.push('/allorderdeliveries');
     }
 
-    const showModal = (val) => {
-        setVisible(true);
-        setIt(val);
-    };
-    const hideModal = () => setVisible(false);
-
-    const containerStyle = {backgroundColor: 'white',width: '50%', alignSelf: 'center'};
-
     return (
         <Provider theme={theme}>
             <SafeAreaView>
             <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Portal>
-                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                        <>
-                            <DataTable>
-                                <DataTable.Header>
-                                    <DataTable.Title>Item Name</DataTable.Title>
-                                    <DataTable.Title>Quantity</DataTable.Title>
-                                    <DataTable.Title>status</DataTable.Title>
-                                </DataTable.Header>
-                                {it &&
-                                    it.map((item)=>{
-                                        return (
-                                            <>
-                                                <DataTable.Row>
-                                                    <DataTable.Cell>{item.item_name+" ("+item.item_grade+")"}</DataTable.Cell>
-                                                    <DataTable.Cell>{item.quantity}</DataTable.Cell>
-                                                    <DataTable.Cell>{item.status}</DataTable.Cell>
-                                                </DataTable.Row>
-                                            </>
-                                        )
-                                    })
-                                }
-                            </DataTable>
-                        </>
-                    </Modal>
-                </Portal>
                 <Card style={styles.card}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Card.Title style={{ flex: 1,}} title="View Order Delivery Details"/>
@@ -126,37 +74,24 @@ export default function ViewOrderDelivery(props,{route}) {
                                         <DataTable.Title>Item Name</DataTable.Title>
                                         <DataTable.Title>unit</DataTable.Title>
                                         <DataTable.Title>Quantity</DataTable.Title>
+                                        <DataTable.Title>Accepted</DataTable.Title>
+                                        <DataTable.Title>Rejected</DataTable.Title>
+                                        <DataTable.Title>Quantity</DataTable.Title>
                                         <DataTable.Title>Final Price</DataTable.Title>
                                         <DataTable.Title>Negotiate Price</DataTable.Title>
-                                        <DataTable.Title>status</DataTable.Title>
-                                        <DataTable.Title>Action</DataTable.Title>
                                     </DataTable.Header>
                                     
-                                    {allOrderStatus && order[0].items.map((it) => {
-                                        var val=allOrderStatus.filter(o => o.item_name === it.itemName);
-                                        var q=0;
-                                        for(var i=0; i<val.length; i++){
-                                            if(val[i].status === "Reached at Sales Hub" || val[i].status === "Out for Delivery"){
-                                                q+=parseInt(val[i].quantity);
-                                            }
-                                        }
-                                        var s={backgroundColor: 'orange'};
-                                        if(q==it.quantity && val[0].status === "Reached at Sales Hub"){
-                                            s={backgroundColor: 'lightgreen'};
-                                        }
-                                        else if(q==it.quantity && val[0].status === "Out for Delivery"){
-                                            s={backgroundColor: 'lightblue'};
-                                        }
+                                    {acceptedItems && order[0].items.map((it, index) => {
                                         return (
                                             <>
-                                                <DataTable.Row style={s}>
+                                                <DataTable.Row>
                                                     <DataTable.Cell>{it.itemName}</DataTable.Cell>
                                                     <DataTable.Cell>{it.itemUnit}</DataTable.Cell>
                                                     <DataTable.Cell>{it.quantity}</DataTable.Cell>
+                                                    <DataTable.Cell>{acceptedItems[index].quantity}</DataTable.Cell>
+                                                    <DataTable.Cell>{it.quantity-acceptedItems[index].quantity}</DataTable.Cell>
                                                     <DataTable.Cell>{it.targetPrice}</DataTable.Cell>
                                                     <DataTable.Cell>{it.itemNegotiatePrice}</DataTable.Cell>
-                                                    <DataTable.Cell>{val[0].status}</DataTable.Cell>
-                                                    <DataTable.Cell><Button onPress={()=>showModal(val)}>Details</Button></DataTable.Cell>
                                                 </DataTable.Row>
                                             </>
                                         )

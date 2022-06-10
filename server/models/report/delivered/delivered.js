@@ -4,6 +4,13 @@ const delivered_Schema = new mongoose.Schema({
     order:{
         type:mongoose.Schema.Types.Mixed,
     },
+    status:{
+        type: String,
+        default: "pending for delivery",
+    },
+    accepted_items:{
+        type:mongoose.Schema.Types.Mixed,
+    },
     }, {
     timestamps: true
 });

@@ -209,6 +209,8 @@ import AllOrderDeliveries from '../components/reports/delivery/all_deliveries';
 import ViewOrderDelivery from '../components/reports/delivery/view_delivered_order';
 import MakeOrderDelivery from '../components/reports/delivery/make_delivery';
 
+import AllRejectedItems from '../components/reports/rejectedItems/allRejectedItems';
+
 const NavBar =()  => {
 
     const [email, setEmail] = useState("");
@@ -690,6 +692,8 @@ const NavBar =()  => {
                                     <>
                                         <NavDropdown.Item to="/allorderdeliveries" as={Link}>All Order Deliveries</NavDropdown.Item>
                                         <NavDropdown.Divider />
+                                        <NavDropdown.Item to="/allrejecteditems" as={Link}>Rejected Items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
                                     </>
                                 }
                                 {( roleas=="manager") &&
@@ -1143,6 +1147,10 @@ const NavBar =()  => {
                 </Route>
                 <Route path="/vieworderdelivery/:id" render={(props) => <ViewOrderDelivery {...props} />} exact />
                 <Route path="/makeorderdelivery/:id" render={(props) => <MakeOrderDelivery {...props} />} exact />
+
+                <Route path="/allrejecteditems">
+                    <AllRejectedItems/>
+                </Route>
 
                 <Route component={PageNotFound}  />
                 </Switch>

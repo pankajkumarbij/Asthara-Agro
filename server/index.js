@@ -257,6 +257,11 @@ const update_farmer_data_collection= require('./routes/farmer_data_collection/up
 
 const create_delivered= require('./routes/report/delivered/create_delivered');
 const retrieve_delivered= require('./routes/report/delivered/retrieve_delivered');
+const update_delivered= require('./routes/report/delivered/update_delivered');
+
+const create_rejected_items= require('./routes/rejectedItems/create_rejectedItems');
+const retrieve_rejected_items= require('./routes/rejectedItems/retrieve_rejectedItems');
+const update_rejected_items= require('./routes/rejectedItems/update_rejectedItems');
 
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
@@ -460,6 +465,11 @@ app.use('/',update_farmer_data_collection);
 
 app.use('/', create_delivered);
 app.use('/', retrieve_delivered);
+app.use('/', update_delivered);
+
+app.use('/', create_rejected_items);
+app.use('/', retrieve_rejected_items);
+app.use('/', update_rejected_items);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");
