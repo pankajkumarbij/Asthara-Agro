@@ -103,6 +103,8 @@ import ViewOrder from '../components/order/view_order';
 import ViewUser from '../components/user/view_user';
 import AddDispatchForDelivery from '../components/delivery/dispatch_for_delivery';
 import AllDispatchForDelivery from '../components/delivery/all_dispatch_for_delivery';
+import AllOrderDeliveries from '../components/reports/delivery/all_deliveries';
+import AllRejectedItems from '../components/reports/rejectedItems/allRejectedItems';
 
 const Stack = createStackNavigator();
 
@@ -624,7 +626,16 @@ export default function Stacks({navigation}){
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
             }}/>
-
+            <Stack.Screen name="AllOrderDeliveries" component={AllOrderDeliveries} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="AllRejectedItems" component={AllRejectedItems} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
         </Stack.Navigator>
     );
 }

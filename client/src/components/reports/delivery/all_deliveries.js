@@ -120,7 +120,7 @@ export default function AllOrderDeliveries(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <View style={{flexDirection: 'row', marginBottom: '20px', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <Title>All Order Deliveries</Title>
                     </View>
                     <Searchbar
@@ -129,10 +129,9 @@ export default function AllOrderDeliveries(props, { navigation }) {
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <View>
-                        <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
+                        <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
                         <View>
                             <Text style={styles.label}>Start Date:</Text>
                             <input type="date" onChange={(e) => setStartDate(e.target.value)}/>
@@ -153,7 +152,7 @@ export default function AllOrderDeliveries(props, { navigation }) {
                         <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {(role && userId && role=="manager" && allOrders && managerPinCodes) &&
+                    {(role && userId && role=="manager" && allOrders && managerPinCodes) ?
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.order[0].postal_code)))
                             if(item.order[0].email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.order[0].name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.order[0].status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -180,9 +179,9 @@ export default function AllOrderDeliveries(props, { navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }): null
                     }
-                    {(role && userId && role=="sales" && allOrders) &&
+                    {(role && userId && role=="sales" && allOrders) ?
                         allOrders.map((item, index)=>{
                             if(item.order[0].userId==userId)
                             if(item.order[0].email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.order[0].name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.order[0].status.toUpperCase().search(searchQuery.toUpperCase())!=-1){
@@ -209,7 +208,7 @@ export default function AllOrderDeliveries(props, { navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }) : null
                     }
                 </DataTable>
             </View>

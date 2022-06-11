@@ -121,7 +121,7 @@ export default function AllRejectedItems(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <View style={{flexDirection: 'row', marginBottom: '20px', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <Title>All Order Deliveries</Title>
                     </View>
                     <Searchbar
@@ -130,10 +130,9 @@ export default function AllRejectedItems(props, { navigation }) {
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     <View>
-                        <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
+                        <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
                         <View>
                             <Text style={styles.label}>Start Date:</Text>
                             <input type="date" onChange={(e) => setStartDate(e.target.value)}/>

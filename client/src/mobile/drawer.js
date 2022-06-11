@@ -555,6 +555,8 @@ function CustomDrawerContent({navigation}) {
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Received_Orders_From_Buyer')}}>All recieved order items</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery_Assignment')}}>Order Summary</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_order_status')}}>All Order status</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllOrderDeliveries')}}>All Order Deliveries</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllRejectedItems')}}>Rejected Items</Button>
             </Menu>
             {/* <Menu
             visible={visible23}
