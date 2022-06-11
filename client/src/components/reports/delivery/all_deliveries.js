@@ -130,22 +130,26 @@ export default function AllOrderDeliveries(props, { navigation }) {
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
                     />
-                    <View>
-                        <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
-                        <View>
-                            <Text style={styles.label}>Start Date:</Text>
-                            <input type="date" onChange={(e) => setStartDate(e.target.value)}/>
-                        </View>
-                        <View>
-                            <Text style={styles.label}>End Date:</Text>
-                            <input type="date" onChange={(e) => setEndDate(e.target.value)}/>
-                        </View>
-                        {endDate<startDate?
-                        <Text style={styles.error}>End Date should be greater than start date</Text>
+                    {Platform.OS === 'android' ?
+                        null 
                         :
-                        null
-                        }
-                    </View>
+                        <View>
+                            <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
+                            <View>
+                                <Text style={styles.label}>Start Date:</Text>
+                                <input type="date" onChange={(e) => setStartDate(e.target.value)}/>
+                            </View>
+                            <View>
+                                <Text style={styles.label}>End Date:</Text>
+                                <input type="date" onChange={(e) => setEndDate(e.target.value)}/>
+                            </View>
+                            {endDate<startDate?
+                            <Text style={styles.error}>End Date should be greater than start date</Text>
+                            :
+                            null
+                            }
+                        </View>
+                    }
                     <DataTable.Header style={{marginTop: 10,}}>
                         <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>

@@ -151,80 +151,84 @@ export default function OrderSummary(props, { navigation }) {
 		                value={searchQuery}
                         style={{marginBottom: '20px'}}
                     />
-                    <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                        <View>
-                            <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Status</Text>
-                            <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    value={isPending}
-                                    onValueChange={setIsPending}
-                                    style={styles.checkbox}
-                                />
-                                <Text style={styles.label}>Pending</Text>
-                            </View>
-                            <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    value={isApproved}
-                                    onValueChange={setIsApproved}
-                                    style={styles.checkbox}
-                                />
-                                <Text style={styles.label}>Approved</Text>
-                            </View>
-                            <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    value={isRejected}
-                                    onValueChange={setIsRejected}
-                                    style={styles.checkbox}
-                                />
-                                <Text style={styles.label}>Rejected</Text>
-                            </View>
-                            <View style={styles.checkboxContainer}>
-                                <CheckBox
-                                    value={isDelivered}
-                                    onValueChange={setIsDelivered}
-                                    style={styles.checkbox}
-                                />
-                                <Text style={styles.label}>Delivered</Text>
-                            </View>
-                        </View>
-                        {role && userId && role=="manager"  && 
-                        <View>
-                            <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Customer Pool</Text>
-                            <ScrollView style={{height: '50px'}}>
-                            {isPool && customerPools &&
-                                customerPools.map((item, index)=>{
-                                    return(
-                                        <View style={styles.checkboxContainer}>
-                                            <CheckBox
-                                                value={isPool[index]}
-                                                onValueChange={()=>changePoolCheck(index)}
-                                                style={styles.checkbox}
-                                            />
-                                            <Text style={styles.label}>{item.customer_pool_name}</Text>
-                                        </View>
-                                    )
-                                })
-                            }
-                            </ScrollView>
-                        </View>
-                        }
-                        <View>
-                            <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
+                    {Platform.OS === 'android' ?
+                        null 
+                    :
+                        <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
                             <View>
-                                <Text style={styles.label}>Start Date:</Text>
-                                <input type="date" onChange={(e) => setStartDate(e.target.value)}/>
+                                <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Status</Text>
+                                <View style={styles.checkboxContainer}>
+                                    <CheckBox
+                                        value={isPending}
+                                        onValueChange={setIsPending}
+                                        style={styles.checkbox}
+                                    />
+                                    <Text style={styles.label}>Pending</Text>
+                                </View>
+                                <View style={styles.checkboxContainer}>
+                                    <CheckBox
+                                        value={isApproved}
+                                        onValueChange={setIsApproved}
+                                        style={styles.checkbox}
+                                    />
+                                    <Text style={styles.label}>Approved</Text>
+                                </View>
+                                <View style={styles.checkboxContainer}>
+                                    <CheckBox
+                                        value={isRejected}
+                                        onValueChange={setIsRejected}
+                                        style={styles.checkbox}
+                                    />
+                                    <Text style={styles.label}>Rejected</Text>
+                                </View>
+                                <View style={styles.checkboxContainer}>
+                                    <CheckBox
+                                        value={isDelivered}
+                                        onValueChange={setIsDelivered}
+                                        style={styles.checkbox}
+                                    />
+                                    <Text style={styles.label}>Delivered</Text>
+                                </View>
                             </View>
+                            {role && userId && role=="manager"  && 
                             <View>
-                                <Text style={styles.label}>End Date:</Text>
-                                <input type="date" onChange={(e) => setEndDate(e.target.value)}/>
+                                <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Customer Pool</Text>
+                                <ScrollView style={{height: '50px'}}>
+                                {isPool && customerPools &&
+                                    customerPools.map((item, index)=>{
+                                        return(
+                                            <View style={styles.checkboxContainer}>
+                                                <CheckBox
+                                                    value={isPool[index]}
+                                                    onValueChange={()=>changePoolCheck(index)}
+                                                    style={styles.checkbox}
+                                                />
+                                                <Text style={styles.label}>{item.customer_pool_name}</Text>
+                                            </View>
+                                        )
+                                    })
+                                }
+                                </ScrollView>
                             </View>
-                            {endDate<startDate?
-                            <Text style={styles.error}>End Date should be greater than start date</Text>
-                            :
-                            null
                             }
+                            <View>
+                                <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
+                                <View>
+                                    <Text style={styles.label}>Start Date:</Text>
+                                    <input type="date" onChange={(e) => setStartDate(e.target.value)}/>
+                                </View>
+                                <View>
+                                    <Text style={styles.label}>End Date:</Text>
+                                    <input type="date" onChange={(e) => setEndDate(e.target.value)}/>
+                                </View>
+                                {endDate<startDate?
+                                <Text style={styles.error}>End Date should be greater than start date</Text>
+                                :
+                                null
+                                }
+                            </View>
                         </View>
-                    </View>
+                    }
                     <DataTable.Header style={{marginTop: 10,}}>
                         <DataTable.Title onPress={()=>sorting("order_date")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("name")}><FontAwesomeIcon icon={ faSort } /> Customer Name</DataTable.Title>
