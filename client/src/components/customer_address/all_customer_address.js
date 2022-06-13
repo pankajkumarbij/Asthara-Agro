@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView} from 'react-native';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text} from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, Menu } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -62,6 +62,7 @@ export default function All_addresses({ navigation }) {
 
     const onChangeSearch2 = query => setSearchQuery2(query);
     const onChangeSearch = query => setSearchQuery(query);
+
     return (
         <Provider theme={theme}>
         <SafeAreaView>
@@ -104,9 +105,9 @@ export default function All_addresses({ navigation }) {
                     <DataTable.Header>
                         <DataTable.Title>Address</DataTable.Title>
                         <DataTable.Title>Landmark</DataTable.Title>
-                        {/* <DataTable.Title>Pin code</DataTable.Title>
+                        <DataTable.Title>Pin code</DataTable.Title>
                         <DataTable.Title>State (District)</DataTable.Title>
-                        <DataTable.Title>Country</DataTable.Title> */}
+                        <DataTable.Title>Country</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
                     </DataTable.Header>
                     { address  ?
@@ -115,9 +116,9 @@ export default function All_addresses({ navigation }) {
                                 <DataTable.Row>
                                     <DataTable.Cell>{address.address}</DataTable.Cell>
                                     <DataTable.Cell>{address.landmark}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{address.postal_code}</DataTable.Cell>
+                                    <DataTable.Cell>{address.postal_code}</DataTable.Cell>
                                     <DataTable.Cell>{address.state+" ("+address.district+")"}</DataTable.Cell>
-                                    <DataTable.Cell>{address.country}</DataTable.Cell> */}
+                                    <DataTable.Cell>{address.country}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
                                             <Button  mode="contained"  onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}></Button>
@@ -134,7 +135,7 @@ export default function All_addresses({ navigation }) {
             </DataTable>
             </View>
         </ScrollView>
-        </SafeAreaView>s
+        </SafeAreaView>
         </Provider>
     );
 }
