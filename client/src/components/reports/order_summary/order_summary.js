@@ -139,8 +139,8 @@ export default function OrderSummary(props, { navigation }) {
         <ScrollView>
             <View>
                 <DataTable style={styles.datatable}>
-                    <View style={{flexDirection: 'row', marginBottom: '20px', justifyContent: 'space-between'}}>
-                        <Title>Order Summary</Title>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <Title style={styles.title}>Order Summary</Title>
                         <Button mode="outlined" onPress={()=>printPageArea()} icon={() => <FontAwesomeIcon icon={ faPrint } />}>Print</Button>
                     </View>
                     <Searchbar
@@ -149,14 +149,13 @@ export default function OrderSummary(props, { navigation }) {
                         placeholder="Search"
                         onChangeText={onChangeSearch}
 		                value={searchQuery}
-                        style={{marginBottom: '20px'}}
                     />
                     {Platform.OS === 'android' ?
                         null 
                     :
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
                             <View>
-                                <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Status</Text>
+                                <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Status</Text>
                                 <View style={styles.checkboxContainer}>
                                     <CheckBox
                                         value={isPending}
@@ -190,7 +189,7 @@ export default function OrderSummary(props, { navigation }) {
                                     <Text style={styles.label}>Delivered</Text>
                                 </View>
                             </View>
-                            {role && userId && role=="manager"  && 
+                            {role && userId && role=="manager"  ?
                             <View>
                                 <Text style={{color: 'gray', fontSize: '20px', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Customer Pool</Text>
                                 <ScrollView style={{height: '50px'}}>
@@ -209,7 +208,7 @@ export default function OrderSummary(props, { navigation }) {
                                     })
                                 }
                                 </ScrollView>
-                            </View>
+                            </View>: null
                             }
                             <View>
                                 <Text style={{color: 'gray', fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Date Range</Text>
@@ -235,7 +234,7 @@ export default function OrderSummary(props, { navigation }) {
                         <DataTable.Title onPress={()=>sorting("status")}><FontAwesomeIcon icon={ faSort } /> Status</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
-                    {(role && userId && role=="manager" && allOrders && managerPinCodes && customerPoolId) &&
+                    {(role && userId && role=="manager" && allOrders && managerPinCodes && customerPoolId) ?
                         allOrders.map((item, index)=>{
                             if(managerPinCodes.includes(String(item.postal_code)))
                             // if(customerPoolId.includes(String(item.customerPoolId)))
@@ -264,9 +263,9 @@ export default function OrderSummary(props, { navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }): null
                     }
-                    {(role && userId && role=="sales" && allOrders) &&
+                    {(role && userId && role=="sales" && allOrders) ?
                         allOrders.map((item, index)=>{
                             if(item.userId==userId)
                             if((isPending && item.status=="pending") || (isApproved && item.status=="approved") || (isRejected && item.status=="rejected") || (isDelivered && item.status=="delivered"))
@@ -294,7 +293,7 @@ export default function OrderSummary(props, { navigation }) {
                                     </DataTable.Row>
                                 )
                             }
-                        })
+                        }): null
                     }
                 </DataTable>
                 {Platform.OS=='android' ?
@@ -371,6 +370,24 @@ const styles = StyleSheet.create({
             },
             default: {
                 width: '20%',
+            }
+        })
+    },
+    title: {
+        ...Platform.select({
+            ios: {
+                
+            },
+            android: {
+                textAlign: 'center',
+                color: 'green',
+                fontFamily: 'Roboto'
+            },
+            default: {
+                textAlign: 'center',
+                color: 'green',
+                fontSize: 28,
+                fontFamily: 'Roboto'
             }
         })
     },

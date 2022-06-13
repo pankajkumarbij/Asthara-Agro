@@ -553,7 +553,7 @@ function CustomDrawerContent({navigation}) {
             anchor={<Button style={styles.drawerbutton} mode="outlined" onPress={openMenu22}>Report</Button>}>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Dispatch_Orders_From_Buyer')}}>All Dispatch orders items</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Received_Orders_From_Buyer')}}>All recieved order items</Button>
-                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_Accepted_Delivery_Assignment')}}>Order Summary</Button>
+                <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('OrderSummary')}}>Order Summary</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('All_order_status')}}>All Order status</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllOrderDeliveries')}}>All Order Deliveries</Button>
                 <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('AllRejectedItems')}}>Rejected Items</Button>

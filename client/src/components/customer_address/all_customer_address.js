@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '100%',
+                width: '90%',
             },
             default: {
                 width: '20%',
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
                 
             },
             android: {
-                width: '100%',
+                width: '90%',
             },
             default: {
                 width: '75%',
