@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function ViewUser( {route}, props) {
+export default function ViewUser(props, {route}) {
 
     var userid = "";
     if(Platform.OS=="android"){

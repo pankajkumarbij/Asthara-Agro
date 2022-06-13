@@ -12,7 +12,7 @@ const theme = {
     },
 };
 
-export default function View_Completed_Purchase_Order(props, {route}) {
+export default function View_Completed_Purchase_Order( {route},props) {
 
     var id="";
     var pickupConfirmId = ""; 

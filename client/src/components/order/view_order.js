@@ -14,7 +14,7 @@ const theme = {
     },
 };
 
-export default function ViewOrder({route}, props) {
+export default function ViewOrder(props, {route}) {
 
     let history = useHistory();
 

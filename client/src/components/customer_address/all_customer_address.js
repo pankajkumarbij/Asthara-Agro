@@ -121,9 +121,9 @@ export default function All_addresses({ navigation }) {
                                     <DataTable.Cell>{address.country}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button  mode="contained"  onPress={() => {navigation.navigate('EditItem', {addressId: address._id})}}></Button>
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />}  mode="contained"  onPress={() => {navigation.navigate('EditAddress', {addressId: address._id})}}></Button>
                                             :
-                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}>Details</Link></Button>
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}></Link></Button>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row> 

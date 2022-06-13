@@ -105,6 +105,11 @@ import AddDispatchForDelivery from '../components/delivery/dispatch_for_delivery
 import AllDispatchForDelivery from '../components/delivery/all_dispatch_for_delivery';
 import AllOrderDeliveries from '../components/reports/delivery/all_deliveries';
 import AllRejectedItems from '../components/reports/rejectedItems/allRejectedItems';
+import ViewOrderSummary from '../components/reports/order_summary/view_order_summary';
+import View_Received_Order_From_Buyer from '../components/reports/received_items_from_buyer/view_received_item_from_buyer';
+import ViewDispatchForDelivery from '../components/delivery/view_dispatch_for_delivery_orders';
+import View_Completed_Purchase_Order from '../components/reports/all_dispatch_order_items/view_all_dispatch_order_items';
+import EditAddress from '../components/customer_address/edit_customer_address';
 
 const Stack = createStackNavigator();
 
@@ -632,6 +637,31 @@ export default function Stacks({navigation}){
             ),
             }}/>
             <Stack.Screen name="AllRejectedItems" component={AllRejectedItems} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="ViewOrderSummary" component={ViewOrderSummary} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Received_Order_From_Buyer" component={View_Received_Order_From_Buyer} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="ViewDispatchForDelivery" component={ViewDispatchForDelivery} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Completed_Purchase_Order" component={View_Completed_Purchase_Order} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditAddress" component={EditAddress} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
