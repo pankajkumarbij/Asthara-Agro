@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { all_users_by_role } from '../../services/user_api';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 const theme = {
     ...DefaultTheme,
     roundness: 2,
@@ -19,11 +20,13 @@ const theme = {
 export default function Add_customer_Address({ navigation }) {
     //initialize all required state variables
     const [visible2, setVisible2] = useState(false);
+    const [visible1, setVisible1] = useState(false);
     let history = useHistory();
     const [searchQuery2, setSearchQuery2] = useState('');
     const [customerId, setCustomerId] = useState('');
     const [address, setAddress] = useState('');
-    const [landmark, setLandmark] = useState('');
+    const [landmark, setLandmark] = useState("Choose Landmark");
+    const [landmarks, setLandmarks] = useState();
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
@@ -51,6 +54,9 @@ export default function Add_customer_Address({ navigation }) {
     const openMenu2 = () => setVisible2(true);
     const closeMenu2 = () => setVisible2(false);
 
+    const openMenu1 = () => setVisible1(true);
+    const closeMenu1 = () => setVisible1(false);
+
     //define a function for sending the data in corresponding database
     function submitForm() {
         fetch(`http://${host}:5000/create_customer_address`, {
@@ -77,10 +83,21 @@ export default function Add_customer_Address({ navigation }) {
                 navigation.navigate('All_customer_Addresses');
             }
             else{
-               
                 history.push('/customer_all_addresses');
             }
         }); 
+    }
+
+    function getAddress(pincode){
+        setPincode(pincode);
+        axios.get('https://api.postalpincode.in/pincode/'+pincode)
+        .then(res => {
+            console.log(res.data[0].PostOffice);
+            setLandmarks(res.data[0].PostOffice);
+            setDistrict(res.data[0].PostOffice[0].District);
+            setState(res.data[0].PostOffice[0].State);
+            setCountry(res.data[0].PostOffice[0].Country);
+        }).catch(err => console.log(err))
     }
 
     const CustomerChange = (id, email) => {
@@ -124,12 +141,27 @@ export default function Add_customer_Address({ navigation }) {
                                 <Menu.Item title="No Customers are available" />
                             }
                         </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pincode => getAddress(pincode)} />
                         <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
-                        <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={landmark => setLandmark(landmark)} />
-                        <TextInput style={styles.input} mode="outlined" label="District" value={district} onChangeText={district => setDistrict(district)} />
-                        <TextInput style={styles.input} mode="outlined" label="State" value={state} onChangeText={state => setState(state)} />
-                        <TextInput style={styles.input} mode="outlined" label="Country" value={country} onChangeText={country => setCountry(country)} />
-                        <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pincode => setPincode(pincode)} />
+                        <Menu
+                            visible={visible1}
+                            onDismiss={closeMenu1}
+                            anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={openMenu1}>{landmark}</Button>}>
+                            {landmarks ?
+                                landmarks.map((item)=>{
+                                    return (
+                                        <>
+                                        <Menu.Item title={item.Name} onPress={()=>setLandmark(item.Name)}/>
+                                        </>
+                                    )
+                                })
+                                :
+                                <Menu.Item title="No Landmarks are available" />
+                            }
+                        </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="District" value={district}/>
+                        <TextInput style={styles.input} mode="outlined" label="State" value={state}/>
+                        <TextInput style={styles.input} mode="outlined" label="Country" value={country}/>
                         <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Add address</Button>
                     </Card.Content>
                 </Card>

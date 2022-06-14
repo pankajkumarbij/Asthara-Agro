@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform} from 'react-native';
-import { TextInput, Card, Button, Provider, DefaultTheme } from 'react-native-paper';
+import { TextInput, Card, Button, Provider, DefaultTheme, Menu } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { users_by_id } from '../../services/user_api';
 import {url} from '../../utils/url';
@@ -31,11 +32,13 @@ export default function AddAddress(props, {route}) {
     //initialize all required state variables
     const [userId, setUserId] = useState('');
     const [address, setAddress] = useState('');
-    const [landmark, setLandmark] = useState('');
+    const [landmark, setLandmark] = useState("Choose Landmark");
+    const [landmarks, setLandmarks] = useState();
     const [district, setDistrict] = useState('');
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [pincode, setPincode] = useState('');
+    const [visible1, setVisible1] = useState(false);
     const [host, setHost] = useState('');
     const [role, setRole] = useState();
     const [Email, setEmail] = useState('');
@@ -130,6 +133,22 @@ export default function AddAddress(props, {route}) {
             history.push('/addbankdetails/' + userId);
         }); 
     }
+
+    function getAddress(pincode){
+        setPincode(pincode);
+        axios.get('https://api.postalpincode.in/pincode/'+pincode)
+        .then(res => {
+            console.log(res.data[0].PostOffice);
+            setLandmarks(res.data[0].PostOffice);
+            setDistrict(res.data[0].PostOffice[0].District);
+            setState(res.data[0].PostOffice[0].State);
+            setCountry(res.data[0].PostOffice[0].Country);
+        }).catch(err => console.log(err))
+    }
+
+    const openMenu1 = () => setVisible1(true);
+    const closeMenu1 = () => setVisible1(false);
+
     //define all the required input fields
     return (
         <Provider theme={theme}>
@@ -137,14 +156,29 @@ export default function AddAddress(props, {route}) {
                 <Card style={styles.card}>
                     <Card.Title title="Add Address"/>
                     <Card.Content>
-                    <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={add => setAddress(add)} />
-                    <TextInput style={styles.input} mode="outlined" label="Landmark" value={landmark} onChangeText={lm => setLandmark(lm)} />
-                    <TextInput style={styles.input} mode="outlined" label="District" value={district} onChangeText={dis => setDistrict(dis)} />
-                    <TextInput style={styles.input} mode="outlined" label="State" value={state} onChangeText={st => setState(st)} />
-                    <TextInput style={styles.input} mode="outlined" label="Country" value={country} onChangeText={coun => setCountry(coun)} />
-                    <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pin => setPincode(pin)} />
-                    <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Bank</Button>
-                </Card.Content>
+                        <TextInput style={styles.input} mode="outlined" label="Pin Code" value={pincode} onChangeText={pincode => getAddress(pincode)} />
+                        <TextInput style={styles.input} mode="outlined" label="Address" value={address} multiline onChangeText={address => setAddress(address)} />
+                        <Menu
+                            visible={visible1}
+                            onDismiss={closeMenu1}
+                            anchor={<Button style={{flex: 1, marginTop: '2%'}} mode="outlined" onPress={openMenu1}>{landmark}</Button>}>
+                            {landmarks ?
+                                landmarks.map((item)=>{
+                                    return (
+                                        <>
+                                        <Menu.Item title={item.Name} onPress={()=>setLandmark(item.Name)}/>
+                                        </>
+                                    )
+                                })
+                                :
+                                <Menu.Item title="No Landmarks are available" />
+                            }
+                        </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="District" value={district}/>
+                        <TextInput style={styles.input} mode="outlined" label="State" value={state}/>
+                        <TextInput style={styles.input} mode="outlined" label="Country" value={country}/>
+                        <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Bank</Button>
+                    </Card.Content>
                 </Card>
             </View>
         </Provider>
