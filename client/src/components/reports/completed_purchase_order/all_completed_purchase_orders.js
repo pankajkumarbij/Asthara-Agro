@@ -11,6 +11,7 @@ import { all_serial_number } from '../../../services/serialnumber';
 // import BarCode from '../../barcode/barcode';
 import {url} from '../../../utils/url';
 import QRCode from "react-qr-code";
+// import QRCodes from 'react-native-qrcode-svg';
 
 const theme = {
     ...DefaultTheme,
@@ -133,86 +134,91 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
                         <>
                             {/* <BarCode barcode={barcode} /> */}
-                            <QRCode value={barcode} />
+                            {Platform.OS=='android' ?
+                                // <QRCodes value={barcode} />
+                                <Text>QR</Text>
+                            :
+                                <QRCode value={barcode} />
+                            }
                             <Text>{barcode}</Text>
                         </>
                     </Modal>
                 </Portal>
                 <DataTable style={styles.datatable}>
-                        <Title style={styles.title}>All Completed Purchase Orders</Title>
-                        <Searchbar
-                            icon={() => <FontAwesomeIcon icon={ faSearch } />}
-                            clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
-                            placeholder="Search"
-                            onChangeText={onChangeSearch}
-                            value={searchQuery}
-                        />
+                    <Title style={styles.title}>All Completed Purchase Orders</Title>
+                    <Searchbar
+                        icon={() => <FontAwesomeIcon icon={ faSearch } />}
+                        clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
+                        placeholder="Search"
+                        onChangeText={onChangeSearch}
+                        value={searchQuery}
+                    />
 
-                        <DataTable.Header>
-                            <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
-                            <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
-                            <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
-                            <DataTable.Title>Action</DataTable.Title>
-                            {role && role=='buyer' ?
-                                <DataTable.Title>BarCode</DataTable.Title>
-                                :null
+                    <DataTable.Header>
+                        <DataTable.Title onPress={()=>sorting("custom_orderId")}><FontAwesomeIcon icon={ faSort } /> Order ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("custom_vendorId")}><FontAwesomeIcon icon={ faSort } /> Vendor ID</DataTable.Title>
+                        <DataTable.Title onPress={()=>sorting("items.itemName")}><FontAwesomeIcon icon={ faSort } /> Item</DataTable.Title>
+                        <DataTable.Title>Action</DataTable.Title>
+                        {role && role=='buyer' ?
+                            <DataTable.Title>BarCode</DataTable.Title>
+                            :null
+                        }
+                    </DataTable.Header>
+                                                                            
+                    {(role && userId && role=="manager" && allPickupAssignmentConfirm) ?
+                        allPickupAssignmentConfirm.map((item)=>{
+                            if(item.purchase_order.managerPoolId==managerPoolId)
+                            if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
+                            return (
+                                <DataTable.Row>
+                                    <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
+                                    <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
+                                    <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Check</Button>
+                                            :
+                                            <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                        }
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )
                             }
-                        </DataTable.Header>
-                                                                              
-                        {(role && userId && role=="manager" && allPickupAssignmentConfirm) ?
-                            allPickupAssignmentConfirm.map((item)=>{
-                                if(item.purchase_order.managerPoolId==managerPoolId)
-                                if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
-                                return (
-                                    <DataTable.Row>
-                                        <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
-                                        <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell>
-                                            {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Check</Button>
-                                                :
-                                                <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
-                                            }
-                                        </DataTable.Cell>
-                                    </DataTable.Row>
-                                )
-                                }
-                            }) : null
-                        }
-                        {(serial_number && role && userId && role=="buyer" && allPickupAssignmentConfirm) ?
-                            allPickupAssignmentConfirm.map((item)=>{
-                                const today = new Date();
-                                let yyyy = today.getFullYear();
-                                let mm = today.getMonth() + 1;
-                                let dd = today.getDate();
-                                const tt = dd +""+ mm + yyyy;
-                                if(item.purchase_order.buyer_id==userId)
-                                if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
-                                return (
-                                    <DataTable.Row>
-                                        <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
-                                        <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
-                                        <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
-                                        <DataTable.Cell>
-                                            {Platform.OS=='android' ?
-                                                <Button icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
-                                                :
-                                                <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
-                                            }
-                                        </DataTable.Cell>
-                                        <DataTable.Cell>
-                                            {Platform.OS=='android' ?
-                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
-                                                :
-                                                <Button mode="contained" onPress={() => BarCodeGen(serial_number+tt+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)} style={{width: '100%'}}>QRCode</Button>
-                                            }
-                                        </DataTable.Cell>
-                                    </DataTable.Row>
-                                )
-                                }
-                            }): null
-                        }
+                        }) : null
+                    }
+                    {(serial_number && role && userId && role=="buyer" && allPickupAssignmentConfirm) ?
+                        allPickupAssignmentConfirm.map((item)=>{
+                            const today = new Date();
+                            let yyyy = today.getFullYear();
+                            let mm = today.getMonth() + 1;
+                            let dd = today.getDate();
+                            const tt = dd +""+ mm + yyyy;
+                            if(item.purchase_order.buyer_id==userId)
+                            if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
+                            return (
+                                <DataTable.Row>
+                                    <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
+                                    <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
+                                    <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {Platform.OS=='android' ?
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
+                                            :
+                                            <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                        }
+                                    </DataTable.Cell>
+                                    <DataTable.Cell>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" onPress={() => BarCodeGen(serial_number+tt+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)}>QR</Button>
+                                            :
+                                            <Button mode="contained" onPress={() => BarCodeGen(serial_number+tt+"_"+item.purchase_order.items.itemName+"_"+item.purchase_order.items.Grade+"_"+item.purchase_order.items.quantity, item._id)} style={{width: '100%'}}>QRCode</Button>
+                                        }
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )
+                            }
+                        }): null
+                    }
                 </DataTable>
             </View>
         </ScrollView>

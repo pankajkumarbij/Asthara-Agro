@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform, ScrollView,KeyboardAvoidingView} from 'react-native';
-import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar} from 'react-native-paper';
+import { TextInput, Card, Button, Menu, Provider, DefaultTheme, Searchbar, Portal, Modal} from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { uploadImage } from '../../services/image';
 import emailjs from 'emailjs-com';
 import { all_customer_pools, all_manager_pools, all_vendor_pools } from '../../services/pool';
 import { url } from '../../utils/url';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -46,6 +47,9 @@ export default function Register({ navigation},props) {
     const [managers, setManagers] = useState();
     const [pool_name, setPoolName] = useState("Choose Pool");
     const [pool_id, setPoolId] = useState("");
+    const [OTP, setOTP] = useState('');
+    const [inputOtp, setInputOtp] = useState();
+    const [visible, setVisible] = useState(false);
 
     const[values,setValues]=useState({
         full_name:'',
@@ -86,6 +90,11 @@ export default function Register({ navigation},props) {
         })
 
     }, [userCategory, host, props.host, props.roleas]);
+
+    const showModal = () => {
+        setVisible(true);
+    };
+    const hideModal = () => setVisible(false);
 
     const openMenu1 = () => setVisible1(true);
     const closeMenu1 = () => setVisible1(false);
@@ -158,6 +167,52 @@ export default function Register({ navigation},props) {
         }); 
     }
 
+    const sendSmsOtp = async (mobileNumber, otp) => {
+        const url = 'http://34.131.139.104/SMS/msg';
+        let returnData;
+        const bodyData = {
+            "mobileNumber" : mobileNumber,
+            "otp" :  otp
+        };
+        const response = await axios.post(url, bodyData);
+        if (response.status === 200) {
+            returnData = {
+                status: 'Success',
+                ...response.data,
+            };
+        } else {
+            returnData = {
+            status: 'Failure',
+            };
+        }
+    }
+
+    const generateOTP = (mobileNumber) => {
+        const characters ='0123456789';
+        const characterCount = characters.length;
+        let OTPvalue = '';
+        for (let i = 0; i < 4; i++) {
+            OTPvalue += characters[Math.floor(Math.random() * characterCount)];
+        }
+        setOTP(OTPvalue);
+        if(OTPvalue) {
+            sendSmsOtp(mobileNumber, OTPvalue);
+            showModal();
+        }
+        return OTPvalue;
+    };
+
+    function validateOTP(){
+        if(inputOtp && OTP && inputOtp==OTP){
+            submitForm();
+            setInputOtp("");
+            setOTP("");
+        }
+        else{
+            alert("Invalid OTP, please try again !!");
+        }
+    }
+
     function getFiles(event){
         setFile(event.target.files[0]);
     }
@@ -206,9 +261,22 @@ export default function Register({ navigation},props) {
     const onChangeSearch4 = query => setSearchQuery4(query);
     const onChangeSearch5 = query => setSearchQuery5(query);
 
+    const containerStyle = {backgroundColor: 'white',width: '50%', alignSelf: 'center', padding: "10px"};
+
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Portal>
+                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                        <>
+                            <TextInput mode="outlined" label="Enter OTP" value={inputOtp} onChange={(e)=>setInputOtp(e.target.value)} />
+                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Button mode="contained" onPress={() => generateOTP(6378298502)} style={{width: '40%', marginTop: '20px'}} color="red">Resend OTP</Button>
+                                <Button mode="contained" onPress={() => validateOTP()} style={{width: '40%', marginTop: '20px'}}>Validate OTP</Button>
+                            </View>
+                        </>
+                    </Modal>
+                </Portal>
                 <Card style={styles.card}>
                 <KeyboardAvoidingView>
                 <ScrollView>
@@ -274,13 +342,17 @@ export default function Register({ navigation},props) {
                         <Menu.Item title="Passport" onPress={()=>chooseIdType("Passport")} />
                     </Menu>
                     <TextInput style={styles.input} mode="outlined" label="Govt ID Number" value={values.idNumber} onChangeText={handleChange('idNumber')}/>
-                    {/* <View style={{flexDirection: 'row'}}>
-                        <input type="file" name="file" placeholder="Image"
-                        style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
-                        onChange={getFiles}
-                        />
-                        <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
-                    </View> */}
+                    {Platform.OS=='android' ? 
+                        null 
+                    :
+                        <View style={{flexDirection: 'row'}}>
+                            <input type="file" name="file" placeholder="Image"
+                            style={{flex: 3, border: '1px solid gray', marginLeft: '2%', padding: '1%', borderRadius: '1px'}}
+                            onChange={getFiles}
+                            />
+                            <Button mode="contained" style={styles.button, { flex: 1,}} onPress={()=>ImageSubmitForm()}>Upload Image</Button>
+                        </View>
+                    }
                     {(category=="vendor" || category=="customer") &&
                         <TextInput style={styles.input} mode="outlined" label="GST No" value={values.gstNo} onChangeText={handleChange('gstNo')} />
                     }
@@ -370,7 +442,7 @@ export default function Register({ navigation},props) {
                     }
                     <TextInput style={styles.input} mode="outlined" label="Password" value={values.password} onChangeText={handleChange('password')} secureTextEntry={true}/>
                     <TextInput style={styles.input} mode="outlined" label="Confirm Password" alue={values.confirmPassword} onChangeText={handleChange('confirmPassword')} secureTextEntry={true}/>
-                    <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Save & Add Address</Button>
+                    <Button mode="contained" style={styles.button} onPress={() => generateOTP(6378298502)}>Save & Add Address</Button>
                     </Card.Content>
                 </ScrollView>
                 </KeyboardAvoidingView>

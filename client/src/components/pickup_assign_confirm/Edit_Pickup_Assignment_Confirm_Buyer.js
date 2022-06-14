@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { TextInput, Card, Button, Menu, Provider, DefaultTheme,DataTable } from 'react-native-paper';
+import { TextInput, Card, Button, Menu, Provider, DefaultTheme,DataTable, Portal, Modal } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEdit,faStore } from '@fortawesome/free-solid-svg-icons';
 import { pickup_assignment_confirm_by_id } from '../../services/pickup_api';
 import { useHistory } from 'react-router-dom';
 import { vendor_items_by_access_details } from '../../services/vendor_api';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -38,6 +39,9 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
     const [host, setHost] = useState(""); 
     const [purchaseOrder, setPurchaseOrder] = useState();
     const [min_quantity, setMinQuantity] = useState("");
+    const [OTP, setOTP] = useState('');
+    const [inputOtp, setInputOtp] = useState();
+    const [visible, setVisible] = useState(false);
 
     function chooseOrder(order_id) {
         setOrderId(order_id);
@@ -178,9 +182,73 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
         });
     }
 
+    const sendSmsOtp = async (mobileNumber, otp) => {
+        const url = 'http://34.131.139.104/SMS/msg';
+        let returnData;
+        const bodyData = {
+            "mobileNumber" : mobileNumber,
+            "otp" :  otp
+        };
+        const response = await axios.post(url, bodyData);
+        if (response.status === 200) {
+            returnData = {
+                status: 'Success',
+                ...response.data,
+            };
+        } else {
+            returnData = {
+            status: 'Failure',
+            };
+        }
+    }
+
+    const generateOTP = (mobileNumber) => {
+        const characters ='0123456789';
+        const characterCount = characters.length;
+        let OTPvalue = '';
+        for (let i = 0; i < 4; i++) {
+            OTPvalue += characters[Math.floor(Math.random() * characterCount)];
+        }
+        setOTP(OTPvalue);
+        if(OTPvalue) {
+            sendSmsOtp(mobileNumber, OTPvalue);
+            showModal();
+        }
+        return OTPvalue;
+    };
+
+    function validateOTP(){
+        if(inputOtp && OTP && inputOtp==OTP){
+            submitForm3();
+            setInputOtp("");
+            setOTP("");
+        }
+        else{
+            alert("Invalid OTP, please try again !!");
+        }
+    }
+
+    const showModal = () => {
+        setVisible(true);
+    };
+    const hideModal = () => setVisible(false);
+
+    const containerStyle = {backgroundColor: 'white',width: '50%', alignSelf: 'center', padding: "10px"};
+
     return (
         <Provider theme={theme}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Portal>
+                    <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                        <>
+                            <TextInput mode="outlined" label="Enter OTP" value={inputOtp} onChange={(e)=>setInputOtp(e.target.value)} />
+                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Button mode="contained" onPress={() => generateOTP(6378298502)} style={{width: '40%', marginTop: '20px'}} color="red">Resend OTP</Button>
+                                <Button mode="contained" onPress={() => validateOTP()} style={{width: '40%', marginTop: '20px'}}>Validate OTP</Button>
+                            </View>
+                        </>
+                    </Modal>
+                </Portal>
                 <Card style={styles.card}>
                     <Card.Title title="Edit Pickup Assignment Confirm Buyer"/>
                     <Card.Content>
@@ -210,7 +278,7 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
                                 </DataTable.Row>
                             </DataTable>            
                         }
-                        <Button  mode="contained" icon={() => <FontAwesomeIcon icon={ faEdit } />} style={styles.button} onPress={()=>submitForm3()}>Payment</Button>
+                        <Button  mode="contained" icon={() => <FontAwesomeIcon icon={ faEdit } />} style={styles.button} onPress={() => generateOTP(6378298502)}>Payment</Button>
                         <Button  mode="contained" icon={() => <FontAwesomeIcon icon={ faStore } />} style={styles.button} onPress={()=>{submitForm2();submitForm4()}}>Update Inventoryy</Button> 
                     </Card.Content>
                 </Card>
