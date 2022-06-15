@@ -175,23 +175,23 @@ export default function View_Pickup_Assignment_Confirm_Buyer(props, {route}) {
                 <Card style={styles.card}>
                     <Card.Title title="View Pickup Assignment Confirm Buyer"/>
                     <Card.Content>
-                        {order_id &&
-                           <TextInput style={styles.input} mode="outlined" label="Order Id" value={order_id} />
+                        {order_id ?
+                           <TextInput style={styles.input} mode="outlined" label="Order Id" value={order_id} />: null
                         }
 
-                        {pickupAssignId &&
-                            <TextInput style={styles.input} mode="outlined" label="Pickup Assign ID" value={pickupAssignId} />
+                        {pickupAssignId ?
+                            <TextInput style={styles.input} mode="outlined" label="Pickup Assign ID" value={pickupAssignId} />: null
                         }
 
-                        {buyer_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Buyer ID" value={buyer_id} />
+                        {buyer_id ?
+                            <TextInput style={styles.input} mode="outlined" label="Buyer ID" value={buyer_id} />: null
                         }
 
-                        {vendor_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />
+                        {vendor_id ?
+                            <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />: null
                         }
 
-                        {items &&
+                        {items ?
                             <DataTable style={styles.datatable}>
                                 <DataTable.Row style={styles.input}>
                                     <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
@@ -199,7 +199,7 @@ export default function View_Pickup_Assignment_Confirm_Buyer(props, {route}) {
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={items.quantity} onChangeText={(text)=>ItemChange(0, "quantity", text, '')} /></DataTable.Cell>
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Price" value={items.itemPrice} onChangeText={(text)=>ItemChange2(0, "itemPrice", text, '')} /></DataTable.Cell>
                                 </DataTable.Row>
-                            </DataTable>            
+                            </DataTable>   : null         
                         }
                     </Card.Content>
                 </Card>

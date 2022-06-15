@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, SafeAreaView
 import { Provider, DefaultTheme, Button,Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes,faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
 import { retrieve_crawler } from '../../services/crawler';
 
 const theme = {
@@ -67,7 +67,6 @@ export default function AllCrawlers(props,{ navigation }) {
                         <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item Name</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("item_grade")}><FontAwesomeIcon icon={ faSort } />Item Grade</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("item_unit")}><FontAwesomeIcon icon={ faSort } />Item Unit</DataTable.Title>
-                        <DataTable.Title onPress={()=>sorting("price")}><FontAwesomeIcon icon={ faSort } />Item Price</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("createdAt")}><FontAwesomeIcon icon={ faSort } />Date</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
@@ -88,12 +87,11 @@ export default function AllCrawlers(props,{ navigation }) {
                                     <DataTable.Cell>{item.item_name}</DataTable.Cell>
                                     <DataTable.Cell>{item.item_grade}</DataTable.Cell>
                                     <DataTable.Cell>{item.item_unit}</DataTable.Cell>
-                                    <DataTable.Cell>{item.price}</DataTable.Cell>
                                     <DataTable.Cell>{date}</DataTable.Cell>
                                     {date==tt ?
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>Details</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditCrawler', {id: item._id})}}></Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}}><Link to={"/editcrawler/"+item._id}>Details</Link></Button>
                                             }
@@ -101,7 +99,7 @@ export default function AllCrawlers(props,{ navigation }) {
                                     :
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItemUnit', {itemUnitId: item._id})}}>View</Button>
+                                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ViewCrawler', {id: item._id})}}></Button>
                                                 :
                                                 <Button mode="contained" style={{width: '100%'}}><Link to={"/viewcrawler/"+item._id}>View</Link></Button>
                                             }

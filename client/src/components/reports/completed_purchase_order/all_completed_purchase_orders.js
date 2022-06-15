@@ -176,7 +176,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                     <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Check</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Comp_Purchase', {id: item._id})}}></Button>
                                             :
                                             <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
@@ -202,7 +202,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                                     <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}></Button>
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Comp_Purchase', {id: item._id})}}></Button>
                                             :
                                             <Link to={"/View_Completed_Purchase_Order/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }

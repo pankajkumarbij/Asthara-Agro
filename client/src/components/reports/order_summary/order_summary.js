@@ -255,7 +255,7 @@ export default function OrderSummary(props, { navigation }) {
                                         <DataTable.Cell>{item.status}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('EditOrder', {itemId: item._id})}}>Details</Button>
+                                                <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('ViewOrderSummary', {orderId: item._id})}}></Button>
                                                 :
                                                 <Link to={"/viewordersummary/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function ViewOrderSummary(props,{navigation, route}) {
+export default function ViewOrderSummary(props, {navigation, route}) {
 
     let history = useHistory();
 
@@ -144,7 +144,7 @@ export default function ViewOrderSummary(props,{navigation, route}) {
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={order[0].postal_code} />
                             {order[0].items && 
                                 <DataTable>
-                                    <Title style={{marginTop: '20px', marginBottom: '20px'}}>All Items</Title>
+                                    <Title >All Items</Title>
                                     <DataTable.Header>
                                         <DataTable.Title>Item Name</DataTable.Title>
                                         <DataTable.Title>unit</DataTable.Title>

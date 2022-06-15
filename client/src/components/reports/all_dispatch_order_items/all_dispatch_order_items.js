@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView, ActivityIndicator  } from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text  } from 'react-native';
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar  } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -18,7 +18,7 @@ const theme = {
     },
 };
 
-export default function All_Dispatch_Orders_From_Buyer(props,{ navigation }) {
+export default function All_Dispatch_Orders_From_Buyer(props, { navigation }) {
 
     const [allPickupAssignmentConfirm, setAllPickupAssignment] = useState();
     const [searchQuery, setSearchQuery] = useState('');
@@ -103,7 +103,7 @@ export default function All_Dispatch_Orders_From_Buyer(props,{ navigation }) {
                                     <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: item._id})}}>Details</Button>
+                                            <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Completed_Purchase_Order', {id: item._id})}}></Button>
                                             :
                                             <Link to={"/View_Dispatch_order_items/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
@@ -125,7 +125,7 @@ export default function All_Dispatch_Orders_From_Buyer(props,{ navigation }) {
                                     <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Completed_Purchase_Order', {id: item._id})}}></Button>
+                                            <Button mode="contained" style={{width: '100%'}}  icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Completed_Purchase_Order', {id: item._id})}}></Button>
                                             :
                                             <Link to={"/View_Dispatch_order_items/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }

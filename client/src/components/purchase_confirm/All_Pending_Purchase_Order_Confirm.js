@@ -155,7 +155,7 @@ export default function All_Purchase_Order_Confirm(props,{ navigation }) {
                                         <DataTable.Cell>{purchaseOrderConfirm.items.itemName+" ("+purchaseOrderConfirm.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}>Check</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order_Confirm3', {purchaseConfirmId: purchaseOrderConfirm._id})}}></Button>
                                                 :
                                                 <Link to={"/Edit_Purchase_Order_Confirm3/"+purchaseOrderConfirm._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

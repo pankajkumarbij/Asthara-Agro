@@ -48,19 +48,19 @@ export default function View_Pickup_Assignment_Confirm(props, {route}) {
                     <Card.Title title="View Pickup Assignment Confirm"/>
                     <Card.Content>
 
-                        {pickupConfirmId &&
-                            <TextInput style={styles.input} mode="outlined" label="Pickup Assign ID" value={pickupConfirmId} />
+                        {pickupConfirmId ?
+                            <TextInput style={styles.input} mode="outlined" label="Pickup Assign ID" value={pickupConfirmId} />: null
                         }
 
-                        {buyer_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Buyer ID" value={buyer_id} />
+                        {buyer_id ?
+                            <TextInput style={styles.input} mode="outlined" label="Buyer ID" value={buyer_id} />: null
                         }
 
-                        {vendor_id &&
-                            <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />
+                        {vendor_id ?
+                            <TextInput style={styles.input} mode="outlined" label="Vendor ID" value={vendor_id} />: null
                         }
 
-                        {items &&
+                        {items ?
                             <DataTable style={styles.datatable}>
                                 <DataTable.Row style={styles.input}>
                                     <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
@@ -68,7 +68,7 @@ export default function View_Pickup_Assignment_Confirm(props, {route}) {
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={items.quantity} /></DataTable.Cell>
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Price" value={items.itemPrice} /></DataTable.Cell>
                                 </DataTable.Row>
-                            </DataTable>
+                            </DataTable> : null
                         }
                     </Card.Content>
                 </Card>

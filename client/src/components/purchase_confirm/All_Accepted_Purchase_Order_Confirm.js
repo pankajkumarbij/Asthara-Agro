@@ -155,7 +155,7 @@ export default function All_Accepted_Purchase_Order_Confirm(props,{ navigation }
                                         <DataTable.Cell>{purchaseOrderConfirm.items.itemName+" ("+purchaseOrderConfirm.items.Grade+")"}</DataTable.Cell>
                                         <DataTable.Cell numeric>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order_Confirm3', {purchaseId: purchaseOrderConfirm._id})}}></Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_P_Order_Confirm', {purchaseConfirmId: purchaseOrderConfirm._id})}}></Button>
                                                 :
                                                 <Link to={"/View_Purchase_Order_Confirm3/"+purchaseOrderConfirm._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

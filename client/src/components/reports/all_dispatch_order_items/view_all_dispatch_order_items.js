@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, Text} from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme,DataTable } from 'react-native-paper';
 
 const theme = {
@@ -12,7 +12,7 @@ const theme = {
     },
 };
 
-export default function View_Completed_Purchase_Order( {route},props) {
+export default function View_Completed_Purchase_Order(props,{route}) {
 
     var id="";
     var pickupConfirmId = ""; 
@@ -105,31 +105,31 @@ export default function View_Completed_Purchase_Order( {route},props) {
                 <Card style={styles.card}>
                     <Card.Title title="View Details of dispatch Order items"/>
                     <Card.Content>
-                        {order_id &&
-                           <TextInput style={styles.input} mode="outlined" label="Order Id" value={order_id} />
+                        {order_id ?
+                           <TextInput style={styles.input} mode="outlined" label="Order Id" value={order_id} />: null
                         }
 
-                        {vNumber &&
-                            <TextInput style={styles.input} mode="outlined" label="Vehicle Number" value={vNumber} />
+                        {vNumber ?
+                            <TextInput style={styles.input} mode="outlined" label="Vehicle Number" value={vNumber} />: null
                         }
 
-                        {driverName &&
-                            <TextInput style={styles.input} mode="outlined" label="Driver Name" value={driverName} />
+                        {driverName ?
+                            <TextInput style={styles.input} mode="outlined" label="Driver Name" value={driverName} />: null
                         }
 
-                        {driverMobileNumber &&
-                            <TextInput style={styles.input} mode="outlined" label="Driver Number" value={driverMobileNumber} />
+                        {driverMobileNumber ?
+                            <TextInput style={styles.input} mode="outlined" label="Driver Number" value={driverMobileNumber} />: null
                         }   
 
-                        {labourName &&
-                            <TextInput style={styles.input} mode="outlined" label="Labour Name" value={labourName} />
+                        {labourName ?
+                            <TextInput style={styles.input} mode="outlined" label="Labour Name" value={labourName} />: null
                         }
 
-                        {labourMobileNumber &&
-                            <TextInput style={styles.input} mode="outlined" label="Labour Number" value={labourMobileNumber} />
+                        {labourMobileNumber ?
+                            <TextInput style={styles.input} mode="outlined" label="Labour Number" value={labourMobileNumber} />: null
                         }   
 
-                        {items &&
+                        {items ?
                             <DataTable style={styles.datatable}>
                                 <DataTable.Row style={styles.input}>
                                     <DataTable.Cell><TextInput mode="outlined" label="Item" value={items.itemName+" ("+items.Grade+")"} /></DataTable.Cell>
@@ -137,7 +137,7 @@ export default function View_Completed_Purchase_Order( {route},props) {
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Quantity" value={items.quantity} onChangeText={(text)=>ItemChange(0, "quantity", text, '')} /></DataTable.Cell>
                                     <DataTable.Cell><TextInput  keyboardType='numeric' mode="outlined" label="Price" value={items.itemPrice} onChangeText={(text)=>ItemChange2(0, "itemPrice", text, '')} /></DataTable.Cell>
                                 </DataTable.Row>
-                            </DataTable>            
+                            </DataTable>  : null          
                         }
                     </Card.Content>
                 </Card>

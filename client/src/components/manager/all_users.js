@@ -89,7 +89,7 @@ export default function AllUsers(props,{ navigation }) {
                                 <DataTable.Cell>{item.role}</DataTable.Cell>
                                 <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained"  onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Check</Button>
+                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained"  onPress={() => {navigation.navigate('ViewUser', {userId: item._id})}}>Check</Button>
                                         :
                                         <Button mode="contained" style={{width: '100%'}}><Link to={"/viewuser/"+item._id}>Details</Link></Button>
                                     }

@@ -103,7 +103,7 @@ export default function All_Pickup_Assignment_Confirm_Buyer(props,{ navigation }
                                         <DataTable.Cell>{pickupAssignmentConfirm.items.itemName+" (Grade: "+pickupAssignmentConfirm.items.Grade+", Qty: "+pickupAssignmentConfirm.items.quantity+")"}</DataTable.Cell>
                                         <DataTable.Cell>
                                             {Platform.OS=='android' ?
-                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: pickupAssignmentConfirm._id})}}>Check</Button>
+                                                <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment_Confirm_Buyer', {pickupConfirmId: pickupAssignmentConfirm._id})}}></Button>
                                                 :
                                                 <Link to={"/View_Pickup_Assignment_Confirm_Buyer/"+pickupAssignmentConfirm._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                             }

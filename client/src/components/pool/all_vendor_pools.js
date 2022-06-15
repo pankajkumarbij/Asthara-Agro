@@ -76,7 +76,7 @@ export default function AllVendorPools(props,{ navigation }) {
                                     <DataTable.Cell>{item.pool_name}</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
-                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditVendorPool', {itemId: item._id})}}>Details</Button>
+                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditVendorPool', {id: item._id})}}>Details</Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_vendor_pool/"+item._id}>Details</Link></Button>
                                         }

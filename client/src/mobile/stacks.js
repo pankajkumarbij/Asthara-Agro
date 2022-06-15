@@ -110,6 +110,24 @@ import View_Received_Order_From_Buyer from '../components/reports/received_items
 import ViewDispatchForDelivery from '../components/delivery/view_dispatch_for_delivery_orders';
 import View_Completed_Purchase_Order from '../components/reports/all_dispatch_order_items/view_all_dispatch_order_items';
 import EditAddress from '../components/customer_address/edit_customer_address';
+import EditCustomerPool from '../components/pool/edit_customer_pool';
+import EditVendorPool from '../components/pool/edit_vendor_pool';
+import EditManagerPool from '../components/pool/edit_manager_pool';
+import EditCustomerVendorPool from '../components/pool/edit_cross_pool';
+import ViewCrawler from '../components/crawler/view_crowlers';
+import EditCrawler from '../components/crawler/edit_crawler';
+import View_Purchase_Order from '../components/purchase_order/View_Purchase_Order';
+import Edit_Purchase_Order_Confirm3 from '../components/purchase_confirm/View_Purchase_Order_Confirm3';
+import EditUserCategory from '../components/userCategory/edit_user_category';
+import View_Pickup_Assignment2 from '../components/pickup_assign/View_Pickup_Assignment2';
+import View_Pickup_Assignment_Confirm_Buyer from '../components/pickup_assign_confirm/View_Pickup_Assignment_Confirm_Buyer';
+import View_Pickup_Assignment_Confirm from '../components/pickup_assign_confirm/View_Pickup_Assignment_Confirm';
+import EditOrderItem from '../components/order/edit_order_item';
+import View_Comp_Purchase_Order from '../components/reports/completed_purchase_order/view_completed_purchase_order';
+import DisabledEditItem from '../components/item/disablededititem';
+import DisabledEditItemCategory from '../components/itemCategory/disabled_all_item_categories';
+import DisabledEditItemGrade from '../components/itemGrade/disabled_all_item_grade';
+import DisabledEditItemUnit from '../components/itemUnit/disabled_all_item_unit';
 
 const Stack = createStackNavigator();
 
@@ -662,6 +680,101 @@ export default function Stacks({navigation}){
             ),
             }}/>
             <Stack.Screen name="EditAddress" component={EditAddress} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditCustomerPool" component={EditCustomerPool} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditVendorPool" component={EditVendorPool} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditManagerPool" component={EditManagerPool} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditCustomerVendorPool" component={EditCustomerVendorPool} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="ViewCrawler" component={ViewCrawler} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditCrawler" component={EditCrawler} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Purchase_Order" component={View_Purchase_Order} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Edit_Purchase_Order_Confirm3" component={Edit_Purchase_Order_Confirm3} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_P_Order_Confirm" component={Edit_Purchase_Order_Confirm3} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditUserCategory" component={EditUserCategory} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Pickup_Assignment2" component={View_Pickup_Assignment2} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Pickup_Assignment_Confirm_Buyer" component={View_Pickup_Assignment_Confirm_Buyer} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Pickup_Assignment_Confirm" component={View_Pickup_Assignment_Confirm} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditOrderItem" component={EditOrderItem} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="View_Comp_Purchase" component={View_Comp_Purchase_Order} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="DisabledEditItem" component={DisabledEditItem} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="DisabledEditItemCategory" component={DisabledEditItemCategory} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="DisabledEditItemGrade" component={DisabledEditItemGrade} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="DisabledEditItemUnit" component={DisabledEditItemUnit} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),
