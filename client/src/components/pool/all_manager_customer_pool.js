@@ -65,9 +65,15 @@ export default function AllCustomerManagerPools(props,{ navigation }) {
                     />
 
                     <DataTable.Header>
-                        <DataTable.Title onPress={()=>sorting("customer_pool_name")}><FontAwesomeIcon icon={ faSort } />ustomer Pool</DataTable.Title>
-                        <DataTable.Title onPress={()=>sorting("manager_pool_name")}><FontAwesomeIcon icon={ faSort } />Manager Pool</DataTable.Title>
-                        {/* <DataTable.Title numeric>Action</DataTable.Title> */}
+                        <DataTable.Title onPress={()=>sorting("customer_pool_name")}><FontAwesomeIcon icon={ faSort } />Customer Pool</DataTable.Title>
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                       <DataTable.Title onPress={()=>sorting("manager_pool_name")}><FontAwesomeIcon icon={ faSort } />Manager Pool</DataTable.Title>
+                                    </>
+                                    }
+                        <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
                 {allItems ?
                     allItems.map((item)=>{
@@ -75,14 +81,20 @@ export default function AllCustomerManagerPools(props,{ navigation }) {
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{item.customer_pool_name}</DataTable.Cell>
-                                <DataTable.Cell>{item.manager_pool_name}</DataTable.Cell>
-                                {/* <DataTable.Cell numeric>
+                                {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{item.manager_pool_name}</DataTable.Cell>
+                                    </>
+                                    }
+                                <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
+                                        <Button color="red" icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditVendorPool', {id: item._id})}}>Details</Button>
                                         :
                                         <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_vendor_pool/"+item._id}>Details</Link></Button>
                                     }
-                                </DataTable.Cell> */}
+                                </DataTable.Cell>
                             </DataTable.Row>
                         )
                         }

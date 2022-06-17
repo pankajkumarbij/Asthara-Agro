@@ -81,10 +81,16 @@ export default function VendorsAllItems(props,{ navigation }) {
                     />
                     <DataTable.Header>
                         <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
-                        {/* <DataTable.Title>Category</DataTable.Title> */}
-                        {/* <DataTable.Title>Grade</DataTable.Title> */}
-                        <DataTable.Title onPress={()=>sorting("unit")}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
-                        {/* <DataTable.Title>Quantity</DataTable.Title> */}
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Category</DataTable.Title>
+                                        <DataTable.Title>Grade</DataTable.Title>
+                                        <DataTable.Title onPress={()=>sorting("unit")}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
+                                    </>
+                        }
+                        <DataTable.Title>Quantity</DataTable.Title>
                         <DataTable.Title><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
                         <DataTable.Title>Status</DataTable.Title>
                     </DataTable.Header>
@@ -95,10 +101,16 @@ export default function VendorsAllItems(props,{ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name}</DataTable.Cell>
-                                        {/* <DataTable.Cell>{item.category_name}</DataTable.Cell> */}
-                                        {/* <DataTable.Cell>{item.grade_name}</DataTable.Cell> */}
-                                        <DataTable.Cell>{item.unit_name}</DataTable.Cell>
-                                        {/* <DataTable.Cell>{item.item_quantity}</DataTable.Cell> */}
+                                        {Platform.OS=="android" ?
+                                            <></>
+                                            : 
+                                            <>
+                                                <DataTable.Cell>{item.category_name}</DataTable.Cell>
+                                                <DataTable.Cell>{item.grade_name}</DataTable.Cell>
+                                                <DataTable.Cell>{item.unit_name}</DataTable.Cell> 
+                                            </>
+                                        }
+                                        <DataTable.Cell>{item.item_quantity}</DataTable.Cell>
                                         <DataTable.Cell>{item.item_price}</DataTable.Cell>
                                         <DataTable.Cell>{item.buyer_approval_status}</DataTable.Cell>
                                     </DataTable.Row>

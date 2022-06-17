@@ -147,7 +147,13 @@ export default function All_Pickup_Assignment({ navigation }) {
                     </>
                      :null
                      }
-                    {/* <DataTable.Title>Status</DataTable.Title> */}
+                     {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Status</DataTable.Title>
+                                    </>
+                    }
                     <DataTable.Title numeric>Action</DataTable.Title>
                 </DataTable.Header>
 
@@ -164,8 +170,15 @@ export default function All_Pickup_Assignment({ navigation }) {
                                             <DataTable.Cell>{pickupAssignment.items.itemName+" (Grade: "+pickupAssignment.items.Grade+", Qty: "+pickupAssignment.items.quantity+")"}</DataTable.Cell>
                                             <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
                                         </>
-                                    :null}
-                                    {/* <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell> */}
+                                        :null
+                                    }
+                                    {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{pickupAssignment.status}</DataTable.Cell>
+                                    </>
+                                    }
                                     <DataTable.Cell numeric> 
                                         {Platform.OS=='android' ?
                                             // <Button mode="contained" style={{width: '100%'}} icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Pickup_Assignment2', {pickupId: pickupAssignment._id})}}>Details</Button>

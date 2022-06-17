@@ -104,8 +104,14 @@ export default function All_addresses({ navigation }) {
                     </Menu>
                     <DataTable.Header>
                         <DataTable.Title>Address</DataTable.Title>
-                        <DataTable.Title>Landmark</DataTable.Title>
-                        <DataTable.Title>Pin code</DataTable.Title>
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Landmark</DataTable.Title>
+                                        <DataTable.Title>Pin code</DataTable.Title>
+                                    </>
+                        }
                         <DataTable.Title>State (District)</DataTable.Title>
                         <DataTable.Title>Country</DataTable.Title>
                         <DataTable.Title>Action</DataTable.Title>
@@ -115,13 +121,19 @@ export default function All_addresses({ navigation }) {
                             return(
                                 <DataTable.Row>
                                     <DataTable.Cell>{address.address}</DataTable.Cell>
-                                    <DataTable.Cell>{address.landmark}</DataTable.Cell>
-                                    <DataTable.Cell>{address.postal_code}</DataTable.Cell>
+                                    {Platform.OS=="android" ?
+                                        <></>
+                                        : 
+                                        <>
+                                            <DataTable.Cell>{address.landmark}</DataTable.Cell>
+                                            <DataTable.Cell>{address.postal_code}</DataTable.Cell>
+                                        </>
+                                    }
                                     <DataTable.Cell>{address.state+" ("+address.district+")"}</DataTable.Cell>
                                     <DataTable.Cell>{address.country}</DataTable.Cell>
-                                    <DataTable.Cell>
+                                    <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?
-                                            <Button icon={() => <FontAwesomeIcon icon={ faEye } />}  mode="contained"  onPress={() => {navigation.navigate('EditAddress', {addressId: address._id})}}></Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />}   onPress={() => {navigation.navigate('EditAddress', {addressId: address._id})}}></Button>
                                             :
                                             <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edit_customer_address/"+address._id}></Link></Button>
                                         }

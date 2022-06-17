@@ -14,7 +14,7 @@ const theme = {
 };
 
 //define edit address component
-export default function EditAddress(props, {route}) {
+export default function Edit_Address(props, {route}) {
     //fetch address id for edit the address
     var addressid = '';
     var id = '';

@@ -66,7 +66,13 @@ export default function AllUsers(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
-                        {/* <DataTable.Title>Email</DataTable.Title> */}
+                    {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Email</DataTable.Title>
+                                    </>
+                    }
                         {Platform.OS !== "android" &&
                         <DataTable.Title onPress={()=>sorting("full_name")}><FontAwesomeIcon icon={ faSort } />Full Name</DataTable.Title>
                         }
@@ -80,7 +86,13 @@ export default function AllUsers(props,{ navigation }) {
                         if(item.email.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.full_name.toUpperCase().search(searchQuery.toUpperCase())!=-1 || item.role.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                         return (
                             <DataTable.Row>
-                                {/* <DataTable.Cell>{item.email}</DataTable.Cell> */}
+                                {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                       <DataTable.Cell>{item.email}</DataTable.Cell> 
+                                    </>
+                                }
                                 {Platform.OS !== "android" &&
                                 <DataTable.Cell>{item.full_name}</DataTable.Cell>
                                 }

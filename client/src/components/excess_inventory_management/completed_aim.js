@@ -70,8 +70,14 @@ export default function Completed_Aim(props,{ navigation }) {
                     value={searchQuery}
                 />
                 <DataTable.Header>
-                    {/* <DataTable.Title>Buyer ID</DataTable.Title>
-                    <DataTable.Title>Vendor ID</DataTable.Title> */}
+                    {Platform.OS=="android" ?
+                                        <></>
+                                        : 
+                                        <>
+                                            <DataTable.Title>Buyer ID</DataTable.Title>
+                                            <DataTable.Title>Vendor ID</DataTable.Title> 
+                                        </>
+                    }
                     <DataTable.Title>Item</DataTable.Title>
                     <DataTable.Title>Excess Item Quantity</DataTable.Title>
                     <DataTable.Title>Status</DataTable.Title>
@@ -84,13 +90,19 @@ export default function Completed_Aim(props,{ navigation }) {
                         if(purchaseOrder._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
-                                    <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell> */}
+                                    {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{purchaseOrder.custom_orderId}</DataTable.Cell>
+                                        <DataTable.Cell>{purchaseOrder.custom_vendorId}</DataTable.Cell>
+                                    </>
+                                    }
                                     <DataTable.Cell>{purchaseOrder.items.itemName+" ("+purchaseOrder.items.Grade+")"}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{purchaseOrder.status}</DataTable.Cell> */}
+                                    <DataTable.Cell>{purchaseOrder.status}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Check</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Purchase_Order', {purchaseId: purchaseOrder._id})}}>Check</Button>
                                             :
                                             <Link to={"/View_Purchase_Order/"+purchaseOrder._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
@@ -110,14 +122,20 @@ export default function Completed_Aim(props,{ navigation }) {
                         if(aim._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
-                                    {/* <DataTable.Cell>{aim.buyerId}</DataTable.Cell>
-                                    <DataTable.Cell>{aim.vendorId}</DataTable.Cell> */}
+                                    {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{aim.buyerId}</DataTable.Cell>
+                                        <DataTable.Cell>{aim.vendorId}</DataTable.Cell>
+                                    </>
+                                    }
                                     <DataTable.Cell>{aim.items.itemName+" ("+aim.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>{aim.excess_quantity}</DataTable.Cell>
                                     <DataTable.Cell>{aim.status}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?
-                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('Edit_Purchase_Order', {purchaseId: aim._id})}}>Check</Button>
+                                            <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Aim', {id: aim._id})}}>Check</Button>
                                             :
                                             <Link to={"/View_Aim/"+aim._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }

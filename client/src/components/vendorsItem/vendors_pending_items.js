@@ -80,8 +80,14 @@ export default function VendorsPendingItems(props,{ navigation }) {
                     />
                     <DataTable.Header>
                         <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item</DataTable.Title>
-                        {/* <DataTable.Title>Category</DataTable.Title> */}
-                        {/* <DataTable.Title>Grade</DataTable.Title> */}
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Category</DataTable.Title>
+                                        <DataTable.Title>Grade</DataTable.Title>
+                                    </>
+                        }
                         <DataTable.Title onPress={()=>sorting("unit")}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("quantity")}><FontAwesomeIcon icon={ faSort } />Quantity</DataTable.Title>
                         <DataTable.Title><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
@@ -93,8 +99,14 @@ export default function VendorsPendingItems(props,{ navigation }) {
                                 return (
                                     <DataTable.Row>
                                         <DataTable.Cell>{item.item_name}</DataTable.Cell>
-                                        {/* <DataTable.Cell>{item.category_name}</DataTable.Cell> */}
-                                        {/* <DataTable.Cell>{item.grade_name}</DataTable.Cell> */}
+                                        {Platform.OS=="android" ?
+                                            <></>
+                                            : 
+                                            <>
+                                              <DataTable.Cell>{item.category_name}</DataTable.Cell>
+                                              <DataTable.Cell>{item.grade_name}</DataTable.Cell> 
+                                            </>
+                                        }
                                         <DataTable.Cell>{item.unit_name}</DataTable.Cell>
                                         <DataTable.Cell>{item.item_quantity}</DataTable.Cell>
                                         <DataTable.Cell>{item.item_price}</DataTable.Cell>

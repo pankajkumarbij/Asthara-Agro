@@ -1,7 +1,7 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, Image, Text } from 'react-native';
+import { View, StyleSheet, Platform, ActivityIndicator, ScrollView, Image, Text } from 'react-native';
 import { TextInput, Card, Provider, DefaultTheme, Button } from 'react-native-paper';
 import { Link } from 'react-router-dom';
 import { users_by_id, user_address, user_bank, user_category} from '../../services/user_api';
@@ -16,7 +16,7 @@ const theme = {
     },
 };
 
-export default function ViewUser(props, {route}) {
+export default function ViewUser(props, {route, navigation}) {
 
     var userid = "";
     if(Platform.OS=="android"){
@@ -54,17 +54,20 @@ export default function ViewUser(props, {route}) {
 
     return (
         <Provider theme={theme}>
+            <ScrollView>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Card style={styles.card}>
                     {user &&
                     <>
                         <View style={{ flexDirection: 'row' }}>
                             <Card.Title style={{ flex: 2,}} title="USER Details:-"/>
-                            <Button>
-                                <Link to={"/edituser/"+user._id}>
-                                    <FontAwesomeIcon icon={ faEdit } color="blue" size={25} />
-                                </Link>
-                            </Button>
+                            {Platform.OS=='android' ?
+                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />}  onPress={() => {navigation.navigate('EditUser', {userId: user._id})}}></Button>
+                                :
+                                <Link to={"/edituser/"+user._id}><Button icon={() => <FontAwesomeIcon icon={ faEdit } />} ></Button></Link>
+
+                            }
+                            
                         </View>
                         <Card.Content>
                             <View style={{ flexDirection: 'row' }}>
@@ -96,11 +99,13 @@ export default function ViewUser(props, {route}) {
                     <>
                         <View style={{ flexDirection: 'row', marginTop: '2%'}}>
                             <Card.Title style={{ flex: 2,}} title="Address:-"/>
-                            <Button>
-                                <Link to={"/editaddress/"+address._id}>
-                                    <FontAwesomeIcon icon={ faEdit } color="blue" size={25} />
-                                </Link>
-                            </Button>
+                            {Platform.OS=='android' ?
+                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />}  onPress={() => {navigation.navigate('Edit_Address', {addressId: address._id})}}></Button>
+                                :
+                                <Link to={"/editaddress/"+address._id}><Button icon={() => <FontAwesomeIcon icon={ faEdit } />} ></Button></Link>
+
+                            }
+            
                         </View>
                         <Card.Content>
                             <TextInput style={styles.input} mode="outlined" label="Address" value={address.address} />
@@ -116,11 +121,13 @@ export default function ViewUser(props, {route}) {
                     <>
                         <View style={{ flexDirection: 'row', marginTop: '2%'}}>
                             <Card.Title style={{ flex: 2,}} title="Bank Details:-"/>
-                            <Button>
-                                <Link to={"/editbankdetails/"+bank._id}>
-                                    <FontAwesomeIcon icon={ faEdit } color="blue" size={25} />
-                                </Link>
-                            </Button>
+                            {Platform.OS=='android' ?
+                                <Button mode="contained"  icon={() => <FontAwesomeIcon icon={ faEye } />}  onPress={() => {navigation.navigate('EditBankDetails', {bankId: bank._id})}}></Button>
+                                :
+                                <Link to={"/editbankdetails/"+bank._id}><Button icon={() => <FontAwesomeIcon icon={ faEdit } />} ></Button></Link>
+
+                            }
+                            
                         </View>
                         <Card.Content>
                             <TextInput style={styles.input} mode="outlined" label="IFSC Code" value={bank.ifsc_code} />
@@ -134,6 +141,7 @@ export default function ViewUser(props, {route}) {
                     }
                     </Card>
             </View>
+            </ScrollView>
         </Provider>
     );
 }

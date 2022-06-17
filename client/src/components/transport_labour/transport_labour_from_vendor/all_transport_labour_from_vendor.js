@@ -61,7 +61,13 @@ export default function AllTransportLabourFromVendor(props, { navigation }) {
                     />
                     <DataTable.Header>
                         <DataTable.Title>Date</DataTable.Title>
-                        {/* <DataTable.Title>Vehicle Type</DataTable.Title> */}
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                       <DataTable.Title>Vehicle Type</DataTable.Title>
+                                    </>
+                        }
                         <DataTable.Title>Vehicle Number</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
                     </DataTable.Header>
@@ -71,7 +77,13 @@ export default function AllTransportLabourFromVendor(props, { navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{item.date}</DataTable.Cell>
-                                    {/* <DataTable.Cell>{item.vehicle_type}</DataTable.Cell> */}
+                                    {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{item.vehicle_type}</DataTable.Cell>
+                                    </>
+                                    }
                                     <DataTable.Cell>{item.vehicle_number}</DataTable.Cell>
                                     <DataTable.Cell numeric>
                                         {Platform.OS=='android' ?

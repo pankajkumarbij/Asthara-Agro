@@ -128,6 +128,9 @@ import DisabledEditItem from '../components/item/disablededititem';
 import DisabledEditItemCategory from '../components/itemCategory/disabled_all_item_categories';
 import DisabledEditItemGrade from '../components/itemGrade/disabled_all_item_grade';
 import DisabledEditItemUnit from '../components/itemUnit/disabled_all_item_unit';
+import EditUser from '../components/user/edit_user';
+import EditBankDetails from '../components/bank/edit_bank_details';
+import Edit_Address from '../components/address/edit_address';
 
 const Stack = createStackNavigator();
 
@@ -775,6 +778,21 @@ export default function Stacks({navigation}){
             ),
             }}/>
             <Stack.Screen name="DisabledEditItemUnit" component={DisabledEditItemUnit} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditUser" component={EditUser} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="EditBankDetails" component={EditBankDetails} options={{
+                headerLeft:()=>(
+                    <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
+            ),
+            }}/>
+            <Stack.Screen name="Edit_Address" component={Edit_Address} options={{
                 headerLeft:()=>(
                     <FontAwesomeIcon icon={ faBars } color={ 'white' } size={25} onPress={()=>navigation.toggleDrawer()} />
             ),

@@ -89,7 +89,13 @@ export default function Disabled_Customer_details({ navigation }) {
                     />
                     <DataTable.Header>
                         <DataTable.Title>S.no</DataTable.Title>
-                        {/* <DataTable.Title>Name</DataTable.Title> */}
+                        {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Title>Name</DataTable.Title>
+                                    </>
+                        }
                         <DataTable.Title>Email</DataTable.Title>
                         <DataTable.Title>Status</DataTable.Title>
                         <DataTable.Title>Action1</DataTable.Title>
@@ -101,7 +107,13 @@ export default function Disabled_Customer_details({ navigation }) {
                         return (
                             <DataTable.Row>
                                 <DataTable.Cell>{item._id}</DataTable.Cell>
-                                {/* <DataTable.Cell>{item.full_name}</DataTable.Cell> */}
+                                {Platform.OS=="android" ?
+                                    <></>
+                                    : 
+                                    <>
+                                        <DataTable.Cell>{item.full_name}</DataTable.Cell>
+                                    </>
+                                }
                                 <DataTable.Cell>{item.email}</DataTable.Cell>
                                 <DataTable.Cell>{item.status}</DataTable.Cell>
                                 <DataTable.Cell>
