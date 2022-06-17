@@ -8,6 +8,8 @@ import { Alert } from 'react-native';
 import { Order_by_id } from '../../services/order_api';
 import { useHistory } from 'react-router-dom';
 import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button } from 'react-native-paper';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function ExportPdf({ route }, props) {
@@ -38,81 +40,12 @@ export default function ExportPdf({ route }, props) {
   const htmlContent = `
         <html>
           <head>
-            <meta charset="utf-8">
-            <title>Invoice</title>
-            <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
             <style>
               ${htmlStyles}
             </style>
           </head>
           <body>
-            <header>
-              <h1>Invoice</h1>
-              <address> 
-              <p>${[...order][0].name}</p>
-              <p>${[...order][0].email}</p>
-              </address>
-            </header>
-            <article>
-              <h1>Recipient</h1>
-              <address>
-                 <p>${[...order][0].address}<br>c/o ${[...order][0].mobile_no}</p>
-              </address>
-              <table class="meta">
-                <tr>
-                  <th><span>Invoice #</span></th>
-                  <td><span>101138</span></td>
-                </tr>
-                <tr>
-                  <th><span>Date</span></th>
-                   <td><span>${[...order][0].district}</span></td>
-                </tr>
-                <tr>
-                  <th><span>Amount Due</span></th>
-                   <td><span id="prefix"></span><span>${[...order][0].state}</span></td>
-                </tr>
-              </table>
-              <table class="inventory">
-                <thead>
-                  <tr>
-                    <th><span>Item</span></th>
-                    <th><span>Description</span></th>
-                    <th><span>Rate</span></th>
-                    <th><span>Quantity</span></th>
-                    <th><span>Price</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span>Front End Consultation</span></td>
-                    <td><span>Experience Review</span></td>
-                     <td><span data-prefix>$</span><span></span></td>
-                    <td><span>4</span></td>
-                     <td><span data-prefix>$</span><span>${[...order][0].postal_code}</span></td>
-                  </tr>
-                </tbody>
-              </table>
-              <table class="balance">
-                <tr>
-                  <th><span>Total</span></th>
-                   <td><span data-prefix></span>${[...order][0].country}<span>  ${[...order][0].email}</span></td>
-                </tr>
-                <tr>
-                  <th><span>Amount Paid</span></th>
-                  <td><span data-prefix>$</span><span>0.00</span></td>
-                </tr>
-                <tr>
-                  <th><span>Balance Due</span></th>
-                   <td><span data-prefix>$</span><span>${[...order][0].mobile_no}</span></td>
-                </tr>
-              </table>
-            </article>
-            <aside>
-              <h1><span>Additional Notes</span></h1>
-              <div>
-                <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
-              </div>
-            </aside>
+            <p>ok</p>
           </body>
         </html>
       `;
@@ -179,19 +112,10 @@ export default function ExportPdf({ route }, props) {
     <SafeAreaView>
       <ScrollView>
         <View>
-          <TouchableOpacity onPress={askPermission}>
-            <Image
-              source={{
-                uri:
-                  'https://raw.githubusercontent.com/AboutReact/sampleresource/master/pdf.png',
-              }}
-              style={styles.ImageStyle}
-            />
-            <Text style={styles.text}>Download Invoice</Text>
-          </TouchableOpacity>
           <Card style={styles.card}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <Card.Title style={{ flex: 1, }} title="View Order" />
+              <TouchableOpacity onPress={() => askPermission()}><FontAwesomeIcon icon={ faFilePdf } color="red" size="30" /></TouchableOpacity>
             </View>
             <Card.Content>
               {order ?
