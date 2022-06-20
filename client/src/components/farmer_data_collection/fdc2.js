@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function FarmerTable({ navigation, route }, props) {
+export default function FarmerTable(props, { navigation, route }) {
   
     var id = '';
     if (Platform.OS =='android') {

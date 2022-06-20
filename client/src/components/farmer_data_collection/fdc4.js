@@ -17,7 +17,7 @@ const theme = {
     },
 };
 
-export default function FarmerEquipmentTable({ navigation, route }, props) {
+export default function FarmerEquipmentTable(props, { navigation, route }) {
 
     var id = '';
     if(Platform.OS=="android"){

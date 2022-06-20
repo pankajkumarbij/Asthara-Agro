@@ -15,7 +15,7 @@ const theme = {
     },
 };
 
-export default function FarmerCheckBox({ navigation, route }, props) {
+export default function FarmerCheckBox(props, { navigation, route }) {
 
     var id = '';
     if(Platform.OS=="android"){

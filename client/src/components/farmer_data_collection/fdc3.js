@@ -19,7 +19,7 @@ const theme = {
     },
 };
 
-export default function FarmerLandInfo({ navigation, route }, props) {
+export default function FarmerLandInfo(props, { navigation, route }) {
     
     var id = '';
     if (Platform.OS == 'android') {
