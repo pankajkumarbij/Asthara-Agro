@@ -31,6 +31,7 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
     const [order, setOrder] = useState();
     const [flag, setFlag] = useState(true);
     const [its, setIts] = useState();
+    const [orits, setOrIts] = useState();
     const [OTP, setOTP] = useState('');
     const [inputOtp, setInputOtp] = useState();
     const [visible, setVisible] = useState(false);
@@ -43,12 +44,15 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
                 setOrder(result[0].order);
                 if(flag){
                     setIts(result[0].order[0].items);
+                    setOrIts(result[0].order[0].items);
                     setFlag(false);
                 }
             })
         }
 
     }, [orderid, flag]);
+
+    var price=0;
 
     function goBack(){
         history.push('/');
@@ -196,30 +200,38 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={order[0].postal_code} />
                         </>
                     }
-                    {its && 
+                    {its && orits && 
                         <DataTable>
                             <Title style={{marginTop: '20px', marginBottom: '20px'}}>All Items</Title>
                             <DataTable.Header>
                                 <DataTable.Title>Item Name</DataTable.Title>
                                 <DataTable.Title>unit</DataTable.Title>
+                                <DataTable.Title>Invoice Quantity</DataTable.Title>
                                 <DataTable.Title>Quantity</DataTable.Title>
-                                <DataTable.Title>Final Price</DataTable.Title>
-                                <DataTable.Title>Negotiate Price</DataTable.Title>
+                                <DataTable.Title>Invoice Price</DataTable.Title>
                             </DataTable.Header>
                             
                             {its.map((it, index) => {
+                                price=parseInt(price)+(parseInt(it.quantity)*parseInt(it.itemNegotiatePrice));
                                 return (
                                     <>
                                         <DataTable.Row>
                                             <DataTable.Cell>{it.itemName}</DataTable.Cell>
                                             <DataTable.Cell>{it.itemUnit}</DataTable.Cell>
+                                            <DataTable.Cell>{orits[index].quantity}</DataTable.Cell>
                                             <DataTable.Cell><TextInput style={{marginTop: '2%', width: '70%'}} mode="outlined" label="Qty" value={it.quantity} onChange={(e)=>ItemChange(index, e.target.value)} /></DataTable.Cell>
-                                            <DataTable.Cell>{it.targetPrice}</DataTable.Cell>
                                             <DataTable.Cell>{it.itemNegotiatePrice}</DataTable.Cell>
                                         </DataTable.Row>
                                     </>
                                 )
                             })}
+                            <DataTable.Row>
+                                <DataTable.Cell></DataTable.Cell>
+                                <DataTable.Cell></DataTable.Cell>
+                                <DataTable.Cell></DataTable.Cell>
+                                <DataTable.Cell>Total Price: </DataTable.Cell>
+                                <DataTable.Cell>{price}</DataTable.Cell>
+                            </DataTable.Row>
                         </DataTable>
                     }
                     {Platform.OS=='android' ?

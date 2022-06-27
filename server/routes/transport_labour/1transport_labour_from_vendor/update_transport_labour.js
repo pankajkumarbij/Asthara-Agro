@@ -30,26 +30,4 @@ router.put('/update_transport_labour_from_vendor/:id', (req, res)=>{
     })
 });
 
-router.put('/update_unloading_img_from_vendor/:id', (req, res)=>{
-    var transport_update = {
-        img7: req.body.img7,
-        img8: req.body.img8,
-        img9: req.body.img9,
-        img10: req.body.img10,
-        img11: req.body.img11,
-        img12: req.body.img12,
-    }
-    Transport.findOneAndUpdate({'_id':req.params.id}, transport_update)
-    .then((transport) => {
-        if(transport){
-            res.json({data:transport, msg: "successfully saved"});
-        }else{
-            res.json({msg: "not found"});
-        }
-    }).catch(err => {
-        console.log(err);
-        res.json({ msg:"Something wrong!", err: err });
-    })
-});
-
 module.exports = router;

@@ -4,7 +4,7 @@ import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar, TextInput 
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes, faEye, faCamera, faSort } from '@fortawesome/free-solid-svg-icons';
-import { recieved_from_buyer } from '../../../services/report/recieved_from_buyer_api';
+import { recieved_from_vendor } from '../../../services/report/recieved_from_vendor_api';
 import { roleas, loginuserId } from '../../../utils/user';
 import { users_by_id } from '../../../services/user_api';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
@@ -20,7 +20,7 @@ const theme = {
     },
 };
 
-export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
+export default function All_Received_Orders_From_Vendor(props,{ navigation }) {
 
     const [allReceivedItems, setAllReceivedItems] = useState();
     const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +49,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
             setACPO(result);
         })
 
-        recieved_from_buyer()  
+        recieved_from_vendor()  
         .then(result => {
             setAllReceivedItems(result);
         })
@@ -84,7 +84,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                 var beepsound = new Audio('./beep-02.mp3');   
                 beepsound.play();
 
-                fetch(`http://localhost:5000/create_rfb`, {
+                fetch(`http://localhost:5000/create_rfv`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -105,13 +105,38 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                     // alert(data.message);
                     // console.log(data);
                 });
+
+                fetch(`http://localhost:5000/create_fresh_inventory`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        order_id:val.purchase_order.orderId,
+                        custom_orderId:val.purchase_order.custom_orderId,
+                        custom_vendorId:val.purchase_order.custom_vendorId,
+                        item_name:val.purchase_order.items.itemName,
+                        grade:val.purchase_order.items.Grade,
+                        unit:val.purchase_order.items.itemUnit,
+                        quantity:val.purchase_order.items.quantity,
+                        price:val.purchase_order.items.itemNegotiatePrice,
+                        order:val.purchase_order
+                    })
+                }).then(res => res.json())
+                .catch(error => console.log(error))
+                .then(data => {
+                    // console.log(data);
+                    // alert(data.message);
+                    // console.log(data);
+                });
+                
                 fetch(`http://localhost:5000/update_order_item_status/${val.purchase_order.custom_orderId}/${val.purchase_order.items.itemName}/${val.purchase_order.items.Grade}/${val.purchase_order.items.quantity}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        status:"Reached at Sales Hub",
+                        status:"Reached at Buyer Hub",
                     })
                 }).then(res => res.json())
                 .catch(error => console.log(error))
@@ -158,12 +183,12 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
         <ScrollView>
             <View style={styles.view}>
                 <DataTable style={styles.datatable}>
-                    <Title style={styles.title}>All Received Orders From Buyer</Title>
+                    <Title style={styles.title}>All Received Orders From Vendor</Title>
                     <Text style={{alignSelf: 'center',}}>Make Sure you have uploaded the unloading images of the vechicle at 
                     {Platform.OS=='android' ?
-                        <Button mode="contained"  onPress={() => {navigation.navigate('alltransportlabourforsales')}}>Link</Button>
+                        <Button mode="contained"  onPress={() => {navigation.navigate('alltransportlabourfromvendor')}}>Link</Button>
                         :
-                        <Button mode="contained" style={{width: '100%'}}><Link to={"alltransportlabourforsales"}>Link</Link></Button>
+                        <Button mode="contained" style={{width: '100%'}}><Link to={"alltransportlabourfromvendor"}>Link</Link></Button>
                     }</Text>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}
@@ -224,9 +249,9 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                         })
                         :null
                     }
-                    {(role && userId && (role=="sales") && allReceivedItems) ?
+                    {(role && userId && (role=="buyer") && allReceivedItems) ?
                         allReceivedItems.map((item)=>{
-                            if(item.purchase_order.sales_id==userId)
+                            if(item.purchase_order.buyer_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>
@@ -237,7 +262,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                                         {Platform.OS=='android' ?
                                             <Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} onPress={() => {navigation.navigate('View_Received_Order_From_Buyer', {id: item._id})}}></Button>
                                             :
-                                            <Link to={"/editreceivedorder/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
+                                            <Link to={"/editreceivedorderfromvendor/"+item._id}><Button mode="contained" icon={() => <FontAwesomeIcon icon={ faEye } />} style={{width: '100%'}}>Details</Button></Link>
                                         }
                                     </DataTable.Cell>
                                 </DataTable.Row>
@@ -246,7 +271,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                         })
                         :null
                     }
-                    {(role && userId && role=="sales" && visible3) ?
+                    {(role && userId && role=="buyer" && visible3) ?
                         <>
                             <BarcodeScannerComponent
                                 width="50%"
@@ -269,7 +294,7 @@ export default function All_Received_Orders_From_Buyer(props,{ navigation }) {
                         </>
                         :null
                     }
-                    {role && userId && role=="sales" && !visible3 ?
+                    {role && userId && role=="buyer" && !visible3 ?
                         <Button mode="contained" style={styles.button} onPress={() => scan()} icon={() => <FontAwesomeIcon icon={ faCamera } />}>Start Scan</Button>
                         :null
                     }

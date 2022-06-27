@@ -5,7 +5,6 @@ const Transport= require('../../../models/transport_labour/transport_labour_from
 
 //Define Route to create order 
 router.post('/create_transport_labour_from_vendor', (req, res)=>{
-    console.log(req.body);
     var newTransport = new Transport({
         buyerId: req.body.buyerId,
         vehicle_type: req.body.vehicle_type,
@@ -14,14 +13,8 @@ router.post('/create_transport_labour_from_vendor', (req, res)=>{
         labour_name: req.body.labour_name,
         driver_mobile_no: req.body.driver_mobile_no,
         labour_mobile_no:req.body.labour_mobile_no,
-        charge:req.body.charge,
-        orders_items: req.body.orders_items,
-        img: req.body.img,
-        img2: req.body.img2,
-        img3: req.body.img3,
-        img4: req.body.img4,
-        img5: req.body.img5,
-        img6: req.body.img6,
+        charge: req.body.charge,
+        date: new Date().toISOString().substring(0, 10),
     })
     newTransport.save()
     .then(transport=> {

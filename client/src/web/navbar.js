@@ -129,6 +129,9 @@ import View_dispatch_order_items from '../components/reports/all_dispatch_order_
 import AllReceiveditems from '../components/reports/received_items_from_buyer/all_received_items_from_buyer';
 import EditReceivedOrder from '../components/reports/received_items_from_buyer/view_received_item_from_buyer';
 
+import AllReceiveditemsFromVendor from '../components/reports/received_items_from_vendor/all_received_items_from_vendor';
+import EditReceivedOrderFromVendor from '../components/reports/received_items_from_vendor/view_received_item_from_vendor';
+
 import Edit_Accepted_Delivery_Assignment from '../components/delivery_assign/Edit_Accepted_Delivery_Assignment';
 import Edit_Delivery_Assignment from '../components/delivery_assign/Edit_Delivery_Assignment';
 import All_Delivery from '../components/update_delivery/All_Delivery';
@@ -204,12 +207,15 @@ import FarmerLandInfo from '../components/farmer_data_collection/fdc3';
 import FarmerEquipmentTable from '../components/farmer_data_collection/fdc4';
 import FarmerCheckBox from '../components/farmer_data_collection/fdc5';
 import UnloadingTransportLabour from '../components/transport_labour/transport_labour_for_sales/editunloading';
+import UnloadingTransportLabourFromVendor from '../components/transport_labour/transport_labour_from_vendor/editunloading';
 
 import AllOrderDeliveries from '../components/reports/delivery/all_deliveries';
 import ViewOrderDelivery from '../components/reports/delivery/view_delivered_order';
 import MakeOrderDelivery from '../components/reports/delivery/make_delivery';
 
 import AllRejectedItems from '../components/reports/rejectedItems/allRejectedItems';
+
+import AllFreshInventory from '../components/fresh_inventory/all_fresh_inventory';
 
 const NavBar =()  => {
 
@@ -497,6 +503,15 @@ const NavBar =()  => {
                                     <NavDropdown.Divider />
                                     </>
                                 }
+                                {( roleas=="manager" || roleas=="buyer") &&
+                                    <>
+                                    <NavDropdown title="Fresh Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/allfreshinventory" as={Link}>All Fresh Inventory</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    </>
+                                }
                                 {(roleas=="sales" || roleas=="manager" || roleas=="vendor") &&
                                 <>
                                     <NavDropdown title="Order Management" id="collasible-nav-dropdown" drop="right"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -671,6 +686,12 @@ const NavBar =()  => {
                                 {( roleas=="manager" || roleas=="sales" || roleas=="buyer") &&
                                     <>
                                         <NavDropdown.Item to="/allreceiveditems" as={Link}>All Received order items</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                }
+                                {( roleas=="manager" || roleas=="vendor" || roleas=="buyer") &&
+                                    <>
+                                        <NavDropdown.Item to="/allreceiveditemsfromvendor" as={Link}>All Received from Vendor</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                     </>
                                 }
@@ -873,6 +894,7 @@ const NavBar =()  => {
                     <AllTransportLabourFromVendor/>
                 </Route>
                 <Route path="/edittransportlabourforsalesunloading/:id" render={(props) => <UnloadingTransportLabour roleas={roleas} host={host} {...props} />} exact />
+                <Route path="/edittransportlabourfromvendorunloading/:id" render={(props) => <UnloadingTransportLabourFromVendor roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/viewtransportlabourforsales/:id" render={(props) => <ViewTransportLabourForSales roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/viewtransportlabourfromvendor/:id" render={(props) => <ViewTransportLabourFromVendor roleas={roleas} host={host} {...props} />} exact />
                 <Route path="/vieworder/:orderid" render={(props) => <ViewOrder roleas={roleas} host={host} {...props} />} exact />
@@ -1072,8 +1094,13 @@ const NavBar =()  => {
                     
                 <Route path="/allreceiveditems">
                     <AllReceiveditems/>
-                </Route>        
+                </Route>
                 <Route path="/editreceivedorder/:id" render={(props) => <EditReceivedOrder {...props} />} exact />
+
+                <Route path="/allreceiveditemsfromvendor">
+                    <AllReceiveditemsFromVendor/>
+                </Route>        
+                <Route path="/editreceivedorderfromvendor/:id" render={(props) => <EditReceivedOrderFromVendor {...props} />} exact />
 
                 <Route path="/adddispatchfordelivery">
                     <AddDispatchForDelivery/>
@@ -1144,6 +1171,10 @@ const NavBar =()  => {
 
                 <Route path="/allrejecteditems">
                     <AllRejectedItems/>
+                </Route>
+
+                <Route path="/allfreshinventory">
+                    <AllFreshInventory/>
                 </Route>
 
                 <Route component={PageNotFound}  />

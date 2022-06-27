@@ -116,7 +116,7 @@ export default function All_Dispatch_Orders_From_Buyer(props, { navigation }) {
                     }
                     {(role && userId && role=="sales" && allPickupAssignmentConfirm) ?
                         allPickupAssignmentConfirm.map((item)=>{
-                            if(item.flag==1 && item.purchase_order.sales_id==userId)
+                            if(item.flag==2 && item.purchase_order.sales_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>

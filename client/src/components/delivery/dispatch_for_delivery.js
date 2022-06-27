@@ -81,7 +81,7 @@ export default function AddDispatchForDelivery(props, { navigation }) {
             setMsg("Error!! Item not found");
         }
         else{
-            if(addedItems.includes(data) || val.flag==1){
+            if(addedItems.includes(data) || val.flag==3){
                 setMsg("Error!! Item is already scanned");
             }
             else{
@@ -101,7 +101,7 @@ export default function AddDispatchForDelivery(props, { navigation }) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        flag:1,
+                        flag:3,
                         vehicle_number: vNumber,
                         driver_name: driverName,
                         driver_mobile_no: driverMobileNumber,

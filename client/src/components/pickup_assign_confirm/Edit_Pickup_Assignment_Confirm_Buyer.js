@@ -128,7 +128,7 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                status:"Reached at Buyer's Hub",
+                status:"Picked Up from Vendor's Hub",
             })
         }).then(res => res.json())
         .catch(error => console.log(error))

@@ -3,11 +3,12 @@ import { View, StyleSheet, Platform, ScrollView, SafeAreaView, Text } from 'reac
 import { Provider, DefaultTheme, Button, Title, DataTable, Searchbar } from 'react-native-paper';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimes, faEye, faSort, faFileCsv } from '@fortawesome/free-solid-svg-icons';
 import { customer_manager_pool_by_manager_pool_id, manager_pool_by_id } from '../../../services/pool';
 import { users_by_id } from '../../../services/user_api';
 import { roleas, loginuserId } from '../../../utils/user';
 import { Delivered_orders } from '../../../services/report/delivered';
+import { CSVLink } from "react-csv";
 
 const theme = {
     ...DefaultTheme,
@@ -81,6 +82,7 @@ export default function AllOrderDeliveries(props, { navigation }) {
             Delivered_orders()
             .then(result=> {
                 setAllOrders(result);
+                console.log(result[0].order[0].items[0]);
                 setFlag2(false);
             })
         }
@@ -96,6 +98,19 @@ export default function AllOrderDeliveries(props, { navigation }) {
         })
 
     }, [managerPoolId, customerPools, isPool, flag, customerPoolId, role, userId, flag2]);
+
+    var csvData = [];
+    if(allOrders){
+        csvData = [
+            allOrders[0].order[0].items[0]
+            // ["nick name", "full name", "email", "mobile number", "Custom System Order Id", "Expected Delivery Date", "Expected Delivery Time", "Address", "Landmark", "District", "State", "Country", "Pin Code"],
+            // ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+            // ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+            // ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+            // ["", "", "", "", "", "", "", "", "", "", "", "", ""],
+            // ["Item Name", "Grade", "Unit", "Quantity", "Target Price", "Negotiate Price"],
+        ];
+    }
 
     const sorting = (col)=>{
         if(sorting_order=="ASC"){
@@ -121,7 +136,10 @@ export default function AllOrderDeliveries(props, { navigation }) {
             <View>
                 <DataTable style={styles.datatable}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Title>All Order Deliveries</Title>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Title>All Order Deliveries</Title>
+                            <CSVLink data={csvData}><FontAwesomeIcon color="green" size="30" icon={ faFileCsv } /></CSVLink>
+                        </View>
                     </View>
                     <Searchbar
                         icon={() => <FontAwesomeIcon icon={ faSearch } />}

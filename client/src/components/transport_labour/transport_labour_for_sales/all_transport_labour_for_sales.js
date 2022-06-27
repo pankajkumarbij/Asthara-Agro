@@ -97,12 +97,12 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                             </View>
                         }
                         <View>
-                            {role=="manager" ?
+                        {role=="manager" ?
                             <Text style={{color: 'gray',  fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline'}}>Select Buyer</Text>
-                            :
+                        :
                             null
-                            }
-                            {role=="manager" ?
+                        }
+                        {role=="manager" ?
                             <Menu
                             visible={visible3}
                             onDismiss={closeMenu3}
@@ -126,8 +126,9 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                                     null
                                 }
                             </Menu>
-                            :null
-                            }
+                        :
+                            null
+                        }
                         </View>
                     </View>
                     <DataTable.Header>
@@ -139,7 +140,7 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                     {role && userId && allOrders ?
                         allOrders.map((item, index)=>{
                             if(item.buyerId==buyer_id)
-                            if(item.createdAt.substring(0,10)==date)
+                            // if(item.createdAt.substring(0,10)==date)
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{item.createdAt.substring(0,10)}</DataTable.Cell>
@@ -158,7 +159,7 @@ export default function AllTransportLabourForSales(props, { navigation }) {
                     }
                     {role=="sales" && allOrders ?
                         allOrders.map((item, index)=>{
-                            if(item.createdAt.substring(0,10)==date)
+                            // if(item.createdAt.substring(0,10)==date)
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell>{item.createdAt.substring(0,10)}</DataTable.Cell>

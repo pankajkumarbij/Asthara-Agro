@@ -232,6 +232,9 @@ const update_completed_purchase_order = require('./routes/report/completed_purch
 const create_rfb = require('./routes/report/Recieved_from_buyer/create_rfb');
 const retrieve_rfb = require('./routes/report/Recieved_from_buyer/retrieve_rfb');
 
+const create_rfv = require('./routes/report/received_from_vendor/create_rfv');
+const retrieve_rfv = require('./routes/report/received_from_vendor/retrieve_rfv');
+
 const create_delivery = require('./routes/delivery/create_transport_labour');
 const retrieve_delivery = require('./routes/delivery/retrieve_transport_labour');
 const update_delivery = require('./routes/delivery/update_transport_labour');
@@ -262,6 +265,15 @@ const update_delivered= require('./routes/report/delivered/update_delivered');
 const create_rejected_items= require('./routes/rejectedItems/create_rejectedItems');
 const retrieve_rejected_items= require('./routes/rejectedItems/retrieve_rejectedItems');
 const update_rejected_items= require('./routes/rejectedItems/update_rejectedItems');
+
+const create_inventory= require('./routes/freshInventory/create_inventory');
+const retrieve_inventory= require('./routes/freshInventory/retrieve_inventory');
+
+const create_reject_inventory= require('./routes/rejectInventory/create_inventory');
+const retrieve_reject_inventory= require('./routes/rejectInventory/retrieve_inventory');
+
+const create_weight_reject_inventory= require('./routes/weightRejectInventory/create_inventory');
+const retrieve_weight_reject_inventory= require('./routes/weightRejectInventory/retrieve_inventory');
 
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
@@ -440,6 +452,9 @@ app.use('/',update_completed_purchase_order);
 app.use('/',create_rfb);
 app.use('/',retrieve_rfb);
 
+app.use('/',create_rfv);
+app.use('/',retrieve_rfv);
+
 app.use('/',create_delivery);
 app.use('/',retrieve_delivery);
 app.use('/', update_delivery);
@@ -470,6 +485,15 @@ app.use('/', update_delivered);
 app.use('/', create_rejected_items);
 app.use('/', retrieve_rejected_items);
 app.use('/', update_rejected_items);
+
+app.use('/', create_inventory);
+app.use('/', retrieve_inventory);
+
+app.use('/', create_reject_inventory);
+app.use('/', retrieve_reject_inventory);
+
+app.use('/', create_weight_reject_inventory);
+app.use('/', retrieve_weight_reject_inventory);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");
