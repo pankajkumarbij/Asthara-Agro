@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { roleas, loginuserId } from '../../utils/user';
 import { users_by_id } from '../../services/user_api';
 import {url} from '../../utils/url';
+import axios from 'axios';
 
 const theme = {
     ...DefaultTheme,
@@ -32,6 +33,7 @@ export default function EditOrderItem(props,{route}) {
     }
 
     const [visible2, setVisible2] = useState(false);
+    const [visible3, setVisible3] = useState(false);
 
     const [items, setItems] = useState();
     const [order_id, setOrder_Id] = useState("");
@@ -43,6 +45,7 @@ export default function EditOrderItem(props,{route}) {
     const [custom_orderId, setCustomId] = useState();
     const [orderId, setOrderId] = useState("");
     const [custom_vendorId, setCustomVendorId] = useState('Choose Vendor');
+    const [freshInventoryId, setFreshInventoryId] = useState('Choose Inventory');
     const [searchQuery, setSearchQuery] = useState('');
     const [vendorPoolId, setVendorPoolId] = useState("");
     const [customerPoolId, setCustomerPoolId] = useState("");
@@ -50,6 +53,11 @@ export default function EditOrderItem(props,{route}) {
     const [sales_id, setSalesId] = useState("");
     const [role, setRole] = useState('');
     const [userId, setUserId] = useState('');
+    const [freshInventory, setFreshInventory] = useState();
+    const [flag2, setFlag2] = useState(true);
+    const [freshQty, setFreshQty] = useState();
+    const [purchaseOrder, setPurchaseOrder] = useState();
+    const [freshInv, setFreshInv] = useState();
 
     let history = useHistory();
 
@@ -106,6 +114,14 @@ export default function EditOrderItem(props,{route}) {
         loginuserId()  
         .then(result => {
             setUserId(result);
+        })
+
+        axios.get(url + '/retrive_fresh_inventory_by_customer_reject')
+        .then(result => {
+            setFreshInventory(result.data);
+        })
+        .catch(err => {
+            console.log(err);
         })
 
     }, [vendors, order_id, items, orderid, flag, custom_orderId, vendorPoolId, role, userId]);
@@ -177,6 +193,166 @@ export default function EditOrderItem(props,{route}) {
         }); 
     }
 
+    function submitFormInventory(){
+
+        fetch(`${url}/update_order_item_status/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status:"Reached at Buyer Hub",
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            //  alert(data.message);
+        });
+
+        if(parseInt(quantity)-parseInt(freshQty)>0){
+
+            fetch(`${url}/update_order_quantity/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity:parseInt(freshQty),
+                    split_status:"Split",
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                //  alert(data.message);
+            });
+
+            fetch(`${url}/create_order_status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: custom_orderId,
+                    item_name: items.itemName,
+                    item_grade: items.Grade,
+                    quantity: parseInt(quantity)-parseInt(freshQty),
+                    status: "Pending for Vendor Assignment",
+                    split_status: "Split"
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+            });
+
+            fetch(`http://localhost:5000/update_fresh_inventory/${freshInv.custom_orderId}/${freshInv.item_name}/${freshInv.grade}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity: 0,
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+                console.log(data);
+            });
+
+            const values = items;
+            values.quantity = parseInt(quantity)-parseInt(freshQty);
+            setItems(values);
+
+            fetch(`${url}/update_quantity_order_item_summary/${order_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    item:items,
+                    status:"Split",
+                    vendor_rejected:vendorsid,
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+            }); 
+
+        }
+        else{
+
+            fetch(`${url}/update_order_quantity/${custom_orderId}/${items.itemName}/${items.Grade}/${items.quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity:parseInt(quantity),
+                    split_status:"",
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                //  alert(data.message);
+            });
+
+            fetch(`${url}/update_fresh_inventory/${freshInv.custom_orderId}/${freshInv.item_name}/${freshInv.grade}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    quantity: parseInt(freshQty)-parseInt(quantity)
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+                console.log(data);
+            });
+
+            const values = items;
+            values.quantity = 0;
+            setItems(values);
+
+            fetch(`${url}/update_quantity_order_item_summary/${order_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    item:items,
+                    status:"Full Order",
+                    vendor_rejected:vendorsid,
+                })
+            }).then(res => res.json())
+            .catch(error => console.log(error))
+            .then(data => {
+                // alert(data.message);
+            }); 
+
+        }
+
+        fetch(`${url}/create_completed_purchase_order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                purchase_order: purchaseOrder,               
+            })
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+        });
+        
+    }
+
     //chooseVendor() function for select the Vendor   
     function chooseVendor(id, email, dates, pincode){
         setVendorId(id);
@@ -192,6 +368,42 @@ export default function EditOrderItem(props,{route}) {
     const openMenu2 = () => setVisible2(true);
     const closeMenu2 = () => setVisible2(false);
 
+    function chooseFreshInventory(item){
+        setFreshInventoryId(item._id);
+        setFreshQty(item.quantity);
+        setFreshInv(item);
+        setPurchaseOrder({
+            buyer_id: item.buyer_id,
+            vendor_id: item.vendor_id,
+            createdAt: item.order[0].createdAt,
+            custom_orderId: custom_orderId,
+            custom_vendorId: item.custom_vendorId,
+            customerPoolId: customerPoolId,
+            items: {
+                "itemId": items.itemId,
+                "itemName": items.itemName,
+                "quantity": parseInt(quantity)-parseInt(freshQty)>0 ? parseInt(freshQty) : parseInt(quantity),
+                "itemUnit": items.itemUnit,
+                "itemPrice": items.itemPrice,
+                "targetPrice": items.targetPrice,
+                "Grade": items.Grade,
+                "itemNegotiatePrice": items.itemNegotiatePrice,
+            },
+            managerPoolId: managerPoolId,
+            orderId: orderId,
+            sales_id: sales_id,
+            updatedAt: item.order[0].updatedAt,
+            vendorPoolId: vendorPoolId,
+            __v: 0,
+            _id: item.order[0]._id,
+        })
+        console.log(purchaseOrder);
+        closeMenu3();
+    }
+
+    const openMenu3 = () => setVisible3(true);
+    const closeMenu3 = () => setVisible3(false);
+
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -201,7 +413,12 @@ export default function EditOrderItem(props,{route}) {
                 <View>
                     <Card style={styles.card}>
                         <Card.Title title="Create Purchase Order"/>
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingLeft: '2%', paddingRight: '2%',}}>
+                            <Button mode="outlined" style={styles.button} onPress={()=>setFlag2(false)} >Vendors</Button>
+                            <Button mode="outlined" style={styles.button} onPress={()=>setFlag2(true)} >Fresh Inventory</Button>  
+                        </View> 
                         <Card.Content>
+                            {!flag2 ?
                             <Menu
                             visible={visible2}
                             onDismiss={closeMenu2}
@@ -234,15 +451,44 @@ export default function EditOrderItem(props,{route}) {
                                     <Menu.Item title="No Vendor Available" />
                                 }
                             </Menu>
+                            :
+                            <Menu
+                            visible={visible3}
+                            onDismiss={closeMenu3}
+                            anchor={<Button style={styles.input} mode="outlined"  onPress={openMenu3}>{freshInventoryId} </Button>}>
+                            <Searchbar
+                                icon={() => <FontAwesomeIcon icon={ faSearch } />}
+                                clearIcon={() => <FontAwesomeIcon icon={ faTimes } />}
+                                placeholder="Search"
+                                onChangeText={onChangeSearch}
+                                value={searchQuery}
+                                style={{marginBottom: '20px'}}
+                            />
+                                {(freshInventory && items) ?
+                                    freshInventory.map((item)=>{
+                                        if(item.item_name==items.itemName && item.grade==items.Grade && parseInt(item.quantity)>0)
+                                        return (
+                                            <Menu.Item title={item.item_name+"_"+item.grade+" (Qty:"+item.quantity+")"} onPress={()=>chooseFreshInventory(item)} />
+                                        )
+                                    })
+                                    :
+                                    <Menu.Item title="No Fresh Inventory Available" />
+                                }
+                            </Menu>
+                            }
                             {items && 
                                 <View>                         
                                     <TextInput mode="outlined" style={styles.input} label="Item Name" value={items.itemName} />
                                     <TextInput mode="outlined" style={styles.input} label="unit of each item" value={items.itemUnit} />
-                                    <TextInput keyboardType='numeric' mode="outlined" style={styles.input} label="Quantity" value={quantity} onChangeText={(text)=>setQuantity(text)} />
+                                    <TextInput keyboardType='numeric' mode="outlined" style={styles.input} label="Quantity" value={quantity} />
                                     <TextInput mode="outlined" style={styles.input} label="Grade" value={items.Grade} />
                                 </View>
                             }
-                            <Button mode="contained" style={styles.button} onPress={()=>submitForm()} >Create Purchase</Button>
+                            {!flag2 ?
+                                <Button mode="contained" style={styles.button} onPress={()=>submitForm()} >Assign Vendor</Button>
+                            :
+                                <Button mode="contained" style={styles.button} onPress={()=>submitFormInventory()} >Assign Fresh Inventory</Button>
+                            }
                         </Card.Content>
                     </Card>
                 </View>

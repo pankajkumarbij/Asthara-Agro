@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 // import swal from '@sweetalert/with-react';
 import { roleas, loginuserId } from '../../utils/user';
 import BarcodeScannerComponent from "react-webcam-barcode-scanner";
-import { recieved_from_buyer } from '../../services/report/recieved_from_buyer_api';
+import { recieved_from_vendor } from '../../services/report/recieved_from_vendor_api';
 import { uploadImage } from '../../services/image';
 
 const theme = {
@@ -57,7 +57,7 @@ export default function AddDispatchForDelivery(props, { navigation }) {
 
     useEffect(() => {
 
-        recieved_from_buyer()  
+        recieved_from_vendor()  
         .then(result => {
             setACPO(result);
         })
@@ -81,7 +81,7 @@ export default function AddDispatchForDelivery(props, { navigation }) {
             setMsg("Error!! Item not found");
         }
         else{
-            if(addedItems.includes(data) || val.flag==3){
+            if(addedItems.includes(data) || val.flag==2){
                 setMsg("Error!! Item is already scanned");
             }
             else{
@@ -101,7 +101,7 @@ export default function AddDispatchForDelivery(props, { navigation }) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        flag:3,
+                        flag:2,
                         vehicle_number: vNumber,
                         driver_name: driverName,
                         driver_mobile_no: driverMobileNumber,
@@ -113,6 +113,21 @@ export default function AddDispatchForDelivery(props, { navigation }) {
                 .then(data => {
                     // alert(data.message);
                     // console.log(data);
+                });
+
+                fetch(`http://localhost:5000/update_fresh_inventory/${val.purchase_order.custom_orderId}/${val.purchase_order.items.itemName}/${val.purchase_order.items.Grade}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        quantity: 0
+                    })
+                }).then(res => res.json())
+                .catch(error => console.log(error))
+                .then(data => {
+                    // alert(data.message);
+                    console.log(data);
                 });
 
                 fetch(`http://localhost:5000/update_order_item_status/${val.purchase_order.custom_orderId}/${val.purchase_order.items.itemName}/${val.purchase_order.items.Grade}/${val.purchase_order.items.quantity}`, {

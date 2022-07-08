@@ -7,6 +7,7 @@ import { faSearch, faTimes, faEye, faSort } from '@fortawesome/free-solid-svg-ic
 import { all_fresh_inventory } from '../../services/fresh_inventory';
 import { users_by_id } from '../../services/user_api';
 import {roleas, loginuserId} from '../../utils/user';
+import { manager_pool_by_id } from '../../services/pool';
 
 const theme = {
     ...DefaultTheme,
@@ -27,6 +28,7 @@ export default function AllFreshInventory({navigation }) {
     const [managerPoolId, setManagerPoolId] = useState('');
     const[role,setRole] = useState("");
     const [userId,setUserId] = useState("");
+    const [managerPoolPin, setManagerPoolPin] = useState();
 
     useEffect(() => {
         //Retrieve all items
@@ -45,14 +47,21 @@ export default function AllFreshInventory({navigation }) {
            setUserId(result);   
         })
 
-        if(role && role=='manager' && userId){
+        if(role && (role=='manager' || role=='buyer') && userId){
             users_by_id(userId)
             .then(result=>{
                 setManagerPoolId(result[0].pool_id);
             })
         }
 
-    }, [role, userId]); 
+        if(role=='manager' && managerPoolId){
+            manager_pool_by_id(managerPoolId)
+            .then(result=>{
+                setManagerPoolPin(result[0].postal_code);
+            })
+        }
+
+    }, [role, userId, managerPoolId]); 
 
     const sorting = ()=>{
         if(sorting_order=="ASC"){
@@ -94,9 +103,11 @@ export default function AllFreshInventory({navigation }) {
                         <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
                         {/* <DataTable.Title numeric>Action</DataTable.Title> */}
                     </DataTable.Header>
-                    {(role && userId && role=="manager" && allItems) ?
+
+                    {(role && userId && role=="manager" && allItems && managerPoolPin) ?
                     allItems.map((item)=>{
-                        if(item.order.managerPoolId==managerPoolId)
+                        if((item.order.managerPoolId && managerPoolId==item.order.managerPoolId) || (item.order[0] && managerPoolPin.includes(String(item.order[0].postal_code))))
+                        if(item.quantity!="0" ||item.quantity!=0 )
                         if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                         return (
                             <DataTable.Row>
@@ -120,9 +131,10 @@ export default function AllFreshInventory({navigation }) {
                     null
                     }
 
-                    {(role && userId && role=="buyer" && allItems) ?
+                    {(role && userId && role=="buyer" && allItems && managerPoolId) ?
                     allItems.map((item)=>{
-                        if(item.order.buyer_id==userId)
+                        if((item.order.buyer_id && userId==item.order.buyer_id) || (item.order[0] && managerPoolId==item.order[0].vendorPoolId))
+                        if(item.quantity!=='0')
                         if(item.item_name.toUpperCase().search(searchQuery.toUpperCase())!=-1){
                         return (
                             <DataTable.Row>

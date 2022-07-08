@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { View, StyleSheet, Platform, ScrollView, SafeAreaView } from 'react-native';
-import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Portal, Modal } from 'react-native-paper';
+import { TextInput, Card, Provider, DefaultTheme, DataTable, Title, Button, Portal, Modal, Menu } from 'react-native-paper';
 import { Delivered_order_by_id } from '../../../services/report/delivered';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -31,10 +31,11 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
     const [order, setOrder] = useState();
     const [flag, setFlag] = useState(true);
     const [its, setIts] = useState();
-    const [orits, setOrIts] = useState();
     const [OTP, setOTP] = useState('');
     const [inputOtp, setInputOtp] = useState();
     const [visible, setVisible] = useState(false);
+    const [visible2, setVisible2] = useState([]);
+    const [reason, setReason] = useState([]);
 
     useEffect(() => {
 
@@ -42,15 +43,19 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
             Delivered_order_by_id(orderid)
             .then(result=> {
                 setOrder(result[0].order);
+                console.log(result);
+                result[0].order[0].items.map((it) => {
+                    visible2.push(false);
+                    reason.push("Choose Reason");
+                })
                 if(flag){
                     setIts(result[0].order[0].items);
-                    setOrIts(result[0].order[0].items);
                     setFlag(false);
                 }
             })
         }
 
-    }, [orderid, flag]);
+    }, [orderid, flag, reason, visible2]);
 
     var price=0;
 
@@ -158,9 +163,129 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
         
     }
 
+    function freshInventory(index){
+
+        var date=order[0].order_date.substring(0,10);
+        var d=new Date(order[0].order_date);
+        d.toTimeString();
+        d=String(d);
+        var hour=d.substring(16,18);
+        var custom_orderId=order[0].nick_name+"_"+order[0].postal_code+"_"+date+"_"+hour;
+
+        fetch(`http://localhost:5000/create_fresh_inventory`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id:order[0]._id,
+                custom_orderId:custom_orderId,
+                custom_vendorId:'',
+                item_name:order[0].items[index].itemName,
+                grade:order[0].items[index].Grade,
+                unit:order[0].items[index].itemUnit,
+                quantity:order[0].items[index].quantity-its[index].quantity,
+                price:order[0].items[index].itemNegotiatePrice,
+                order:order,
+                status: 'Customer Reject'
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // console.log(data);
+            alert(data.message);
+        });
+    }
+
+    function rejectInventory(index){
+
+        var date=order[0].order_date.substring(0,10);
+        var d=new Date(order[0].order_date);
+        d.toTimeString();
+        d=String(d);
+        var hour=d.substring(16,18);
+        var custom_orderId=order[0].nick_name+"_"+order[0].postal_code+"_"+date+"_"+hour;
+
+        fetch(`http://localhost:5000/create_reject_inventory`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id:order[0]._id,
+                custom_orderId:custom_orderId,
+                custom_vendorId:'',
+                item_name:order[0].items[index].itemName,
+                grade:order[0].items[index].Grade,
+                unit:order[0].items[index].itemUnit,
+                quantity:order[0].items[index].quantity-its[index].quantity,
+                price:order[0].items[index].itemNegotiatePrice,
+                order:order,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // console.log(data);
+            alert(data.message);
+        });
+    }
+
+    function weightRejectInventory(index){
+
+        var date=order[0].order_date.substring(0,10);
+        var d=new Date(order[0].order_date);
+        d.toTimeString();
+        d=String(d);
+        var hour=d.substring(16,18);
+        var custom_orderId=order[0].nick_name+"_"+order[0].postal_code+"_"+date+"_"+hour;
+
+        fetch(`http://localhost:5000/create_weight_reject_inventory`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id:order[0]._id,
+                custom_orderId:custom_orderId,
+                custom_vendorId:'',
+                item_name:order[0].items[index].itemName,
+                grade:order[0].items[index].Grade,
+                unit:order[0].items[index].itemUnit,
+                quantity:order[0].items[index].quantity-its[index].quantity,
+                price:order[0].items[index].itemNegotiatePrice,
+                order:order,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // console.log(data);
+            alert(data.message);
+        });
+    }
+
+    function ReasonChange(status, index){
+        const values = [...reason];
+        values[index] = status;
+        setReason(values);
+        closeMenu2(index);
+    }
+
     const showModal = () => {
         setVisible(true);
     };
+
+    const openMenu2 = (index) => {
+        const values = [...visible2];
+        values[index] = true;
+        setVisible2(values);
+    }
+
+    const closeMenu2 = (index) => {
+        const values = [...visible2];
+        values[index] = false;
+        setVisible2(values);
+    }
+
     const hideModal = () => setVisible(false);
 
     const containerStyle = {backgroundColor: 'white',width: '50%', alignSelf: 'center', padding: "10px"};
@@ -200,7 +325,7 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={order[0].postal_code} />
                         </>
                     }
-                    {its && orits && 
+                    {its && order && 
                         <DataTable>
                             <Title style={{marginTop: '20px', marginBottom: '20px'}}>All Items</Title>
                             <DataTable.Header>
@@ -209,6 +334,8 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
                                 <DataTable.Title>Invoice Quantity</DataTable.Title>
                                 <DataTable.Title>Quantity</DataTable.Title>
                                 <DataTable.Title>Invoice Price</DataTable.Title>
+                                <DataTable.Title>Reason</DataTable.Title>
+                                <DataTable.Title>Action</DataTable.Title>
                             </DataTable.Header>
                             
                             {its.map((it, index) => {
@@ -218,9 +345,29 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
                                         <DataTable.Row>
                                             <DataTable.Cell>{it.itemName}</DataTable.Cell>
                                             <DataTable.Cell>{it.itemUnit}</DataTable.Cell>
-                                            <DataTable.Cell>{orits[index].quantity}</DataTable.Cell>
-                                            <DataTable.Cell><TextInput style={{marginTop: '2%', width: '70%'}} mode="outlined" label="Qty" value={it.quantity} onChange={(e)=>ItemChange(index, e.target.value)} /></DataTable.Cell>
+                                            <DataTable.Cell>{order[0].items[index].quantity}</DataTable.Cell>
+                                            <DataTable.Cell><TextInput style={{width: '70%'}} mode="outlined" label="Qty" value={it.quantity} onChange={(e)=>ItemChange(index, e.target.value)} /></DataTable.Cell>
                                             <DataTable.Cell>{it.itemNegotiatePrice}</DataTable.Cell>
+                                            <Menu
+                                                visible={visible2[index]}
+                                                onDismiss={()=>closeMenu2(index)}
+                                                anchor={<Button mode="outlined" style={{marginTop: '9%'}} onPress={()=>openMenu2(index)}>{reason[index]}</Button>}>
+                                                <Menu.Item title="Quality Issue" onPress={()=>ReasonChange("Quality Issue", index)}/>
+                                                <Menu.Item title="Customer Reject" onPress={()=>ReasonChange("Customer Reject", index)}/>
+                                                <Menu.Item title="Weight Issue" onPress={()=>ReasonChange("Weight Issue", index)}/>
+                                            </Menu>
+                                            {reason[index]=="Choose Reason" &&
+                                                <DataTable.Cell><Button mode="outlined">Update</Button></DataTable.Cell>
+                                            }
+                                            {reason[index]=="Quality Issue" &&
+                                                <DataTable.Cell><Button onPress={()=>rejectInventory(index)} mode="contained">Update</Button></DataTable.Cell>
+                                            }
+                                            {reason[index]=="Customer Reject" &&
+                                                <DataTable.Cell><Button onPress={()=>freshInventory(index)} mode="contained">Update</Button></DataTable.Cell>
+                                            }
+                                            {reason[index]=="Weight Issue" &&
+                                                <DataTable.Cell><Button onPress={()=>weightRejectInventory(index)} mode="contained">Update</Button></DataTable.Cell>
+                                            }
                                         </DataTable.Row>
                                     </>
                                 )

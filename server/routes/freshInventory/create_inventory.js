@@ -15,6 +15,7 @@ router.post('/create_fresh_inventory',(req,res)=>{
         quantity:req.body.quantity,
         price:req.body.price,
         order:req.body.order,
+        status:req.body.status
     })
     newFreshInventory.save()
     .then(fi => {

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const FreshInventory=require('../../models/freshInventory/fresh_inventory');
 
-router.put('/update_fresh inventory/:custom_orderId/:item_name/:grade',(req, res) =>{
+router.put('/update_fresh_inventory/:custom_orderId/:item_name/:grade',(req, res) =>{
     var fresh_inventory_update = {
         quantity: req.body.quantity,
     }

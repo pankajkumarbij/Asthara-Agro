@@ -164,7 +164,7 @@ export default function ExportPdf({ route }, props) {
 						<table>
 							<tr>
 								<td>
-									Sparksuite, Inc.<br />
+									${order[0].name}.<br />
 									12345 Sunny Road<br />
 									Sunnyville, CA 12345
 								</td>

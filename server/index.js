@@ -100,10 +100,10 @@ const delete_bank = require('./routes/bankDetails/delete_bank');
 const retrive_bank = require('./routes/bankDetails/retrive_bank');
 const update_bank = require('./routes/bankDetails/update_bank');
 
-const create_inventoryType = require('./routes/inventoryType/create_inventoryType');
-const delete_inventoryType = require('./routes/inventoryType/delete_inventoryType');
-const retrive_inventoryType = require('./routes/inventoryType/retrive_inventoryType');
-const update_inventoryType = require('./routes/inventoryType/update_inventoryType');
+// const create_inventoryType = require('./routes/inventoryType/create_inventoryType');
+// const delete_inventoryType = require('./routes/inventoryType/delete_inventoryType');
+// const retrive_inventoryType = require('./routes/inventoryType/retrive_inventoryType');
+// const update_inventoryType = require('./routes/inventoryType/update_inventoryType');
 
 const create_indent = require('./routes/indent/create_indent');
 const delete_indent = require('./routes/indent/delete_indent');
@@ -132,8 +132,8 @@ const retrive_all_purchase_order = require('./routes/purchase_order/retrive_purc
 const update_purchase_order = require('./routes/purchase_order/update_purchase_order');
 const delete_purchase_order = require('./routes/purchase_order/delete_purchase_order');
 
-const retrive_inventory = require('./routes/inventory/retrive_inventory');
-const update_inventory = require('./routes/inventory/update_inventory');
+// const retrive_inventory = require('./routes/inventory/retrive_inventory');
+// const update_inventory = require('./routes/inventory/update_inventory');
 
 const create_payment = require('./routes/payment/create_payment');
 const update_payment = require('./routes/payment/update_payment');
@@ -268,6 +268,7 @@ const update_rejected_items= require('./routes/rejectedItems/update_rejectedItem
 
 const create_inventory= require('./routes/freshInventory/create_inventory');
 const retrieve_inventory= require('./routes/freshInventory/retrieve_inventory');
+const update_inventory= require('./routes/freshInventory/update_inventory');
 
 const create_reject_inventory= require('./routes/rejectInventory/create_inventory');
 const retrieve_reject_inventory= require('./routes/rejectInventory/retrieve_inventory');
@@ -353,8 +354,8 @@ app.use('/', retrive_all_purchase_order);
 app.use('/', delete_purchase_order);
 app.use('/', update_purchase_order);
 
-app.use('/', retrive_inventory);
-app.use('/', update_inventory);
+// app.use('/', retrive_inventory);
+// app.use('/', update_inventory);
 
 app.use('/', create_payment);
 app.use('/', retrive_payment);
@@ -488,6 +489,7 @@ app.use('/', update_rejected_items);
 
 app.use('/', create_inventory);
 app.use('/', retrieve_inventory);
+app.use('/', update_inventory);
 
 app.use('/', create_reject_inventory);
 app.use('/', retrieve_reject_inventory);

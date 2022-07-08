@@ -164,7 +164,7 @@ export default function ViewOrderSummary(props, {navigation, route}) {
                                             }
                                         }
                                         var s={backgroundColor: 'orange'};
-                                        if(q==it.quantity && val[0].status === "Reached at Sales Hub"){
+                                        if(q==it.quantity && val[0].status === "Reached at Buyer Hub"){
                                             s={backgroundColor: 'lightgreen'};
                                         }
                                         else if(q==it.quantity && val[0].status === "Out for Delivery"){

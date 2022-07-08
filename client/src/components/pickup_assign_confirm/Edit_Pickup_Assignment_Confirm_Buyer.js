@@ -91,7 +91,7 @@ export default function Edit_Pickup_Assignment_Confirm_Buyer(props, {route}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                purchase_order: purchaseOrder,               
+                purchase_order: purchaseOrder,           
             })
         })
         .then(res => res.json())

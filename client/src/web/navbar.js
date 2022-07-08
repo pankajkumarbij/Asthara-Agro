@@ -217,6 +217,10 @@ import AllRejectedItems from '../components/reports/rejectedItems/allRejectedIte
 
 import AllFreshInventory from '../components/fresh_inventory/all_fresh_inventory';
 
+import AllRejectInventory from '../components/reject_inventory/all_reject_inventory';
+
+import AllWeightRejectInventory from '../components/weight_reject_inventory/all_weight_reject_inventory';
+
 const NavBar =()  => {
 
     const [email, setEmail] = useState("");
@@ -415,7 +419,7 @@ const NavBar =()  => {
 
                                 </>
                                 }   
-                                {(roleas == "sales") &&
+                                {/* {(roleas == "sales") &&
                                 <>
                                     <NavDropdown title="Transport Labour" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown title="Transport Labour for Sales" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -424,7 +428,7 @@ const NavBar =()  => {
                                     </NavDropdown>
                                     <NavDropdown.Divider />
                                 </>
-                                }
+                                } */}
                                 {(roleas == "buyer" || roleas == "manager") &&
                                 <>
                                     <NavDropdown title="Transport Labour" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
@@ -437,8 +441,8 @@ const NavBar =()  => {
                                             }
                                             <NavDropdown.Item to="/alltransportlabourfromvendor" as={Link}>View Transport Labour</NavDropdown.Item>
                                         </NavDropdown>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown title="Transport Labour for Sales" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        {/* <NavDropdown.Divider /> */}
+                                        {/* <NavDropdown title="Transport Labour for Sales" drop="right" id="collasible-nav-dropdown" style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                             {roleas == "buyer" &&
                                             <>
                                             <NavDropdown.Item to="/addtransportlabourforsales" as={Link}>Add Transport Labour</NavDropdown.Item>
@@ -446,7 +450,7 @@ const NavBar =()  => {
                                             </>
                                             }
                                             <NavDropdown.Item to="/alltransportlabourforsales" as={Link}>View Transport Labour</NavDropdown.Item>
-                                        </NavDropdown>
+                                        </NavDropdown> */}
                                     </NavDropdown>
                                     <NavDropdown.Divider />
                                     {roleas == "buyer" &&
@@ -507,6 +511,16 @@ const NavBar =()  => {
                                     <>
                                     <NavDropdown title="Fresh Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown.Item to="/allfreshinventory" as={Link}>All Fresh Inventory</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Reject Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/allrejectinventory" as={Link}>All Reject Inventory</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Weight Reject Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/allweightrejectinventory" as={Link}>All Weight Reject Inventory</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                     </NavDropdown>
                                     <NavDropdown.Divider />
@@ -677,7 +691,7 @@ const NavBar =()  => {
                                         <NavDropdown.Divider />
                                     </>
                                 }
-                                {( roleas=="manager" || roleas=="sales") &&
+                                {/* {( roleas=="manager" || roleas=="sales") &&
                                     <>
                                         <NavDropdown.Item to="/alldispatchitems" as={Link}>All Dispatch order items</NavDropdown.Item>
                                         <NavDropdown.Divider />
@@ -688,7 +702,7 @@ const NavBar =()  => {
                                         <NavDropdown.Item to="/allreceiveditems" as={Link}>All Received order items</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                     </>
-                                }
+                                } */}
                                 {( roleas=="manager" || roleas=="vendor" || roleas=="buyer") &&
                                     <>
                                         <NavDropdown.Item to="/allreceiveditemsfromvendor" as={Link}>All Received from Vendor</NavDropdown.Item>
@@ -1175,6 +1189,14 @@ const NavBar =()  => {
 
                 <Route path="/allfreshinventory">
                     <AllFreshInventory/>
+                </Route>
+
+                <Route path="/allrejectinventory">
+                    <AllRejectInventory/>
+                </Route>
+
+                <Route path="/allweightrejectinventory">
+                    <AllWeightRejectInventory/>
                 </Route>
 
                 <Route component={PageNotFound}  />

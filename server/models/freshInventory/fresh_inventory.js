@@ -28,6 +28,10 @@ const freshInventorySchema = new mongoose.Schema({
     order:{
         type: mongoose.Schema.Types.Mixed,
     },
+    status:{
+        type: String,
+        default: 'Original Inventory',
+    },
     }, {
     timestamps: true
 });

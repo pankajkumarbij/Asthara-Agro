@@ -123,7 +123,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    const containerStyle = {backgroundColor: 'white',width: '16%', alignSelf: 'center',};
+    const containerStyle = {backgroundColor: 'white', alignSelf: 'center', padding: '20px'};
 
     return (
         <Provider theme={theme}>
@@ -198,7 +198,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                             return (
                                 <DataTable.Row>
                                     <DataTable.Cell >{item.purchase_order.custom_orderId}</DataTable.Cell>
-                                    <DataTable.Cell >{item.purchase_order.custom_vendorId}</DataTable.Cell>
+                                    <DataTable.Cell >{item.purchase_order.custom_vendorId ? item.purchase_order.custom_vendorId : "Fresh Inventory"}</DataTable.Cell>
                                     <DataTable.Cell>{item.purchase_order.items.itemName+" ("+item.purchase_order.items.Grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>
                                         {Platform.OS=='android' ?

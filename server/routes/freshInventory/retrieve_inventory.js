@@ -26,5 +26,15 @@ router.get('/retrive_fresh_inventory_by_id/:id',(req, res)=>{
    });
 });
 
+router.get('/retrive_fresh_inventory_by_customer_reject',(req, res)=>{
+    FreshInventory.find({'status':'Customer Reject'}, function(err, fi){
+       if(err){
+           console.log(err);
+       }
+       else {
+           res.json(fi);
+       }
+   });
+});
 
 module.exports = router;
