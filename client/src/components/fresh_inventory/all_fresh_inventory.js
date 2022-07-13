@@ -78,6 +78,59 @@ export default function AllFreshInventory({navigation }) {
         }
     }
 
+    function scrap(item){
+        fetch(`http://localhost:5000/create_scrap_inventory`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order:item,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // console.log(data);
+            alert(data.message);
+        });
+
+        fetch(`http://localhost:5000/delete_fresh_inventory_by_id/${item._id}`, {
+            method: 'GET',
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+        });
+    }
+
+    function mandi(item){
+        fetch(`http://localhost:5000/create_mandi_inventory`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order:item,
+            })
+        }).then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            // console.log(data);
+            alert(data.message);
+        });
+
+        fetch(`http://localhost:5000/delete_fresh_inventory_by_id/${item._id}`, {
+            method: 'GET',
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+        .then(data => {
+            alert(data.message);
+        });
+
+    }
+
     const onChangeSearch = query => setSearchQuery(query);
 
     return (
@@ -101,7 +154,12 @@ export default function AllFreshInventory({navigation }) {
                         <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } />Unit</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } />Quantity</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting()}><FontAwesomeIcon icon={ faSort } />Price</DataTable.Title>
-                        {/* <DataTable.Title numeric>Action</DataTable.Title> */}
+                        {role=="manager" &&
+                            <>
+                                <DataTable.Title numeric>Scrap</DataTable.Title>
+                                <DataTable.Title numeric>Mandi</DataTable.Title>
+                            </>
+                        }
                     </DataTable.Header>
 
                     {(role && userId && role=="manager" && allItems && managerPoolPin) ?
@@ -116,13 +174,24 @@ export default function AllFreshInventory({navigation }) {
                                 <DataTable.Cell>{item.unit}</DataTable.Cell>
                                 <DataTable.Cell>{item.quantity}</DataTable.Cell>
                                 <DataTable.Cell>{item.price}</DataTable.Cell>
-                                {/* <DataTable.Cell numeric>
-                                    {Platform.OS=='android' ?
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
-                                        :
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edititem/"+item._id}>Details</Link></Button>
-                                    }
-                                </DataTable.Cell> */}
+                                {role=="manager" &&
+                                <>
+                                    <DataTable.Cell numeric>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Scrap</Button>
+                                            :
+                                            <Button mode="contained" style={{width: '100%'}} onPress={()=>scrap(item)}>Scrap</Button>
+                                        }
+                                    </DataTable.Cell>
+                                    <DataTable.Cell numeric>
+                                        {Platform.OS=='android' ?
+                                            <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Mandi</Button>
+                                            :
+                                            <Button mode="contained" style={{width: '100%'}} onPress={()=>mandi(item)}>Mandi</Button>
+                                        }
+                                    </DataTable.Cell>
+                                </>
+                                }
                             </DataTable.Row>
                         )
                         }
@@ -145,9 +214,9 @@ export default function AllFreshInventory({navigation }) {
                                 <DataTable.Cell>{item.price}</DataTable.Cell>
                                 {/* <DataTable.Cell numeric>
                                     {Platform.OS=='android' ?
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
+                                        <Button mode="contained" style={{width: '100%'}} onPress={() => {navigation.navigate('EditItem', {itemId: item._id})}}>Details</Button>
                                         :
-                                        <Button icon={() => <FontAwesomeIcon icon={ faEye } />} mode="contained" style={{width: '100%'}}><Link to={"/edititem/"+item._id}>Details</Link></Button>
+                                        <Button mode="contained" style={{width: '100%'}}><Link to={"/edititem/"+item._id}>Details</Link></Button>
                                     }
                                 </DataTable.Cell> */}
                             </DataTable.Row>

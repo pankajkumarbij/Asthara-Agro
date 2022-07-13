@@ -350,6 +350,8 @@ export default function EditOrderItem(props,{route}) {
         .then(data => {
             alert(data.message);
         });
+
+        history.push('/order_items_summary');
         
     }
 

@@ -229,7 +229,7 @@ export default function All_Received_Orders_From_Vendor(props,{ navigation }) {
                     }
                     {(role && userId && role=="buyer" && allReceivedItems) ?
                         allReceivedItems.map((item)=>{
-                            if(item.purchase_order.buyer_id==userId)
+                            // if(item.purchase_order.buyer_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>

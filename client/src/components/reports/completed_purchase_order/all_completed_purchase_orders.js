@@ -193,7 +193,7 @@ export default function All_Completed_Purchase_Orders(props,{ navigation }) {
                             let mm = today.getMonth() + 1;
                             let dd = today.getDate();
                             const tt = dd +""+ mm + yyyy;
-                            if(item.purchase_order.buyer_id==userId)
+                            // if(item.purchase_order.buyer_id==userId)
                             if(item._id.toUpperCase().search(searchQuery.toUpperCase())!=-1){              
                             return (
                                 <DataTable.Row>

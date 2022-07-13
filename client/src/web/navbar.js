@@ -221,6 +221,10 @@ import AllRejectInventory from '../components/reject_inventory/all_reject_invent
 
 import AllWeightRejectInventory from '../components/weight_reject_inventory/all_weight_reject_inventory';
 
+import AllMandiInventory from '../components/mandi_inventory/all_mandi_inventory';
+
+import AllScrapInventory from '../components/scrap_inventory/all_scrap_inventory';
+
 const NavBar =()  => {
 
     const [email, setEmail] = useState("");
@@ -521,6 +525,20 @@ const NavBar =()  => {
                                     <NavDropdown.Divider />
                                     <NavDropdown title="Weight Reject Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown.Item to="/allweightrejectinventory" as={Link}>All Weight Reject Inventory</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    </>
+                                }
+                                {( roleas=="manager") &&
+                                    <>
+                                    <NavDropdown title="Mandi Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/allmandiinventory" as={Link}>All Mandi Inventory</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </NavDropdown>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown title="Scrap Inventory" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
+                                        <NavDropdown.Item to="/allscrapinventory" as={Link}>All Scrap Inventory</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                     </NavDropdown>
                                     <NavDropdown.Divider />
@@ -1197,6 +1215,14 @@ const NavBar =()  => {
 
                 <Route path="/allweightrejectinventory">
                     <AllWeightRejectInventory/>
+                </Route>
+
+                <Route path="/allmandiinventory">
+                    <AllMandiInventory/>
+                </Route>
+
+                <Route path="/allscrapinventory">
+                    <AllScrapInventory/>
                 </Route>
 
                 <Route component={PageNotFound}  />

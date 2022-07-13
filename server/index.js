@@ -269,12 +269,22 @@ const update_rejected_items= require('./routes/rejectedItems/update_rejectedItem
 const create_inventory= require('./routes/freshInventory/create_inventory');
 const retrieve_inventory= require('./routes/freshInventory/retrieve_inventory');
 const update_inventory= require('./routes/freshInventory/update_inventory');
+const delete_inventory= require('./routes/freshInventory/delete_inventory');
 
 const create_reject_inventory= require('./routes/rejectInventory/create_inventory');
 const retrieve_reject_inventory= require('./routes/rejectInventory/retrieve_inventory');
+const delete_reject_inventory= require('./routes/rejectInventory/delete_inventory');
 
 const create_weight_reject_inventory= require('./routes/weightRejectInventory/create_inventory');
 const retrieve_weight_reject_inventory= require('./routes/weightRejectInventory/retrieve_inventory');
+
+const create_mandi_inventory= require('./routes/mandiInventory/create_inventory');
+const retrieve_mandi_inventory= require('./routes/mandiInventory/retrieve_inventory');
+const delete_mandi_inventory= require('./routes/mandiInventory/delete_inventory');
+
+const create_scrap_inventory= require('./routes/scrapInventory/create_inventory');
+const retrieve_scrap_inventory= require('./routes/scrapInventory/retrieve_inventory');
+const delete_scrap_inventory= require('./routes/scrapInventory/delete_inventory');
 
 app.get('/', (req, res)=>{
     res.send("Welcome to Asthara Agro Server");
@@ -490,12 +500,22 @@ app.use('/', update_rejected_items);
 app.use('/', create_inventory);
 app.use('/', retrieve_inventory);
 app.use('/', update_inventory);
+app.use('/', delete_inventory);
 
 app.use('/', create_reject_inventory);
 app.use('/', retrieve_reject_inventory);
+app.use('/', delete_reject_inventory);
 
 app.use('/', create_weight_reject_inventory);
 app.use('/', retrieve_weight_reject_inventory);
+
+app.use('/', create_mandi_inventory);
+app.use('/', retrieve_mandi_inventory);
+app.use('/', delete_mandi_inventory);
+
+app.use('/', create_scrap_inventory);
+app.use('/', retrieve_scrap_inventory);
+app.use('/', delete_scrap_inventory);
 
 app.listen(5000, ()=>{
     console.log("Asthara Agro server running on port 5000");
