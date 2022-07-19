@@ -256,6 +256,7 @@ const update_sn = require('./routes/serialnumber/update_sn');
 const retrieve_sn =require('./routes/serialnumber/retrieve_sn');
 
 const create_farmer_data_collection= require('./routes/farmer_data_collection/create_farmer_data_collection');
+const retrieve_farmer_data_collection= require('./routes/farmer_data_collection/retrieve_farmer_data_collection');
 const update_farmer_data_collection= require('./routes/farmer_data_collection/update_farmer_data_collection');
 
 const create_delivered= require('./routes/report/delivered/create_delivered');
@@ -487,6 +488,7 @@ app.use('/',retrieve_sn);
 app.use('/',update_sn);
 
 app.use('/',create_farmer_data_collection);
+app.use('/',retrieve_farmer_data_collection);
 app.use('/',update_farmer_data_collection);
 
 app.use('/', create_delivered);

@@ -224,6 +224,8 @@ import AllWeightRejectInventory from '../components/weight_reject_inventory/all_
 import AllMandiInventory from '../components/mandi_inventory/all_mandi_inventory';
 
 import AllScrapInventory from '../components/scrap_inventory/all_scrap_inventory';
+import AllFdcs from '../components/farmer_data_collection/all_fdc';
+import ViewFDC from '../components/farmer_data_collection/view_fdc';
 
 const NavBar =()  => {
 
@@ -667,7 +669,7 @@ const NavBar =()  => {
                                     <NavDropdown title="Farmer Data Collection" drop="right" id="collasible-nav-dropdown"  style={{backgroundColor: 'white', marginLeft: '2%',}}>
                                         <NavDropdown.Item to="/backgroundinfo" as={Link}>Add Farmer Data</NavDropdown.Item>
                                         <NavDropdown.Divider />
-                                        <NavDropdown.Item to="/allusers" as={Link}>View Farmers Data</NavDropdown.Item>
+                                        <NavDropdown.Item to="/allfdcs" as={Link}>View Farmers Data</NavDropdown.Item>
                                     </NavDropdown>
                                     </>
                                 }
@@ -1194,6 +1196,10 @@ const NavBar =()  => {
                 <Route path="/farmerlandinfo/:id" render={(props) => <FarmerLandInfo {...props} />} exact />
                 <Route path="/farmerequipmenttable/:id" render={(props) => <FarmerEquipmentTable {...props} />} exact />
                 <Route path="/farmercheckbox/:id" render={(props) => <FarmerCheckBox {...props} />} exact />
+                <Route path="/allfdcs">
+                    <AllFdcs/>
+                </Route>
+                <Route path="/viewfdc/:id" render={(props) => <ViewFDC {...props} />} exact />
 
                 <Route path="/allorderdeliveries">
                     <AllOrderDeliveries/>

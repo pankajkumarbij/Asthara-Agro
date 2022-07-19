@@ -1,11 +1,12 @@
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Platform, ScrollView, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Platform, ScrollView, SafeAreaView ,Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
 import axios from 'axios';
+import { fdc_by_id } from '../../services/fdc';
 
 const theme = {
     ...DefaultTheme,
@@ -27,43 +28,77 @@ export default function FarmerEquipmentTable(props, { navigation, route }) {
         id = props.match.params.id;
     }
 
-    const [Items, setItems] = useState([{ sr: '', equipment: '', Rent: '' }]);
-    let history = useHistory();
-    
-    const ItemChange = (index, newsr, newequipment, newrent) => {
-        if (newsr != '') {
-            let value = [...Items];
-            value[index].sr = newsr;
-            setItems(value);
-        }
-        else if (newequipment != '') {
-            let value = [...Items];
-            value[index].equipment = newequipment;
-            setItems(value);
-        }
-        else {
-            let value = [...Items];
-            value[index].Rent = newrent;
-            setItems(value);
-        }
-    };
+    const [Items, setItems] = useState([{equipment: '', Rent: '' }]);
+    const [equipmentError,setequipmentError]=useState(['']);
+    const [RentError,setRentError]=useState(['']);
+    const [flag, setFlag] = useState(true);
 
+    useEffect(() => {
+        if(id && flag){
+            fdc_by_id(id)
+            .then(result => {
+                if(result[0].equipmentAndMachinery){
+                    setItems(result[0].equipmentAndMachinery);
+                }
+                setFlag(false);
+            })
+        }
+    },[id, flag])
+
+    let history = useHistory();
+
+    const ItemChange2 = (index, newequipment) => {
+
+        var error=[...equipmentError];
+        if(newequipment.length==0)
+        {
+            error[index]= "required";
+            setequipmentError(error);
+
+        }
+        else
+        {
+            error.splice(index, 1);
+            setequipmentError(error);
+        }
+        var value = [...Items];
+        value[index].equipment =newequipment;
+        setItems(value);
+
+
+    }
+    const ItemChange3 = (index, newrent) => {
+
+        var error=[...RentError];
+        if(newrent.length==0)
+        {
+            error[index]= "required";
+            setRentError(error);
+
+        }
+        else
+        {
+            error.splice(index, 1);
+            setRentError(error);
+        }
+        var value = [...Items];
+        value[index].Rent =newrent;
+        setItems(value);
+
+
+    }
     const handleAddFields = () => {
         var values = [...Items];
-        values.push([{ sr: '', equipment: '', Rent: '' }]);
+        values.push({equipment: '', Rent: '' });
         setItems(values);
-        console.log(Items);
-
     };
 
     const handleRemoveFields = index => {
         if(index>=0)
         {
-         var values = [...Items];
-          values.splice(index, 1);
-        setItems(values);
-        console.log(Items);
-        
+            var values = [...Items];
+            values.splice(index, 1);
+            setItems(values);
         }
     };
 
@@ -82,12 +117,19 @@ export default function FarmerEquipmentTable(props, { navigation, route }) {
                     history.push('/farmercheckbox/'+id);
                 }
             }
+            if (Platform.OS == 'android') {
+                navigation.navigate('FarmerCheckBox',{id:id});
+            }
+
+
         })
         .catch(function (error) {
             console.log(error);
         });
     }
-
+    function submitError(){
+        alert("All field required");
+    }
     return (
         <Provider theme={theme}>
             <SafeAreaView>
@@ -96,12 +138,16 @@ export default function FarmerEquipmentTable(props, { navigation, route }) {
                         <Card style={styles.card} >
                             <Card.Title titleStyle={styles.title} title="Equipment & Mechinary" />
                             <Card.Content>
-                                {Items.map((it, index) => (
+                                {Items && Items.map((it, index) => (
                                     <View>
-                                        <TextInput style={styles.input} mode="outlined" label="Sr No." value={it.sr} maxLength={6} onChangeText={(text) => ItemChange(index, text, '', '')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Equipment details" value={it.equipment} maxLength={6} onChangeText={(text) => ItemChange(index, '', text, '')} />
-                                        <TextInput style={styles.input} mode="outlined" label="Rent/own" value={it.Rent} maxLength={6} onChangeText={(text) => ItemChange(index, '', '', text)} />
-
+                                        <TextInput style={styles.input} mode="outlined" label="Equipment details" value={it.equipment} maxLength={6} onChangeText={(text) => ItemChange2(index,text)} />
+                                        {equipmentError[index] ?
+                                        <Text style={{color: "red"}}>{equipmentError[index]}</Text> :<></>
+                                         }
+                                        <TextInput style={styles.input} mode="outlined" label="Rent/own" value={it.Rent} maxLength={6} onChangeText={(text) => ItemChange3(index,text)} />
+                                        {RentError[index] ?
+                                        <Text style={{color: "red"}}>{RentError[index]}</Text> :<></>
+                                         }
 
                                         <View style={{ flexDirection: 'row' }}>
                                             {Platform.OS == "android" ?
@@ -119,7 +165,12 @@ export default function FarmerEquipmentTable(props, { navigation, route }) {
                                         </View>
                                     </View>
                                 ))}
-                                <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>
+                                {equipmentError.length==0 && RentError.length==0?
+                                 <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>:
+                                 <Button mode="contained" style={styles.button} onPress={() => submitError()}>Submit</Button>
+
+
+                                }
                             </Card.Content>
                         </Card>
                     </View>

@@ -70,7 +70,7 @@ export default function MakeOrderDelivery(props,{navigation,route}) {
     }
   
     const sendSmsOtp = async (mobileNumber, otp) => {
-        const url = 'http://34.131.139.104/SMS/msg';
+        const url = 'https://bked.logistiex.com/SMS/msg';
         let returnData;
         const bodyData = {
             "mobileNumber" : mobileNumber,

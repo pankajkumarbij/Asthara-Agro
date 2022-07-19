@@ -10,13 +10,13 @@ const fdcSchema = new mongoose.Schema({
     village:{
         type: String,
     },
+    pincode:{
+        type: String,
+    },
     fpo:{
         type: String,
     },
     contact_number:{
-        type: String,
-    },
-    date:{
         type: String,
     },
     total_land_in_acres:{
@@ -24,6 +24,39 @@ const fdcSchema = new mongoose.Schema({
     },
     soil_type:{
         type: String,
+    },
+    aadhar_number:{
+        type: String,
+    },
+    pan_number:{
+        type: String,
+    },
+    image:{
+        type: String,
+    },
+    krishi_number:{
+        type: String,
+    },
+    krishi_upload:{
+        type: String,
+    },
+    soil_upload:{
+        type: String,
+    },
+    members:{
+        type: String,
+    },
+    adults:{
+        type: String,
+    },
+    childs:{
+        type: String,
+    },
+    family_info:{
+        type: mongoose.Schema.Types.Mixed,
+    },
+    loan_info:{
+        type: mongoose.Schema.Types.Mixed,
     },
     crop_info:{
         type: mongoose.Schema.Types.Mixed,
@@ -50,12 +83,6 @@ const fdcSchema = new mongoose.Schema({
         type: String,
     },
     contract_forming:{
-        type: String,
-    },
-    bank:{
-        type: String,
-    },
-    private:{
         type: String,
     },
     declaration:{
