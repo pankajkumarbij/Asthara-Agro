@@ -11,6 +11,7 @@ router.put('/update_crawler/:id', (req, res)=>{
         date : req.body.date,
         postal_code : req.body.postal_code,
         price: req.body.price,
+        mandi: req.body.mandi,
     }
     crawler.findOneAndUpdate({'_id':req.params.id},cr)
     .then((cr) => {

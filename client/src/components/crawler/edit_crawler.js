@@ -54,6 +54,7 @@ export default function EditCrawler(props, { navigation, route }) {
     const [grade, setGrade] = useState("Choose Grade");
     const [unit,setUnit]=useState("Select unit of each item");
     const [price,setPrice]=useState("");
+    const [mandi,setMandi]=useState("");
     const [date,setDate]=useState("");
     const [items1, setItems1] = useState(['']);
     const [pincodeError, setPincodeError] = useState(['']);
@@ -84,11 +85,11 @@ export default function EditCrawler(props, { navigation, route }) {
             //Retrieve crowler by Id
             retrieve_crawler_by_id(itemid)
             .then(result=> {
-                console.log(result);
                 setItem(result[0].item_name);
                 setGrade(result[0].item_grade);
                 setUnit(result[0].item_unit);
                 setPrice(result[0].price);
+                setMandi(result[0].mandi);
                 setItems1(result[0].postal_code);
             })
         }
@@ -154,6 +155,7 @@ export default function EditCrawler(props, { navigation, route }) {
                 item_grade: grade,
                 item_unit : unit,
                 price :price,
+                mandi : mandi,
                 date :date,
                 postal_code : items1 ,
           })
@@ -268,6 +270,7 @@ export default function EditCrawler(props, { navigation, route }) {
                                 <Menu.Item title="No item Unit Available" />
                             }
                         </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="Mandi Name" value={mandi} onChangeText={mandi => setMandi(mandi)} />
                         {items1.map((it, index) => (
                         <View>
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={it} maxLength={6} onChangeText={(text)=>ItemChange(index, text)} />

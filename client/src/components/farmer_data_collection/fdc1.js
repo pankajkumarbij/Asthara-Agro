@@ -34,7 +34,6 @@ export default function BackgroundInfo({ navigation }) {
     const [addharerror, setaddharerror] = useState(['']);
     const [panerror, setpanerror] = useState(['']);
     const [pinerror, setpinerror] = useState(['']);
-    const [krishierror, setkrishierror] = useState(['']);
     const [file, setFile] = useState();
     const [img, setImg] = useState();
     const [file2, setFile2] = useState();
@@ -243,16 +242,6 @@ export default function BackgroundInfo({ navigation }) {
     }
 
     const ItemChange16 = (index, newcon) => {
-
-        const error = [...krishierror];
-        if (newcon.length == 0) {
-            error[index] = "required";
-            setkrishierror(error);
-        }
-        else {
-            error.splice(index, 1);
-            setkrishierror(error);
-        }
         var value = [...Items];
         value[index].krishicard = newcon;
         setItems(value);
@@ -524,10 +513,7 @@ export default function BackgroundInfo({ navigation }) {
                                     {panerror[0] ?
                                         <Text style={{ color: "red" }}>{panerror[0]}</Text> : <></>
                                     }
-                                    <TextInput style={styles.input} mode="outlined" label="Krishi Card Number" value={[...Items][0].krishicard} maxLength={10} onChangeText={(text) => ItemChange16(0, text)} />
-                                    {krishierror[0] ?
-                                        <Text style={{ color: "red" }}>{krishierror[0]}</Text> : <></>
-                                    }
+                                    <TextInput style={styles.input} mode="outlined" label="Krishi Card Number" value={[...Items][0].krishicard} onChangeText={(text) => ItemChange16(0, text)} />
                                     {Platform.OS=="android" ? 
                                         <Button style={styles.drawerbutton} mode="outlined" onPress={() => {navigation.navigate('Image_Picker')}}>Upload Krishi Card</Button>
                                         :

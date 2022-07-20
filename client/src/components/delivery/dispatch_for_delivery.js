@@ -366,48 +366,60 @@ export default function AddDispatchForDelivery(props, { navigation }) {
                         <Button mode="contained" style={styles.button} onPress={() => scan()} icon={() => <FontAwesomeIcon icon={ faCamera } />}>Start Scan</Button>
                         : null
                     }
+                    {items.length > 0 ?
+                    <>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles}
                         />
-                        <Button mode="contained" style={ { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Loaded Crates Picture (Back) Landscape</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Upload Loaded Crates Picture (Back) Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles2}
                         />
-                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Truck Side View (Left) with Vehicle Number Landscape</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img2 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Truck Side View (Left) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles3}
                         />
-                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Truck Side View (Right) with Vehicle Number Landscape</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img3 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Truck Side View (Right) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles4}
                         />
-                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Truck Front View with Driver and Vehicle Number</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img4 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Truck Front View with Driver and Vehicle Number</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles5}
                         />
-                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Transporter invoice pic</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img5 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Transporter invoice pic</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <input type="file" name="file" placeholder="Image"
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles6}
                         />
-                        <Button mode="contained" style={{ flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>FPO invoice pic</Button>
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img6 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
+                        <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>FPO invoice pic</Button>
                     </View>
+                    </>
+                    :
+                    null
+                    }
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>
                     </Card.Content>
                 </Card>

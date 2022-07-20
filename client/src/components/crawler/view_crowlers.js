@@ -40,6 +40,7 @@ export default function ViewCrawler(props, { navigation, route }) {
     const [grade, setGrade] = useState("Choose Grade");
     const [unit,setUnit]=useState("Select unit of each item");
     const [price,setPrice]=useState("");
+    const [mandi,setMandi]=useState("");
     const [items1, setItems1] = useState(['']);
 
     useEffect(() => {
@@ -53,6 +54,7 @@ export default function ViewCrawler(props, { navigation, route }) {
                 setGrade(result[0].item_grade);
                 setUnit(result[0].item_unit);
                 setPrice(result[0].price);
+                setMandi(result[0].mandi);
                 setItems1(result[0].postal_code);
             })
         }
@@ -82,6 +84,7 @@ export default function ViewCrawler(props, { navigation, route }) {
                         onDismiss={closeMenu3}
                         anchor={<Button style={styles.input} mode="outlined" onPress={openMenu3}>{unit}</Button>}>
                     </Menu>
+                    <TextInput style={styles.input} mode="outlined" label="Mandi Name" value={mandi}/>
                         {items1.map((it, index) => (
                         <View>
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={it} maxLength={6} />

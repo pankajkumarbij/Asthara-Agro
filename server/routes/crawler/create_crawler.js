@@ -13,6 +13,7 @@ router.post('/create_crawler', (req, res) => {
                 date : req.body.date,
                 postal_code : req.body.postal_code,
                 price: req.body.price,
+                mandi: req.body.mandi,
             })
           const result = await new_creawler.save();
           var message={message:" crawler added succesfully!",data:result}

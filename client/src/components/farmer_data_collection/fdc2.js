@@ -331,10 +331,11 @@ export default function FarmerTable(props, { navigation, route }) {
                                     </View>
 
                                 ))}
-                               {cropnmeError.length==0 && cropdtError.length==0 && cultivationareaError.length==0
+                               {(cropnmeError.length==0 && cropdtError.length==0 && cultivationareaError.length==0
                                && totalqtyError.length==0 && seedusedError.length==0 && seedtypeError.length==0
-                               && ferError.length==0 && pesError.length==0 && croptimeError.length==0?
-                                <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>:
+                               && ferError.length==0 && pesError.length==0 && croptimeError.length==0) ?
+                                <Button mode="contained" style={styles.button} onPress={() => submitForm()}>Submit</Button>
+                                :
                                 <Button mode="contained" style={styles.button} onPress={() => submitError()}>Submit</Button>
                                }
                             </Card.Content>

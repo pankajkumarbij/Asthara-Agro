@@ -26,5 +26,6 @@ module.exports = {
     'jsx-quotes': 'off',
     'radix': 'off',
     'semi-spacing': 'off',
+    'no-lone-blocks': 'off',
   },
 };

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Image, Text} from 'react-native';
 import { Provider, DefaultTheme, Card, TextInput, Button, Menu, DataTable, Title } from 'react-native-paper';
 import { transport_labour_from_vendor_by_id } from '../../../services/transport_labour/transport_labour_from_vendor';
+import { saveAs } from 'file-saver';
 
 const theme = {
     ...DefaultTheme,
@@ -75,6 +76,11 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
 
     },[id])
 
+    const download = url => {
+        const img_type = url.split(".")[1];
+        saveAs(url, 'image.'+img_type);
+    };
+
     return (
         <Provider theme={theme}>
         <SafeAreaView>
@@ -120,6 +126,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img}
+                            onClick={() => download(img)}
                         />
                         :
                         null
@@ -128,6 +135,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img2}
+                            onClick={() => download(img2)}
                         />
                         :
                         null
@@ -136,6 +144,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img3}
+                            onClick={() => download(img3)}
                         />
                         :
                         null
@@ -144,6 +153,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img4}
+                            onClick={() => download(img4)}
                         />
                         :
                         null
@@ -152,6 +162,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img5}
+                            onClick={() => download(img5)}
                         />
                         :
                         null
@@ -160,6 +171,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img6}
+                            onClick={() => download(img6)}
                         />
                         :
                         null
@@ -171,6 +183,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img7}
+                            onClick={() => download(img7)}
                         />
                         :
                         null
@@ -179,6 +192,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img8}
+                            onClick={() => download(img8)}
                         />
                         :
                         null
@@ -187,6 +201,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img9}
+                            onClick={() => download(img9)}
                         />
                         :
                         null
@@ -195,6 +210,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img10}
+                            onClick={() => download(img10)}
                         />
                         :
                         null
@@ -203,6 +219,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img11}
+                            onClick={() => download(img11)}
                         />
                         :
                         null
@@ -211,6 +228,7 @@ export default function ViewTransportLabourFromVendor(props,{ route, navigation 
                         <Image
                             style={{width: 200, height: 210, border: '1px solid black'}}
                             source={img12}
+                            onClick={() => download(img12)}
                         />
                         :
                         null

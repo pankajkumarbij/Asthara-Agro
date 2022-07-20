@@ -17,6 +17,9 @@ let crawler_Schema = new mongoose.Schema({
     price:{
         type:Number,
     },
+    mandi:{
+        type:String,
+    },
     date:{
         type: Date,
 		default: Date,

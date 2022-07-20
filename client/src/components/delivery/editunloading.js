@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet,Platform, ScrollView, SafeAreaView } from 'react-native';
+import { View, StyleSheet,Platform, ScrollView, SafeAreaView, Text } from 'react-native';
 import { Provider, DefaultTheme, Card, Button } from 'react-native-paper';
 import { useHistory } from 'react-router-dom';
 import { url } from '../../utils/url';
@@ -164,6 +164,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm()}>Loaded Closed Truck Side View (Left) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -171,6 +172,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles2}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img2 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm2()}>Loaded Closed Truck Side View (Right) with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -178,6 +180,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles3}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img3 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm3()}>Loaded Closed Truck Front View with Driver and Vehicle Number</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -185,6 +188,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles4}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img4 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm4()}>Loaded Closed Truck Back View with Vehicle Number Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -192,6 +196,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles5}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img5 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm5()}>Damaged Crates from Inside the truck Landscape</Button>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -199,6 +204,7 @@ export default function UnloadingDelivery(props,{ navigation, route }) {
                         style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}
                         onChange={getFiles6}
                         />
+                        <Text style={{flex: 2, border: '1px solid gray', marginLeft: '2%', marginTop: '2%', padding: '1%', borderRadius: '1px'}}>{img6 ? "Successfully Uploaded" : "Not Uploaded"}</Text>
                         <Button mode="contained" style={styles.button, { flex: 2, marginTop: '2%',}} onPress={()=>ImageSubmitForm6()}>Damaged Crates from Outside the truck, Open Back View with vehicle number and driver Landscape</Button>
                     </View>
                     <Button mode="contained" style={styles.button} onPress={()=>submitForm()}>Submit</Button>

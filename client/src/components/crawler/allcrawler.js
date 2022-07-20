@@ -64,14 +64,8 @@ export default function AllCrawlers(props,{ navigation }) {
 		                value={searchQuery}
                     />
                     <DataTable.Header>
+                        <DataTable.Title onPress={()=>sorting("mandi")}><FontAwesomeIcon icon={ faSort } />Mandi Name</DataTable.Title> 
                         <DataTable.Title onPress={()=>sorting("item_name")}><FontAwesomeIcon icon={ faSort } />Item Name</DataTable.Title>
-                        {Platform.OS=="android" ?
-                                    <></>
-                                    : 
-                                    <>
-                                        <DataTable.Title onPress={()=>sorting("item_grade")}><FontAwesomeIcon icon={ faSort } />Item Grade</DataTable.Title> 
-                                    </>
-                        }
                         <DataTable.Title onPress={()=>sorting("item_unit")}><FontAwesomeIcon icon={ faSort } />Item Unit</DataTable.Title>
                         <DataTable.Title onPress={()=>sorting("createdAt")}><FontAwesomeIcon icon={ faSort } />Date</DataTable.Title>
                         <DataTable.Title numeric>Action</DataTable.Title>
@@ -90,14 +84,8 @@ export default function AllCrawlers(props,{ navigation }) {
                             const tt = yyyy + '-' + mm + '-' + dd;
                             return (
                                 <DataTable.Row>
-                                    <DataTable.Cell>{item.item_name}</DataTable.Cell>
-                                    {Platform.OS=="android" ?
-                                    <></>
-                                    : 
-                                    <>
-                                        <DataTable.Cell>{item.item_grade}</DataTable.Cell>
-                                    </>
-                                    }
+                                    <DataTable.Cell>{item.mandi}</DataTable.Cell>
+                                    <DataTable.Cell>{item.item_name+"( "+item.item_grade+")"}</DataTable.Cell>
                                     <DataTable.Cell>{item.item_unit}</DataTable.Cell>
                                     <DataTable.Cell>{date}</DataTable.Cell>
                                     {date==tt ?

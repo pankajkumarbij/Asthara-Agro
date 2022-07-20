@@ -45,6 +45,7 @@ export default function Crawler({ navigation }) {
     const [grade, setGrade] = useState("Choose Grade");
     const [unit,setUnit]=useState("Select unit of each item");
     const [price,setPrice]=useState("");
+    const [mandi,setMandi]=useState("");
     const [date,setDate]=useState("");
     const [items1, setItems1] = useState(['']);
     const [pincodeError, setPincodeError] = useState(['']);
@@ -122,14 +123,13 @@ export default function Crawler({ navigation }) {
         setItems1(values);
     };
 
-
     function submitForm() {
-        console.log(item+unit);
         axios.post(url + '/create_crawler', {
                 item_name: item,
                 item_grade: grade,
                 item_unit : unit,
                 price :price,
+                mandi : mandi,
                 date :date,
                 postal_code : items1 ,
           })
@@ -245,6 +245,7 @@ export default function Crawler({ navigation }) {
                                 <Menu.Item title="No item Unit Available" />
                             }
                         </Menu>
+                        <TextInput style={styles.input} mode="outlined" label="Mandi Name" value={mandi} onChangeText={mandi => setMandi(mandi)} />
                         {items1.map((it, index) => (
                         <View>
                             <TextInput style={styles.input} mode="outlined" label="Pin Code" value={it} maxLength={6} onChangeText={(text)=>ItemChange(index, text)} />
